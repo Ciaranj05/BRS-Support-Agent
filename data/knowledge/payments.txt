@@ -1,0 +1,338 @@
+# PAYMENTS – SUPPORT KNOWLEDGE
+
+---
+
+## ACCESS PAYMENTS
+
+Go to:
+Tools >> BRS Payments
+
+---
+
+## TRANSACTIONS
+
+Go to:
+Tools >> BRS Payments >> Transactions
+
+Use this to:
+
+• View all transactions  
+• Search by amount or date  
+• Check payment details  
+• Identify refunds  
+
+---
+
+## PAYOUTS
+
+Go to:
+Tools >> BRS Payments >> Payouts
+
+Shows:
+
+• When funds are paid into your bank account  
+• Payout breakdowns  
+
+Important:
+
+• Payouts are on a rolling schedule (typically ~7 days)  
+• Include transaction fees  
+
+---
+
+## VAT REPORTS
+
+Go to:
+Tools >> BRS Payments >> VAT Reports
+
+Use this to:
+
+• View monthly breakdowns  
+• Download CSV or PDF  
+
+Includes:
+
+• Gross sales  
+• Processing fees  
+• Net sales  
+• VAT breakdown  
+
+---
+
+## GENERAL PAYMENT REQUESTS
+
+Go to:
+Tools >> BRS Payments >> General Payment Requests
+
+1. Click Create Payment Request  
+2. Enter details  
+3. Send  
+
+Used for:
+
+• Membership fees  
+• Shop items  
+• Miscellaneous charges  
+
+---
+
+## BOOKING PAYMENT REQUESTS
+
+Used when requesting payment for a booking.
+
+1. Click the tee time  
+2. Open booking  
+3. Click Payments  
+4. Click New Booking Payment  
+5. Send payment link  
+
+Used for:
+
+• Deposits  
+• Outstanding balances  
+
+---
+
+## TAKE PAYMENT
+
+1. Click the tee time  
+2. Open booking  
+3. Click Payments  
+4. Click Pay Now  
+5. Enter card details  
+6. Confirm  
+
+---
+
+## VIRTUAL TERMINAL
+
+Used for taking payment over the phone.
+
+Requires:
+
+• Card number  
+• Expiry date  
+• CVC  
+• Billing details  
+
+---
+
+## REFUNDS
+
+To process a refund:
+
+1. Click the tee time  
+2. Open booking  
+3. Click Payments  
+4. Find the payment  
+5. Click Refund  
+6. Confirm  
+
+Important:
+
+• Refunds can be full or partial  
+• Must be processed against the correct payment  
+
+---
+
+### Online refunds
+
+• Returned to original card  
+• Can take 5–10 days  
+• Automatically recorded  
+
+---
+
+### Offline refunds (cash / PDQ / cheque)
+
+• Must be completed outside BRS  
+• System only records the refund  
+
+---
+
+## PAYMENT STATUS
+
+Booking colours:
+
+• Green = Fully paid  
+• Blue = Part paid  
+• Red = Unpaid  
+• Yellow = Overpaid  
+
+---
+
+## PAYMENT ALLOCATION
+
+Payments may be split across items.
+
+Check:
+
+• “Left to Allocate” = 0  
+
+Important:
+
+• Payments may exist but not be allocated correctly  
+• Partial payments can be applied to individual items  
+
+---
+
+## OVERPAYMENTS
+
+Common causes:
+
+• Removing players  
+• Changing booking price  
+• Moving bookings  
+
+Action:
+
+• Review payment  
+• Process refund if required  
+
+---
+
+## PAYMENT FAILURES
+
+Common causes:
+
+• Incorrect card details  
+• Expired card  
+• Insufficient funds  
+• Bank rejection  
+• Stripe rejection  
+
+Steps:
+
+1. Retry payment  
+2. Check details  
+3. Try alternative method  
+
+IF multiple users affected:
+→ Escalate  
+
+---
+
+## PAYMENT NOT SHOWING / CUSTOMER SAYS THEY PAID
+
+System-first checks:
+
+1. Click tee time → open booking → Payments  
+2. Go to:
+   Tools >> BRS Payments >> Transactions  
+3. Search by amount/date  
+
+---
+
+### Outcomes
+
+IF payment exists in BRS:
+
+→ Possible mismatch  
+→ Escalate  
+
+---
+
+IF NO payment in BRS AND money has been received:
+
+→ Escalate immediately  
+
+Important:
+
+• Do NOT:
+  - Assume bank transfer  
+  - Manually mark as paid  
+  - Continue troubleshooting  
+
+• This must be checked with the payment provider  
+
+---
+
+## COMMON PAYMENT ISSUES
+
+---
+
+### Payment not applied to bill (Memberships)
+
+1. Open member profile  
+2. Go to Billing  
+3. Open bill  
+4. Check payment allocation  
+
+Important:
+
+• Payment may exist but not be allocated  
+
+---
+
+### Bill not matching expectation
+
+Ask:
+
+→ “What looks incorrect — amount too high, missing payment, or extra charge?”
+
+Then check:
+
+Memberships >> Billing / Payments
+
+Review:
+
+• Subscriptions  
+• Custom charges  
+• Discounts  
+
+---
+
+### Bill too high
+
+Check:
+
+• Subscriptions applied  
+• Charges  
+• Discounts  
+
+---
+
+### Bill not visible
+
+Check:
+
+• Bill is published  
+
+---
+
+## CAUSE → EFFECT
+
+• Removing players → may create overpayment  
+• Moving bookings → may change payment totals  
+• Inactive member → payments may fail  
+• Unpublished bill → member cannot see it  
+
+---
+
+## ESCALATION TRIGGERS
+
+Escalate if:
+
+• Payment mismatch  
+• No payment in BRS but money received  
+• Refund unclear  
+• Multiple payment failures  
+• Reporting discrepancies  
+• Customer disputes  
+
+---
+
+## KEY BEHAVIOUR
+
+Always:
+
+✔ Check system first (booking → transactions)  
+✔ Confirm payment status  
+✔ Check allocation before assuming missing payment  
+✔ Escalate when conditions are met  
+
+Never:
+
+❌ Assume external payment method  
+❌ Manually mark as paid without confirmation  
+❌ Continue troubleshooting after escalation condition is met  

@@ -1,0 +1,273 @@
+# BRS GOLF – USER MANAGEMENT GUIDE
+
+---
+
+## CORE PURPOSE
+
+User Management allows you to:
+
+• Create and manage system users  
+• Control access permissions  
+• Assign roles and responsibilities  
+• Maintain security across the system  
+
+---
+
+## NAVIGATION
+
+Go to:
+Users
+
+---
+
+## PERMISSION STRUCTURE (IMPORTANT)
+
+Access in BRS is controlled by **user group**, not individual permissions.
+
+→ If a user cannot perform an action, it is usually due to their role
+
+---
+
+## IMPORTANT USER MANAGEMENT RULES (CRITICAL)
+
+• Only a Superuser can create new Admin users  
+
+• Admin users:
+  → Can create Staff users  
+  → Cannot create Admin users with equal or higher access  
+
+• Superusers cannot be created within the system  
+  → This must be handled by BRS Support  
+
+• A user can only create users with equal or lower access than their own role  
+
+• There is typically a limit of 8 users per system  
+
+If limit is reached:
+→ Deactivate an unused user  
+→ Or contact support if additional users are required  
+
+---
+
+## USER GROUP TYPES
+
+• Superuser  
+• Admin  
+• Staff  
+• Staff Read Only  
+• Members (front-end only)  
+• Event Users (front-end only)  
+
+---
+
+## ROLE CAPABILITIES
+
+---
+
+### Superuser
+
+Full system access.
+
+Can:
+
+• Add / update / delete Admin users  
+• Add / update / delete Staff users  
+• Enable members  
+• Update system configuration  
+• Manage pricing (green fees, services)  
+• Full timesheet access  
+• Manage competitions  
+• Check-in players  
+• Access all reporting  
+
+---
+
+### Admin
+
+High-level access.
+
+Can:
+
+• Add / update / delete Staff users  
+• Enable members  
+• Update system configuration  
+• Manage pricing  
+• Full timesheet access  
+• Manage competitions  
+• Check-in players  
+• Access most reports  
+
+Cannot:
+• Create Superusers  
+• Create Admin users with higher access  
+
+---
+
+### Staff
+
+Operational access.
+
+Can:
+
+• Enable members  
+• View timesheet  
+• Add / update / delete bookings  
+• Check-in players  
+• View utilisation reports  
+
+Cannot:
+
+• Manage users  
+• Change system configuration  
+• Access revenue reporting  
+
+---
+
+### Staff Read Only
+
+View-only access.
+
+Can:
+
+• View timesheet  
+• View utilisation  
+
+Cannot:
+
+• Edit bookings  
+• Check-in players  
+• Manage users  
+• Access configuration  
+
+---
+
+### Members / Event Users
+
+Front-end only users.
+
+• No admin system access  
+
+---
+
+## COMMON TASKS
+
+---
+
+### Create a new user
+
+1. Go to: Users  
+2. Click Add User  
+3. Enter details  
+4. Assign correct role  
+5. Click Save  
+
+---
+
+### Edit a user
+
+1. Go to: Users  
+2. Search user  
+3. Click Edit  
+4. Update  
+5. Save  
+
+---
+
+### Deactivate a user
+
+1. Go to: Users  
+2. Open user  
+3. Set to Inactive  
+4. Save  
+
+Important:
+→ Do NOT delete users  
+
+---
+
+### Reset password
+
+1. Go to: Users  
+2. Select user  
+3. Click Reset Password  
+
+---
+
+## TROUBLESHOOTING
+
+---
+
+### User cannot log in
+
+Check:
+
+• User is Active  
+• Email/username correct  
+• Reset password  
+
+---
+
+### User cannot access features
+
+Check:
+
+• Role assigned  
+
+→ Access is controlled by role  
+
+---
+
+### Cannot create a new user
+
+Check:
+
+• Total active users (limit ~8)  
+
+If full:
+→ Deactivate a user  
+
+If creating Admin/Superuser:
+
+• Only Superuser can create Admin  
+• Superuser must be created by support  
+
+---
+
+### User still appears after leaving
+
+→ Deactivate user  
+
+---
+
+## DIAGNOSTIC QUESTIONS
+
+• “What are they trying to do?”  
+• “What role are they assigned?”  
+• “Is this affecting one or multiple users?”  
+
+---
+
+## ESCALATION
+
+Escalate if:
+
+• Cannot create required user due to system restriction  
+• Superuser required  
+• User limit needs increasing  
+• Permissions appear correct but access still blocked  
+
+---
+
+## BEHAVIOUR RULES
+
+Always:
+
+✔ Check role first  
+✔ Check user status  
+✔ Keep steps simple  
+
+Never:
+
+❌ Assume system issue before checking role  
+❌ Suggest creating duplicate users  
+❌ Delete users instead of deactivating  

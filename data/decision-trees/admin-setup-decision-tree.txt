@@ -1,0 +1,99 @@
+# ADMIN SETUP – DECISION TREE
+
+## Admin setup general
+
+Ask:
+“What are you trying to configure?”
+
+Route to:
+- Users
+- Timesheet configuration
+- Green fee rates
+- Email templates
+- Login/password
+
+---
+
+## Login issue
+
+Ask:
+“Can the user access the login page?”
+
+IF yes:
+→ Check username/password.
+→ Use Forgot Password if needed.
+
+IF no:
+→ Escalate or check access/environment.
+
+---
+
+## Manage users
+
+Ask:
+“Are you adding, editing, deactivating, or resetting a password?”
+
+IF adding/editing/access issue:
+→ Use User Management decision tree.
+
+IF reset password:
+→ Go to Users >> open user >> Reset Password.
+
+---
+
+## Configure timesheet
+
+Ask:
+“Are there already bookings on the timesheet dates you want to change?”
+
+IF no:
+→ Guide:
+Tools >> Configure Timesheet
+→ Select operation
+→ Choose date range
+→ Set intervals
+→ Set start/end times
+→ Select days
+→ Configure
+
+IF yes:
+→ Explain bookings are protected.
+→ Bookings must be removed/moved before deleting/rebuilding tee times.
+→ If moved to another day, they can be pasted back after tee times are re-added.
+
+---
+
+## Green fee rates
+
+Ask:
+“Are you creating a new green fee rate or editing an existing one?”
+
+IF creating:
+→ Guide:
+Tools >> Green Fee Rates >> Add Green Fee
+→ Enter details
+→ Set dates and availability
+→ Save
+
+IF editing:
+→ Open existing rate, update details, save.
+
+---
+
+## Email templates
+
+Ask:
+“Are you creating a new template or editing an existing one?”
+
+IF creating/editing:
+→ Guide:
+Tools >> Email Templates
+→ Create or edit template
+→ Use tags where needed
+
+---
+
+## Support contact
+
+If support contact details are requested:
+→ Provide support email and phone details only if present in approved knowledge.

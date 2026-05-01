@@ -1,0 +1,154 @@
+# USER MANAGEMENT – DECISION TREE
+
+## User management general
+
+Ask:
+“What are they trying to do?”
+
+Route to:
+- Create user
+- Edit user
+- Login issue
+- Permission/access issue
+- Deactivate user
+- Reset password
+
+---
+
+## Create new user
+
+Ask:
+“What role are you trying to create?”
+
+IF Staff user:
+→ Ask current user role.
+→ Superuser or Admin can create Staff users.
+
+IF Admin user:
+→ Ask:
+“Are you set up as a Superuser or an Admin user?”
+
+IF Superuser:
+→ Can create Admin user.
+→ Guide:
+1. Go to: Users
+2. Click Add User
+3. Enter details
+4. Assign Admin role
+5. Save
+
+IF Admin:
+→ Explain Admin users cannot create another Admin user.
+→ A Superuser must create the Admin user.
+
+IF Superuser:
+→ Escalate.
+→ Superusers cannot be created within the system.
+
+Then check:
+→ Total active users.
+→ There is typically a limit of 8 users per system.
+
+IF limit reached:
+→ Deactivate unused user or contact support if more users are required.
+
+---
+
+## User cannot log in
+
+Ask:
+“Is the user set to Active?”
+
+IF no:
+→ Go to Users and set user Active if appropriate.
+
+IF yes:
+→ Check email/username.
+→ Reset password.
+
+Steps:
+1. Go to: Users
+2. Find user
+3. Open profile
+4. Check status and details
+5. Reset password if required
+
+---
+
+## User cannot access a feature
+
+Ask:
+“What role are they assigned?”
+
+Then:
+1. Go to: Users
+2. Open user profile
+3. Check user group
+4. Compare role against permissions
+
+IF Staff Read Only:
+→ Explain Staff Read Only can view but cannot edit.
+
+IF Staff cannot access revenue reports:
+→ Explain revenue reports are for Superuser/Admin only.
+
+IF Staff cannot change configuration:
+→ Explain configuration access is for Superuser/Admin only.
+
+IF permissions look correct but access still blocked:
+→ Escalate.
+
+---
+
+## Reset password
+
+Ask:
+“Is this for an existing active user?”
+
+IF yes:
+→ Guide:
+1. Go to: Users
+2. Select user
+3. Click Reset Password
+
+IF no / unsure:
+→ Check user status first.
+
+---
+
+## Deactivate user
+
+Ask:
+“Has the user left the business or should access be removed?”
+
+IF yes:
+→ Guide:
+1. Go to: Users
+2. Open user
+3. Set to Inactive
+4. Save
+
+Important:
+→ Do not delete users.
+→ Do not create duplicate users.
+
+---
+
+## Multiple users affected
+
+Ask:
+“Is this affecting one user or multiple users?”
+
+IF multiple:
+→ Escalate as possible wider access/system issue.
+
+---
+
+## Escalation triggers
+
+Escalate if:
+- Superuser creation required
+- User limit needs increasing
+- Permissions appear correct but access still blocked
+- Multiple users affected unexpectedly
+- System restriction prevents required access

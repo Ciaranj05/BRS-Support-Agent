@@ -1,0 +1,181 @@
+# PAYMENTS – DECISION TREE
+
+## Payment issue
+
+Ask:
+“Is this affecting one customer/member or multiple users?”
+
+IF multiple users:
+→ Escalate immediately as possible wider system/payment issue.
+
+IF one customer/member:
+→ Ask:
+“Is this a booking payment or a membership/bill payment?”
+
+---
+
+## Booking payment status
+
+Ask:
+“What colour payment symbol is showing on the booking?”
+
+IF GREEN:
+→ Explain fully paid.
+
+IF BLUE:
+→ Explain part paid.
+→ Guide user to check total vs amount paid.
+
+IF RED:
+→ Explain unpaid.
+→ Guide user to open booking Payments tab.
+
+IF YELLOW:
+→ Explain overpaid.
+→ Ask whether a player was removed, booking moved, or price changed.
+
+Then guide:
+1. Click the tee time
+2. Open the booking
+3. Open Payments
+
+Follow-up:
+“Is there a payment listed in the Payments tab?”
+
+---
+
+## Payment not showing / customer says they paid
+
+Ask:
+“Is there any payment visible in BRS?”
+
+Guide system-first checks:
+1. Click tee time or open relevant bill
+2. Open Payments tab
+3. Go to: Tools >> BRS Payments >> Transactions
+4. Search by amount/date
+
+IF payment exists in BRS:
+→ Possible mismatch.
+→ Escalate.
+
+IF no payment in BRS AND user says money was received / bank confirms payment:
+→ Ask one final check only:
+“Just to confirm — have you checked Tools >> BRS Payments >> Transactions and still cannot see any record?”
+
+IF confirmed no record:
+→ Escalate immediately.
+
+Escalation wording:
+“I understand — that’s frustrating.
+
+Since there’s no record in BRS, this will need to be checked with our payments platform.
+
+I can raise this with support for you now.”
+
+Important:
+→ Do NOT assume bank transfer.
+→ Do NOT manually mark as paid.
+→ Do NOT continue troubleshooting once escalation condition is confirmed.
+
+---
+
+## Refund
+
+Ask:
+“Is this a full refund or partial refund?”
+
+IF full:
+→ Guide full refund.
+
+IF partial:
+→ Ask for amount.
+→ Guide partial refund.
+
+Then ask:
+“Was the original payment taken online through BRS Payments?”
+
+IF yes:
+→ Explain refund goes back to original card and can take 5–10 days.
+
+IF no:
+→ Explain offline refunds must be completed outside BRS and the system only records the refund.
+
+Important:
+→ Always confirm before processing refund.
+→ Refund against the correct payment.
+
+---
+
+## Payment failure
+
+Ask:
+“Is this affecting one customer/member or multiple users?”
+
+IF multiple users:
+→ Escalate.
+
+IF one user:
+→ Guide:
+1. Retry payment
+2. Check card details
+3. Try alternative payment method
+
+IF repeated failures:
+→ Escalate.
+
+---
+
+## Payout query
+
+Ask:
+“Are you looking for when funds were paid out or a breakdown of a payout?”
+
+Guide:
+Tools >> BRS Payments >> Payouts
+
+Explain:
+→ Payouts show when funds are paid into the bank and include transaction fees.
+→ Payouts are typically on a rolling schedule.
+
+---
+
+## VAT report query
+
+Ask:
+“Are you looking to view or download the VAT report?”
+
+Guide:
+Tools >> BRS Payments >> VAT Reports
+
+Explain reports include:
+- Gross sales
+- Processing fees
+- Net sales
+- VAT breakdown
+
+---
+
+## General payment request
+
+Ask:
+“Is this payment linked to a booking?”
+
+IF yes:
+→ Use booking payment request flow.
+
+IF no:
+→ Guide:
+Tools >> BRS Payments >> General Payment Requests >> Create Payment Request
+
+---
+
+## Escalation triggers
+
+Escalate if:
+- No payment in BRS but money received
+- Payment mismatch
+- Refund unclear or disputed
+- Multiple payment failures
+- Reporting discrepancy
+- Customer/member dispute

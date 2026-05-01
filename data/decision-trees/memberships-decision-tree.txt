@@ -1,0 +1,282 @@
+# MEMBERSHIPS – DECISION TREE
+
+## Memberships general
+
+Ask:
+“What are you trying to do in Memberships?”
+
+Route to:
+- Members
+- Subscriptions
+- Billing / Payments
+- Reports
+- Settings
+- Wallets
+
+---
+
+## Add or edit member
+
+Ask:
+“Are you adding a new member or editing an existing member?”
+
+IF add:
+→ Guide:
+Memberships >> Members >> Create Member
+
+IF edit:
+→ Guide:
+Memberships >> Members >> Search member >> Edit
+
+---
+
+## Member cannot log in or book
+
+Ask:
+“Is the member showing as Active or Inactive?”
+
+IF inactive:
+→ Check Memberships >> Settings >> General
+→ Check Grace Period and auto-deactivation rules.
+
+IF active:
+→ Check member details and scheduled payment status.
+
+Follow-up:
+“Is this affecting one member or multiple members?”
+
+IF multiple:
+→ Escalate.
+
+---
+
+## Membership settings
+
+Ask:
+“What are you trying to do or fix within Memberships settings?”
+
+IF inactive / blocked / cannot log in / cannot book:
+→ Memberships >> Settings >> General
+→ Check Grace Period, auto-deactivation, scheduled payments grace period.
+
+IF payment plans / instalments:
+→ Memberships >> Settings >> Payment Schemes
+→ Check payment days, instalment type, distribution totals 100%.
+
+IF VAT / tax / incorrect billing amounts:
+→ Memberships >> Settings >> Tax Settings
+→ Then check tax rate on subscription.
+
+IF subscriptions not renewing:
+→ Check Memberships >> Subscriptions
+→ Then Memberships >> Settings >> Subscription Cycles.
+
+IF missing payment methods:
+→ Memberships >> Settings >> Payment Types
+→ Stripe is online payment provider and cannot be removed.
+
+IF statuses / active / inactive / waiting list / leave of absence:
+→ Memberships >> Settings >> Membership Statuses
+
+IF notes / locker / renewal tracking:
+→ Memberships >> Settings >> Note Types
+
+IF filtering groups of members:
+→ Memberships >> Settings >> Member Filters
+
+IF wallets / balances / points / flexible membership:
+→ Memberships >> Settings >> Wallets
+
+IF unclear:
+→ Ask one clarifying question.
+
+---
+
+## Create membership bill
+
+Ask:
+“Are you creating a bill for one member or multiple members?”
+
+IF one member:
+→ Open member profile >> Billing >> Create bill.
+
+IF multiple members:
+→ Memberships >> Billing / Payments >> Create Bills
+→ Select period, members/types/filter, subscriptions/items, preview, confirm.
+
+Important:
+→ Bills are drafts until published.
+→ Members cannot see or pay unpublished bills.
+
+---
+
+## Bill not visible
+
+Ask:
+“Has the bill been published?”
+
+IF no:
+→ Publish bill.
+
+IF yes:
+→ Check member email.
+→ Resend bill.
+
+IF still not visible:
+→ Escalate.
+
+---
+
+## Bill not matching expectation
+
+Ask:
+“What looks incorrect — amount too high, missing payment, or extra charge?”
+
+IF amount too high / extra charge:
+→ Memberships >> Billing / Payments >> Open bill
+→ Review subscriptions, custom charges, discounts.
+
+IF missing expected charge:
+→ Check subscription was applied before billing.
+→ Check subscription pricing.
+→ Check filters used when creating bill.
+
+IF missing payment:
+→ Use Membership payment issue flow.
+
+---
+
+## Edit membership bill
+
+Ask:
+“Has any payment already been made against this bill?”
+
+IF no:
+→ Guide user to edit bill and republish/resend if needed.
+
+IF yes:
+→ Warn restrictions may apply.
+→ Refund may be required before some changes.
+
+---
+
+## Cancel or delete membership bill
+
+Ask:
+“Is the bill a draft or already published?”
+
+IF draft:
+→ Delete bill.
+
+IF published:
+→ Cancel bill.
+
+Important:
+→ Published bills cannot be deleted, only cancelled.
+
+---
+
+## Membership payment issue
+
+Ask:
+“Is the payment showing against the bill?”
+
+IF yes but bill still outstanding:
+→ Check payment allocation.
+
+IF no:
+→ Open bill Payments tab.
+→ Check Tools >> BRS Payments >> Transactions.
+
+IF no record AND money received:
+→ Escalate via Payments decision tree.
+
+---
+
+## Subscription issue
+
+Ask:
+“Are you creating, applying, removing, or editing a subscription?”
+
+IF creating:
+→ Memberships >> Subscriptions >> Create Subscription.
+
+IF applying:
+→ Memberships >> Subscriptions >> Apply / Remove Subscription.
+→ Select subscription and audience.
+→ Preview and confirm.
+
+IF removing:
+→ Ask:
+“Is the subscription linked to an active bill?”
+
+IF yes:
+→ Edit or cancel the related bill first.
+
+IF no:
+→ Remove subscription.
+
+Important:
+→ Subscriptions must be applied before billing.
+
+---
+
+## Payment scheme issue
+
+Ask:
+“Is the payment scheme already applied to a bill?”
+
+IF yes:
+→ Open bill and check payment scheme setup, scheduled payments, member status.
+
+IF no:
+→ Memberships >> Settings >> Payment Schemes
+→ Check payment days, instalment type, and total distribution = 100%.
+
+---
+
+## Scheduled payment issue
+
+Ask:
+“Is the member Active or Inactive?”
+
+IF inactive:
+→ Explain scheduled payments will not process for inactive members.
+→ Check overdue bills and grace period.
+
+IF active:
+→ Check payment scheme, saved card details, and failed payment history.
+
+IF repeated failures:
+→ Escalate.
+
+---
+
+## Wallet issue
+
+Ask:
+“Is this a points wallet or a currency wallet?”
+
+Then check:
+1. Wallet is active
+2. Wallet assigned to member
+3. Top-up options
+
+IF points wallet:
+→ Check Flexible Membership setup.
+
+IF still issue:
+→ Escalate.
+
+---
+
+## Reports
+
+Ask:
+“What type of Memberships report are you looking for?”
+
+IF bill history / payments / revenue / retention:
+→ Memberships >> Reports
+
+IF online payment / payout / VAT:
+→ Use Payments decision tree.

@@ -1,0 +1,197 @@
+# TEESHEET – DECISION TREE
+
+## Missing booking
+
+Ask:
+“Do you know the date and time of the booking?”
+
+IF yes:
+→ Guide:
+1. Go to the Timesheet
+2. Navigate to the correct date
+3. Remove filters
+4. Check all tee times
+5. Search by customer name
+
+IF no:
+→ Ask for customer name or approximate date/time.
+
+IF still not found:
+→ Ask:
+“Could the booking have been moved or cancelled?”
+
+IF payment is involved:
+→ Use Payments decision tree.
+
+IF still missing after checks:
+→ Escalate.
+
+Important:
+→ Always confirm booking date and time before checking payments.
+
+---
+
+## Cancel booking
+
+Ask:
+“Was the booking paid?”
+
+IF no:
+→ Guide user to cancel booking only.
+
+IF yes:
+→ Ask:
+“Do you also need to process a refund?”
+
+IF refund required:
+→ Use Payments refund flow.
+
+Important:
+→ Confirm before cancelling.
+
+---
+
+## Move booking
+
+Ask:
+“Is the new booking time the same price?”
+
+IF yes:
+→ Guide user to move booking.
+→ Then check payment status.
+
+IF no:
+→ Guide user to move booking.
+→ Review whether extra payment or refund is needed.
+
+Important:
+→ Moving bookings can affect payment totals.
+
+---
+
+## Add or remove player
+
+Ask:
+“Are you adding or removing a player?”
+
+IF adding:
+→ Ask whether player is member or visitor.
+→ Guide user to add player.
+→ Check if additional payment is required.
+
+IF removing:
+→ Ask:
+“Has the player already paid?”
+
+IF paid:
+→ Removing player may create overpayment.
+→ Check whether refund is required.
+
+IF not paid:
+→ Remove player only.
+
+---
+
+## Create booking
+
+Ask:
+“Is this a member, visitor, or society/group booking?”
+
+IF member/visitor:
+→ Guide:
+1. Open Timesheet
+2. Click tee time
+3. Enter booking details
+4. Add players
+5. Select green fee
+6. Click Add
+
+IF society/group:
+→ Use group booking flow.
+
+---
+
+## Group / society booking
+
+Ask:
+“Are you reserving multiple tee times for a group or society?”
+
+IF yes:
+→ Guide:
+1. Select range of tee times
+2. Click Block
+3. Add booking details
+4. Save
+
+Important:
+→ Group bookings may include deposits, catering, and notes.
+
+---
+
+## Booking payment request
+
+Ask:
+“Do you want the customer to pay now or send a payment link?”
+
+IF Pay Now:
+→ Use payment take payment flow.
+
+IF payment link:
+→ Guide:
+1. Click tee time
+2. Open booking
+3. Click Payments
+4. Click New Booking Payment
+5. Select Send Payment Link
+6. Choose email template
+7. Send
+
+---
+
+## Check payment status on booking
+
+Ask:
+“What colour payment symbol is showing on the booking?”
+
+Use colour logic:
+- Green = Fully paid
+- Blue = Part paid
+- Red = Unpaid
+- Yellow = Overpaid
+
+Then guide:
+1. Click tee time
+2. Open booking
+3. Click Payments
+
+---
+
+## Timesheet configuration / changing tee times
+
+Ask:
+“Are there already bookings on the tee times you want to change?”
+
+IF no:
+→ Guide to: Tools >> Configure Timesheet
+
+IF yes:
+→ Explain bookings are protected.
+→ Guide:
+1. Move bookings to another day
+2. Delete existing tee times
+3. Re-add tee times
+4. Paste bookings back if moved
+
+Important:
+→ Do not imply tee times can be deleted while bookings remain on them.
+
+---
+
+## Escalation triggers
+
+Escalate if:
+- Booking cannot be found after checks
+- Payment mismatch
+- Group booking issue unclear
+- Customer dispute
+- System behaviour does not match expected setup

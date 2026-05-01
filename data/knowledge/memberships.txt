@@ -1,0 +1,602 @@
+# MEMBERSHIPS – SUPPORT KNOWLEDGE
+
+---
+
+## Access Memberships
+
+Go to:
+Memberships
+
+---
+
+## Add a member
+
+1. Go to: Memberships >> Members
+2. Click Create Member
+3. Enter member details
+4. Click Save
+
+---
+
+## Edit a member
+
+1. Go to: Memberships >> Members
+2. Search for the member
+3. Click Edit
+4. Update the details
+5. Click Save
+
+---
+
+## Create a subscription
+
+1. Go to: Memberships >> Subscriptions
+2. Click Create Subscription
+3. Enter the details
+4. Click Save
+
+Important:
+- Subscriptions must be applied before billing.
+- Subscriptions can be Membership or Fee.
+- Pricing can be Fixed or By Membership Type.
+- If pricing is missing, the system may flag an error.
+- Pro-rata subscriptions are used when members join mid-cycle.
+
+---
+
+## Apply a subscription
+
+1. Go to: Memberships >> Subscriptions
+2. Click Apply / Remove Subscription
+3. Select the subscription
+4. Choose members, membership types, or filters
+5. Preview and confirm
+
+---
+
+## Remove a subscription
+
+1. Go to: Memberships >> Subscriptions
+2. Click Apply / Remove Subscription
+3. Select Remove
+4. Choose the subscription
+5. Preview and confirm
+
+Important:
+- Subscriptions cannot be removed if linked to an active bill.
+
+---
+
+## Create a bill
+
+1. Go to: Memberships >> Billing / Payments
+2. Click Create Bills
+3. Enter billing details
+4. Select who to bill
+5. Select subscriptions or items
+6. Preview
+7. Confirm
+
+Important:
+- Bills are created as drafts until published.
+- Bills must be published before members can see or pay them.
+
+---
+
+## Publish a bill
+
+1. Go to: Memberships >> Billing / Payments
+2. Find the bill
+3. Click the bill reference
+4. Click Publish
+
+---
+
+## Resend a bill
+
+1. Go to: Memberships >> Billing / Payments
+2. Click the bill reference
+3. Click Resend Bill
+
+---
+
+## Edit a bill
+
+1. Go to: Memberships >> Billing / Payments
+2. Find the bill
+3. Click the bill reference
+4. Click Edit
+5. Make the required changes
+6. Save
+7. Resend or republish if required
+
+Important:
+- Bills can be edited after publishing.
+- If payment exists, restrictions may apply.
+- You may need to refund before making some changes.
+
+---
+
+## Cancel or delete a bill
+
+- Draft bill → can be deleted
+- Published bill → must be cancelled
+
+Important:
+- Cancelled bills remain visible and may contain payment history.
+
+---
+
+## Take a payment
+
+1. Go to: Memberships >> Billing / Payments
+2. Find the bill
+3. Click Make Payment
+4. Enter payment details
+5. Confirm
+
+---
+
+## Payment allocation
+
+Payments may exist but not be allocated correctly.
+
+To check:
+
+1. Open member profile
+2. Go to Billing tab
+3. Open the bill
+4. Review payment allocation
+
+Important:
+- If payment exists but bill still shows outstanding, check allocation first.
+
+---
+
+## Refund a payment
+
+1. Find the payment on the bill
+2. Click Refund
+3. Confirm
+
+Important:
+- Online refunds go back to the card.
+- Offline refunds must be completed outside the system.
+- Refunds should be processed against the correct payment.
+
+---
+
+## Payment schemes
+
+Payment schemes allow members to pay by instalments.
+
+Important:
+- Payment schemes must total 100%.
+- Payment schemes can be Even or Custom.
+- Payment schemes must be correctly configured before applying to bills.
+
+To check payment schemes:
+
+1. Go to: Memberships >> Settings >> Payment Schemes
+2. Check payment days
+3. Check instalment type
+4. Confirm distribution totals 100%
+
+---
+
+## Scheduled payment issues
+
+Check:
+
+1. Member is active
+2. Payment scheme setup
+3. Saved card details
+4. Failed scheduled payments
+
+Important:
+- Scheduled payments are attempted daily.
+- Failed scheduled payments retry up to 5 times.
+- Inactive members cannot log in and scheduled payments will not process.
+
+---
+
+## Member cannot see bill
+
+Check:
+
+1. The bill has been published
+2. The member email is correct
+3. Resend the bill
+
+Important:
+- Unpublished bill → member cannot see it.
+
+---
+
+## Bill not matching expectation
+
+Ask:
+“What looks incorrect — amount too high, missing payment, or extra charge?”
+
+Then check:
+
+1. Go to: Memberships >> Billing / Payments
+2. Open the bill
+3. Review subscriptions applied
+4. Review custom charges
+5. Review discounts
+6. Check payment allocation if payment is involved
+
+---
+
+## Bill too high
+
+Check:
+
+1. Go to: Memberships >> Billing / Payments
+2. Open the bill
+3. Review subscriptions applied
+4. Review custom charges
+5. Review discounts
+
+---
+
+## Missing payment on bill
+
+1. Open member profile
+2. Go to Billing tab
+3. Open the bill
+4. Review payment allocation
+5. Check Tools >> BRS Payments >> Transactions if needed
+
+Important:
+- Payment may exist but not be allocated correctly.
+- If no record exists in BRS but money has been received, escalate.
+
+---
+
+## Reports
+
+Go to:
+Memberships >> Reports
+
+Reports include:
+- Bill history
+- Revenue projections
+- Payment tracking
+- Membership retention
+
+---
+
+## Wallets
+
+Wallets must be assigned before use.
+
+Types:
+- Points wallets
+- Currency wallets
+
+Used for:
+- Flexible Membership
+- Saving towards bills
+
+To check wallet settings:
+
+1. Go to: Memberships >> Settings >> Wallets
+2. Check wallet is active
+3. Confirm wallet is assigned to the member
+4. Check top-up options
+
+Important:
+- Points wallets are used for Flexible Membership.
+- Wallets do not automatically pay bills except where supported by specific setup.
+
+---
+
+## Chained memberships
+
+Chained memberships move members between membership types automatically.
+
+Used for:
+- Age-based changes
+- Length of service changes
+
+Requires:
+- Date of birth
+- Join date
+
+---
+
+## Member filters
+
+Member filters are used for:
+- Applying subscriptions
+- Removing subscriptions
+- Creating bills
+- Reporting
+
+To create a member filter:
+
+1. Go to: Memberships >> Settings >> Member Filters
+2. Click Create Member Filter
+3. Add description and subtitle
+4. Add conditions
+5. Save the filter
+
+---
+
+# MEMBERSHIPS SETTINGS LOGIC
+
+---
+
+## Core rule
+
+When a user asks about Memberships settings, do not list all settings.
+
+First ask:
+“What are you trying to do or fix within Memberships settings?”
+
+Then route them to the correct area.
+
+---
+
+## General settings
+
+Use when the issue relates to:
+- Members being blocked
+- Members inactive
+- Members unable to log in
+- Members unable to book
+- Grace periods
+- Failed scheduled payments
+
+Go to:
+Memberships >> Settings >> General
+
+Check:
+- Grace Period
+- Auto deactivation rules
+- Scheduled payments grace period
+
+Context:
+Overdue bills or failed scheduled payments can automatically deactivate members.
+
+---
+
+## Payment Schemes
+
+Use when the issue relates to:
+- Payment plans
+- Instalments
+- Monthly payments
+- Split payments
+
+Go to:
+Memberships >> Settings >> Payment Schemes
+
+Check:
+- Payment days
+- Instalment type
+- Distribution totals 100%
+- Surcharge rules
+
+Context:
+Payment schemes control how members can spread payments.
+
+---
+
+## Tax Settings
+
+Use when the issue relates to:
+- VAT
+- Tax
+- Incorrect billing amounts
+
+Go to:
+Memberships >> Settings >> Tax Settings
+
+Context:
+Tax rates are applied to subscriptions.
+
+Also check:
+Memberships >> Subscriptions
+
+---
+
+## Subscription Cycles
+
+Use when the issue relates to:
+- Subscription renewal
+- Annual renewal
+- Monthly renewal
+- Rolling membership
+
+Go to:
+Memberships >> Settings >> Subscription Cycles
+
+Context:
+Subscription cycles control the period a subscription applies to.
+
+Also check:
+Memberships >> Subscriptions
+
+---
+
+## Payment Types
+
+Use when the issue relates to:
+- Missing payment methods
+- Online payment type setup
+
+Go to:
+Memberships >> Settings >> Payment Types
+
+Context:
+Stripe is the online payment provider and cannot be removed.
+
+---
+
+## Membership Statuses
+
+Use when the issue relates to:
+- Member categories
+- Active / inactive
+- Waiting list
+- Leave of absence
+
+Go to:
+Memberships >> Settings >> Membership Statuses
+
+---
+
+## Note Types
+
+Use when the issue relates to:
+- Notes
+- Locker numbers
+- Renewal month
+- Member-specific tags
+
+Go to:
+Memberships >> Settings >> Note Types
+
+---
+
+## Member Filters
+
+Use when the issue relates to:
+- Filtering groups of members
+- Applying subscriptions to a group
+- Removing subscriptions from a group
+- Billing groups
+- Reporting groups
+
+Go to:
+Memberships >> Settings >> Member Filters
+
+---
+
+## Wallet Settings
+
+Use when the issue relates to:
+- Wallets
+- Balances
+- Points
+- Flexible Membership
+- Top-ups
+
+Go to:
+Memberships >> Settings >> Wallets
+
+---
+
+# COMMON TROUBLESHOOTING
+
+---
+
+## Why has a member become inactive?
+
+1. Go to: Memberships >> Settings >> General
+2. Check Grace Period settings
+3. Check automatic deactivation settings
+4. Check if scheduled payments have failed
+
+Important:
+Members can be automatically deactivated if bills are overdue or scheduled payments fail.
+
+Follow-up:
+Is this affecting one member or multiple members?
+
+---
+
+## Why can’t a member log in or book?
+
+1. Check the member’s status
+2. Go to: Memberships >> Settings >> General
+3. Check grace period and auto-deactivation settings
+4. Check whether scheduled payments have failed
+
+Follow-up:
+Is the member showing as Active or Inactive?
+
+---
+
+## Why is a payment scheme not working?
+
+1. Go to: Memberships >> Settings >> Payment Schemes
+2. Check payment days
+3. Check instalment type
+4. Confirm payment distribution totals 100%
+
+Follow-up:
+Is this payment scheme already applied to a bill?
+
+---
+
+## Why is a subscription not renewing?
+
+1. Go to: Memberships >> Subscriptions
+2. Open the subscription
+3. Check whether Renews Automatically is enabled
+4. Go to: Memberships >> Settings >> Subscription Cycles
+5. Confirm the correct cycle exists
+
+Follow-up:
+Is the subscription set to renew automatically?
+
+---
+
+## Why is VAT or tax wrong on a bill?
+
+1. Go to: Memberships >> Settings >> Tax Settings
+2. Check the tax rate
+3. Go to: Memberships >> Subscriptions
+4. Check the tax rate applied to the subscription
+
+Important:
+Tax is applied through the subscription setup.
+
+Follow-up:
+Is the issue affecting one subscription or multiple subscriptions?
+
+---
+
+## Why can’t a member top up their wallet?
+
+1. Go to: Memberships >> Settings >> Wallets
+2. Check the wallet is active
+3. Confirm the wallet is assigned to the member
+4. Check top-up options
+
+Follow-up:
+Is this a points wallet or a currency wallet?
+
+---
+
+# CAUSE → EFFECT
+
+- Inactive member → payments may fail
+- Unpublished bill → member cannot see it
+- Failed scheduled payments → member may become inactive
+- Missing subscription → bill may be missing expected charge
+- Payment exists but not allocated → bill may still show outstanding
+- Subscription not applied → bill cannot be created correctly
+- Subscription linked to active bill → subscription cannot be removed
+
+---
+
+# ESCALATION TRIGGERS
+
+Escalate if:
+- Settings appear correct but the system behaves differently
+- Multiple members are affected unexpectedly
+- Members are being deactivated incorrectly
+- Payments or scheduled payments are failing repeatedly
+- Billing inconsistencies
+- Subscription errors
+- Payment mismatches
+- Member disputes
+- No payment exists in BRS but money has been received
+- The issue is not covered in uploaded knowledge
+
+

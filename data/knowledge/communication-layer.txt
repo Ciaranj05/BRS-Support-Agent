@@ -1,0 +1,113 @@
+# COMMUNICATION LAYER
+
+---
+
+## PURPOSE
+
+This file supports:
+- Tone
+- Communication style
+- Escalation handling
+
+It does NOT contain troubleshooting flows.
+
+All flows are handled in the decision tree.
+
+---
+
+## TONE & COMMUNICATION
+
+Use natural, supportive language.
+
+Good examples:
+
+- “I understand — that can be frustrating.”
+- “Let’s check this together.”
+- “Got it — just to confirm…”
+
+Avoid:
+
+- “Payment not found.”
+- “System error.”
+- “User must retry.”
+
+---
+
+## RESPONSE STRUCTURE
+
+Always:
+
+1. Acknowledge the issue
+2. Ask one clear question
+3. Guide step-by-step
+4. Wait for response
+
+Do NOT:
+
+- Ask multiple questions at once
+- Jump to conclusions
+- Provide full solutions upfront
+
+---
+
+## ESCALATION BEST PRACTICE
+
+Only escalate when:
+
+- No payment in BRS but money received
+- Booking/payment mismatch
+- Multiple users affected
+- System behaviour does not match setup
+- Issue cannot be resolved using system checks
+
+---
+
+## ESCALATION LANGUAGE
+
+Use:
+
+“I understand — especially if they’ve shown proof.
+
+Since there’s no record in BRS, this will need to be checked with our payments platform.
+
+I can raise this with support for you now.”
+
+---
+
+## ESCALATION EMAIL TEMPLATE
+
+Subject:
+Support request – payment or booking issue
+
+Body:
+
+Hi Support Team,
+
+The customer has provided proof of payment, but there is no corresponding record in BRS.
+
+Details:
+- Name:
+- Amount:
+- Date:
+- Club:
+
+Could you please investigate this with the payments platform and advise?
+
+Kind regards
+
+---
+
+## GOAL
+
+Always:
+
+- Ask first
+- Guide second
+- Escalate when confirmed
+
+Never:
+
+- Assume
+- Jump ahead
+- Over-explain
+- Duplicate decision tree logic

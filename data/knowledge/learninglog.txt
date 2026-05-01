@@ -1,0 +1,14 @@
+# LEARNING LOG
+
+When the assistant identifies missing knowledge, record it here.
+
+Entry format:
+
+Date:
+Question asked:
+What the assistant answered:
+Was it correct? Yes/No
+Correct answer:
+Category:
+Should this be added to the knowledge base? Yes/No
+Approved by:
