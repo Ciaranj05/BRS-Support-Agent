@@ -1,10 +1,7 @@
 {
   "functions": {
     "server.js": {
-      "includeFiles": [
-        "public/**",
-        "data/**"
-      ]
+      "includeFiles": "{public/**,data/**}"
     }
   },
   "routes": [
