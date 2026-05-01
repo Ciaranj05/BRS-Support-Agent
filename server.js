@@ -374,10 +374,6 @@ app.post("/reset", (req, res) => {
   res.json({ message: "Conversation reset." });
 });
 
-if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+export default function handler(req, res) {
+  return app(req, res);
 }
-
-export default app;
