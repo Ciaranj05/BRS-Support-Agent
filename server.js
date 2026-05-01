@@ -7,12 +7,19 @@ import OpenAI from "openai";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Basic homepage route for Vercel
+app.get("/", (req, res) => {
+  res.send("BRS Support Agent is running");
 });
 
 let conversationHistory = [];
@@ -38,7 +45,8 @@ function detectTopic(message) {
     lower.includes("payout") ||
     lower.includes("vat") ||
     lower.includes("bank statement")
-  ) return "payments";
+  )
+    return "payments";
 
   if (
     lower.includes("booking") ||
@@ -47,7 +55,8 @@ function detectTopic(message) {
     lower.includes("player") ||
     lower.includes("green fee") ||
     lower.includes("society")
-  ) return "teesheet";
+  )
+    return "teesheet";
 
   if (
     lower.includes("member") ||
@@ -56,7 +65,8 @@ function detectTopic(message) {
     lower.includes("bill") ||
     lower.includes("wallet") ||
     lower.includes("payment scheme")
-  ) return "memberships";
+  )
+    return "memberships";
 
   if (
     lower.includes("user") ||
@@ -65,14 +75,16 @@ function detectTopic(message) {
     lower.includes("staff") ||
     lower.includes("login") ||
     lower.includes("permission")
-  ) return "user-management";
+  )
+    return "user-management";
 
   if (
     lower.includes("configure") ||
     lower.includes("setup") ||
     lower.includes("email template") ||
     lower.includes("green fee rate")
-  ) return "admin-setup";
+  )
+    return "admin-setup";
 
   return "general";
 }
@@ -190,7 +202,7 @@ Details to add if available:
 Conversation transcript:
 ${transcript}
 
-Kind regards`
+Kind regards`,
   };
 }
 
@@ -232,7 +244,8 @@ app.post("/chat", async (req, res) => {
     if (topic === "general") {
       conversationHistory.push({ role: "user", content: message });
 
-      const reply = "Got it — just to check, is this about bookings, payments, memberships, users, or system setup?";
+      const reply =
+        "Got it — just to check, is this about bookings, payments, memberships, users, or system setup?";
 
       conversationHistory.push({ role: "assistant", content: reply });
 
@@ -348,7 +361,8 @@ app.post("/send-escalation", async (req, res) => {
   console.log("Body:", escalationDraft.body);
 
   res.json({
-    message: "Escalation prepared. Email sending is not connected yet, but this is the email that would be sent.",
+    message:
+      "Escalation prepared. Email sending is not connected yet, but this is the email that would be sent.",
     draft: escalationDraft,
   });
 });
@@ -358,6 +372,6 @@ app.post("/reset", (req, res) => {
   res.json({ message: "Conversation reset." });
 });
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
