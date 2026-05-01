@@ -5,26 +5,23 @@
   <title>BRS Support Assistant</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230f172a'/%3E%3Ctext x='50' y='60' font-size='44' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3EB%3C/text%3E%3C/svg%3E">
+
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     :root {
       --bg: #eef3f9;
       --surface: #ffffff;
-      --surface-soft: #f8fafc;
       --text: #0f172a;
       --muted: #64748b;
       --border: #e2e8f0;
       --primary: #0f172a;
       --primary-2: #1e293b;
       --accent: #2563eb;
-      --accent-soft: #eff6ff;
       --success: #16a34a;
-      --danger: #dc2626;
-      --shadow: 0 30px 90px rgba(15, 23, 42, 0.16);
-      --bubble-shadow: 0 12px 34px rgba(15, 23, 42, 0.07);
+      --shadow: 0 30px 90px rgba(15, 23, 42, 0.14);
+      --bubble-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
     }
 
     body {
@@ -33,8 +30,8 @@
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.16), transparent 30%),
-        radial-gradient(circle at 85% 90%, rgba(15, 23, 42, 0.12), transparent 32%),
+        radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.12), transparent 30%),
+        radial-gradient(circle at 85% 90%, rgba(15, 23, 42, 0.10), transparent 32%),
         linear-gradient(135deg, #eef3f9, #f8fafc);
       display: flex;
       justify-content: center;
@@ -46,8 +43,8 @@
       width: 100%;
       max-width: 1020px;
       height: min(900px, 92vh);
-      background: rgba(255, 255, 255, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.8);
       border-radius: 32px;
       display: flex;
       flex-direction: column;
@@ -59,18 +56,29 @@
     .header {
       padding: 24px 28px;
       border-bottom: 1px solid var(--border);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.94));
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 18px;
     }
 
-    .title-wrap {
+    .brand {
       display: flex;
-      flex-direction: column;
-      gap: 5px;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
     }
 
     .title {
@@ -80,6 +88,7 @@
     }
 
     .subtitle {
+      margin-top: 5px;
       color: var(--muted);
       font-size: 14px;
       font-weight: 500;
@@ -109,20 +118,18 @@
 
     #chat {
       flex: 1;
-      padding: 28px;
+      padding: 32px;
       overflow-y: auto;
-      background:
-        linear-gradient(180deg, rgba(248,250,252,0.95), rgba(241,245,249,0.95));
+      background: linear-gradient(180deg, #f8fafc, #f1f5f9);
     }
 
     .welcome-card {
-      background:
-        linear-gradient(135deg, #ffffff, #f8fafc);
+      background: white;
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 22px;
-      margin-bottom: 24px;
-      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.07);
+      margin-bottom: 34px;
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.06);
     }
 
     .welcome-card h2 {
@@ -136,51 +143,24 @@
       color: var(--muted);
       line-height: 1.55;
       font-size: 15px;
-      max-width: 780px;
-    }
-
-    .quick-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .quick-action {
-      border: 1px solid var(--border);
-      background: white;
-      color: var(--text);
-      border-radius: 999px;
-      padding: 9px 13px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .quick-action:hover {
-      border-color: #bfdbfe;
-      background: var(--accent-soft);
-      color: #1d4ed8;
+      max-width: 760px;
     }
 
     .msg-row {
       display: flex;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
 
-    .user-row {
-      justify-content: flex-end;
-    }
+    .user-row { justify-content: flex-end; }
+    .bot-row { justify-content: flex-start; }
 
-    .bot-row {
-      justify-content: flex-start;
+    .msg-wrap {
+      max-width: 60%;
     }
 
     .msg {
       padding: 14px 16px;
       border-radius: 20px;
-      max-width: 68%;
       line-height: 1.52;
       white-space: pre-wrap;
       font-size: 15px;
@@ -200,6 +180,32 @@
       border-bottom-left-radius: 7px;
     }
 
+    .bot strong {
+      font-weight: 850;
+    }
+
+    .message-actions {
+      margin-top: 7px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .copy-link {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .copy-link:hover {
+      color: var(--accent);
+      box-shadow: none;
+      transform: none;
+    }
+
     .typing {
       display: inline-flex;
       gap: 5px;
@@ -215,23 +221,12 @@
       animation: pulse 1.2s infinite ease-in-out;
     }
 
-    .typing span:nth-child(2) {
-      animation-delay: 0.18s;
-    }
-
-    .typing span:nth-child(3) {
-      animation-delay: 0.36s;
-    }
+    .typing span:nth-child(2) { animation-delay: 0.18s; }
+    .typing span:nth-child(3) { animation-delay: 0.36s; }
 
     @keyframes pulse {
-      0%, 80%, 100% {
-        transform: scale(0.75);
-        opacity: 0.35;
-      }
-      40% {
-        transform: scale(1);
-        opacity: 1;
-      }
+      0%, 80%, 100% { transform: scale(0.75); opacity: 0.35; }
+      40% { transform: scale(1); opacity: 1; }
     }
 
     .input-wrap {
@@ -248,7 +243,7 @@
       border: 1px solid var(--border);
       border-radius: 22px;
       padding: 9px;
-      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.07);
     }
 
     input {
@@ -262,9 +257,7 @@
       min-width: 120px;
     }
 
-    input::placeholder {
-      color: #94a3b8;
-    }
+    input::placeholder { color: #94a3b8; }
 
     button {
       padding: 14px 19px;
@@ -304,7 +297,7 @@
     }
 
     .email-preview {
-      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      background: white;
       border: 1px solid #cbd5e1;
       border-radius: 22px;
       padding: 20px;
@@ -312,7 +305,7 @@
       white-space: pre-wrap;
       font-size: 14px;
       line-height: 1.6;
-      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.09);
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
     }
 
     .email-title {
@@ -322,11 +315,17 @@
       letter-spacing: -0.02em;
     }
 
+    .email-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
     .escalation-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 18px;
       padding: 14px 18px;
       background: var(--accent);
       color: white;
@@ -335,53 +334,44 @@
       font-weight: 850;
       box-shadow: 0 12px 30px rgba(37, 99, 235, 0.24);
       transition: transform 0.14s ease;
+      border: none;
     }
 
-    .escalation-btn:hover {
-      transform: translateY(-1px);
+    .secondary-action {
+      background: white;
+      color: var(--primary);
+      border: 1px solid var(--border);
+      box-shadow: none;
     }
 
     @media (max-width: 760px) {
-      body {
-        padding: 0;
-      }
+      body { padding: 0; }
 
       .app {
         height: 100vh;
         border-radius: 0;
       }
 
-      .header {
-        padding: 19px;
+      .header { padding: 19px; }
+
+      .subtitle { font-size: 13px; }
+
+      .status-pill { display: none; }
+
+      .mark {
+        width: 38px;
+        height: 38px;
       }
 
-      .subtitle {
-        font-size: 13px;
-      }
+      #chat { padding: 18px; }
 
-      .status-pill {
-        display: none;
-      }
+      .msg-wrap { max-width: 88%; }
 
-      #chat {
-        padding: 18px;
-      }
+      .input { flex-wrap: wrap; }
 
-      .msg {
-        max-width: 88%;
-      }
+      button { flex: 1; }
 
-      .input {
-        flex-wrap: wrap;
-      }
-
-      button {
-        flex: 1;
-      }
-
-      .footer-note {
-        display: none;
-      }
+      .footer-note { display: none; }
     }
   </style>
 </head>
@@ -389,9 +379,12 @@
 <body>
   <div class="app">
     <div class="header">
-      <div class="title-wrap">
-        <div class="title">BRS Support Assistant</div>
-        <div class="subtitle">AI-guided support for bookings, payments, memberships and admin queries.</div>
+      <div class="brand">
+        <div class="mark">B</div>
+        <div>
+          <div class="title">BRS Support Assistant</div>
+          <div class="subtitle">AI-guided support for bookings, payments, memberships and admin queries.</div>
+        </div>
       </div>
 
       <div class="status-pill">
@@ -413,19 +406,36 @@
   </div>
 
   <script>
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatBotText(text) {
+      return escapeHtml(text)
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/^[-•]\s(.+)$/gm, "• $1");
+    }
+
+    function copyText(text, button) {
+      navigator.clipboard.writeText(text).then(() => {
+        const original = button.textContent;
+        button.textContent = "Copied";
+        setTimeout(() => button.textContent = original, 1400);
+      });
+    }
+
     function addWelcomeCard() {
       const chat = document.getElementById("chat");
       const card = document.createElement("div");
       card.className = "welcome-card";
       card.innerHTML = `
-        <h2>How can I help today?</h2>
-        <p>Ask about a support issue and I’ll guide the next best action. If escalation is needed, I’ll prepare a draft for review.</p>
-        <div class="quick-actions">
-          <div class="quick-action" onclick="usePrompt('How do I send a bill?')">Send a bill</div>
-          <div class="quick-action" onclick="usePrompt('A customer says they paid but I cannot see the payment in BRS')">Missing payment</div>
-          <div class="quick-action" onclick="usePrompt('How do I manage a booking issue?')">Booking issue</div>
-          <div class="quick-action" onclick="usePrompt('How do I update a user permission?')">User permissions</div>
-        </div>
+        <h2>How can I help?</h2>
+        <p>Describe the issue and I’ll guide the next best step. If needed, I can prepare an escalation draft for support.</p>
       `;
       chat.appendChild(card);
     }
@@ -436,11 +446,34 @@
       const row = document.createElement("div");
       row.className = "msg-row " + (type === "user" ? "user-row" : "bot-row");
 
+      const wrap = document.createElement("div");
+      wrap.className = "msg-wrap";
+
       const div = document.createElement("div");
       div.className = "msg " + type;
-      div.textContent = text;
 
-      row.appendChild(div);
+      if (type === "bot") {
+        div.innerHTML = formatBotText(text);
+      } else {
+        div.textContent = text;
+      }
+
+      wrap.appendChild(div);
+
+      if (type === "bot") {
+        const actions = document.createElement("div");
+        actions.className = "message-actions";
+
+        const copyBtn = document.createElement("button");
+        copyBtn.className = "copy-link";
+        copyBtn.textContent = "Copy response";
+        copyBtn.onclick = () => copyText(text, copyBtn);
+
+        actions.appendChild(copyBtn);
+        wrap.appendChild(actions);
+      }
+
+      row.appendChild(wrap);
       chat.appendChild(row);
       chat.scrollTop = chat.scrollHeight;
     }
@@ -452,11 +485,15 @@
       row.className = "msg-row bot-row";
       row.id = "typingRow";
 
+      const wrap = document.createElement("div");
+      wrap.className = "msg-wrap";
+
       const div = document.createElement("div");
       div.className = "msg bot typing";
       div.innerHTML = "<span></span><span></span><span></span>";
 
-      row.appendChild(div);
+      wrap.appendChild(div);
+      row.appendChild(wrap);
       chat.appendChild(row);
       chat.scrollTop = chat.scrollHeight;
     }
@@ -468,28 +505,43 @@
 
     function addEscalationPreview(draft) {
       const chat = document.getElementById("chat");
+      const emailText = `To: ${draft.to || "support@brsgolf.com"}
+
+Subject: ${draft.subject}
+
+${draft.body}`;
 
       const preview = document.createElement("div");
       preview.className = "email-preview";
 
       preview.innerHTML = `
 <div class="email-title">Ready to escalate</div>
-<strong>To:</strong> ${draft.to || "support@brsgolf.com"}
+<strong>To:</strong> ${escapeHtml(draft.to || "support@brsgolf.com")}
 
-<strong>Subject:</strong> ${draft.subject}
+<strong>Subject:</strong> ${escapeHtml(draft.subject)}
 
 <strong>Body:</strong>
-${draft.body}
+${escapeHtml(draft.body)}
 `;
 
       chat.appendChild(preview);
 
-      const btn = document.createElement("div");
-      btn.className = "escalation-btn";
-      btn.textContent = "Send to Support";
-      btn.onclick = sendEscalation;
+      const actions = document.createElement("div");
+      actions.className = "email-actions";
 
-      chat.appendChild(btn);
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "secondary-action";
+      copyBtn.textContent = "Copy email";
+      copyBtn.onclick = () => copyText(emailText, copyBtn);
+
+      const sendBtn = document.createElement("button");
+      sendBtn.className = "escalation-btn";
+      sendBtn.textContent = "Send to Support";
+      sendBtn.onclick = sendEscalation;
+
+      actions.appendChild(copyBtn);
+      actions.appendChild(sendBtn);
+      chat.appendChild(actions);
       chat.scrollTop = chat.scrollHeight;
     }
 
@@ -512,17 +564,12 @@ ${draft.body}
       await fetch("/reset", { method: "POST" });
       document.getElementById("chat").innerHTML = "";
       addWelcomeCard();
-      addMessage("Hi — what issue can I help you with today?", "bot");
+      addMessage("What issue can I help you with?", "bot");
       document.getElementById("input").focus();
     }
 
     function handleKey(e) {
       if (e.key === "Enter") send();
-    }
-
-    function usePrompt(text) {
-      document.getElementById("input").value = text;
-      send();
     }
 
     async function send() {
@@ -566,7 +613,7 @@ ${draft.body}
     }
 
     addWelcomeCard();
-    addMessage("Hi — what issue can I help you with today?", "bot");
+    addMessage("What issue can I help you with?", "bot");
   </script>
 </body>
 </html>
