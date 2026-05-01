@@ -1,172 +1,393 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>BRS Support Assistant</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --primary: #0f172a;
+      --primary-soft: #1e293b;
+      --accent: #2563eb;
+      --success: #16a34a;
+      --bot: #ffffff;
+      --user: #0f172a;
+      --shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
+    }
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #f4f6f8;
-      height: 100vh;
+      min-height: 100vh;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.10), transparent 34%),
+        var(--bg);
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 24px;
+      color: var(--text);
     }
 
     .app {
       width: 100%;
-      max-width: 900px;
-      height: 90vh;
-      background: white;
-      border-radius: 18px;
+      max-width: 980px;
+      height: min(880px, 92vh);
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 28px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
     }
 
     .header {
-      padding: 18px 22px;
-      border-bottom: 1px solid #e5e7eb;
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      border: 1px solid #dcfce7;
+      background: #f0fdf4;
+      color: #166534;
+      font-size: 13px;
       font-weight: 700;
-      font-size: 18px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
     }
 
     #chat {
       flex: 1;
-      padding: 22px;
+      padding: 26px;
       overflow-y: auto;
-      background: #f9fafb;
+      background:
+        linear-gradient(180deg, rgba(248,250,252,0.9), rgba(241,245,249,0.9));
+    }
+
+    .welcome-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .welcome-card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .welcome-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .msg-row {
+      display: flex;
+      margin-bottom: 16px;
+    }
+
+    .msg-row.user-row {
+      justify-content: flex-end;
+    }
+
+    .msg-row.bot-row {
+      justify-content: flex-start;
     }
 
     .msg {
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      border-radius: 14px;
-      max-width: 78%;
-      line-height: 1.45;
+      padding: 13px 15px;
+      border-radius: 18px;
+      max-width: 76%;
+      line-height: 1.5;
       white-space: pre-wrap;
       font-size: 15px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
     }
 
     .user {
-      background: #111827;
+      background: linear-gradient(135deg, var(--primary), var(--primary-soft));
       color: white;
-      margin-left: auto;
-      border-bottom-right-radius: 5px;
+      border-bottom-right-radius: 6px;
     }
 
     .bot {
-      background: white;
-      color: #111827;
-      border: 1px solid #dfe3e8;
-      margin-right: auto;
-      border-bottom-left-radius: 5px;
+      background: var(--bot);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 6px;
+    }
+
+    .typing {
+      color: var(--muted);
+      font-style: italic;
+      box-shadow: none;
+    }
+
+    .input-wrap {
+      padding: 18px;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.96);
     }
 
     .input {
       display: flex;
       gap: 10px;
-      padding: 16px;
-      border-top: 1px solid #e5e7eb;
-      background: white;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 8px;
     }
 
     input {
       flex: 1;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #cfd6dd;
+      padding: 14px 12px;
+      border: none;
+      outline: none;
+      background: transparent;
       font-size: 15px;
+      color: var(--text);
     }
 
     button {
-      padding: 0 18px;
-      border-radius: 12px;
+      padding: 13px 18px;
+      border-radius: 14px;
       border: none;
-      background: #111827;
+      background: var(--primary);
       color: white;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .reset-btn {
-      background: #e5e7eb;
-      color: #111827;
+      background: white;
+      color: var(--primary);
+      border: 1px solid var(--border);
     }
 
     .email-preview {
-      background: #f9fafb;
-      border: 1px solid #d1d5db;
-      border-radius: 14px;
-      padding: 16px;
-      margin: 12px 0 18px 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 18px;
+      margin: 18px 0;
       white-space: pre-wrap;
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.55;
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
     }
 
-    .email-preview strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .escalation-container {
-      margin-bottom: 18px;
+    .email-title {
+      font-weight: 800;
+      margin-bottom: 10px;
+      font-size: 15px;
     }
 
     .escalation-btn {
       display: inline-block;
-      margin-top: 10px;
-      padding: 12px 16px;
-      background: #0f172a;
+      margin-bottom: 16px;
+      padding: 13px 17px;
+      background: var(--accent);
       color: white;
-      border-radius: 10px;
+      border-radius: 14px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
+      box-shadow: 0 10px 26px rgba(37, 99, 235, 0.22);
+    }
+
+    .footer-note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 0;
+      }
+
+      .app {
+        height: 100vh;
+        border-radius: 0;
+      }
+
+      .header {
+        padding: 18px;
+        align-items: flex-start;
+      }
+
+      .status-pill {
+        display: none;
+      }
+
+      #chat {
+        padding: 18px;
+      }
+
+      .msg {
+        max-width: 88%;
+      }
+
+      .input {
+        flex-wrap: wrap;
+      }
+
+      button {
+        flex: 1;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="app">
-    <div class="header">BRS Support Assistant</div>
+    <div class="header">
+      <div class="title-wrap">
+        <div class="title">BRS Support Assistant</div>
+        <div class="subtitle">AI-guided support for bookings, payments, memberships and admin queries.</div>
+      </div>
+
+      <div class="status-pill">
+        <span class="dot"></span>
+        Online
+      </div>
+    </div>
 
     <div id="chat"></div>
 
-    <div class="input">
-      <input id="input" placeholder="Ask a question..." onkeydown="handleKey(event)" />
-      <button onclick="send()">Send</button>
-      <button onclick="resetChat()" class="reset-btn">New Issue</button>
+    <div class="input-wrap">
+      <div class="input">
+        <input id="input" placeholder="Describe the issue..." onkeydown="handleKey(event)" />
+        <button id="sendBtn" onclick="send()">Send</button>
+        <button onclick="resetChat()" class="reset-btn">New Issue</button>
+      </div>
+      <div class="footer-note">For best results, include the customer issue, product area and any checks already completed.</div>
     </div>
   </div>
 
   <script>
+    let typingEl = null;
+
+    function addWelcomeCard() {
+      const chat = document.getElementById("chat");
+      const card = document.createElement("div");
+      card.className = "welcome-card";
+      card.innerHTML = `
+        <h2>How can I help today?</h2>
+        <p>Ask about a support issue and I’ll guide the next best action. If needed, I can prepare an escalation draft for review.</p>
+      `;
+      chat.appendChild(card);
+    }
+
     function addMessage(text, type) {
       const chat = document.getElementById("chat");
+
+      const row = document.createElement("div");
+      row.className = "msg-row " + (type === "user" ? "user-row" : "bot-row");
+
       const div = document.createElement("div");
       div.className = "msg " + type;
       div.textContent = text;
-      chat.appendChild(div);
+
+      row.appendChild(div);
+      chat.appendChild(row);
       chat.scrollTop = chat.scrollHeight;
+    }
+
+    function showTyping() {
+      const chat = document.getElementById("chat");
+
+      const row = document.createElement("div");
+      row.className = "msg-row bot-row";
+      row.id = "typingRow";
+
+      typingEl = document.createElement("div");
+      typingEl.className = "msg bot typing";
+      typingEl.textContent = "Assistant is typing...";
+
+      row.appendChild(typingEl);
+      chat.appendChild(row);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function removeTyping() {
+      const row = document.getElementById("typingRow");
+      if (row) row.remove();
+      typingEl = null;
     }
 
     function addEscalationPreview(draft) {
       const chat = document.getElementById("chat");
 
-      const container = document.createElement("div");
-      container.className = "escalation-container";
-
       const preview = document.createElement("div");
       preview.className = "email-preview";
 
       preview.innerHTML = `
-<strong>Escalation Email</strong>
-
+<div class="email-title">Escalation Email</div>
 <strong>To:</strong> ${draft.to || "support@brsgolf.com"}
 
 <strong>Subject:</strong> ${draft.subject}
@@ -175,16 +396,14 @@
 ${draft.body}
 `;
 
-      container.appendChild(preview);
+      chat.appendChild(preview);
 
       const btn = document.createElement("div");
       btn.className = "escalation-btn";
       btn.textContent = "Send to Support";
       btn.onclick = sendEscalation;
 
-      container.appendChild(btn);
-
-      chat.appendChild(container);
+      chat.appendChild(btn);
       chat.scrollTop = chat.scrollHeight;
     }
 
@@ -196,12 +415,7 @@ ${draft.body}
         });
 
         const data = await res.json();
-
         addMessage(data.message || "Escalation prepared.", "bot");
-
-        if (data.draft) {
-          addEscalationPreview(data.draft);
-        }
 
       } catch {
         addMessage("Error sending escalation.", "bot");
@@ -211,6 +425,7 @@ ${draft.body}
     async function resetChat() {
       await fetch("/reset", { method: "POST" });
       document.getElementById("chat").innerHTML = "";
+      addWelcomeCard();
       addMessage("Starting fresh — what can I help with?", "bot");
     }
 
@@ -220,11 +435,16 @@ ${draft.body}
 
     async function send() {
       const input = document.getElementById("input");
+      const btn = document.getElementById("sendBtn");
       const msg = input.value.trim();
+
       if (!msg) return;
 
       addMessage(msg, "user");
       input.value = "";
+      btn.disabled = true;
+
+      showTyping();
 
       try {
         const res = await fetch("/chat", {
@@ -235,17 +455,23 @@ ${draft.body}
 
         const data = await res.json();
 
-        addMessage(data.reply, "bot");
+        removeTyping();
+        addMessage(data.reply || "No response received.", "bot");
 
         if (data.escalationReady && data.escalationDraft) {
           addEscalationPreview(data.escalationDraft);
         }
 
       } catch {
+        removeTyping();
         addMessage("Error connecting to server.", "bot");
       }
+
+      btn.disabled = false;
+      input.focus();
     }
 
+    addWelcomeCard();
     addMessage("Starting fresh — what can I help with?", "bot");
   </script>
 </body>
