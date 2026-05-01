@@ -25,3 +25,19 @@ const client = new OpenAI({
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// keep all your other routes here:
+// app.post("/chat", ...)
+// app.post("/send-escalation", ...)
+// app.post("/reset", ...)
+
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+export default app;
