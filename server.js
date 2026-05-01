@@ -17,9 +17,8 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Basic homepage route for Vercel
 app.get("/", (req, res) => {
-  res.send("BRS Support Agent is running");
+  res.sendFile(process.cwd() + "/public/index.html");
 });
 
 let conversationHistory = [];
