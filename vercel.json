@@ -1,7 +1,16 @@
 {
   "functions": {
     "server.js": {
-      "includeFiles": "public/**"
+      "includeFiles": [
+        "public/**",
+        "data/**"
+      ]
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ]
 }
