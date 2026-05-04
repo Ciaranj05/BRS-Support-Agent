@@ -1,99 +1,128 @@
 # ADMIN SETUP – DECISION TREE
 
-## Admin setup general
-
-Ask:
-“What are you trying to configure?”
-
-Route to:
-- Users
-- Timesheet configuration
-- Green fee rates
-- Email templates
-- Login/password
+Use this for setup/configuration questions.
 
 ---
 
-## Login issue
+## 1. IDENTIFY SETUP AREA
+
+IF user asks generally about setup/configuration:
 
 Ask:
-“Can the user access the login page?”
+“What are you trying to configure — green fee rates, booking rules, email templates, users, tee sheet settings, or membership/billing settings?”
 
-IF yes:
-→ Check username/password.
-→ Use Forgot Password if needed.
-
-IF no:
-→ Escalate or check access/environment.
+IF area is clear:
+→ Go directly to that section.
 
 ---
 
-## Manage users
+## 2. GREEN FEE RATES
 
-Ask:
-“Are you adding, editing, deactivating, or resetting a password?”
+IF user asks about green fee rates:
 
-IF adding/editing/access issue:
-→ Use User Management decision tree.
+Check:
+1. Date range
+2. Weekday/weekend rule
+3. Member/visitor rate
+4. Time range
+5. Restrictions
 
-IF reset password:
-→ Go to Users >> open user >> Reset Password.
+Then guide user to verify the configured rate against a live tee time.
 
----
-
-## Configure timesheet
-
-Ask:
-“Are there already bookings on the timesheet dates you want to change?”
-
-IF no:
-→ Guide:
-Tools >> Configure Timesheet
-→ Select operation
-→ Choose date range
-→ Set intervals
-→ Set start/end times
-→ Select days
-→ Configure
-
-IF yes:
-→ Explain bookings are protected.
-→ Bookings must be removed/moved before deleting/rebuilding tee times.
-→ If moved to another day, they can be pasted back after tee times are re-added.
+Escalate if:
+- Rate does not apply
+- Live price differs from setup
+- Multiple rates/clubs affected
 
 ---
 
-## Green fee rates
+## 3. BOOKING RULES
+
+IF user asks about booking rules/restrictions:
+
+Check:
+1. Who can book
+2. How far in advance
+3. Time restrictions
+4. Player limits
+5. Member/visitor access
+6. Online availability
 
 Ask:
-“Are you creating a new green fee rate or editing an existing one?”
+“What rule are you trying to apply?”
 
-IF creating:
-→ Guide:
-Tools >> Green Fee Rates >> Add Green Fee
-→ Enter details
-→ Set dates and availability
-→ Save
-
-IF editing:
-→ Open existing rate, update details, save.
+Escalate if rule saves but does not apply.
 
 ---
 
-## Email templates
+## 4. EMAIL TEMPLATES
 
-Ask:
-“Are you creating a new template or editing an existing one?”
+IF user asks about emails/templates:
 
-IF creating/editing:
-→ Guide:
-Tools >> Email Templates
-→ Create or edit template
-→ Use tags where needed
+Check:
+1. Template type
+2. Booking/payment/membership/general use
+3. Merge fields
+4. Test email
+
+Escalate if:
+- Template does not save
+- Emails are not sending
+- Merge fields display incorrectly
 
 ---
 
-## Support contact
+## 5. TEE SHEET SETUP
 
-If support contact details are requested:
-→ Provide support email and phone details only if present in approved knowledge.
+IF user asks about tee sheet setup:
+
+Check:
+1. Opening/closing times
+2. Tee intervals
+3. Course/holes
+4. Booking slots
+5. Member/visitor availability
+6. Blocked times
+
+Escalate if live tee sheet does not match setup.
+
+---
+
+## 6. USER / PERMISSION SETUP
+
+IF setup request involves users, admins, staff, login or permissions:
+
+→ Use user-management decision tree.
+
+---
+
+## 7. MEMBERSHIP / BILLING SETUP
+
+IF setup request involves members, bills, subscriptions or payment schemes:
+
+→ Use memberships decision tree.
+
+---
+
+## 8. ESCALATION TRIGGERS
+
+Escalate if:
+
+- Setting does not save
+- Live system result does not match setup
+- Multiple clubs/users affected
+- User is unsure which configuration controls behaviour
+- Configuration may affect payments, billing or customer access
+
+---
+
+## KEY BEHAVIOUR
+
+Always:
+- Confirm the setup area
+- Give exact checks
+- Confirm before changing live customer/member-facing settings
+
+Never:
+- Guess which setting controls behaviour
+- Recommend changing live setup without confirmation
