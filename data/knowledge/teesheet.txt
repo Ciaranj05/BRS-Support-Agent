@@ -1,191 +1,243 @@
-	•	BOOKINGS – SUPPORT KNOWLEDGE
-	•	
-	•	Cancel a booking
-	•	Click on the tee time
-	•	Click into the booking
-	•	Click Cancel Booking
-	•	Confirm the cancellation
-	•	Important:
-	•	If the booking has been paid, you may also need to process a refund
-	•	
-	•	Move a booking
-	•	Click on the tee time
-	•	Click into the booking
-	•	Click Move Booking
-	•	Select the new tee time
-	•	Confirm
-	•	Important:
-	•	If the new tee time has a different price, you may need to take additional payment or process a refund
-	•	
-	•	Add or remove a player
-	•	Click on the tee time
-	•	Click into the booking
-	•	To add a player:
-	•	Click Add Player
-	•	Select the player
-	•	To remove a player:
-	•	Click Remove beside the player
-	•	Important:
-	•	If the player has already paid, check if a refund is required
-	•	
-	•	Check payment status on a booking
-	•	Booking colours:
-	•	Green = Fully paid
-	•	Blue = Part paid
-	•	Red = Unpaid
-	•	Yellow = Overpaid
-	•	To check:
-	•	Click on the tee time
-	•	Click into the booking
-	•	Click Payments
-	•	
-	•	Send a booking payment request
-	•	Click on the tee time
-	•	Click into the booking
-	•	Click Payments
-	•	Click New Booking Payment
-	•	Select Send Payment Link
-	•	Choose an email template
-	•	Send
-	•	
-	•	Take payment (Pay Now)
-	•	Click on the tee time
-	•	Click into the booking
-	•	Click Payments
-	•	Click Pay Now
-	•	Enter card details
-	•	Confirm payment
-	•	
-	•	Booking not showing
-	•	Go to the correct date on the timesheet
-	•	Check all tee times
-	•	Remove any filters
-	•	Search by customer name
-	•	If still not found:
-	•	Escalate to support
-	•	
-	•		•	TIMESHEET & BOOKINGS – SUPPORT KNOWLEDGE
-	•	
-	•	Open the timesheet
-	•	Click Timesheet from the main menu
-	•	
-	•	Create a booking
-	•	Click on the tee time
-	•	Enter booking details
-	•	Add players
-	•	Select green fee
-	•	Click Add
-	•	
-	•	Take payment
-	•	Click on the tee time
-	•	Click Payments
-	•	Enter payment details
-	•	Confirm
-	•	
-	•	Check in a player
-	•	Click on the player name
-	•	Click Check In
-	•	
-	•	Remove a player
-	•	Click on the player name
-	•	Remove the player
-	•	Click Modify
-	•	Important:
-	•	This may create an overpayment
-	•	A refund may be required
-	•	
-	•	Cancel a booking
-	•	Click on the tee time
-	•	Click into the booking
-	•	Click Cancel Booking
-	•	Confirm
-	•	
-	•	Group / society booking
-	•	Select a range of tee times
-	•	Click Block
-	•	Add booking details
-	•	Save
-	•	
-	•	Send booking email
-	•	Click Send Email
-	•	Select template
-	•	Preview
-	•	Send
-	•	
-	•	If something looks wrong
-	•	Check:
-	•	Date
-	•	Booking details
-	•	Payment status
-	•	If still unclear:
-	•	Escalate
-	•		•	BOOKINGS – DEEP KNOWLEDGE
-	•	
-	•	Booking types
-	•	Member bookings
-	•	Visitor bookings
-	•	Society / group bookings
-	•	
-	•	Payment states
-	•	Fully paid
-	•	Part paid
-	•	Unpaid
-	•	Overpaid
-	•	Each state affects:
-	•	Refund requirements
-	•	Booking changes
-	•	
-	•	Moving bookings
-	•	If the new tee time has a different price:
-	◦	Additional payment may be required
-	◦	A refund may be required
-	•	Always:
-	•	Review payment after moving a booking
-	•	
-	•	Removing players
-	•	If the player has paid:
-	◦	Refund may be required
-	•	If unpaid:
-	◦	No payment action needed
-	•	
-	•	Group bookings
-	•	Block bookings reserve multiple tee times
-	•	Used for:
-	◦	Societies
-	◦	Large groups
-	•	Often include:
-	•	Deposits
-	•	Catering
-	•	Notes
-	•	
-	•	Deposits
-	•	Can be requested via email
-	•	Linked to booking
-	•	Paid before full balance
-	•	
-	•	Booking visibility issues
-	•	Common causes:
-	•	Incorrect date
-	•	Filters applied
-	•	Booking moved
-	•	Booking cancelled
-	•	
-	•	Email templates
-	•	Used for:
-	•	Booking confirmations
-	•	Payment requests
-	•	
-	•	Risk / escalation triggers
-	•	Escalate if:
-	•	Booking cannot be found after checks
-	•	Payment mismatch
-	•	Group booking issues
-	•	Customer disputes
-	•	
-	•	
-	•	
-	•	
-	•	
+# TEESHEET – SUPPORT KNOWLEDGE
 
+Use this knowledge for tee times, bookings, players, cancellations, moving bookings, booking visibility, payment status on bookings, and tee sheet behaviour.
 
+---
 
+## CORE RULE
+
+If a booking cannot be found, always confirm:
+
+- Date
+- Time
+
+Do this before checking payments.
+
+---
+
+## OPEN A BOOKING
+
+To open a booking:
+
+1. Go to the tee sheet
+2. Select the relevant date
+3. Click the tee time
+4. Open the booking details
+
+Use the booking details to check:
+
+- Players
+- Booking status
+- Payments
+- Notes
+- Source/channel
+- Booking history where available
+
+---
+
+## BOOKING NOT FOUND
+
+If the user cannot find a booking:
+
+Ask:
+
+“Can you confirm the booking date and tee time?”
+
+Then check:
+
+1. Correct date
+2. Correct course/tee sheet if applicable
+3. Time of booking
+4. Player/customer name
+5. Whether booking was moved or cancelled
+
+If payment is mentioned, still confirm date/time first.
+
+Escalate if:
+
+- Booking should exist but cannot be located
+- Multiple bookings are missing
+- Booking history is inconsistent
+
+---
+
+## CANCEL A BOOKING
+
+Before cancelling, confirm the user intends to cancel.
+
+Steps:
+
+1. Open the tee time
+2. Open the booking
+3. Confirm the booking/customer
+4. Check payment status
+5. Cancel the booking
+
+Important:
+
+- Always confirm before cancellation
+- Check whether refund action is needed
+- If payment exists, follow payments/refund logic
+
+Escalate if cancellation fails or payment/refund status is unclear.
+
+---
+
+## MOVE A BOOKING
+
+Before moving, confirm:
+
+- Original date/time
+- New date/time
+- Number of players
+- Any price difference
+
+Steps:
+
+1. Open the existing booking
+2. Choose move/change booking option
+3. Select new tee time
+4. Confirm player details
+5. Check payment status after move
+
+Important:
+
+- Moving a booking may change payment totals
+- Moving may create part-paid or overpaid status
+- Check payment allocation after moving
+
+---
+
+## ADD PLAYER TO BOOKING
+
+Before adding a player, check:
+
+- Tee time capacity
+- Booking rules
+- Member/visitor restrictions
+- Price impact
+
+Steps:
+
+1. Open booking
+2. Add player
+3. Confirm player type
+4. Save booking
+5. Check payment amount if required
+
+---
+
+## REMOVE PLAYER FROM BOOKING
+
+Before removing a player, confirm the change.
+
+Steps:
+
+1. Open booking
+2. Remove player
+3. Save booking
+4. Check payment status
+
+Important:
+
+- Removing a player may create an overpayment
+- If payment exists, check whether refund is needed
+
+---
+
+## PAYMENT STATUS ON BOOKING
+
+Booking colours:
+
+- Green = Fully paid
+- Blue = Part paid
+- Red = Unpaid
+- Yellow = Overpaid
+
+If payment status looks wrong:
+
+1. Open booking
+2. Go to Payments tab
+3. Check payment total
+4. Check allocation
+5. If payment exists but status is wrong, use payments knowledge
+
+---
+
+## BOOKING VISIBILITY
+
+If a tee time or booking is not visible online, check:
+
+- Date/time availability
+- Booking rules
+- Member/visitor restrictions
+- Blocked times
+- Competition/society reservations
+- Online booking settings
+
+Escalate if the tee time should be visible but is not.
+
+---
+
+## PLAYER DETAILS
+
+Use booking details to check:
+
+- Player names
+- Contact details
+- Member/visitor status
+- Notes
+- Booking source
+
+If details are wrong, confirm the correct details before updating.
+
+---
+
+## SOCIETY OR GROUP BOOKINGS
+
+For society/group bookings, check:
+
+- Number of players
+- Tee time range
+- Deposit/payment status
+- Contact details
+- Booking notes
+
+If payment is involved, follow payments logic.
+
+---
+
+## COMMON CAUSE → EFFECT
+
+- Removing players may create overpayment
+- Moving booking may change price
+- Booking rules may hide tee times
+- Blocked times may prevent booking
+- Incorrect date/time search may make booking appear missing
+- Payment allocation may cause incorrect payment status
+
+---
+
+## ESCALATION TRIGGERS
+
+Escalate if:
+
+- Booking cannot be found after date/time checks
+- Booking data appears inconsistent
+- Booking cannot be moved/cancelled
+- Payment status does not match payment record
+- Multiple bookings are affected
+- Tee sheet availability does not match setup
+
+---
+
+## RESPONSE STYLE
+
+Keep tee sheet answers direct.
+
+Preferred format:
+
+1. Acknowledge briefly
+2. Confirm date/time if booking is missing
+3. Give exact next check
+4. Ask one follow-up if needed
