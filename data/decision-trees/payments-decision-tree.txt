@@ -1,181 +1,257 @@
 # PAYMENTS – DECISION TREE
 
-## Payment issue
-
-Ask:
-“Is this affecting one customer/member or multiple users?”
-
-IF multiple users:
-→ Escalate immediately as possible wider system/payment issue.
-
-IF one customer/member:
-→ Ask:
-“Is this a booking payment or a membership/bill payment?”
+Use this when the issue relates to payments, refunds, payouts, or billing.
 
 ---
 
-## Booking payment status
+## 1. INITIAL TRIAGE
+
+IF multiple users are affected:
+→ Escalate immediately (possible wider system or payment issue)
+
+IF single user:
+→ Identify issue type:
+- Booking payment
+- Membership / bill payment
+- Missing payment
+- Refund
+- Payment failure
+- Payout / reporting
+
+---
+
+## 2. BOOKING PAYMENT STATUS
+
+IF user mentions booking payment status:
 
 Ask:
 “What colour payment symbol is showing on the booking?”
 
-IF GREEN:
-→ Explain fully paid.
+→ GREEN:
+Fully paid
 
-IF BLUE:
-→ Explain part paid.
-→ Guide user to check total vs amount paid.
+→ BLUE:
+Part paid  
+→ Check total vs amount paid
 
-IF RED:
-→ Explain unpaid.
-→ Guide user to open booking Payments tab.
+→ RED:
+Unpaid  
+→ Open booking → Payments tab
 
-IF YELLOW:
-→ Explain overpaid.
-→ Ask whether a player was removed, booking moved, or price changed.
+→ YELLOW:
+Overpaid  
+→ Check for:
+- Removed players
+- Booking changes
+- Price updates
 
 Then guide:
-1. Click the tee time
-2. Open the booking
-3. Open Payments
+
+1. Click tee time  
+2. Open booking  
+3. Open Payments tab  
 
 Follow-up:
 “Is there a payment listed in the Payments tab?”
 
 ---
 
-## Payment not showing / customer says they paid
+## 3. PAYMENT NOT SHOWING / CUSTOMER SAYS THEY PAID
 
-Ask:
-“Is there any payment visible in BRS?”
+This is a priority scenario.
 
-Guide system-first checks:
-1. Click tee time or open relevant bill
-2. Open Payments tab
-3. Go to: Tools >> BRS Payments >> Transactions
-4. Search by amount/date
+Guide system checks immediately:
 
-IF payment exists in BRS:
-→ Possible mismatch.
-→ Escalate.
+1. Open booking or bill  
+2. Check Payments tab  
+3. Go to:
+   Tools >> BRS Payments >> Transactions  
+4. Search by:
+   - Amount  
+   - Date  
+   - Customer name  
 
-IF no payment in BRS AND user says money was received / bank confirms payment:
-→ Ask one final check only:
-“Just to confirm — have you checked Tools >> BRS Payments >> Transactions and still cannot see any record?”
+---
 
-IF confirmed no record:
-→ Escalate immediately.
+### OUTCOME A — PAYMENT EXISTS
 
-Escalation wording:
+→ Likely mismatch or allocation issue  
+
+Next steps:
+1. Check allocation  
+2. Check “Left to Allocate”  
+3. Confirm correct booking / bill  
+
+IF mismatch remains:
+→ Escalate  
+
+---
+
+### OUTCOME B — NO PAYMENT IN BRS, USER CONFIRMS MONEY TAKEN
+
+→ Escalate immediately  
+
+Do NOT:
+- Ask for further proof  
+- Assume bank transfer  
+- Continue troubleshooting  
+
+Use:
+
 “I understand — that’s frustrating.
 
-Since there’s no record in BRS, this will need to be checked with our payments platform.
+Since there’s no record in BRS, this needs to be checked with the payments platform.
 
-I can raise this with support for you now.”
-
-Important:
-→ Do NOT assume bank transfer.
-→ Do NOT manually mark as paid.
-→ Do NOT continue troubleshooting once escalation condition is confirmed.
+I can raise this with support now.”
 
 ---
 
-## Refund
+### OUTCOME C — NO PAYMENT IN BRS, USER UNSURE
 
-Ask:
-“Is this a full refund or partial refund?”
+Ask ONE question:
 
-IF full:
-→ Guide full refund.
+“Can the customer confirm if the payment has actually left their account?”
 
-IF partial:
-→ Ask for amount.
-→ Guide partial refund.
+→ If YES:
+Escalate  
 
-Then ask:
-“Was the original payment taken online through BRS Payments?”
+→ If NO:
+Advise retry payment  
 
-IF yes:
-→ Explain refund goes back to original card and can take 5–10 days.
-
-IF no:
-→ Explain offline refunds must be completed outside BRS and the system only records the refund.
-
-Important:
-→ Always confirm before processing refund.
-→ Refund against the correct payment.
+→ If unsure:
+Ask to check bank / card statement  
 
 ---
 
-## Payment failure
+## 4. REFUND
 
 Ask:
-“Is this affecting one customer/member or multiple users?”
+“Is this a full or partial refund?”
 
-IF multiple users:
-→ Escalate.
+Then:
 
-IF one user:
-→ Guide:
-1. Retry payment
-2. Check card details
-3. Try alternative payment method
+1. Open booking  
+2. Go to Payments  
+3. Select correct payment  
+4. Click Refund  
+5. Choose amount  
+6. Confirm  
+
+Then clarify:
+
+IF payment was online:
+→ Refund goes to original card (5–10 days)
+
+IF offline:
+→ Refund must be processed outside BRS  
+
+Important:
+→ Always confirm before refunding  
+→ Always refund against correct payment  
+
+---
+
+## 5. PAYMENT FAILURE
+
+IF multiple users affected:
+→ Escalate  
+
+IF single user:
+
+Steps:
+1. Retry payment  
+2. Check card details  
+3. Try alternative method  
 
 IF repeated failures:
-→ Escalate.
+→ Escalate  
 
 ---
 
-## Payout query
+## 6. PAYMENT ALLOCATION / BILL ISSUES
 
-Ask:
-“Are you looking for when funds were paid out or a breakdown of a payout?”
+IF payment exists but bill or booking is incorrect:
+
+Check:
+
+1. Payment exists  
+2. Allocation  
+3. “Left to Allocate” = 0  
+
+IF still incorrect:
+→ Escalate  
+
+---
+
+## 7. PAYOUT QUERY
 
 Guide:
-Tools >> BRS Payments >> Payouts
+
+Tools >> BRS Payments >> Payouts  
 
 Explain:
-→ Payouts show when funds are paid into the bank and include transaction fees.
-→ Payouts are typically on a rolling schedule.
+
+- Shows when funds are paid into bank  
+- Includes fees  
+- Based on rolling schedule  
+
+IF figures do not match after checking breakdown:
+→ Escalate  
 
 ---
 
-## VAT report query
-
-Ask:
-“Are you looking to view or download the VAT report?”
+## 8. VAT REPORT QUERY
 
 Guide:
-Tools >> BRS Payments >> VAT Reports
 
-Explain reports include:
-- Gross sales
-- Processing fees
-- Net sales
-- VAT breakdown
+Tools >> BRS Payments >> VAT Reports  
 
----
+Explain:
 
-## General payment request
-
-Ask:
-“Is this payment linked to a booking?”
-
-IF yes:
-→ Use booking payment request flow.
-
-IF no:
-→ Guide:
-Tools >> BRS Payments >> General Payment Requests >> Create Payment Request
+- Gross sales  
+- Fees  
+- Net sales  
+- VAT breakdown  
 
 ---
 
-## Escalation triggers
+## 9. PAYMENT REQUESTS
+
+IF booking-related:
+
+→ Booking → Payments → New Booking Payment  
+
+IF not booking-related:
+
+→ Tools >> BRS Payments >> General Payment Requests  
+
+---
+
+## 10. ESCALATION TRIGGERS
 
 Escalate if:
-- No payment in BRS but money received
-- Payment mismatch
-- Refund unclear or disputed
-- Multiple payment failures
-- Reporting discrepancy
-- Customer/member dispute
+
+- No payment in BRS but money taken  
+- Payment mismatch remains  
+- Refund unclear or disputed  
+- Multiple payment failures  
+- Reporting discrepancy  
+- Customer dispute  
+
+---
+
+## KEY BEHAVIOUR
+
+Always:
+
+✔ Check BRS first  
+✔ Guide to exact location in system  
+✔ Ask only when needed  
+✔ Escalate when conditions are met  
+
+Never:
+
+❌ Assume external payment  
+❌ Manually mark as paid  
+❌ Continue after escalation condition  
+❌ Ask unnecessary follow-up questions  
