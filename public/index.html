@@ -19,9 +19,11 @@
       --primary: #0f172a;
       --primary-2: #1e293b;
       --accent: #2563eb;
+      --accent-soft: #eff6ff;
       --success: #16a34a;
+      --warning: #f59e0b;
       --shadow: 0 30px 90px rgba(15, 23, 42, 0.14);
-      --bubble-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
+      --card-shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
     }
 
     body {
@@ -41,7 +43,7 @@
 
     .app {
       width: 100%;
-      max-width: 1020px;
+      max-width: 1040px;
       height: min(900px, 92vh);
       background: rgba(255, 255, 255, 0.96);
       border: 1px solid rgba(255, 255, 255, 0.8);
@@ -128,8 +130,8 @@
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 22px;
-      margin-bottom: 34px;
-      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.06);
+      margin-bottom: 28px;
+      box-shadow: var(--card-shadow);
     }
 
     .welcome-card h2 {
@@ -148,29 +150,29 @@
 
     .msg-row {
       display: flex;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
     .user-row { justify-content: flex-end; }
     .bot-row { justify-content: flex-start; }
 
     .msg-wrap {
-      max-width: 60%;
+      max-width: 72%;
     }
 
     .msg {
-      padding: 14px 16px;
-      border-radius: 20px;
-      line-height: 1.52;
-      white-space: pre-wrap;
+      border-radius: 22px;
       font-size: 15px;
-      box-shadow: var(--bubble-shadow);
+      line-height: 1.55;
+      box-shadow: var(--card-shadow);
     }
 
     .user {
+      padding: 14px 17px;
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       color: white;
       border-bottom-right-radius: 7px;
+      white-space: pre-wrap;
     }
 
     .bot {
@@ -178,32 +180,117 @@
       color: var(--text);
       border: 1px solid var(--border);
       border-bottom-left-radius: 7px;
+      overflow: hidden;
     }
 
-    .bot strong {
+    .answer-card {
+      padding: 18px;
+    }
+
+    .answer-title {
+      font-size: 16px;
       font-weight: 850;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
     }
 
-    .message-actions {
-      margin-top: 7px;
+    .answer-intro {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .path-card {
+      border: 1px solid #dbeafe;
+      background: var(--accent-soft);
+      border-radius: 16px;
+      padding: 14px 15px;
+      margin: 14px 0;
+    }
+
+    .path-label {
+      font-size: 12px;
+      font-weight: 850;
+      color: #1d4ed8;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .path-value {
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .steps {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .step {
       display: flex;
+      gap: 12px;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #f8fafc;
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 900;
+      flex: 0 0 auto;
+      margin-top: 1px;
+    }
+
+    .step-text {
+      flex: 1;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .bullet-list {
+      margin: 12px 0;
+      display: grid;
       gap: 8px;
     }
 
-    .copy-link {
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 0;
-      cursor: pointer;
+    .bullet {
+      display: flex;
+      gap: 9px;
+      color: var(--text);
     }
 
-    .copy-link:hover {
-      color: var(--accent);
-      box-shadow: none;
-      transform: none;
+    .bullet::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 8px;
+      flex: 0 0 auto;
+    }
+
+    .follow-up {
+      margin-top: 16px;
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #7c2d12;
+      font-weight: 750;
+    }
+
+    .plain-block {
+      padding: 18px;
+      white-space: pre-wrap;
     }
 
     .typing {
@@ -305,7 +392,7 @@
       white-space: pre-wrap;
       font-size: 14px;
       line-height: 1.6;
-      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+      box-shadow: var(--card-shadow);
     }
 
     .email-title {
@@ -333,15 +420,7 @@
       cursor: pointer;
       font-weight: 850;
       box-shadow: 0 12px 30px rgba(37, 99, 235, 0.24);
-      transition: transform 0.14s ease;
       border: none;
-    }
-
-    .secondary-action {
-      background: white;
-      color: var(--primary);
-      border: 1px solid var(--border);
-      box-shadow: none;
     }
 
     @media (max-width: 760px) {
@@ -365,7 +444,7 @@
 
       #chat { padding: 18px; }
 
-      .msg-wrap { max-width: 88%; }
+      .msg-wrap { max-width: 92%; }
 
       .input { flex-wrap: wrap; }
 
@@ -383,7 +462,7 @@
         <div class="mark">B</div>
         <div>
           <div class="title">BRS Support Assistant</div>
-          <div class="subtitle">AI-guided support for bookings, payments, memberships and admin queries.</div>
+          <div class="subtitle">AI-assisted support for bookings, payments, memberships and admin queries.</div>
         </div>
       </div>
 
@@ -407,7 +486,7 @@
 
   <script>
     function escapeHtml(text) {
-      return String(text)
+      return String(text || "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -415,18 +494,132 @@
         .replaceAll("'", "&#039;");
     }
 
-    function formatBotText(text) {
-      return escapeHtml(text)
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        .replace(/^[-•]\s(.+)$/gm, "• $1");
+    function cleanLine(line) {
+      return line
+        .replace(/^[-•]\s*/, "")
+        .replace(/^Step\s*\d+\s*:\s*/i, "")
+        .trim();
     }
 
-    function copyText(text, button) {
-      navigator.clipboard.writeText(text).then(() => {
-        const original = button.textContent;
-        button.textContent = "Copied";
-        setTimeout(() => button.textContent = original, 1400);
-      });
+    function parseAnswer(text) {
+      const lines = String(text || "")
+        .split("\n")
+        .map(l => l.trim())
+        .filter(Boolean);
+
+      const result = {
+        title: "",
+        intro: "",
+        path: "",
+        steps: [],
+        bullets: [],
+        followUp: "",
+        plain: text
+      };
+
+      const stepRegex = /^(step\s*\d+\s*:|\d+\.|- |• )/i;
+
+      for (const raw of lines) {
+        const line = raw.trim();
+
+        if (!result.title && !stepRegex.test(line) && !line.includes(">>") && line.length < 90) {
+          result.title = line.replace(/\.$/, "");
+          continue;
+        }
+
+        if (/^(go to|please go to|navigate to):?/i.test(line) || line.includes(">>") || line.includes("→")) {
+          result.path = line.replace(/^(go to|please go to|navigate to):?/i, "").trim();
+          continue;
+        }
+
+        if (/^(step\s*\d+\s*:|\d+\.)/i.test(line)) {
+          result.steps.push(cleanLine(line));
+          continue;
+        }
+
+        if (/^[-•]\s*/.test(line)) {
+          result.bullets.push(cleanLine(line));
+          continue;
+        }
+
+        if (line.endsWith("?")) {
+          result.followUp = line;
+          continue;
+        }
+
+        if (!result.intro) {
+          result.intro = line;
+        } else if (line.length < 120) {
+          result.bullets.push(line);
+        } else {
+          result.steps.push(line);
+        }
+      }
+
+      if (!result.title && result.intro) {
+        result.title = result.intro;
+        result.intro = "";
+      }
+
+      return result;
+    }
+
+    function formatBotAnswer(text) {
+      const parsed = parseAnswer(text);
+
+      const hasStructure =
+        parsed.title || parsed.intro || parsed.path || parsed.steps.length || parsed.bullets.length || parsed.followUp;
+
+      if (!hasStructure) {
+        return `<div class="plain-block">${escapeHtml(text)}</div>`;
+      }
+
+      let html = `<div class="answer-card">`;
+
+      if (parsed.title) {
+        html += `<div class="answer-title">${escapeHtml(parsed.title)}</div>`;
+      }
+
+      if (parsed.intro) {
+        html += `<div class="answer-intro">${escapeHtml(parsed.intro)}</div>`;
+      }
+
+      if (parsed.path) {
+        html += `
+          <div class="path-card">
+            <div class="path-label">Where to go</div>
+            <div class="path-value">${escapeHtml(parsed.path)}</div>
+          </div>
+        `;
+      }
+
+      if (parsed.steps.length) {
+        html += `<div class="steps">`;
+        parsed.steps.forEach((step, index) => {
+          html += `
+            <div class="step">
+              <div class="step-num">${index + 1}</div>
+              <div class="step-text">${escapeHtml(step)}</div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      if (parsed.bullets.length) {
+        html += `<div class="bullet-list">`;
+        parsed.bullets.forEach(item => {
+          html += `<div class="bullet">${escapeHtml(item)}</div>`;
+        });
+        html += `</div>`;
+      }
+
+      if (parsed.followUp) {
+        html += `<div class="follow-up">${escapeHtml(parsed.followUp)}</div>`;
+      }
+
+      html += `</div>`;
+      return html;
     }
 
     function addWelcomeCard() {
@@ -453,26 +646,12 @@
       div.className = "msg " + type;
 
       if (type === "bot") {
-        div.innerHTML = formatBotText(text);
+        div.innerHTML = formatBotAnswer(text);
       } else {
         div.textContent = text;
       }
 
       wrap.appendChild(div);
-
-      if (type === "bot") {
-        const actions = document.createElement("div");
-        actions.className = "message-actions";
-
-        const copyBtn = document.createElement("button");
-        copyBtn.className = "copy-link";
-        copyBtn.textContent = "Copy response";
-        copyBtn.onclick = () => copyText(text, copyBtn);
-
-        actions.appendChild(copyBtn);
-        wrap.appendChild(actions);
-      }
-
       row.appendChild(wrap);
       chat.appendChild(row);
       chat.scrollTop = chat.scrollHeight;
@@ -505,11 +684,6 @@
 
     function addEscalationPreview(draft) {
       const chat = document.getElementById("chat");
-      const emailText = `To: ${draft.to || "support@brsgolf.com"}
-
-Subject: ${draft.subject}
-
-${draft.body}`;
 
       const preview = document.createElement("div");
       preview.className = "email-preview";
@@ -529,17 +703,11 @@ ${escapeHtml(draft.body)}
       const actions = document.createElement("div");
       actions.className = "email-actions";
 
-      const copyBtn = document.createElement("button");
-      copyBtn.className = "secondary-action";
-      copyBtn.textContent = "Copy email";
-      copyBtn.onclick = () => copyText(emailText, copyBtn);
-
       const sendBtn = document.createElement("button");
       sendBtn.className = "escalation-btn";
       sendBtn.textContent = "Send to Support";
       sendBtn.onclick = sendEscalation;
 
-      actions.appendChild(copyBtn);
       actions.appendChild(sendBtn);
       chat.appendChild(actions);
       chat.scrollTop = chat.scrollHeight;
