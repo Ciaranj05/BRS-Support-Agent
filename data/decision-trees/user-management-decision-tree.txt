@@ -1,154 +1,155 @@
 # USER MANAGEMENT – DECISION TREE
 
-## User management general
-
-Ask:
-“What are they trying to do?”
-
-Route to:
-- Create user
-- Edit user
-- Login issue
-- Permission/access issue
-- Deactivate user
-- Reset password
+Use this for users, admins, staff access, login issues, permissions, roles, and deactivating users.
 
 ---
 
-## Create new user
+## 1. IDENTIFY USER ISSUE
 
-Ask:
-“What role are you trying to create?”
+IF issue is clear:
+→ Go directly to matching section.
 
-IF Staff user:
-→ Ask current user role.
-→ Superuser or Admin can create Staff users.
+IF unclear, ask:
+“Is this about adding a user, changing permissions, login access, deactivating a user, or user limits?”
 
-IF Admin user:
-→ Ask:
-“Are you set up as a Superuser or an Admin user?”
+---
 
-IF Superuser:
-→ Can create Admin user.
-→ Guide:
-1. Go to: Users
-2. Click Add User
+## 2. ADD USER
+
+IF adding a user:
+
+Confirm:
+1. Name
+2. Email address
+3. Required role/access level
+4. Club/location if relevant
+
+Then guide:
+1. Open user/admin settings
+2. Create new user
 3. Enter details
-4. Assign Admin role
+4. Assign role
 5. Save
+6. Ask user to check login/password setup email
 
-IF Admin:
-→ Explain Admin users cannot create another Admin user.
-→ A Superuser must create the Admin user.
-
-IF Superuser:
-→ Escalate.
-→ Superusers cannot be created within the system.
-
-Then check:
-→ Total active users.
-→ There is typically a limit of 8 users per system.
-
-IF limit reached:
-→ Deactivate unused user or contact support if more users are required.
+Escalate if:
+- User cannot be created
+- Email already exists
+- User limit reached
 
 ---
 
-## User cannot log in
+## 3. CHANGE PERMISSIONS
 
-Ask:
-“Is the user set to Active?”
+IF changing permissions:
 
-IF no:
-→ Go to Users and set user Active if appropriate.
+Confirm:
+1. User name/email
+2. Current role
+3. Required role
+4. Reason for change
 
-IF yes:
-→ Check email/username.
-→ Reset password.
-
-Steps:
-1. Go to: Users
+Then guide:
+1. Open user/admin settings
 2. Find user
-3. Open profile
-4. Check status and details
-5. Reset password if required
+3. Update role/permissions
+4. Save
+5. Ask user to log out and back in
+
+Escalate if permissions do not apply after saving.
 
 ---
 
-## User cannot access a feature
+## 4. DEACTIVATE USER
 
-Ask:
-“What role are they assigned?”
+IF deactivating user:
 
-Then:
-1. Go to: Users
-2. Open user profile
-3. Check user group
-4. Compare role against permissions
+Confirm:
+1. Correct user
+2. Reason for deactivation
+3. Whether access should be removed immediately
 
-IF Staff Read Only:
-→ Explain Staff Read Only can view but cannot edit.
-
-IF Staff cannot access revenue reports:
-→ Explain revenue reports are for Superuser/Admin only.
-
-IF Staff cannot change configuration:
-→ Explain configuration access is for Superuser/Admin only.
-
-IF permissions look correct but access still blocked:
-→ Escalate.
-
----
-
-## Reset password
-
-Ask:
-“Is this for an existing active user?”
-
-IF yes:
-→ Guide:
-1. Go to: Users
-2. Select user
-3. Click Reset Password
-
-IF no / unsure:
-→ Check user status first.
-
----
-
-## Deactivate user
-
-Ask:
-“Has the user left the business or should access be removed?”
-
-IF yes:
-→ Guide:
-1. Go to: Users
-2. Open user
-3. Set to Inactive
+Then guide:
+1. Open user/admin settings
+2. Find user
+3. Deactivate user
 4. Save
 
 Important:
-→ Do not delete users.
-→ Do not create duplicate users.
+- Prefer deactivate over delete when history should be retained.
+- Do not deactivate without confirmation.
 
 ---
 
-## Multiple users affected
+## 5. LOGIN ISSUE
+
+IF user cannot log in:
+
+Check:
+1. Correct email address
+2. User account exists
+3. Account is active
+4. Correct role/access
+5. Password reset if needed
+
+IF multiple users cannot log in:
+→ Escalate.
+
+IF one user still cannot log in after checks:
+→ Escalate.
+
+---
+
+## 6. USER LIMIT ISSUE
+
+IF user cannot be added due to limit:
+
+Check:
+1. Existing active users
+2. Inactive/unused users
+3. Whether any users can be deactivated
+
+Escalate if limit needs review.
+
+---
+
+## 7. ROLE SELECTION
+
+IF user asks what role to assign:
 
 Ask:
-“Is this affecting one user or multiple users?”
+“What does the user need to do in the system?”
 
-IF multiple:
-→ Escalate as possible wider access/system issue.
+Then map:
+
+- Full admin control → Superuser
+- Management tasks → Admin
+- Operational tasks → Staff
+- View only → Read Only
 
 ---
 
-## Escalation triggers
+## 8. ESCALATION TRIGGERS
 
 Escalate if:
-- Superuser creation required
-- User limit needs increasing
-- Permissions appear correct but access still blocked
-- Multiple users affected unexpectedly
-- System restriction prevents required access
+
+- User cannot log in after reset/checks
+- Permissions do not apply after saving
+- Multiple users affected
+- User cannot be created
+- Account appears duplicated
+- Access issue may affect security
+
+---
+
+## KEY BEHAVIOUR
+
+Always:
+- Confirm user before making changes
+- Confirm role/access level
+- Treat access issues carefully
+
+Never:
+- Remove/deactivate without confirmation
+- Guess required permissions
+- Ignore possible security impact
