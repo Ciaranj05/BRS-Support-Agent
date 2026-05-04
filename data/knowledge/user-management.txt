@@ -1,273 +1,153 @@
-# BRS GOLF – USER MANAGEMENT GUIDE
+# USER MANAGEMENT – SUPPORT KNOWLEDGE
+
+Use this knowledge for users, admins, staff access, login issues, permissions, roles, and deactivating users.
 
 ---
 
-## CORE PURPOSE
+## CORE RULE
 
-User Management allows you to:
+Always confirm the user and the access level before advising changes.
 
-• Create and manage system users  
-• Control access permissions  
-• Assign roles and responsibilities  
-• Maintain security across the system  
+Do not remove or change user access without confirmation.
 
 ---
 
-## NAVIGATION
+## USER ROLES
 
-Go to:
-Users
+Common role types:
 
----
+- Superuser
+- Admin
+- Staff
+- Read Only
 
-## PERMISSION STRUCTURE (IMPORTANT)
+Role meaning:
 
-Access in BRS is controlled by **user group**, not individual permissions.
+- Superuser: highest access level
+- Admin: management access
+- Staff: operational access
+- Read Only: viewing access only
 
-→ If a user cannot perform an action, it is usually due to their role
-
----
-
-## IMPORTANT USER MANAGEMENT RULES (CRITICAL)
-
-• Only a Superuser can create new Admin users  
-
-• Admin users:
-  → Can create Staff users  
-  → Cannot create Admin users with equal or higher access  
-
-• Superusers cannot be created within the system  
-  → This must be handled by BRS Support  
-
-• A user can only create users with equal or lower access than their own role  
-
-• There is typically a limit of 8 users per system  
-
-If limit is reached:
-→ Deactivate an unused user  
-→ Or contact support if additional users are required  
+If unsure which role is needed, ask what the user needs to do in the system.
 
 ---
 
-## USER GROUP TYPES
+## ADD USER
 
-• Superuser  
-• Admin  
-• Staff  
-• Staff Read Only  
-• Members (front-end only)  
-• Event Users (front-end only)  
+Before adding a user, confirm:
 
----
+- Name
+- Email address
+- Required access level
+- Club/location if relevant
 
-## ROLE CAPABILITIES
+Steps:
 
----
+1. Go to user/admin settings
+2. Create new user
+3. Enter user details
+4. Assign role
+5. Save
+6. Ask user to check login email or password setup
 
-### Superuser
-
-Full system access.
-
-Can:
-
-• Add / update / delete Admin users  
-• Add / update / delete Staff users  
-• Enable members  
-• Update system configuration  
-• Manage pricing (green fees, services)  
-• Full timesheet access  
-• Manage competitions  
-• Check-in players  
-• Access all reporting  
+Escalate if user cannot be created or email already exists.
 
 ---
 
-### Admin
+## CHANGE USER PERMISSIONS
 
-High-level access.
+Before changing permissions, confirm:
 
-Can:
+- User name/email
+- Current role
+- Required role
+- Reason for change
 
-• Add / update / delete Staff users  
-• Enable members  
-• Update system configuration  
-• Manage pricing  
-• Full timesheet access  
-• Manage competitions  
-• Check-in players  
-• Access most reports  
+Steps:
 
-Cannot:
-• Create Superusers  
-• Create Admin users with higher access  
+1. Open user/admin settings
+2. Find the user
+3. Update role/permissions
+4. Save
+5. Ask user to log out and back in if needed
 
----
-
-### Staff
-
-Operational access.
-
-Can:
-
-• Enable members  
-• View timesheet  
-• Add / update / delete bookings  
-• Check-in players  
-• View utilisation reports  
-
-Cannot:
-
-• Manage users  
-• Change system configuration  
-• Access revenue reporting  
+Escalate if permissions do not apply after saving.
 
 ---
 
-### Staff Read Only
+## DEACTIVATE USER
 
-View-only access.
+Prefer deactivation over deletion if user history should be retained.
 
-Can:
+Before deactivating, confirm:
 
-• View timesheet  
-• View utilisation  
+- Correct user
+- Reason for deactivation
+- Whether access should be removed immediately
 
-Cannot:
+Steps:
 
-• Edit bookings  
-• Check-in players  
-• Manage users  
-• Access configuration  
+1. Open user/admin settings
+2. Find user
+3. Deactivate user
+4. Save
 
----
-
-### Members / Event Users
-
-Front-end only users.
-
-• No admin system access  
+Do not deactivate without confirmation.
 
 ---
 
-## COMMON TASKS
+## LOGIN ISSUE
+
+For login issues, check:
+
+- Correct email address
+- User account exists
+- Account active
+- Correct role/access
+- Password reset if needed
+
+If multiple users cannot log in, escalate.
 
 ---
 
-### Create a new user
+## USER LIMITS
 
-1. Go to: Users  
-2. Click Add User  
-3. Enter details  
-4. Assign correct role  
-5. Click Save  
+If user cannot be added due to limit:
 
----
-
-### Edit a user
-
-1. Go to: Users  
-2. Search user  
-3. Click Edit  
-4. Update  
-5. Save  
+1. Check existing active users
+2. Deactivate unused users if appropriate
+3. Escalate if limit needs review
 
 ---
 
-### Deactivate a user
+## COMMON CAUSE → EFFECT
 
-1. Go to: Users  
-2. Open user  
-3. Set to Inactive  
-4. Save  
-
-Important:
-→ Do NOT delete users  
+- Incorrect role may hide features
+- Inactive account prevents login
+- Wrong email prevents password reset
+- Browser/cache may affect session after permission changes
+- User limit may block new user creation
 
 ---
 
-### Reset password
-
-1. Go to: Users  
-2. Select user  
-3. Click Reset Password  
-
----
-
-## TROUBLESHOOTING
-
----
-
-### User cannot log in
-
-Check:
-
-• User is Active  
-• Email/username correct  
-• Reset password  
-
----
-
-### User cannot access features
-
-Check:
-
-• Role assigned  
-
-→ Access is controlled by role  
-
----
-
-### Cannot create a new user
-
-Check:
-
-• Total active users (limit ~8)  
-
-If full:
-→ Deactivate a user  
-
-If creating Admin/Superuser:
-
-• Only Superuser can create Admin  
-• Superuser must be created by support  
-
----
-
-### User still appears after leaving
-
-→ Deactivate user  
-
----
-
-## DIAGNOSTIC QUESTIONS
-
-• “What are they trying to do?”  
-• “What role are they assigned?”  
-• “Is this affecting one or multiple users?”  
-
----
-
-## ESCALATION
+## ESCALATION TRIGGERS
 
 Escalate if:
 
-• Cannot create required user due to system restriction  
-• Superuser required  
-• User limit needs increasing  
-• Permissions appear correct but access still blocked  
+- User cannot log in after reset/checks
+- Permissions do not apply after saving
+- Multiple users affected
+- User cannot be created
+- Account appears duplicated
+- Access issue may affect security
 
 ---
 
-## BEHAVIOUR RULES
+## RESPONSE STYLE
 
-Always:
+Preferred format:
 
-✔ Check role first  
-✔ Check user status  
-✔ Keep steps simple  
-
-Never:
-
-❌ Assume system issue before checking role  
-❌ Suggest creating duplicate users  
-❌ Delete users instead of deactivating  
+1. Confirm the user/access issue
+2. Give the exact check
+3. Confirm before changing access
+4. Escalate if access/security risk exists
