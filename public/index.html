@@ -519,11 +519,45 @@
         .slice(0, 6);
     }
 
+    function titleCaseOption(option) {
+      return option
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function getChoiceOptions(question) {
+      const q = String(question || "").replace(/\?$/, "").trim();
+      if (!/\s+or\s+/i.test(q)) return [];
+
+      const explicitChoiceMatch = q.match(/(?:is this|is it|was this|was it|should this be|would this be|do you need|are you asking for|what type of|which type of|is the refund|refund is)\s+(?:a\s+|an\s+|the\s+)?(.+?)\s+or\s+(?:a\s+|an\s+|the\s+)?(.+)$/i);
+      if (explicitChoiceMatch) {
+        const suffixMatch = explicitChoiceMatch[2].match(/\b(refund|booking|payment|membership|user|admin|issue|query|case|request)\b/i);
+        const suffix = suffixMatch ? suffixMatch[1].toLowerCase() : "";
+        const firstOption = suffix && !new RegExp(`\\b${suffix}\\b`, "i").test(explicitChoiceMatch[1])
+          ? `${explicitChoiceMatch[1]} ${suffix}`
+          : explicitChoiceMatch[1];
+
+        return uniqueOptions([firstOption, explicitChoiceMatch[2]].map(titleCaseOption));
+      }
+
+      const parts = q
+        .split(/\s+or\s+/i)
+        .map(part => part.replace(/^(which|what|is|are|was|were|do|does|did|can|could|should|has|have|had|will|would)\b\s*/i, ""))
+        .map(part => part.replace(/^(this|it|the|a|an)\b\s*/i, ""))
+        .map(titleCaseOption);
+
+      return uniqueOptions(parts);
+    }
+
     function getQuickReplyOptions(question) {
       const q = String(question || "").trim();
       const lower = q.toLowerCase();
 
       if (!q.endsWith("?")) return [];
+
+      const choiceOptions = getChoiceOptions(q);
+      if (choiceOptions.length > 1) return choiceOptions;
 
       if (/\b(product area|area|module|category)\b/.test(lower)) {
         return ["Bookings", "Tee Sheet", "Payments", "Memberships", "Admin", "User Management"];
@@ -535,15 +569,6 @@
 
       if (/^(is|are|was|were|do|does|did|can|could|should|has|have|had|will|would)\b/.test(lower)) {
         return ["Yes", "No"];
-      }
-
-      const choiceMatch = q.match(/(?:which|what).*?\b(.+?)\s+or\s+(.+?)\?/i);
-      if (choiceMatch) {
-        return uniqueOptions([choiceMatch[1], choiceMatch[2]]);
-      }
-
-      if (lower.includes(" or ")) {
-        return uniqueOptions(q.replace(/\?$/, "").split(/\s+or\s+/i));
       }
 
       return [];
