@@ -279,6 +279,27 @@
       box-shadow: var(--card-shadow);
     }
 
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .quick-reply-btn {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .quick-reply-btn:hover {
+      background: #e2e8f0;
+    }
+
     .typing {
       display: inline-flex;
       gap: 5px;
@@ -415,6 +436,10 @@
         padding: 14px;
       }
 
+      .quick-replies {
+        flex-direction: column;
+      }
+
       .footer-note {
         display: none;
       }
@@ -478,6 +503,62 @@
         <p>Describe the issue and I’ll guide the next best step. If needed, I can prepare an escalation draft for support.</p>
       `;
       chat.appendChild(card);
+    }
+
+    function uniqueOptions(options) {
+      const seen = new Set();
+      return options
+        .map(option => String(option || "").replace(/[?.!]+$/g, "").trim())
+        .filter(option => option.length > 0 && option.length <= 40)
+        .filter(option => {
+          const key = option.toLowerCase();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .slice(0, 6);
+    }
+
+    function getQuickReplyOptions(question) {
+      const q = String(question || "").trim();
+      const lower = q.toLowerCase();
+
+      if (!q.endsWith("?")) return [];
+
+      if (/\b(product area|area|module|category)\b/.test(lower)) {
+        return ["Bookings", "Tee Sheet", "Payments", "Memberships", "Admin", "User Management"];
+      }
+
+      if (/\b(escalat|send to support|raise.*support)\b/.test(lower)) {
+        return ["Yes, escalate", "No, continue troubleshooting"];
+      }
+
+      if (/^(is|are|was|were|do|does|did|can|could|should|has|have|had|will|would)\b/.test(lower)) {
+        return ["Yes", "No"];
+      }
+
+      const choiceMatch = q.match(/(?:which|what).*?\b(.+?)\s+or\s+(.+?)\?/i);
+      if (choiceMatch) {
+        return uniqueOptions([choiceMatch[1], choiceMatch[2]]);
+      }
+
+      if (lower.includes(" or ")) {
+        return uniqueOptions(q.replace(/\?$/, "").split(/\s+or\s+/i));
+      }
+
+      return [];
+    }
+
+    function quickReplyHtml(question) {
+      const options = getQuickReplyOptions(question);
+      if (!options.length) return "";
+
+      const buttons = options.map(option => {
+        const encoded = encodeURIComponent(option);
+        return `<button class="quick-reply-btn" type="button" onclick="sendQuickReply(decodeURIComponent('${encoded}'))">${escapeHtml(option)}</button>`;
+      }).join("");
+
+      return `<div class="quick-replies">${buttons}</div>`;
     }
 
     function parseAnswer(text) {
@@ -581,7 +662,7 @@
       html += `</div>`;
 
       if (parsed.followUp) {
-        html += `<div class="follow-up">${escapeHtml(parsed.followUp)}</div>`;
+        html += `<div class="follow-up">${escapeHtml(parsed.followUp)}${quickReplyHtml(parsed.followUp)}</div>`;
       }
 
       return html;
@@ -689,6 +770,12 @@ ${escapeHtml(draft.body)}
 
     function handleKey(e) {
       if (e.key === "Enter") send();
+    }
+
+    async function sendQuickReply(value) {
+      const input = document.getElementById("input");
+      input.value = value;
+      await send();
     }
 
     async function send() {
