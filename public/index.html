@@ -477,6 +477,25 @@
   </div>
 
   <script>
+    const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUUID();
+    localStorage.setItem("brsSupportSessionId", sessionId);
+
+    function requestOptions(method = "POST", body = null) {
+      const options = {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          "x-session-id": sessionId
+        }
+      };
+
+      if (body) {
+        options.body = JSON.stringify(body);
+      }
+
+      return options;
+    }
+
     function escapeHtml(text) {
       return String(text || "")
         .replaceAll("&", "&amp;")
@@ -772,10 +791,7 @@ ${escapeHtml(draft.body)}
 
     async function sendEscalation() {
       try {
-        const res = await fetch("/send-escalation", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" }
-        });
+        const res = await fetch("/send-escalation", requestOptions("POST"));
 
         const data = await res.json();
         addMessage(data.message || "Escalation prepared.", "bot");
@@ -786,7 +802,7 @@ ${escapeHtml(draft.body)}
     }
 
     async function resetChat() {
-      await fetch("/reset", { method: "POST" });
+      await fetch("/reset", requestOptions("POST"));
       document.getElementById("chat").innerHTML = "";
       addWelcomeCard();
       addMessage("What issue can I help you with?", "bot");
@@ -818,12 +834,7 @@ ${escapeHtml(draft.body)}
       showTyping();
 
       try {
-        const res = await fetch("/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg })
-        });
-
+        const res = await fetch("/chat", requestOptions("POST", { message: msg, sessionId }));
         const data = await res.json();
 
         removeTyping();
