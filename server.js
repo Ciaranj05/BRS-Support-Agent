@@ -12,7 +12,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -22,10 +21,72 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-let conversationHistory = [];
-let escalationState = "none";
-let escalationDraft = null;
-let currentTopic = null;
+const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
+const SESSION_LIMIT = 1000;
+const sessions = globalThis.__brsSupportSessions || new Map();
+globalThis.__brsSupportSessions = sessions;
+
+function createDefaultState() {
+  return {
+    conversationHistory: [],
+    escalationState: "none",
+    escalationDraft: null,
+    currentTopic: null,
+    updatedAt: Date.now(),
+  };
+}
+
+function cleanupSessions() {
+  const now = Date.now();
+
+  for (const [sessionId, state] of sessions.entries()) {
+    if (!state?.updatedAt || now - state.updatedAt > SESSION_TTL_MS) {
+      sessions.delete(sessionId);
+    }
+  }
+
+  if (sessions.size <= SESSION_LIMIT) return;
+
+  const oldest = [...sessions.entries()]
+    .sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0))
+    .slice(0, sessions.size - SESSION_LIMIT);
+
+  oldest.forEach(([sessionId]) => sessions.delete(sessionId));
+}
+
+function getSessionId(req) {
+  return (
+    req.headers["x-session-id"] ||
+    req.body?.sessionId ||
+    req.query?.sessionId ||
+    "default-session"
+  ).toString();
+}
+
+function getSessionState(sessionId) {
+  cleanupSessions();
+
+  if (!sessions.has(sessionId)) {
+    sessions.set(sessionId, createDefaultState());
+  }
+
+  const state = sessions.get(sessionId);
+  state.updatedAt = Date.now();
+  return state;
+}
+
+function saveSessionState(sessionId, state) {
+  sessions.set(sessionId, {
+    ...state,
+    updatedAt: Date.now(),
+  });
+}
+
+function resetSessionState(sessionId) {
+  const freshState = createDefaultState();
+  sessions.set(sessionId, freshState);
+  return freshState;
+}
 
 function loadFile(filePath) {
   const fullPath = path.join(__dirname, filePath);
@@ -167,7 +228,7 @@ function userConfirmedNoRecord(message) {
   );
 }
 
-function createEscalationDraft() {
+function createEscalationDraft(conversationHistory) {
   const transcript = conversationHistory
     .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
     .join("\n");
@@ -204,18 +265,14 @@ Kind regards`,
   };
 }
 
-function resetState() {
-  conversationHistory = [];
-  escalationState = "none";
-  escalationDraft = null;
-  currentTopic = null;
-}
-
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.post("/chat", async (req, res) => {
+  const sessionId = getSessionId(req);
+  const state = getSessionState(sessionId);
+
   try {
     const { message } = req.body;
 
@@ -227,7 +284,7 @@ app.post("/chat", async (req, res) => {
     }
 
     if (isConversationEnd(message)) {
-      resetState();
+      resetSessionState(sessionId);
 
       return res.json({
         reply: "Great — glad that’s sorted. Starting fresh for the next issue.",
@@ -238,18 +295,19 @@ app.post("/chat", async (req, res) => {
     let detectedTopic = detectTopic(message);
 
     if (detectedTopic !== "general") {
-      currentTopic = detectedTopic;
+      state.currentTopic = detectedTopic;
     }
 
-    const topic = currentTopic || detectedTopic;
+    const topic = state.currentTopic || detectedTopic;
 
     if (topic === "general") {
-      conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "user", content: message });
 
       const reply =
         "Got it — just to check, is this about bookings, payments, memberships, users, or system setup?";
 
-      conversationHistory.push({ role: "assistant", content: reply });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
 
       return res.json({
         reply,
@@ -258,11 +316,11 @@ app.post("/chat", async (req, res) => {
       });
     }
 
-    if (escalationState === "check_asked") {
-      conversationHistory.push({ role: "user", content: message });
+    if (state.escalationState === "check_asked") {
+      state.conversationHistory.push({ role: "user", content: message });
 
       if (userConfirmedNoRecord(message)) {
-        escalationState = "escalated";
+        state.escalationState = "escalated";
 
         const reply = `I understand — that’s frustrating.
 
@@ -270,24 +328,26 @@ Since there’s no record in BRS, this will need to be checked with our payments
 
 I’ve prepared an escalation draft for support below. Please review it before sending.`;
 
-        conversationHistory.push({ role: "assistant", content: reply });
-        escalationDraft = createEscalationDraft();
+        state.conversationHistory.push({ role: "assistant", content: reply });
+        state.escalationDraft = createEscalationDraft(state.conversationHistory);
+        saveSessionState(sessionId, state);
 
         return res.json({
           reply,
           escalationReady: true,
-          escalationDraft,
+          escalationDraft: state.escalationDraft,
           topic: "payments",
         });
       }
 
-      escalationState = "none";
+      state.escalationState = "none";
 
       const reply = `No problem — let’s continue checking this carefully.
 
 What did you find in Tools >> BRS Payments >> Transactions?`;
 
-      conversationHistory.push({ role: "assistant", content: reply });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
 
       return res.json({
         reply,
@@ -296,11 +356,11 @@ What did you find in Tools >> BRS Payments >> Transactions?`;
       });
     }
 
-    const historyText = conversationHistory.map((m) => m.content).join(" ");
+    const historyText = state.conversationHistory.map((m) => m.content).join(" ");
     const combinedText = `${historyText} ${message}`;
 
     if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
-      escalationState = "check_asked";
+      state.escalationState = "check_asked";
 
       const reply = `I understand — that’s frustrating.
 
@@ -308,8 +368,9 @@ Just to confirm — have you checked:
 Tools >> BRS Payments >> Transactions
 and still cannot see any record?`;
 
-      conversationHistory.push({ role: "user", content: message });
-      conversationHistory.push({ role: "assistant", content: reply });
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
 
       return res.json({
         reply,
@@ -318,9 +379,9 @@ and still cannot see any record?`;
       });
     }
 
-    conversationHistory.push({ role: "user", content: message });
+    state.conversationHistory.push({ role: "user", content: message });
 
-    const trimmedHistory = conversationHistory.slice(-12);
+    const trimmedHistory = state.conversationHistory.slice(-12);
     const dynamicInstructions = getContextForTopic(topic);
 
     const response = await client.responses.create({
@@ -333,7 +394,8 @@ and still cannot see any record?`;
 
     const reply = response.output_text;
 
-    conversationHistory.push({ role: "assistant", content: reply });
+    state.conversationHistory.push({ role: "assistant", content: reply });
+    saveSessionState(sessionId, state);
 
     res.json({
       reply,
@@ -342,6 +404,7 @@ and still cannot see any record?`;
     });
   } catch (error) {
     console.error("FULL ERROR:", error);
+    saveSessionState(sessionId, state);
 
     res.status(500).json({
       reply: "Sorry — something went wrong. Please try again.",
@@ -351,26 +414,31 @@ and still cannot see any record?`;
 });
 
 app.post("/send-escalation", async (req, res) => {
-  if (!escalationDraft) {
+  const sessionId = getSessionId(req);
+  const state = getSessionState(sessionId);
+
+  if (!state.escalationDraft) {
     return res.status(400).json({
       message: "No escalation draft is ready.",
     });
   }
 
   console.log("ESCALATION READY TO SEND:");
-  console.log("To:", escalationDraft.to);
-  console.log("Subject:", escalationDraft.subject);
-  console.log("Body:", escalationDraft.body);
+  console.log("Session:", sessionId);
+  console.log("To:", state.escalationDraft.to);
+  console.log("Subject:", state.escalationDraft.subject);
+  console.log("Body:", state.escalationDraft.body);
 
   res.json({
     message:
       "Escalation prepared. Email sending is not connected yet, but this is the email that would be sent.",
-    draft: escalationDraft,
+    draft: state.escalationDraft,
   });
 });
 
 app.post("/reset", (req, res) => {
-  resetState();
+  const sessionId = getSessionId(req);
+  resetSessionState(sessionId);
   res.json({ message: "Conversation reset." });
 });
 
