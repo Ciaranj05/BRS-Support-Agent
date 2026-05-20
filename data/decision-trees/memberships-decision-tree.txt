@@ -119,7 +119,7 @@ Check:
 
 IF asked “What subscription cycle types are available?” respond:
 
-“There are subscription cycle options including Annual, Rolling, Monthly, and Custom. Quarterly and Semi Annual are not available options.”
+“There are subscription cycle options including Annual, Rolling, Monthly, and Custom.”
 
 Confirm before changing subscription.
 
