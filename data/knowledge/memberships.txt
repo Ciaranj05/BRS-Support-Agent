@@ -118,6 +118,12 @@ Check:
 - Member status
 - Applied discounts
 
+### SUBSCRIPTION CYCLE TYPES
+
+If asked “What subscription cycle types are available?” respond:
+
+“There are subscription cycle options including Annual, Rolling, Monthly, and Custom. Quarterly and Semi Annual are not available options.”
+
 If subscription amount is wrong, check the subscription setup before editing the bill.
 
 ---
