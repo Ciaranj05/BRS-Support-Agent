@@ -59,11 +59,7 @@
       background: white;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .brand { display: flex; align-items: center; gap: 14px; }
 
     .mark {
       width: 42px;
@@ -76,16 +72,8 @@
       font-weight: 900;
     }
 
-    .title {
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    .subtitle {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 14px;
-    }
+    .title { font-size: 20px; font-weight: 800; }
+    .subtitle { margin-top: 4px; color: var(--muted); font-size: 14px; }
 
     .status-pill {
       display: inline-flex;
@@ -109,12 +97,7 @@
       box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
     }
 
-    #chat {
-      flex: 1;
-      padding: 26px;
-      overflow-y: auto;
-      background: #f8fafc;
-    }
+    #chat { flex: 1; padding: 26px; overflow-y: auto; background: #f8fafc; }
 
     .welcome-card {
       background: white;
@@ -125,36 +108,15 @@
       box-shadow: var(--card-shadow);
     }
 
-    .welcome-card h2 {
-      margin: 0 0 8px;
-      font-size: 20px;
-      letter-spacing: -0.03em;
-    }
+    .welcome-card h2 { margin: 0 0 8px; font-size: 20px; letter-spacing: -0.03em; }
+    .welcome-card p { margin: 0; color: var(--muted); line-height: 1.55; font-size: 15px; }
 
-    .welcome-card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 15px;
-    }
-
-    .msg-row {
-      display: flex;
-      margin-bottom: 20px;
-    }
-
+    .msg-row { display: flex; margin-bottom: 20px; }
     .user-row { justify-content: flex-end; }
     .bot-row { justify-content: flex-start; }
+    .msg-wrap { max-width: 70%; }
 
-    .msg-wrap {
-      max-width: 70%;
-    }
-
-    .msg {
-      border-radius: 18px;
-      font-size: 15px;
-      line-height: 1.6;
-    }
+    .msg { border-radius: 18px; font-size: 15px; line-height: 1.6; }
 
     .user {
       padding: 14px 16px;
@@ -172,24 +134,10 @@
       overflow: hidden;
     }
 
-    .answer-card {
-      padding: 16px;
-    }
-
-    .answer-title {
-      font-size: 16px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .answer-intro {
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-
-    .answer-intro:empty {
-      display: none;
-    }
+    .answer-card { padding: 16px; }
+    .answer-title { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .answer-intro { color: var(--muted); margin-bottom: 14px; }
+    .answer-intro:empty { display: none; }
 
     .path-card {
       border: 1px solid #e2e8f0;
@@ -208,16 +156,8 @@
       margin-bottom: 5px;
     }
 
-    .path-value {
-      font-weight: 750;
-      color: #0f172a;
-    }
-
-    .steps {
-      display: grid;
-      gap: 10px;
-      margin: 12px 0;
-    }
+    .path-value { font-weight: 750; color: #0f172a; }
+    .steps { display: grid; gap: 10px; margin: 12px 0; }
 
     .step {
       display: flex;
@@ -241,22 +181,9 @@
       flex: 0 0 auto;
     }
 
-    .step-text {
-      font-weight: 600;
-    }
-
-    .bullet-list {
-      margin: 14px 0;
-      display: grid;
-      gap: 10px;
-    }
-
-    .bullet {
-      display: flex;
-      gap: 10px;
-      color: var(--text);
-      line-height: 1.55;
-    }
+    .step-text { font-weight: 600; }
+    .bullet-list { margin: 14px 0; display: grid; gap: 10px; }
+    .bullet { display: flex; gap: 10px; color: var(--text); line-height: 1.55; }
 
     .bullet::before {
       content: "";
@@ -279,12 +206,7 @@
       box-shadow: var(--card-shadow);
     }
 
-    .quick-replies {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
+    .quick-replies { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
     .quick-reply-btn {
       padding: 10px 14px;
@@ -296,25 +218,10 @@
       font-weight: 800;
     }
 
-    .quick-reply-btn:hover {
-      background: #e2e8f0;
-    }
+    .quick-reply-btn:hover { background: #e2e8f0; }
 
-    .typing {
-      display: inline-flex;
-      gap: 5px;
-      align-items: center;
-      padding: 15px 17px;
-    }
-
-    .typing span {
-      width: 7px;
-      height: 7px;
-      background: #94a3b8;
-      border-radius: 50%;
-      animation: pulse 1.2s infinite ease-in-out;
-    }
-
+    .typing { display: inline-flex; gap: 5px; align-items: center; padding: 15px 17px; }
+    .typing span { width: 7px; height: 7px; background: #94a3b8; border-radius: 50%; animation: pulse 1.2s infinite ease-in-out; }
     .typing span:nth-child(2) { animation-delay: 0.18s; }
     .typing span:nth-child(3) { animation-delay: 0.36s; }
 
@@ -323,16 +230,8 @@
       40% { transform: scale(1); opacity: 1; }
     }
 
-    .input-wrap {
-      padding: 16px;
-      border-top: 1px solid var(--border);
-      background: white;
-    }
-
-    .input {
-      display: flex;
-      gap: 8px;
-    }
+    .input-wrap { padding: 16px; border-top: 1px solid var(--border); background: white; }
+    .input { display: flex; gap: 8px; }
 
     input {
       flex: 1;
@@ -343,9 +242,7 @@
       outline: none;
     }
 
-    input:focus {
-      border-color: #94a3b8;
-    }
+    input:focus { border-color: #94a3b8; }
 
     button {
       padding: 0 18px;
@@ -357,24 +254,9 @@
       cursor: pointer;
     }
 
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-
-    .reset-btn {
-      background: #f1f5f9;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .footer-note {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: center;
-      font-weight: 500;
-    }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .reset-btn { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
+    .footer-note { margin-top: 10px; color: var(--muted); font-size: 12px; text-align: center; font-weight: 500; }
 
     .email-preview {
       background: white;
@@ -401,48 +283,16 @@
 
     @media (max-width: 760px) {
       body { padding: 0; }
-
-      .app {
-        height: 100vh;
-        border-radius: 0;
-      }
-
-      .header {
-        padding: 18px;
-      }
-
-      .subtitle {
-        font-size: 13px;
-      }
-
-      .status-pill {
-        display: none;
-      }
-
-      #chat {
-        padding: 18px;
-      }
-
-      .msg-wrap {
-        max-width: 92%;
-      }
-
-      .input {
-        flex-wrap: wrap;
-      }
-
-      button {
-        flex: 1;
-        padding: 14px;
-      }
-
-      .quick-replies {
-        flex-direction: column;
-      }
-
-      .footer-note {
-        display: none;
-      }
+      .app { height: 100vh; border-radius: 0; }
+      .header { padding: 18px; }
+      .subtitle { font-size: 13px; }
+      .status-pill { display: none; }
+      #chat { padding: 18px; }
+      .msg-wrap { max-width: 92%; }
+      .input { flex-wrap: wrap; }
+      button { flex: 1; padding: 14px; }
+      .quick-replies { flex-direction: column; }
+      .footer-note { display: none; }
     }
   </style>
 </head>
@@ -458,10 +308,7 @@
         </div>
       </div>
 
-      <div class="status-pill">
-        <span class="dot"></span>
-        Support Agent Online
-      </div>
+      <div class="status-pill"><span class="dot"></span>Support Agent Online</div>
     </div>
 
     <div id="chat"></div>
@@ -483,16 +330,9 @@
     function requestOptions(method = "POST", body = null) {
       const options = {
         method,
-        headers: {
-          "Content-Type": "application/json",
-          "x-session-id": sessionId
-        }
+        headers: { "Content-Type": "application/json", "x-session-id": sessionId }
       };
-
-      if (body) {
-        options.body = JSON.stringify(body);
-      }
-
+      if (body) options.body = JSON.stringify(body);
       return options;
     }
 
@@ -506,21 +346,14 @@
     }
 
     function cleanLine(line) {
-      return line
-        .replace(/^[-•]\s*/, "")
-        .replace(/^Step\s*\d+\s*:\s*/i, "")
-        .replace(/^\d+\.\s*/, "")
-        .trim();
+      return line.replace(/^[-•]\s*/, "").replace(/^Step\s*\d+\s*:\s*/i, "").replace(/^\d+\.\s*/, "").trim();
     }
 
     function addWelcomeCard() {
       const chat = document.getElementById("chat");
       const card = document.createElement("div");
       card.className = "welcome-card";
-      card.innerHTML = `
-        <h2>How can I help?</h2>
-        <p>Describe the issue and I’ll guide the next best step. If needed, I can prepare an escalation draft for support.</p>
-      `;
+      card.innerHTML = `<h2>How can I help?</h2><p>Describe the issue and I’ll guide the next best step. If needed, I can prepare an escalation draft for support.</p>`;
       chat.appendChild(card);
     }
 
@@ -539,40 +372,62 @@
     }
 
     function titleCaseOption(option) {
-      return option
-        .trim()
-        .replace(/\s+/g, " ")
-        .replace(/\b\w/g, char => char.toUpperCase());
+      const trimmed = String(option || "").trim().replace(/\s+/g, " ");
+      const lowerWords = new Set(["a", "an", "and", "or", "the", "to", "of", "for", "in", "on"]);
+      return trimmed.split(" ").map((word, index) => {
+        if (word.includes(">>")) return word;
+        const lower = word.toLowerCase();
+        if (index > 0 && lowerWords.has(lower)) return lower;
+        return lower.charAt(0).toUpperCase() + lower.slice(1);
+      }).join(" ");
+    }
+
+    function stripQuestionLead(text) {
+      return String(text || "")
+        .replace(/^(is|are|was|were|do|does|did|can|could|should|has|have|had|will|would|which|what)\b\s*/i, "")
+        .replace(/^(this|it|the|a|an)\b\s*/i, "")
+        .replace(/^(about|for|type of|kind of)\b\s*/i, "")
+        .trim();
+    }
+
+    function splitOptions(optionText) {
+      return uniqueOptions(
+        String(optionText || "")
+          .replace(/[?]$/g, "")
+          .split(/\s*,\s*|\s+or\s+|\s*\/\s*/i)
+          .map(stripQuestionLead)
+          .map(option => option.replace(/^(something else|other|another issue)$/i, "Something else"))
+          .map(titleCaseOption)
+      );
     }
 
     function getChoiceOptions(question) {
       const q = String(question || "").replace(/\?$/, "").trim();
-      if (!/\s+or\s+/i.test(q)) return [];
+      const lower = q.toLowerCase();
 
-      const explicitChoiceMatch = q.match(/(?:is this|is it|was this|was it|should this be|would this be|do you need|are you asking for|what type of|which type of|is the refund|refund is)\s+(?:a\s+|an\s+|the\s+)?(.+?)\s+or\s+(?:a\s+|an\s+|the\s+)?(.+)$/i);
-      if (explicitChoiceMatch) {
-        const suffixMatch = explicitChoiceMatch[2].match(/\b(refund|booking|payment|membership|user|admin|issue|query|case|request)\b/i);
-        const suffix = suffixMatch ? suffixMatch[1].toLowerCase() : "";
-        const firstOption = suffix && !new RegExp(`\\b${suffix}\\b`, "i").test(explicitChoiceMatch[1])
-          ? `${explicitChoiceMatch[1]} ${suffix}`
-          : explicitChoiceMatch[1];
+      const colonMatch = q.match(/(?:which|what)\s+[^:]{0,80}:\s*(.+)$/i);
+      if (colonMatch) return splitOptions(colonMatch[1]);
 
-        return uniqueOptions([firstOption, explicitChoiceMatch[2]].map(titleCaseOption));
+      const aboutMatch = q.match(/(?:is this|is it|was this|was it|are you asking|do you mean|is this about)\s+(?:about\s+)?(.+)$/i);
+      if (aboutMatch && /\b(or|,)\b/i.test(aboutMatch[1])) return splitOptions(aboutMatch[1]);
+
+      if (/\b(is this|is it|was this|was it|do you mean|are you asking)\b/i.test(lower) && /\s+or\s+/i.test(q)) {
+        return splitOptions(q.replace(/^(is this|is it|was this|was it|do you mean|are you asking)\s+(about\s+)?/i, ""));
       }
 
-      const parts = q
-        .split(/\s+or\s+/i)
-        .map(part => part.replace(/^(which|what|is|are|was|were|do|does|did|can|could|should|has|have|had|will|would)\b\s*/i, ""))
-        .map(part => part.replace(/^(this|it|the|a|an)\b\s*/i, ""))
-        .map(titleCaseOption);
+      return [];
+    }
 
-      return uniqueOptions(parts);
+    function isBinaryQuestion(question) {
+      const q = String(question || "").trim().toLowerCase();
+      if (/\b(yes\s+or\s+no|yes\/no)\b/.test(q)) return true;
+      if (/^(have|has|had|is|are|was|were|do|does|did|can|could|should|will|would)\b/.test(q) && !/\s+or\s+|,/.test(q)) return true;
+      return false;
     }
 
     function getQuickReplyOptions(question) {
       const q = String(question || "").trim();
       const lower = q.toLowerCase();
-
       if (!q.endsWith("?")) return [];
 
       const choiceOptions = getChoiceOptions(q);
@@ -586,9 +441,7 @@
         return ["Yes, escalate", "No, continue troubleshooting"];
       }
 
-      if (/^(is|are|was|were|do|does|did|can|could|should|has|have|had|will|would)\b/.test(lower)) {
-        return ["Yes", "No"];
-      }
+      if (isBinaryQuestion(q)) return ["Yes", "No"];
 
       return [];
     }
@@ -596,140 +449,81 @@
     function quickReplyHtml(question) {
       const options = getQuickReplyOptions(question);
       if (!options.length) return "";
-
       const buttons = options.map(option => {
         const encoded = encodeURIComponent(option);
         return `<button class="quick-reply-btn" type="button" onclick="sendQuickReply(decodeURIComponent('${encoded}'))">${escapeHtml(option)}</button>`;
       }).join("");
-
       return `<div class="quick-replies">${buttons}</div>`;
     }
 
     function parseAnswer(text) {
-      const lines = String(text || "")
-        .split("\n")
-        .map(l => l.trim())
-        .filter(Boolean);
-
-      const result = {
-        title: "",
-        intro: "",
-        path: "",
-        steps: [],
-        bullets: [],
-        followUp: ""
-      };
+      const lines = String(text || "").split("\n").map(l => l.trim()).filter(Boolean);
+      const result = { title: "", intro: "", path: "", steps: [], bullets: [], followUp: "" };
 
       for (const raw of lines) {
         const line = raw.trim();
-
         if (/^then:?$/i.test(line)) continue;
-
         if (!result.title && line.length < 90 && !line.includes(">>") && !line.endsWith("?")) {
           result.title = line.replace(/\.$/, "");
           continue;
         }
-
         if (/^(go to|please go to|navigate to):?/i.test(line) || line.includes(">>")) {
           result.path = line.replace(/^(go to|please go to|navigate to):?/i, "").trim();
           continue;
         }
-
         if (/^\d+\./.test(line) || /^step\s*\d+/i.test(line)) {
           result.steps.push(cleanLine(line));
           continue;
         }
-
         if (/^[-•]/.test(line)) {
           result.bullets.push(cleanLine(line));
           continue;
         }
-
         if (line.endsWith("?")) {
           result.followUp = line;
           continue;
         }
-
-        if (!result.intro) {
-          result.intro = line;
-        } else {
-          result.bullets.push(line);
-        }
+        if (!result.intro) result.intro = line;
+        else result.bullets.push(line);
       }
-
       return result;
     }
 
     function formatBotAnswer(text) {
       const parsed = parseAnswer(text);
-
       let html = `<div class="answer-card">`;
-
-      if (parsed.title) {
-        html += `<div class="answer-title">${escapeHtml(parsed.title)}</div>`;
-      }
-
-      if (parsed.intro) {
-        html += `<div class="answer-intro">${escapeHtml(parsed.intro)}</div>`;
-      }
-
+      if (parsed.title) html += `<div class="answer-title">${escapeHtml(parsed.title)}</div>`;
+      if (parsed.intro) html += `<div class="answer-intro">${escapeHtml(parsed.intro)}</div>`;
       if (parsed.path) {
-        html += `
-          <div class="path-card">
-            <div class="path-label">Where to go</div>
-            <div class="path-value">${escapeHtml(parsed.path)}</div>
-          </div>
-        `;
+        html += `<div class="path-card"><div class="path-label">Where to go</div><div class="path-value">${escapeHtml(parsed.path)}</div></div>`;
       }
-
       if (parsed.steps.length) {
         html += `<div class="steps">`;
         parsed.steps.forEach((step, i) => {
-          html += `
-            <div class="step">
-              <div class="step-num">${i + 1}</div>
-              <div class="step-text">${escapeHtml(step)}</div>
-            </div>
-          `;
+          html += `<div class="step"><div class="step-num">${i + 1}</div><div class="step-text">${escapeHtml(step)}</div></div>`;
         });
         html += `</div>`;
       }
-
       if (parsed.bullets.length) {
         html += `<div class="bullet-list">`;
-        parsed.bullets.forEach(b => {
-          html += `<div class="bullet">${escapeHtml(b)}</div>`;
-        });
+        parsed.bullets.forEach(b => { html += `<div class="bullet">${escapeHtml(b)}</div>`; });
         html += `</div>`;
       }
-
       html += `</div>`;
-
-      if (parsed.followUp) {
-        html += `<div class="follow-up">${escapeHtml(parsed.followUp)}${quickReplyHtml(parsed.followUp)}</div>`;
-      }
-
+      if (parsed.followUp) html += `<div class="follow-up">${escapeHtml(parsed.followUp)}${quickReplyHtml(parsed.followUp)}</div>`;
       return html;
     }
 
     function addMessage(text, type) {
       const chat = document.getElementById("chat");
-
       const row = document.createElement("div");
       row.className = "msg-row " + (type === "user" ? "user-row" : "bot-row");
-
       const wrap = document.createElement("div");
       wrap.className = "msg-wrap";
-
       const div = document.createElement("div");
       div.className = "msg " + type;
-
-      if (type === "bot") {
-        div.innerHTML = formatBotAnswer(text);
-      } else {
-        div.textContent = text;
-      }
-
+      div.innerHTML = type === "bot" ? formatBotAnswer(text) : "";
+      if (type !== "bot") div.textContent = text;
       wrap.appendChild(div);
       row.appendChild(wrap);
       chat.appendChild(row);
@@ -738,18 +532,14 @@
 
     function showTyping() {
       const chat = document.getElementById("chat");
-
       const row = document.createElement("div");
       row.className = "msg-row bot-row";
       row.id = "typingRow";
-
       const wrap = document.createElement("div");
       wrap.className = "msg-wrap";
-
       const div = document.createElement("div");
       div.className = "msg bot typing";
       div.innerHTML = "<span></span><span></span><span></span>";
-
       wrap.appendChild(div);
       row.appendChild(wrap);
       chat.appendChild(row);
@@ -763,28 +553,14 @@
 
     function addEscalationPreview(draft) {
       const chat = document.getElementById("chat");
-
       const preview = document.createElement("div");
       preview.className = "email-preview";
-
-      preview.innerHTML = `
-<strong>Escalation Email</strong>
-
-<strong>To:</strong> ${escapeHtml(draft.to || "support@brsgolf.com")}
-
-<strong>Subject:</strong> ${escapeHtml(draft.subject)}
-
-<strong>Body:</strong>
-${escapeHtml(draft.body)}
-`;
-
+      preview.innerHTML = `\n<strong>Escalation Email</strong>\n\n<strong>To:</strong> ${escapeHtml(draft.to || "support@brsgolf.com")}\n\n<strong>Subject:</strong> ${escapeHtml(draft.subject)}\n\n<strong>Body:</strong>\n${escapeHtml(draft.body)}\n`;
       chat.appendChild(preview);
-
       const btn = document.createElement("button");
       btn.className = "escalation-btn";
       btn.textContent = "Send to Support";
       btn.onclick = sendEscalation;
-
       chat.appendChild(btn);
       chat.scrollTop = chat.scrollHeight;
     }
@@ -792,10 +568,8 @@ ${escapeHtml(draft.body)}
     async function sendEscalation() {
       try {
         const res = await fetch("/send-escalation", requestOptions("POST"));
-
         const data = await res.json();
         addMessage(data.message || "Escalation prepared.", "bot");
-
       } catch {
         addMessage("Error sending escalation.", "bot");
       }
@@ -809,9 +583,7 @@ ${escapeHtml(draft.body)}
       document.getElementById("input").focus();
     }
 
-    function handleKey(e) {
-      if (e.key === "Enter") send();
-    }
+    function handleKey(e) { if (e.key === "Enter") send(); }
 
     async function sendQuickReply(value) {
       const input = document.getElementById("input");
@@ -823,32 +595,22 @@ ${escapeHtml(draft.body)}
       const input = document.getElementById("input");
       const btn = document.getElementById("sendBtn");
       const msg = input.value.trim();
-
       if (!msg) return;
-
       addMessage(msg, "user");
       input.value = "";
       btn.disabled = true;
       input.disabled = true;
-
       showTyping();
-
       try {
         const res = await fetch("/chat", requestOptions("POST", { message: msg, sessionId }));
         const data = await res.json();
-
         removeTyping();
         addMessage(data.reply || "No response received.", "bot");
-
-        if (data.escalationReady && data.escalationDraft) {
-          addEscalationPreview(data.escalationDraft);
-        }
-
+        if (data.escalationReady && data.escalationDraft) addEscalationPreview(data.escalationDraft);
       } catch {
         removeTyping();
         addMessage("Error connecting to server. Please refresh and try again.", "bot");
       }
-
       btn.disabled = false;
       input.disabled = false;
       input.focus();
