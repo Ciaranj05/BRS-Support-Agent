@@ -150,7 +150,7 @@ IF asked “How do I top up a members wallet?” respond:
 
 “Open Memberships, and select Members. Search for the member who needs a top up and click on their name. From their Profile page, select 'Account Balances'. Here you should see the wallet(s) assigned to the member. Click on 'Edit Balance'. From the drop down menu, select the Transaction Type - 'Top Up'. You can choose to record the top up as a payment, or not — for instance if the balance is a balance transfer from another system. Next, choose the payment method and enter the amount. Remember to click 'Update' to save changes.
 
-If you are a GN Pro (ePOS) customer, you can also do a Top Up via the Wallets button on your POS menu by creating a new Order and entering the members name in the customer field. Select Wallets, choose which wallet to top up, enter the amount, take the payment, and close the order to complete the top up.”
+You can also top up via the Wallets button on the POS menu by creating a new Order.”
 
 IF wallet or balance does not match expectation:
 
