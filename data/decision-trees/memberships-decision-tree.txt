@@ -10,7 +10,7 @@ IF issue is clear:
 → Go directly to the matching section.
 
 IF unclear, ask:
-“Is this about a member profile, bill, subscription, subscription cycle, payment scheme, wallet/account balance, member access, or membership settings?”
+“Is this about a member profile, bill, subscription, subscription cycle, payment scheme, wallet/account balance, member access, online payments, or membership settings?”
 
 Use exact product wording:
 - Use “Account Balances” for admin wallet/balance areas.
@@ -159,7 +159,7 @@ Then ask:
 
 ---
 
-## 9. PAYMENT SCHEME ISSUE
+## 9. PAYMENT SCHEMES & ONLINE PAYMENTS
 
 IF payment scheme issue:
 
@@ -170,6 +170,26 @@ Check:
 4. Linked bill
 5. Member status
 6. Failed payment reason
+
+IF asked “What is the BRS Payments platform?” respond:
+
+“It is the integrated online payments solution used for membership bills, wallet top-ups, visitor fees, and other BRS payment services.”
+
+IF asked “How do I set up online payments for my club?” respond:
+
+“Contact BRS support or your onboarding contact to configure your Payments account.”
+
+IF asked “Can members pay bills online?” respond:
+
+“Yes, members can pay bills online through the member portal or BRS Members booking app.”
+
+IF asked “Can admin users take payments through the system?” respond:
+
+“Yes, admins can process manual and online payments on behalf of members.”
+
+IF asked “Why are scheduled payments not retrying after failure?” respond:
+
+“Scheduled payment retries only occur if the Scheduled Payments Grace Period is enabled.”
 
 IF asked whether payment schemes can include surcharges:
 → Confirm that payment schemes can include surcharges.
