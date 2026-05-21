@@ -141,6 +141,14 @@ Check:
 - Failed payments
 - Linked bill
 
+If asked “Scheduled payment has not been taken on the scheduled date” respond:
+
+“Check if the member status was active or inactive in advance of the scheduled payment. Scheduled payments will only continue to be taken against members with an Active status.
+
+If the member is active, then the payment attempt may have failed. The Payment scheduler will try again for 5 consecutive nights, so check again tomorrow.
+
+If the payment is not taken, please contact support and provide them with information including the members name, bill name, and scheduled payment date.”
+
 If payment scheme fails:
 
 1. Check member status
@@ -187,96 +195,3 @@ If asked “Why are scheduled payments not retrying after failure?” respond:
 If asked “What is the minimum scheduled payment grace period?” respond:
 
 “The minimum is 6 days because the system retries failed payments for 5 consecutive days.”
-
----
-
-## WALLET / BALANCE
-
-Use wallet/balance to check:
-
-- Credit
-- Debit
-- Applied payments
-- Available balance
-- Allocation
-
-### HOW TO TOP UP A MEMBERS WALLET
-
-If asked “How do I top up a members wallet?” respond:
-
-“Open Memberships, and select Members. Search for the member who needs a top up and click on their name. From their Profile page, select 'Account Balances'. Here you should see the wallet(s) assigned to the member. Click on 'Edit Balance'. From the drop down menu, select the Transaction Type - 'Top Up'. You can choose to record the top up as a payment, or not — for instance if the balance is a balance transfer from another system. Next, choose the payment method and enter the amount. Remember to click 'Update' to save changes.
-
-If you are a GN Pro (ePOS) customer, you can also do a Top Up via the Wallets button on your POS menu by creating a new Order and entering the members name in the customer field. Select Wallets, choose which wallet to top up, enter the amount, take the payment, and close the order to complete the top up.”
-
-If wallet balance does not match expectation:
-
-1. Review transactions
-2. Check bill allocation
-3. Check previous credits/debits
-4. Escalate if mismatch remains
-
----
-
-## INACTIVE MEMBERS
-
-Inactive members may have limited access or payment issues.
-
-Check:
-
-- Member status
-- Subscription status
-- Payment scheme status
-- Outstanding bills
-
-Do not reactivate or change status unless confirmed.
-
----
-
-## REMOVE OR CANCEL SUBSCRIPTION
-
-Always confirm before removing or cancelling a subscription.
-
-Before changing:
-
-1. Confirm member
-2. Confirm subscription
-3. Confirm effective date
-4. Check billing impact
-
-Escalate if cancellation affects billing history or payment schedules.
-
----
-
-## COMMON CAUSE → EFFECT
-
-- Unpublished bill means member cannot see it
-- Unallocated payment may make bill appear unpaid
-- Inactive member may affect payment schemes
-- Subscription setup controls recurring bill amount
-- Discounts may affect final bill total
-- Previous unpaid balance may increase current bill
-
----
-
-## ESCALATION TRIGGERS
-
-Escalate if:
-
-- Bill total does not match after checks
-- Payment exists but cannot be allocated
-- Payment scheme repeatedly fails
-- Wallet/balance mismatch remains
-- Member dispute cannot be resolved
-- Billing history appears inconsistent
-- Multiple members are affected
-
----
-
-## RESPONSE STYLE
-
-Preferred format:
-
-1. Acknowledge briefly
-2. Identify the bill/member issue
-3. Give exact area to check
-4. Ask one follow-up if needed
