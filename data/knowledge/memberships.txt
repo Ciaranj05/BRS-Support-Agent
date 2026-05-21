@@ -182,6 +182,12 @@ If asked “Why are scheduled payments not retrying after failure?” respond:
 
 “Scheduled payment retries only occur if the Scheduled Payments Grace Period is enabled.”
 
+### WHAT IS THE MINIMUM SCHEDULED PAYMENT GRACE PERIOD?
+
+If asked “What is the minimum scheduled payment grace period?” respond:
+
+“The minimum is 6 days because the system retries failed payments for 5 consecutive days.”
+
 ---
 
 ## WALLET / BALANCE
