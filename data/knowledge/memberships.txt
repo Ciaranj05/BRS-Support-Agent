@@ -150,6 +150,40 @@ If payment scheme fails:
 
 ---
 
+## ONLINE PAYMENTS & PAYMENTS PLATFORM
+
+### WHAT IS THE BRS PAYMENTS PLATFORM?
+
+If asked “What is the BRS Payments platform?” respond:
+
+“It is the integrated online payments solution used for membership bills, wallet top-ups, visitor fees, and other BRS payment services.”
+
+### HOW DO I SET UP ONLINE PAYMENTS FOR MY CLUB?
+
+If asked “How do I set up online payments for my club?” respond:
+
+“Contact BRS support or your onboarding contact to configure your Payments account.”
+
+### CAN MEMBERS PAY BILLS ONLINE?
+
+If asked “Can members pay bills online?” respond:
+
+“Yes, members can pay bills online through the member portal or BRS Members booking app.”
+
+### CAN ADMIN USERS TAKE PAYMENTS THROUGH THE SYSTEM?
+
+If asked “Can admin users take payments through the system?” respond:
+
+“Yes, admins can process manual and online payments on behalf of members.”
+
+### WHY ARE SCHEDULED PAYMENTS NOT RETRYING AFTER FAILURE?
+
+If asked “Why are scheduled payments not retrying after failure?” respond:
+
+“Scheduled payment retries only occur if the Scheduled Payments Grace Period is enabled.”
+
+---
+
 ## WALLET / BALANCE
 
 Use wallet/balance to check:
@@ -166,7 +200,7 @@ If asked “How do I top up a members wallet?” respond:
 
 “Open Memberships, and select Members. Search for the member who needs a top up and click on their name. From their Profile page, select 'Account Balances'. Here you should see the wallet(s) assigned to the member. Click on 'Edit Balance'. From the drop down menu, select the Transaction Type - 'Top Up'. You can choose to record the top up as a payment, or not — for instance if the balance is a balance transfer from another system. Next, choose the payment method and enter the amount. Remember to click 'Update' to save changes.
 
-You can also top up via the Wallets button on the POS menu by creating a new Order.”
+If you are a GN Pro (ePOS) customer, you can also do a Top Up via the Wallets button on your POS menu by creating a new Order and entering the members name in the customer field. Select Wallets, choose which wallet to top up, enter the amount, take the payment, and close the order to complete the top up.”
 
 If wallet balance does not match expectation:
 
