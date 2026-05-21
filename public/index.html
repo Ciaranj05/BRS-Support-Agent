@@ -9,615 +9,297 @@
 
   <style>
     * { box-sizing: border-box; }
-
-    :root {
-      --bg: #eef3f9;
-      --surface: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --primary: #0f172a;
-      --primary-2: #1e293b;
-      --accent: #2563eb;
-      --success: #16a34a;
-      --shadow: 0 30px 90px rgba(15, 23, 42, 0.14);
-      --card-shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.08), transparent 30%),
-        linear-gradient(135deg, #eef3f9, #f8fafc);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 28px;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 1040px;
-      height: 92vh;
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 28px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .header {
-      padding: 22px 26px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: white;
-    }
-
+    :root { --bg: #eef3f9; --surface: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --primary: #0f172a; --primary-2: #1e293b; --accent: #2563eb; --success: #16a34a; --shadow: 0 30px 90px rgba(15, 23, 42, 0.14); --card-shadow: 0 14px 40px rgba(15, 23, 42, 0.07); }
+    body { margin: 0; min-height: 100vh; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: var(--text); background: radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.08), transparent 30%), linear-gradient(135deg, #eef3f9, #f8fafc); display: flex; justify-content: center; align-items: center; padding: 28px; }
+    .app { width: 100%; max-width: 1040px; height: 92vh; background: rgba(255, 255, 255, 0.96); border-radius: 28px; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow); }
+    .header { padding: 22px 26px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: white; }
     .brand { display: flex; align-items: center; gap: 14px; }
-
-    .mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      color: white;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-    }
-
+    .mark { width: 42px; height: 42px; border-radius: 14px; background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: white; display: grid; place-items: center; font-weight: 900; }
     .title { font-size: 20px; font-weight: 800; }
     .subtitle { margin-top: 4px; color: var(--muted); font-size: 14px; }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      color: #166534;
-      font-size: 12px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: var(--success);
-      border-radius: 999px;
-      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
-    }
-
+    .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .dot { width: 8px; height: 8px; background: var(--success); border-radius: 999px; box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14); }
     #chat { flex: 1; padding: 26px; overflow-y: auto; background: #f8fafc; }
-
-    .welcome-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 20px;
-      margin-bottom: 24px;
-      box-shadow: var(--card-shadow);
-    }
-
+    .welcome-card { background: white; border: 1px solid var(--border); border-radius: 22px; padding: 20px; margin-bottom: 24px; box-shadow: var(--card-shadow); }
     .welcome-card h2 { margin: 0 0 8px; font-size: 20px; letter-spacing: -0.03em; }
     .welcome-card p { margin: 0; color: var(--muted); line-height: 1.55; font-size: 15px; }
-
     .msg-row { display: flex; margin-bottom: 20px; }
     .user-row { justify-content: flex-end; }
     .bot-row { justify-content: flex-start; }
     .msg-wrap { max-width: 70%; }
-
     .msg { border-radius: 18px; font-size: 15px; line-height: 1.6; }
-
-    .user {
-      padding: 14px 16px;
-      background: var(--primary);
-      color: white;
-      border-bottom-right-radius: 6px;
-      white-space: pre-wrap;
-    }
-
-    .bot {
-      background: white;
-      border: 1px solid var(--border);
-      border-bottom-left-radius: 6px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-    }
-
+    .user { padding: 14px 16px; background: var(--primary); color: white; border-bottom-right-radius: 6px; white-space: pre-wrap; }
+    .bot { background: white; border: 1px solid var(--border); border-bottom-left-radius: 6px; box-shadow: var(--card-shadow); overflow: hidden; }
     .answer-card { padding: 16px; }
     .answer-title { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
     .answer-intro { color: var(--muted); margin-bottom: 14px; }
     .answer-intro:empty { display: none; }
-
-    .path-card {
-      border: 1px solid #e2e8f0;
-      background: #f8fafc;
-      border-radius: 14px;
-      padding: 12px 13px;
-      margin: 12px 0 14px;
-    }
-
-    .path-label {
-      font-size: 11px;
-      font-weight: 800;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 5px;
-    }
-
+    .path-card { border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 14px; padding: 12px 13px; margin: 12px 0 14px; }
+    .path-label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
     .path-value { font-weight: 750; color: #0f172a; }
     .steps { display: grid; gap: 10px; margin: 12px 0; }
-
-    .step {
-      display: flex;
-      gap: 10px;
-      padding: 12px;
-      border-radius: 14px;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-    }
-
-    .step-num {
-      width: 24px;
-      height: 24px;
-      border-radius: 999px;
-      background: var(--primary);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-size: 12px;
-      font-weight: 800;
-      flex: 0 0 auto;
-    }
-
+    .step { display: flex; gap: 10px; padding: 12px; border-radius: 14px; background: #f8fafc; border: 1px solid var(--border); }
+    .step-num { width: 24px; height: 24px; border-radius: 999px; background: var(--primary); color: white; display: grid; place-items: center; font-size: 12px; font-weight: 800; flex: 0 0 auto; }
     .step-text { font-weight: 600; }
     .bullet-list { margin: 14px 0; display: grid; gap: 10px; }
     .bullet { display: flex; gap: 10px; color: var(--text); line-height: 1.55; }
-
-    .bullet::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #64748b;
-      margin-top: 9px;
-      flex: 0 0 auto;
-    }
-
-    .follow-up {
-      margin-top: 12px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: white;
-      border: 1px solid var(--border);
-      color: var(--primary);
-      font-weight: 800;
-      box-shadow: var(--card-shadow);
-    }
-
+    .bullet::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #64748b; margin-top: 9px; flex: 0 0 auto; }
+    .follow-up { margin-top: 12px; padding: 14px 16px; border-radius: 16px; background: white; border: 1px solid var(--border); color: var(--primary); font-weight: 800; box-shadow: var(--card-shadow); }
     .quick-replies { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-
-    .quick-reply-btn {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: #f1f5f9;
-      color: var(--text);
-      border: 1px solid var(--border);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
+    .quick-reply-btn { padding: 10px 14px; border-radius: 999px; background: #f1f5f9; color: var(--text); border: 1px solid var(--border); font-size: 13px; font-weight: 800; }
     .quick-reply-btn:hover { background: #e2e8f0; }
-
     .typing { display: inline-flex; gap: 5px; align-items: center; padding: 15px 17px; }
     .typing span { width: 7px; height: 7px; background: #94a3b8; border-radius: 50%; animation: pulse 1.2s infinite ease-in-out; }
     .typing span:nth-child(2) { animation-delay: 0.18s; }
     .typing span:nth-child(3) { animation-delay: 0.36s; }
-
-    @keyframes pulse {
-      0%, 80%, 100% { transform: scale(0.75); opacity: 0.35; }
-      40% { transform: scale(1); opacity: 1; }
-    }
-
+    @keyframes pulse { 0%, 80%, 100% { transform: scale(0.75); opacity: 0.35; } 40% { transform: scale(1); opacity: 1; } }
     .input-wrap { padding: 16px; border-top: 1px solid var(--border); background: white; }
     .input { display: flex; gap: 8px; }
-
-    input {
-      flex: 1;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      font-size: 14px;
-      outline: none;
-    }
-
+    input { flex: 1; padding: 14px; border-radius: 14px; border: 1px solid var(--border); font-size: 14px; outline: none; }
     input:focus { border-color: #94a3b8; }
-
-    button {
-      padding: 0 18px;
-      border-radius: 14px;
-      border: none;
-      background: var(--primary);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
+    button { padding: 0 18px; border-radius: 14px; border: none; background: var(--primary); color: white; font-weight: 700; cursor: pointer; }
     button:disabled { opacity: 0.55; cursor: not-allowed; }
     .reset-btn { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
     .footer-note { margin-top: 10px; color: var(--muted); font-size: 12px; text-align: center; font-weight: 500; }
-
-    .email-preview {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      margin: 18px 0;
-      white-space: pre-wrap;
-      font-size: 14px;
-      line-height: 1.6;
-      box-shadow: var(--card-shadow);
-    }
-
-    .escalation-btn {
-      padding: 14px 18px;
-      background: var(--accent);
-      color: white;
-      border-radius: 14px;
-      cursor: pointer;
-      font-weight: 800;
-      border: none;
-      margin-bottom: 18px;
-    }
-
-    @media (max-width: 760px) {
-      body { padding: 0; }
-      .app { height: 100vh; border-radius: 0; }
-      .header { padding: 18px; }
-      .subtitle { font-size: 13px; }
-      .status-pill { display: none; }
-      #chat { padding: 18px; }
-      .msg-wrap { max-width: 92%; }
-      .input { flex-wrap: wrap; }
-      button { flex: 1; padding: 14px; }
-      .quick-replies { flex-direction: column; }
-      .footer-note { display: none; }
-    }
+    .email-preview { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 18px; margin: 18px 0; white-space: pre-wrap; font-size: 14px; line-height: 1.6; box-shadow: var(--card-shadow); }
+    .escalation-btn { padding: 14px 18px; background: var(--accent); color: white; border-radius: 14px; cursor: pointer; font-weight: 800; border: none; margin-bottom: 18px; }
+    @media (max-width: 760px) { body { padding: 0; } .app { height: 100vh; border-radius: 0; } .header { padding: 18px; } .subtitle { font-size: 13px; } .status-pill { display: none; } #chat { padding: 18px; } .msg-wrap { max-width: 92%; } .input { flex-wrap: wrap; } button { flex: 1; padding: 14px; } .quick-replies { flex-direction: column; } .footer-note { display: none; } }
   </style>
 </head>
-
 <body>
   <div class="app">
     <div class="header">
-      <div class="brand">
-        <div class="mark">B</div>
-        <div>
-          <div class="title">BRS Support Agent</div>
-          <div class="subtitle">Support guidance for bookings, payments, memberships and admin queries.</div>
-        </div>
-      </div>
-
+      <div class="brand"><div class="mark">B</div><div><div class="title">BRS Support Agent</div><div class="subtitle">Support guidance for bookings, payments, memberships and admin queries.</div></div></div>
       <div class="status-pill"><span class="dot"></span>Support Agent Online</div>
     </div>
-
     <div id="chat"></div>
-
     <div class="input-wrap">
-      <div class="input">
-        <input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" />
-        <button id="sendBtn" onclick="send()">Send</button>
-        <button onclick="resetChat()" class="reset-btn">New Issue</button>
-      </div>
+      <div class="input"><input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" /><button id="sendBtn" onclick="send()">Send</button><button onclick="resetChat()" class="reset-btn">New Issue</button></div>
       <div class="footer-note">Include the product area, customer issue and any checks already completed.</div>
     </div>
   </div>
+<script>
+const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUUID();
+localStorage.setItem("brsSupportSessionId", sessionId);
 
-  <script>
-    const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUUID();
-    localStorage.setItem("brsSupportSessionId", sessionId);
+function requestOptions(method = "POST", body = null) {
+  const options = { method, headers: { "Content-Type": "application/json", "x-session-id": sessionId } };
+  if (body) options.body = JSON.stringify(body);
+  return options;
+}
 
-    function requestOptions(method = "POST", body = null) {
-      const options = {
-        method,
-        headers: { "Content-Type": "application/json", "x-session-id": sessionId }
-      };
-      if (body) options.body = JSON.stringify(body);
-      return options;
-    }
+function escapeHtml(text) {
+  return String(text || "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+}
 
-    function escapeHtml(text) {
-      return String(text || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
+function cleanLine(line) {
+  return line.replace(/^[-•]\s*/, "").replace(/^Step\s*\d+\s*:\s*/i, "").replace(/^\d+\.\s*/, "").trim();
+}
 
-    function cleanLine(line) {
-      return line.replace(/^[-•]\s*/, "").replace(/^Step\s*\d+\s*:\s*/i, "").replace(/^\d+\.\s*/, "").trim();
-    }
+function addWelcomeCard() {
+  const chat = document.getElementById("chat");
+  const card = document.createElement("div");
+  card.className = "welcome-card";
+  card.innerHTML = `<h2>How can I help?</h2><p>Describe the issue and I’ll guide the next best step. If needed, I can prepare an escalation draft for support.</p>`;
+  chat.appendChild(card);
+}
 
-    function addWelcomeCard() {
-      const chat = document.getElementById("chat");
-      const card = document.createElement("div");
-      card.className = "welcome-card";
-      card.innerHTML = `<h2>How can I help?</h2><p>Describe the issue and I’ll guide the next best step. If needed, I can prepare an escalation draft for support.</p>`;
-      chat.appendChild(card);
-    }
+function uniqueOptions(options) {
+  const seen = new Set();
+  return options
+    .map(option => String(option || "").replace(/[?.!]+$/g, "").trim())
+    .filter(option => option.length > 0 && option.length <= 50)
+    .filter(option => !/^(this|it|the|a|an|about|for)$/i.test(option))
+    .filter(option => {
+      const key = option.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 8);
+}
 
-    function uniqueOptions(options) {
-      const seen = new Set();
-      return options
-        .map(option => String(option || "").replace(/[?.!]+$/g, "").trim())
-        .filter(option => option.length > 0 && option.length <= 40)
-        .filter(option => {
-          const key = option.toLowerCase();
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        })
-        .slice(0, 6);
-    }
+function titleCaseOption(option) {
+  const trimmed = String(option || "").trim().replace(/\s+/g, " ");
+  const keepLower = new Set(["a", "an", "and", "or", "the", "to", "of", "for", "in", "on"]);
+  return trimmed.split(" ").map((word, index) => {
+    if (word.includes(">>")) return word;
+    const lower = word.toLowerCase();
+    if (index > 0 && keepLower.has(lower)) return lower;
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }).join(" ");
+}
 
-    function titleCaseOption(option) {
-      const trimmed = String(option || "").trim().replace(/\s+/g, " ");
-      const lowerWords = new Set(["a", "an", "and", "or", "the", "to", "of", "for", "in", "on"]);
-      return trimmed.split(" ").map((word, index) => {
-        if (word.includes(">>")) return word;
-        const lower = word.toLowerCase();
-        if (index > 0 && lowerWords.has(lower)) return lower;
-        return lower.charAt(0).toUpperCase() + lower.slice(1);
-      }).join(" ");
-    }
+function stripQuestionLead(text) {
+  return String(text || "")
+    .replace(/^(is|are|was|were|do|does|did|can|could|should|has|have|had|will|would|which|what|where|who|when)\b\s*/i, "")
+    .replace(/^(your|you|we|i|this|it|the|a|an)\b\s*/i, "")
+    .replace(/^(query|question|issue|request)\s+(about|for|related to)\s+/i, "")
+    .replace(/^(about|for|related to|trying to|looking to|wanting to|want to|need to|adding|creating|changing|making|setting up|setting|checking|reviewing)\b\s*/i, "")
+    .replace(/^(a|an|the)\b\s*/i, "")
+    .trim();
+}
 
-    function stripQuestionLead(text) {
-      return String(text || "")
-        .replace(/^(is|are|was|were|do|does|did|can|could|should|has|have|had|will|would|which|what)\b\s*/i, "")
-        .replace(/^(this|it|the|a|an)\b\s*/i, "")
-        .replace(/^(about|for|type of|kind of)\b\s*/i, "")
-        .trim();
-    }
+function normaliseOption(option) {
+  return String(option || "")
+    .replace(/\bbrand new\b/i, "new")
+    .replace(/\bsetup\b/i, "setup")
+    .replace(/\bexisting subscription to a member\b/i, "existing subscription to a member")
+    .replace(/\bsomething else\b/i, "something else")
+    .trim();
+}
 
-    function splitOptions(optionText) {
-      return uniqueOptions(
-        String(optionText || "")
-          .replace(/[?]$/g, "")
-          .split(/\s*,\s*|\s+or\s+|\s*\/\s*/i)
-          .map(stripQuestionLead)
-          .map(option => option.replace(/^(something else|other|another issue)$/i, "Something else"))
-          .map(titleCaseOption)
-      );
-    }
+function splitOptions(optionText) {
+  return uniqueOptions(
+    String(optionText || "")
+      .replace(/[?]$/g, "")
+      .replace(/\b(or something else|or another issue|or other)\b/gi, ", something else")
+      .split(/\s*,\s*|\s+or\s+|\s*\/\s*/i)
+      .map(stripQuestionLead)
+      .map(normaliseOption)
+      .map(option => option.replace(/^(something else|other|another issue)$/i, "Something else"))
+      .map(titleCaseOption)
+  );
+}
 
-    function getChoiceOptions(question) {
-      const q = String(question || "").replace(/\?$/, "").trim();
-      const lower = q.toLowerCase();
+function getChoiceOptions(question) {
+  const q = String(question || "").replace(/\?$/, "").trim();
+  const lower = q.toLowerCase();
 
-      const colonMatch = q.match(/(?:which|what)\s+[^:]{0,80}:\s*(.+)$/i);
-      if (colonMatch) return splitOptions(colonMatch[1]);
+  const colonMatch = q.match(/(?:which|what)\s+[^:]{0,120}:\s*(.+)$/i);
+  if (colonMatch) return splitOptions(colonMatch[1]);
 
-      const aboutMatch = q.match(/(?:is this|is it|was this|was it|are you asking|do you mean|is this about)\s+(?:about\s+)?(.+)$/i);
-      if (aboutMatch && /\b(or|,)\b/i.test(aboutMatch[1])) return splitOptions(aboutMatch[1]);
+  const aboutMatch = q.match(/(?:is|are|was|were)\s+(?:your\s+)?(?:query|question|issue|request|this|it)\s+(?:about|for|related to)\s+(.+)$/i);
+  if (aboutMatch) return splitOptions(aboutMatch[1]);
 
-      if (/\b(is this|is it|was this|was it|do you mean|are you asking)\b/i.test(lower) && /\s+or\s+/i.test(q)) {
-        return splitOptions(q.replace(/^(is this|is it|was this|was it|do you mean|are you asking)\s+(about\s+)?/i, ""));
-      }
+  const intentMatch = q.match(/(?:are you|do you want to|are you trying to|are you looking to|would you like to|do you need to|are you asking to|are you asking about)\s+(.+)$/i);
+  if (intentMatch) return splitOptions(intentMatch[1]);
 
-      return [];
-    }
+  const thisAboutMatch = q.match(/(?:is this|is it|was this|was it|do you mean|are you asking)\s+(?:about\s+)?(.+)$/i);
+  if (thisAboutMatch) return splitOptions(thisAboutMatch[1]);
 
-    function isBinaryQuestion(question) {
-      const q = String(question || "").trim().toLowerCase();
-      if (/\b(yes\s+or\s+no|yes\/no)\b/.test(q)) return true;
-      if (/^(have|has|had|is|are|was|were|do|does|did|can|could|should|will|would)\b/.test(q) && !/\s+or\s+|,/.test(q)) return true;
-      return false;
-    }
+  if (/\b(or|,)\b/i.test(lower) && !isBinaryQuestion(q)) return splitOptions(q);
 
-    function getQuickReplyOptions(question) {
-      const q = String(question || "").trim();
-      const lower = q.toLowerCase();
-      if (!q.endsWith("?")) return [];
+  return [];
+}
 
-      const choiceOptions = getChoiceOptions(q);
-      if (choiceOptions.length > 1) return choiceOptions;
+function isBinaryQuestion(question) {
+  const q = String(question || "").trim().toLowerCase();
+  if (/\b(yes\s+or\s+no|yes\/no)\b/.test(q)) return true;
+  if (/\b(or|,)\b/.test(q)) return false;
+  return /^(have|has|had|is|are|was|were|do|does|did|can|could|should|will|would)\b/.test(q);
+}
 
-      if (/\b(product area|area|module|category)\b/.test(lower)) {
-        return ["Bookings", "Tee Sheet", "Payments", "Memberships", "Admin", "User Management"];
-      }
+function getQuickReplyOptions(question) {
+  const q = String(question || "").trim();
+  const lower = q.toLowerCase();
+  if (!q.endsWith("?")) return [];
 
-      if (/\b(escalat|send to support|raise.*support)\b/.test(lower)) {
-        return ["Yes, escalate", "No, continue troubleshooting"];
-      }
+  const choiceOptions = getChoiceOptions(q);
+  if (choiceOptions.length > 1) return choiceOptions;
 
-      if (isBinaryQuestion(q)) return ["Yes", "No"];
+  if (/\b(product area|area|module|category)\b/.test(lower)) return ["Bookings", "Tee Sheet", "Payments", "Memberships", "Admin", "User Management"];
+  if (/\b(escalat|send to support|raise.*support)\b/.test(lower)) return ["Yes, escalate", "No, continue troubleshooting"];
+  if (isBinaryQuestion(q)) return ["Yes", "No"];
+  return [];
+}
 
-      return [];
-    }
+function quickReplyHtml(question) {
+  const options = getQuickReplyOptions(question);
+  if (!options.length) return "";
+  const buttons = options.map(option => `<button class="quick-reply-btn" type="button" onclick="sendQuickReply(decodeURIComponent('${encodeURIComponent(option)}'))">${escapeHtml(option)}</button>`).join("");
+  return `<div class="quick-replies">${buttons}</div>`;
+}
 
-    function quickReplyHtml(question) {
-      const options = getQuickReplyOptions(question);
-      if (!options.length) return "";
-      const buttons = options.map(option => {
-        const encoded = encodeURIComponent(option);
-        return `<button class="quick-reply-btn" type="button" onclick="sendQuickReply(decodeURIComponent('${encoded}'))">${escapeHtml(option)}</button>`;
-      }).join("");
-      return `<div class="quick-replies">${buttons}</div>`;
-    }
+function parseAnswer(text) {
+  const lines = String(text || "").split("\n").map(l => l.trim()).filter(Boolean);
+  const result = { title: "", intro: "", path: "", steps: [], bullets: [], followUp: "" };
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (/^then:?$/i.test(line)) continue;
+    if (!result.title && line.length < 90 && !line.includes(">>") && !line.endsWith("?")) { result.title = line.replace(/\.$/, ""); continue; }
+    if (/^(go to|please go to|navigate to):?/i.test(line) || line.includes(">>")) { result.path = line.replace(/^(go to|please go to|navigate to):?/i, "").trim(); continue; }
+    if (/^\d+\./.test(line) || /^step\s*\d+/i.test(line)) { result.steps.push(cleanLine(line)); continue; }
+    if (/^[-•]/.test(line)) { result.bullets.push(cleanLine(line)); continue; }
+    if (line.endsWith("?")) { result.followUp = line; continue; }
+    if (!result.intro) result.intro = line; else result.bullets.push(line);
+  }
+  return result;
+}
 
-    function parseAnswer(text) {
-      const lines = String(text || "").split("\n").map(l => l.trim()).filter(Boolean);
-      const result = { title: "", intro: "", path: "", steps: [], bullets: [], followUp: "" };
+function formatBotAnswer(text) {
+  const parsed = parseAnswer(text);
+  let html = `<div class="answer-card">`;
+  if (parsed.title) html += `<div class="answer-title">${escapeHtml(parsed.title)}</div>`;
+  if (parsed.intro) html += `<div class="answer-intro">${escapeHtml(parsed.intro)}</div>`;
+  if (parsed.path) html += `<div class="path-card"><div class="path-label">Where to go</div><div class="path-value">${escapeHtml(parsed.path)}</div></div>`;
+  if (parsed.steps.length) { html += `<div class="steps">`; parsed.steps.forEach((step, i) => { html += `<div class="step"><div class="step-num">${i + 1}</div><div class="step-text">${escapeHtml(step)}</div></div>`; }); html += `</div>`; }
+  if (parsed.bullets.length) { html += `<div class="bullet-list">`; parsed.bullets.forEach(b => { html += `<div class="bullet">${escapeHtml(b)}</div>`; }); html += `</div>`; }
+  html += `</div>`;
+  if (parsed.followUp) html += `<div class="follow-up">${escapeHtml(parsed.followUp)}${quickReplyHtml(parsed.followUp)}</div>`;
+  return html;
+}
 
-      for (const raw of lines) {
-        const line = raw.trim();
-        if (/^then:?$/i.test(line)) continue;
-        if (!result.title && line.length < 90 && !line.includes(">>") && !line.endsWith("?")) {
-          result.title = line.replace(/\.$/, "");
-          continue;
-        }
-        if (/^(go to|please go to|navigate to):?/i.test(line) || line.includes(">>")) {
-          result.path = line.replace(/^(go to|please go to|navigate to):?/i, "").trim();
-          continue;
-        }
-        if (/^\d+\./.test(line) || /^step\s*\d+/i.test(line)) {
-          result.steps.push(cleanLine(line));
-          continue;
-        }
-        if (/^[-•]/.test(line)) {
-          result.bullets.push(cleanLine(line));
-          continue;
-        }
-        if (line.endsWith("?")) {
-          result.followUp = line;
-          continue;
-        }
-        if (!result.intro) result.intro = line;
-        else result.bullets.push(line);
-      }
-      return result;
-    }
+function addMessage(text, type) {
+  const chat = document.getElementById("chat");
+  const row = document.createElement("div");
+  row.className = "msg-row " + (type === "user" ? "user-row" : "bot-row");
+  const wrap = document.createElement("div");
+  wrap.className = "msg-wrap";
+  const div = document.createElement("div");
+  div.className = "msg " + type;
+  div.innerHTML = type === "bot" ? formatBotAnswer(text) : "";
+  if (type !== "bot") div.textContent = text;
+  wrap.appendChild(div); row.appendChild(wrap); chat.appendChild(row); chat.scrollTop = chat.scrollHeight;
+}
 
-    function formatBotAnswer(text) {
-      const parsed = parseAnswer(text);
-      let html = `<div class="answer-card">`;
-      if (parsed.title) html += `<div class="answer-title">${escapeHtml(parsed.title)}</div>`;
-      if (parsed.intro) html += `<div class="answer-intro">${escapeHtml(parsed.intro)}</div>`;
-      if (parsed.path) {
-        html += `<div class="path-card"><div class="path-label">Where to go</div><div class="path-value">${escapeHtml(parsed.path)}</div></div>`;
-      }
-      if (parsed.steps.length) {
-        html += `<div class="steps">`;
-        parsed.steps.forEach((step, i) => {
-          html += `<div class="step"><div class="step-num">${i + 1}</div><div class="step-text">${escapeHtml(step)}</div></div>`;
-        });
-        html += `</div>`;
-      }
-      if (parsed.bullets.length) {
-        html += `<div class="bullet-list">`;
-        parsed.bullets.forEach(b => { html += `<div class="bullet">${escapeHtml(b)}</div>`; });
-        html += `</div>`;
-      }
-      html += `</div>`;
-      if (parsed.followUp) html += `<div class="follow-up">${escapeHtml(parsed.followUp)}${quickReplyHtml(parsed.followUp)}</div>`;
-      return html;
-    }
+function showTyping() {
+  const chat = document.getElementById("chat");
+  const row = document.createElement("div"); row.className = "msg-row bot-row"; row.id = "typingRow";
+  const wrap = document.createElement("div"); wrap.className = "msg-wrap";
+  const div = document.createElement("div"); div.className = "msg bot typing"; div.innerHTML = "<span></span><span></span><span></span>";
+  wrap.appendChild(div); row.appendChild(wrap); chat.appendChild(row); chat.scrollTop = chat.scrollHeight;
+}
 
-    function addMessage(text, type) {
-      const chat = document.getElementById("chat");
-      const row = document.createElement("div");
-      row.className = "msg-row " + (type === "user" ? "user-row" : "bot-row");
-      const wrap = document.createElement("div");
-      wrap.className = "msg-wrap";
-      const div = document.createElement("div");
-      div.className = "msg " + type;
-      div.innerHTML = type === "bot" ? formatBotAnswer(text) : "";
-      if (type !== "bot") div.textContent = text;
-      wrap.appendChild(div);
-      row.appendChild(wrap);
-      chat.appendChild(row);
-      chat.scrollTop = chat.scrollHeight;
-    }
+function removeTyping() { const row = document.getElementById("typingRow"); if (row) row.remove(); }
 
-    function showTyping() {
-      const chat = document.getElementById("chat");
-      const row = document.createElement("div");
-      row.className = "msg-row bot-row";
-      row.id = "typingRow";
-      const wrap = document.createElement("div");
-      wrap.className = "msg-wrap";
-      const div = document.createElement("div");
-      div.className = "msg bot typing";
-      div.innerHTML = "<span></span><span></span><span></span>";
-      wrap.appendChild(div);
-      row.appendChild(wrap);
-      chat.appendChild(row);
-      chat.scrollTop = chat.scrollHeight;
-    }
+function addEscalationPreview(draft) {
+  const chat = document.getElementById("chat");
+  const preview = document.createElement("div"); preview.className = "email-preview";
+  preview.innerHTML = `\n<strong>Escalation Email</strong>\n\n<strong>To:</strong> ${escapeHtml(draft.to || "support@brsgolf.com")}\n\n<strong>Subject:</strong> ${escapeHtml(draft.subject)}\n\n<strong>Body:</strong>\n${escapeHtml(draft.body)}\n`;
+  chat.appendChild(preview);
+  const btn = document.createElement("button"); btn.className = "escalation-btn"; btn.textContent = "Send to Support"; btn.onclick = sendEscalation;
+  chat.appendChild(btn); chat.scrollTop = chat.scrollHeight;
+}
 
-    function removeTyping() {
-      const row = document.getElementById("typingRow");
-      if (row) row.remove();
-    }
+async function sendEscalation() {
+  try { const res = await fetch("/send-escalation", requestOptions("POST")); const data = await res.json(); addMessage(data.message || "Escalation prepared.", "bot"); }
+  catch { addMessage("Error sending escalation.", "bot"); }
+}
 
-    function addEscalationPreview(draft) {
-      const chat = document.getElementById("chat");
-      const preview = document.createElement("div");
-      preview.className = "email-preview";
-      preview.innerHTML = `\n<strong>Escalation Email</strong>\n\n<strong>To:</strong> ${escapeHtml(draft.to || "support@brsgolf.com")}\n\n<strong>Subject:</strong> ${escapeHtml(draft.subject)}\n\n<strong>Body:</strong>\n${escapeHtml(draft.body)}\n`;
-      chat.appendChild(preview);
-      const btn = document.createElement("button");
-      btn.className = "escalation-btn";
-      btn.textContent = "Send to Support";
-      btn.onclick = sendEscalation;
-      chat.appendChild(btn);
-      chat.scrollTop = chat.scrollHeight;
-    }
+async function resetChat() {
+  await fetch("/reset", requestOptions("POST"));
+  document.getElementById("chat").innerHTML = "";
+  addWelcomeCard(); addMessage("What issue can I help you with?", "bot"); document.getElementById("input").focus();
+}
 
-    async function sendEscalation() {
-      try {
-        const res = await fetch("/send-escalation", requestOptions("POST"));
-        const data = await res.json();
-        addMessage(data.message || "Escalation prepared.", "bot");
-      } catch {
-        addMessage("Error sending escalation.", "bot");
-      }
-    }
+function handleKey(e) { if (e.key === "Enter") send(); }
+async function sendQuickReply(value) { const input = document.getElementById("input"); input.value = value; await send(); }
 
-    async function resetChat() {
-      await fetch("/reset", requestOptions("POST"));
-      document.getElementById("chat").innerHTML = "";
-      addWelcomeCard();
-      addMessage("What issue can I help you with?", "bot");
-      document.getElementById("input").focus();
-    }
+async function send() {
+  const input = document.getElementById("input"); const btn = document.getElementById("sendBtn"); const msg = input.value.trim();
+  if (!msg) return;
+  addMessage(msg, "user"); input.value = ""; btn.disabled = true; input.disabled = true; showTyping();
+  try {
+    const res = await fetch("/chat", requestOptions("POST", { message: msg, sessionId })); const data = await res.json();
+    removeTyping(); addMessage(data.reply || "No response received.", "bot");
+    if (data.escalationReady && data.escalationDraft) addEscalationPreview(data.escalationDraft);
+  } catch { removeTyping(); addMessage("Error connecting to server. Please refresh and try again.", "bot"); }
+  btn.disabled = false; input.disabled = false; input.focus();
+}
 
-    function handleKey(e) { if (e.key === "Enter") send(); }
-
-    async function sendQuickReply(value) {
-      const input = document.getElementById("input");
-      input.value = value;
-      await send();
-    }
-
-    async function send() {
-      const input = document.getElementById("input");
-      const btn = document.getElementById("sendBtn");
-      const msg = input.value.trim();
-      if (!msg) return;
-      addMessage(msg, "user");
-      input.value = "";
-      btn.disabled = true;
-      input.disabled = true;
-      showTyping();
-      try {
-        const res = await fetch("/chat", requestOptions("POST", { message: msg, sessionId }));
-        const data = await res.json();
-        removeTyping();
-        addMessage(data.reply || "No response received.", "bot");
-        if (data.escalationReady && data.escalationDraft) addEscalationPreview(data.escalationDraft);
-      } catch {
-        removeTyping();
-        addMessage("Error connecting to server. Please refresh and try again.", "bot");
-      }
-      btn.disabled = false;
-      input.disabled = false;
-      input.focus();
-    }
-
-    addWelcomeCard();
-    addMessage("What issue can I help you with?", "bot");
-  </script>
+addWelcomeCard();
+addMessage("What issue can I help you with?", "bot");
+</script>
 </body>
 </html>
