@@ -108,7 +108,7 @@ function uniqueOptions(options) {
   const seen = new Set();
   return options
     .map(option => String(option || "").replace(/[?.!]+$/g, "").trim())
-    .filter(option => option.length > 0 && option.length <= 50)
+    .filter(option => option.length > 0 && option.length <= 55)
     .filter(option => !/^(this|it|the|a|an|about|for)$/i.test(option))
     .filter(option => {
       const key = option.toLowerCase();
@@ -143,8 +143,6 @@ function stripQuestionLead(text) {
 function normaliseOption(option) {
   return String(option || "")
     .replace(/\bbrand new\b/i, "new")
-    .replace(/\bsetup\b/i, "setup")
-    .replace(/\bexisting subscription to a member\b/i, "existing subscription to a member")
     .replace(/\bsomething else\b/i, "something else")
     .trim();
 }
@@ -166,17 +164,20 @@ function getChoiceOptions(question) {
   const q = String(question || "").replace(/\?$/, "").trim();
   const lower = q.toLowerCase();
 
-  const colonMatch = q.match(/(?:which|what)\s+[^:]{0,120}:\s*(.+)$/i);
+  const colonMatch = q.match(/(?:which|what)\s+[^:]{0,140}:\s*(.+)$/i);
   if (colonMatch) return splitOptions(colonMatch[1]);
 
   const aboutMatch = q.match(/(?:is|are|was|were)\s+(?:your\s+)?(?:query|question|issue|request|this|it)\s+(?:about|for|related to)\s+(.+)$/i);
-  if (aboutMatch) return splitOptions(aboutMatch[1]);
+  if (aboutMatch && /\b(or|,)\b/i.test(aboutMatch[1])) return splitOptions(aboutMatch[1]);
 
   const intentMatch = q.match(/(?:are you|do you want to|are you trying to|are you looking to|would you like to|do you need to|are you asking to|are you asking about)\s+(.+)$/i);
-  if (intentMatch) return splitOptions(intentMatch[1]);
+  if (intentMatch && /\b(or|,)\b/i.test(intentMatch[1])) return splitOptions(intentMatch[1]);
 
   const thisAboutMatch = q.match(/(?:is this|is it|was this|was it|do you mean|are you asking)\s+(?:about\s+)?(.+)$/i);
-  if (thisAboutMatch) return splitOptions(thisAboutMatch[1]);
+  if (thisAboutMatch && /\b(or|,)\b/i.test(thisAboutMatch[1])) return splitOptions(thisAboutMatch[1]);
+
+  const embeddedChoiceMatch = q.match(/^(?:is|are|was|were|do|does|did|can|could|should|would|will|have|has|had)\b\s+(.+)$/i);
+  if (embeddedChoiceMatch && /\b(or|,)\b/i.test(embeddedChoiceMatch[1])) return splitOptions(embeddedChoiceMatch[1]);
 
   if (/\b(or|,)\b/i.test(lower) && !isBinaryQuestion(q)) return splitOptions(q);
 
