@@ -18,7 +18,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "topic-routing-fix-v2";
+const APP_VERSION = "syntax-fix-topic-routing-v3";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -160,7 +160,8 @@ function isFullRefundAnswer(text) {
 function isPartialRefundAnswer(text) {
   const lower = text.toLowerCase();
   return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund");
-}\n
+}
+
 function approvedRefundReply(type = "refund") {
   const partialLine = type === "partial"
     ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund."
@@ -206,7 +207,7 @@ function userConfirmedRecordFound(message) {
 
 function createEscalationDraft(conversationHistory) {
   const transcript = conversationHistory.map((m) => `${m.role.toUpperCase()}: ${m.content}`).join("\n");
-  return { to: "support@brsgolf.com", subject: "Payment missing in BRS – support investigation required", body: `Hi Support Team,
+  return { to: "support@brsgolf.com", subject: "Payment missing in BRS - support investigation required", body: `Hi Support Team,
 
 A payment issue needs investigation.
 
@@ -227,7 +228,7 @@ app.post("/api/chat", async (req, res) => {
   try {
     const { message } = req.body;
     if (!message || !message.trim()) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
-    if (isConversationEnd(message)) { resetSessionState(sessionId); return res.json({ reply: "Great — glad that’s sorted. Starting fresh for the next issue.", escalationReady: false, options: [], version: APP_VERSION }); }
+    if (isConversationEnd(message)) { resetSessionState(sessionId); return res.json({ reply: "Great - glad that is sorted. Starting fresh for the next issue.", escalationReady: false, options: [], version: APP_VERSION }); }
 
     const detectedTopic = detectTopic(message);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
@@ -286,7 +287,7 @@ app.post("/api/chat", async (req, res) => {
 
     if (topic === "general") {
       state.conversationHistory.push({ role: "user", content: message });
-      const reply = "Got it — just to check, is this about bookings, payments, memberships, users, or system setup?";
+      const reply = "Got it - just to check, is this about bookings, payments, memberships, users, or system setup?";
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic, options: topicOptions, version: APP_VERSION });
@@ -302,7 +303,7 @@ app.post("/api/chat", async (req, res) => {
       }
       if (userConfirmedNoRecord(message)) {
         state.escalationState = "escalated";
-        const reply = "Thanks — if there is no matching transaction in BRS Payments, this needs to be investigated with the payments platform. I’ve prepared an escalation draft for support below. Please review it before sending.";
+        const reply = "Thanks - if there is no matching transaction in BRS Payments, this needs to be investigated with the payments platform. I have prepared an escalation draft for support below. Please review it before sending.";
         state.conversationHistory.push({ role: "assistant", content: reply }); state.escalationDraft = createEscalationDraft(state.conversationHistory); saveSessionState(sessionId, state);
         return res.json({ reply, escalationReady: true, escalationDraft: state.escalationDraft, topic: "payments", options: [], version: APP_VERSION });
       }
@@ -318,7 +319,7 @@ app.post("/api/chat", async (req, res) => {
     res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
   } catch (error) {
     console.error("FULL ERROR:", error); saveSessionState(sessionId, state);
-    res.status(500).json({ reply: "Sorry — something went wrong. Please try again.", escalationReady: false, options: [], version: APP_VERSION });
+    res.status(500).json({ reply: "Sorry - something went wrong. Please try again.", escalationReady: false, options: [], version: APP_VERSION });
   }
 });
 
