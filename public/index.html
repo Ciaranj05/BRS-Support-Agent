@@ -29,41 +29,12 @@
     .msg-wrap { max-width: 70%; }
     .msg { border-radius: 18px; font-size: 15px; line-height: 1.6; }
     .user { padding: 14px 16px; background: var(--primary); color: white; border-bottom-right-radius: 6px; white-space: pre-wrap; }
-    .bot { background: white; border: 1px solid var(--border); border-bottom-left-radius: 6px; box-shadow: var(--card-shadow); overflow: hidden; }
-    .answer-card { padding: 16px; }
-    .answer-title { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
-    .answer-intro { color: var(--muted); margin-bottom: 14px; }
-    .answer-intro:empty { display: none; }
-    .path-card { border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 14px; padding: 12px 13px; margin: 12px 0 14px; }
-    .path-label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
-    .path-value { font-weight: 750; color: #0f172a; }
-    .steps { display: grid; gap: 10px; margin: 12px 0; }
-    .step { display: flex; gap: 10px; padding: 12px; border-radius: 14px; background: #f8fafc; border: 1px solid var(--border); }
-    .step-num { width: 24px; height: 24px; border-radius: 999px; background: var(--primary); color: white; display: grid; place-items: center; font-size: 12px; font-weight: 800; flex: 0 0 auto; }
-    .step-text { font-weight: 600; }
-    .bullet-list { margin: 14px 0; display: grid; gap: 10px; }
-    .bullet { display: flex; gap: 10px; color: var(--text); line-height: 1.55; }
-    .bullet::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #64748b; margin-top: 9px; flex: 0 0 auto; }
-    .follow-up { margin-top: 12px; padding: 14px 16px; border-radius: 16px; background: white; border: 1px solid var(--border); color: var(--primary); font-weight: 800; box-shadow: var(--card-shadow); }
-    .quick-replies { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .quick-reply-btn { padding: 10px 14px; border-radius: 999px; background: #f1f5f9; color: var(--text); border: 1px solid var(--border); font-size: 13px; font-weight: 800; }
-    .quick-reply-btn:hover { background: #e2e8f0; }
-    .typing { display: inline-flex; gap: 5px; align-items: center; padding: 15px 17px; }
-    .typing span { width: 7px; height: 7px; background: #94a3b8; border-radius: 50%; animation: pulse 1.2s infinite ease-in-out; }
-    .typing span:nth-child(2) { animation-delay: 0.18s; }
-    .typing span:nth-child(3) { animation-delay: 0.36s; }
-    @keyframes pulse { 0%, 80%, 100% { transform: scale(0.75); opacity: 0.35; } 40% { transform: scale(1); opacity: 1; } }
+    .bot { padding: 14px 16px; background: white; border: 1px solid var(--border); border-bottom-left-radius: 6px; box-shadow: var(--card-shadow); }
     .input-wrap { padding: 16px; border-top: 1px solid var(--border); background: white; }
     .input { display: flex; gap: 8px; }
     input { flex: 1; padding: 14px; border-radius: 14px; border: 1px solid var(--border); font-size: 14px; outline: none; }
-    input:focus { border-color: #94a3b8; }
     button { padding: 0 18px; border-radius: 14px; border: none; background: var(--primary); color: white; font-weight: 700; cursor: pointer; }
-    button:disabled { opacity: 0.55; cursor: not-allowed; }
     .reset-btn { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
-    .footer-note { margin-top: 10px; color: var(--muted); font-size: 12px; text-align: center; font-weight: 500; }
-    .email-preview { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 18px; margin: 18px 0; white-space: pre-wrap; font-size: 14px; line-height: 1.6; box-shadow: var(--card-shadow); }
-    .escalation-btn { padding: 14px 18px; background: var(--accent); color: white; border-radius: 14px; cursor: pointer; font-weight: 800; border: none; margin-bottom: 18px; }
-    @media (max-width: 760px) { body { padding: 0; } .app { height: 100vh; border-radius: 0; } .header { padding: 18px; } .subtitle { font-size: 13px; } .status-pill { display: none; } #chat { padding: 18px; } .msg-wrap { max-width: 92%; } .input { flex-wrap: wrap; } button { flex: 1; padding: 14px; } .quick-replies { flex-direction: column; } .footer-note { display: none; } }
   </style>
 </head>
 <body>
@@ -72,36 +43,98 @@
       <div class="brand"><div class="mark">B</div><div><div class="title">BRS Support Agent</div><div class="subtitle">Support guidance for bookings, payments, memberships and admin queries.</div></div></div>
       <div class="status-pill"><span class="dot"></span>Support Agent Online</div>
     </div>
+
     <div id="chat"></div>
+
     <div class="input-wrap">
-      <div class="input"><input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" /><button id="sendBtn" onclick="send()">Send</button><button onclick="resetChat()" class="reset-btn">New Issue</button></div>
-      <div class="footer-note">Include the product area, customer issue and any checks already completed.</div>
+      <div class="input">
+        <input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" />
+        <button id="sendBtn" onclick="send()">Send</button>
+        <button onclick="resetChat()" class="reset-btn">New Issue</button>
+      </div>
     </div>
   </div>
+
 <script>
 const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUUID();
 localStorage.setItem("brsSupportSessionId", sessionId);
 
-function requestOptions(method = "POST", body = null) {
-  const options = { method, headers: { "Content-Type": "application/json", "x-session-id": sessionId } };
-  if (body) options.body = JSON.stringify(body);
-  return options;
-}
+function addMessage(text, sender = "bot") {
+  const chat = document.getElementById("chat");
 
-function escapeHtml(text) {
-  return String(text || "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
-}
+  const row = document.createElement("div");
+  row.className = `msg-row ${sender === "user" ? "user-row" : "bot-row"}`;
 
-function cleanLine(line) {
-  return line.replace(/^[-•]\s*/, "").replace(/^Step\s*\d+\s*:\s*/i, "").replace(/^\d+\.\s*/, "").trim();
+  const wrap = document.createElement("div");
+  wrap.className = "msg-wrap";
+
+  const message = document.createElement("div");
+  message.className = `msg ${sender}`;
+  message.textContent = text;
+
+  wrap.appendChild(message);
+  row.appendChild(wrap);
+  chat.appendChild(row);
+
+  chat.scrollTop = chat.scrollHeight;
 }
 
 function addWelcomeCard() {
   const chat = document.getElementById("chat");
+
   const card = document.createElement("div");
   card.className = "welcome-card";
-  card.innerHTML = `<h2>How can we help?</h2><p>Describe the issue and I’ll guide the next best step. If needed, I can prepare an escalation draft for support.</p>`;
+  card.innerHTML = `
+    <h2>How can we help?</h2>
+    <p>Describe the issue and we’ll guide the next best step. If needed, we can prepare an escalation draft for support.</p>
+  `;
+
   chat.appendChild(card);
+}
+
+function handleKey(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    send();
+  }
+}
+
+async function send() {
+  const input = document.getElementById("input");
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  addMessage(message, "user");
+  input.value = "";
+
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-session-id": sessionId
+      },
+      body: JSON.stringify({ message })
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get response");
+    }
+
+    const data = await response.json();
+    addMessage(data.reply || "Support response received.", "bot");
+  } catch (error) {
+    console.error(error);
+    addMessage("There was a problem sending your message. Please try again.", "bot");
+  }
+}
+
+function resetChat() {
+  const chat = document.getElementById("chat");
+  chat.innerHTML = "";
+  addWelcomeCard();
+  addMessage("How can we help?", "bot");
 }
 
 addWelcomeCard();
