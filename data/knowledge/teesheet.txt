@@ -83,6 +83,42 @@ Escalate if cancellation fails or payment/refund status is unclear.
 
 ---
 
+## REFUND A BOOKING
+
+Before processing a refund, confirm:
+
+- Correct booking/customer
+- Refund amount
+- Whether the refund should be full or partial
+- Whether the booking should also be cancelled
+
+Steps:
+
+1. Open the tee time
+2. Open the booking details
+3. Expand or open the Payments tab/section
+4. Review payment status and payment history
+5. Select the refund option or refund button
+6. Choose full refund or partial refund amount if applicable
+7. Confirm the refund
+8. Verify the payment status updates correctly after refund
+
+Important:
+
+- The refund option is normally inside the Payments section of the booking
+- Some systems may show "Cancel and Refund" instead of a separate refund button
+- Check for overpayments or remaining balances after partial refunds
+- If refund approval is required, follow the club approval process
+
+Escalate if:
+
+- Refund button is missing
+- Payment record does not match booking status
+- Refund fails or remains pending
+- The refunded amount looks incorrect
+
+---
+
 ## MOVE A BOOKING
 
 Before moving, confirm:
