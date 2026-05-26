@@ -18,7 +18,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "guided-refund-buttons-v4";
+const APP_VERSION = "approved-refund-guide-v1";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -37,10 +37,9 @@ const transactionOptions = [
   { label: "No, no transaction found", value: "No, I cannot find a matching transaction in BRS Payments" },
 ];
 
-const refundSourceOptions = [
-  { label: "BRS / GolfNow online payment", value: "The booking was paid online through BRS or GolfNow" },
-  { label: "Paid at the club", value: "The booking was paid directly at the club" },
-  { label: "Not sure", value: "I am not sure how the booking was paid" },
+const fullPartialRefundOptions = [
+  { label: "Full Refund", value: "This is a full refund" },
+  { label: "Partial Refund", value: "This is a partial refund" },
 ];
 
 const yesNoOptions = [
@@ -97,14 +96,8 @@ ${instructions}
 RESPONSE STYLE:
 - Keep replies short and operational.
 - Ask only one next-step question at a time.
-- Use 2-4 sentences unless the user asks for a full checklist.
-- Do not give long generic checklists.
-- Do not create duplicated empty headings.
-- Never advise creating a new booking until the payment / booking record has been checked.
-- For closed logic questions, make the options clear so the UI can show buttons.
-
-REFUND RULE:
-For refund requests, first confirm whether payment was made online through BRS/GolfNow, paid directly at the club, or unknown. Do not give a long refund checklist before this is confirmed.
+- Do not give generic checklists.
+- Use approved BRS navigation labels only.
 
 PRIORITY ORDER:
 1. Core behaviour rules
@@ -133,19 +126,39 @@ function isRefundRequest(text) {
   return lower.includes("refund") && (lower.includes("booking") || lower.includes("payment") || lower.includes("golfer") || lower.includes("customer"));
 }
 
-function isOnlinePaymentAnswer(text) {
+function isFullRefundAnswer(text) {
   const lower = text.toLowerCase();
-  return lower.includes("online") || lower.includes("golfnow") || lower.includes("brs") || lower.includes("through brs");
+  return lower.includes("full refund") || lower === "full" || lower.includes("full amount");
 }
 
-function isClubPaymentAnswer(text) {
+function isPartialRefundAnswer(text) {
   const lower = text.toLowerCase();
-  return lower.includes("club") || lower.includes("paid directly") || lower.includes("cash") || lower.includes("card terminal") || lower.includes("at the club");
+  return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund");
 }
 
-function isNotSureAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("not sure") || lower.includes("unsure") || lower.includes("don't know") || lower.includes("dont know");
+function approvedRefundReply(type = "refund") {
+  const partialLine = type === "partial"
+    ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund."
+    : "The system will automatically add the full refundable amount for you to refund.";
+
+  return `BRS customers using the BRS Payments processor can refund online payments from the Booking Details screen. If the club does not use BRS Payments, use the non-BRS Payments refund process instead.
+
+Go to:
+Tee Sheet >> Tee Time >> Booking Details >> Payments tab
+
+Then:
+1. From the tee sheet, click the tee time to open the Booking Details screen.
+2. Expand the Payments tab.
+3. Online payments completed through BRS Payments should have a Refund button beside the payment.
+4. Click Refund.
+5. ${partialLine}
+6. Enter a reason if required.
+7. Click Refund to transfer the payment back to the customer.
+
+Please allow 5–10 days for refunds to return to the customer account.
+
+To retrieve a record of refunds, go to:
+Tools >> Payments >> Refunds`;
 }
 
 function isPaymentMissingScenario(text) {
@@ -168,7 +181,7 @@ function userConfirmedRecordFound(message) {
 
 function getOptionsForReply(reply, topic, state) {
   const lower = reply.toLowerCase();
-  if (state.escalationState === "refund_source_asked") return refundSourceOptions;
+  if (state.escalationState === "refund_type_asked") return fullPartialRefundOptions;
   if (topic === "general" && lower.includes("bookings") && lower.includes("payments")) return topicOptions;
   if (state.escalationState === "check_asked") return transactionOptions;
   if (lower.includes("have you") || lower.includes("can you confirm") || lower.includes("is this") || lower.includes("does this") || lower.includes("do you") || lower.includes("are you")) return yesNoOptions;
@@ -229,41 +242,36 @@ app.post("/api/chat", async (req, res) => {
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
     const combinedText = `${historyText} ${message}`;
 
-    if (state.escalationState === "refund_source_asked") {
+    if (state.escalationState === "refund_type_asked") {
       state.conversationHistory.push({ role: "user", content: message });
-      let reply;
-      let options = [];
-
-      if (isOnlinePaymentAnswer(message)) {
-        reply = "For an online BRS/GolfNow payment, first locate the booking or payment in Tools > BRS Payments > Transactions. Can you see the matching transaction there?";
-        state.escalationState = "check_asked";
-        options = transactionOptions;
-      } else if (isClubPaymentAnswer(message)) {
+      if (isFullRefundAnswer(message)) {
+        const reply = approvedRefundReply("full");
         state.escalationState = "none";
-        reply = "If it was paid directly at the club, the refund should usually be handled through the club’s own payment method or till process, not the online BRS Payments flow. Do you also need to cancel or amend the booking on the tee sheet?";
-        options = yesNoOptions;
-      } else if (isNotSureAnswer(message)) {
-        reply = "No problem. First check the booking/payment source: look for an online payment record in Tools > BRS Payments > Transactions. Can you see a matching transaction there?";
-        state.escalationState = "check_asked";
-        options = transactionOptions;
-      } else {
-        reply = "Please confirm where the payment was made so I can guide the correct refund route.";
-        options = refundSourceOptions;
+        state.conversationHistory.push({ role: "assistant", content: reply });
+        saveSessionState(sessionId, state);
+        return res.json({ reply, escalationReady: false, topic: "payments", options: [], version: APP_VERSION });
       }
-
+      if (isPartialRefundAnswer(message)) {
+        const reply = approvedRefundReply("partial");
+        state.escalationState = "none";
+        state.conversationHistory.push({ role: "assistant", content: reply });
+        saveSessionState(sessionId, state);
+        return res.json({ reply, escalationReady: false, topic: "payments", options: [], version: APP_VERSION });
+      }
+      const reply = "Is this a full refund or partial refund?";
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "payments", options, version: APP_VERSION });
+      return res.json({ reply, escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: APP_VERSION });
     }
 
     if (isRefundRequest(combinedText)) {
       state.currentTopic = "payments";
-      state.escalationState = "refund_source_asked";
-      const reply = "I can help with that. First, can you confirm where the booking/payment was made: BRS/GolfNow online payment, paid directly at the club, or not sure?";
+      state.escalationState = "refund_type_asked";
+      const reply = "Is this a full refund or partial refund?";
       state.conversationHistory.push({ role: "user", content: message });
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "payments", options: refundSourceOptions, version: APP_VERSION });
+      return res.json({ reply, escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: APP_VERSION });
     }
 
     if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
@@ -322,6 +330,7 @@ app.post("/send-escalation", async (req, res) => {
 });
 
 app.post("/reset", (req, res) => { resetSessionState(getSessionId(req)); res.json({ message: "Conversation reset." }); });
+app.post("/api/reset", (req, res) => { resetSessionState(getSessionId(req)); res.json({ message: "Conversation reset." }); });
 
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
