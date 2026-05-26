@@ -9,38 +9,229 @@
 
   <style>
     * { box-sizing: border-box; }
-    :root { --bg: #eef3f9; --surface: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --primary: #0f172a; --primary-2: #1e293b; --accent: #2563eb; --success: #16a34a; --shadow: 0 30px 90px rgba(15, 23, 42, 0.14); --card-shadow: 0 14px 40px rgba(15, 23, 42, 0.07); }
-    body { margin: 0; min-height: 100vh; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: var(--text); background: radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.08), transparent 30%), linear-gradient(135deg, #eef3f9, #f8fafc); display: flex; justify-content: center; align-items: center; padding: 28px; }
-    .app { width: 100%; max-width: 1040px; height: 92vh; background: rgba(255, 255, 255, 0.96); border-radius: 28px; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow); }
-    .header { padding: 22px 26px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: white; }
-    .brand { display: flex; align-items: center; gap: 14px; }
-    .mark { width: 42px; height: 42px; border-radius: 14px; background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: white; display: grid; place-items: center; font-weight: 900; }
-    .title { font-size: 20px; font-weight: 800; }
-    .subtitle { margin-top: 4px; color: var(--muted); font-size: 14px; }
-    .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; font-size: 12px; font-weight: 700; white-space: nowrap; }
-    .dot { width: 8px; height: 8px; background: var(--success); border-radius: 999px; box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14); }
-    #chat { flex: 1; padding: 26px; overflow-y: auto; background: #f8fafc; }
-    .welcome-card { background: white; border: 1px solid var(--border); border-radius: 22px; padding: 20px; margin-bottom: 24px; box-shadow: var(--card-shadow); }
-    .welcome-card h2 { margin: 0 0 8px; font-size: 20px; letter-spacing: -0.03em; }
-    .welcome-card p { margin: 0; color: var(--muted); line-height: 1.55; font-size: 15px; }
-    .msg-row { display: flex; margin-bottom: 20px; }
-    .user-row { justify-content: flex-end; }
-    .bot-row { justify-content: flex-start; }
-    .msg-wrap { max-width: 70%; }
-    .msg { border-radius: 18px; font-size: 15px; line-height: 1.6; }
-    .user { padding: 14px 16px; background: var(--primary); color: white; border-bottom-right-radius: 6px; white-space: pre-wrap; }
-    .bot { padding: 14px 16px; background: white; border: 1px solid var(--border); border-bottom-left-radius: 6px; box-shadow: var(--card-shadow); }
-    .input-wrap { padding: 16px; border-top: 1px solid var(--border); background: white; }
-    .input { display: flex; gap: 8px; }
-    input { flex: 1; padding: 14px; border-radius: 14px; border: 1px solid var(--border); font-size: 14px; outline: none; }
-    button { padding: 0 18px; border-radius: 14px; border: none; background: var(--primary); color: white; font-weight: 700; cursor: pointer; }
-    .reset-btn { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
+    :root {
+      --bg: #eef3f9;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #0f172a;
+      --primary-2: #1e293b;
+      --accent: #2563eb;
+      --success: #16a34a;
+      --shadow: 0 30px 90px rgba(15, 23, 42, 0.14);
+      --card-shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.08), transparent 30%), linear-gradient(135deg, #eef3f9, #f8fafc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 28px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1040px;
+      height: 92vh;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 28px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .header {
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 999px;
+    }
+
+    #chat {
+      flex: 1;
+      padding: 26px;
+      overflow-y: auto;
+      background: #f8fafc;
+    }
+
+    .welcome-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .msg-row {
+      display: flex;
+      margin-bottom: 22px;
+    }
+
+    .user-row {
+      justify-content: flex-end;
+    }
+
+    .bot-row {
+      justify-content: flex-start;
+    }
+
+    .msg-wrap {
+      max-width: 72%;
+    }
+
+    .msg {
+      border-radius: 18px;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .user {
+      padding: 16px 18px;
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 6px;
+      white-space: pre-wrap;
+    }
+
+    .bot {
+      padding: 18px 20px;
+      background: white;
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 6px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .bot h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
+
+    .bot p {
+      margin: 0 0 12px;
+      color: #1e293b;
+    }
+
+    .bot ol,
+    .bot ul {
+      margin: 10px 0 14px 22px;
+      padding: 0;
+    }
+
+    .bot li {
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+
+    .bot strong {
+      color: #0f172a;
+    }
+
+    .input-wrap {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      background: white;
+    }
+
+    .input {
+      display: flex;
+      gap: 8px;
+    }
+
+    input {
+      flex: 1;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      outline: none;
+    }
+
+    button {
+      padding: 0 18px;
+      border-radius: 14px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .reset-btn {
+      background: #f1f5f9;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="header">
-      <div class="brand"><div class="mark">B</div><div><div class="title">BRS Support Agent</div><div class="subtitle">Support guidance for bookings, payments, memberships and admin queries.</div></div></div>
+      <div class="brand">
+        <div class="mark">B</div>
+        <div>
+          <div class="title">BRS Support Agent</div>
+          <div class="subtitle">Support guidance for bookings, payments, memberships and admin queries.</div>
+        </div>
+      </div>
       <div class="status-pill"><span class="dot"></span>Support Agent Online</div>
     </div>
 
@@ -49,7 +240,7 @@
     <div class="input-wrap">
       <div class="input">
         <input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" />
-        <button id="sendBtn" onclick="send()">Send</button>
+        <button onclick="send()">Send</button>
         <button onclick="resetChat()" class="reset-btn">New Issue</button>
       </div>
     </div>
@@ -59,18 +250,46 @@
 const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUUID();
 localStorage.setItem("brsSupportSessionId", sessionId);
 
-function addMessage(text, sender = "bot") {
-  const chat = document.getElementById("chat");
+function formatBotMessage(text) {
+  let formatted = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^### (.*)$/gm, '<h3>$1</h3>');
 
-  const row = document.createElement("div");
-  row.className = `msg-row ${sender === "user" ? "user-row" : "bot-row"}`;
+  if (/\d+\./.test(text)) {
+    const lines = text.split('\n').filter(Boolean);
+    const listItems = lines
+      .filter(line => /^\d+\./.test(line.trim()))
+      .map(line => `<li>${line.replace(/^\d+\.\s*/, '')}</li>`)
+      .join('');
 
-  const wrap = document.createElement("div");
-  wrap.className = "msg-wrap";
+    const intro = lines
+      .filter(line => !/^\d+\./.test(line.trim()))
+      .map(line => `<p>${line}</p>`)
+      .join('');
 
-  const message = document.createElement("div");
+    return `${intro}<ol>${listItems}</ol>`;
+  }
+
+  return `<p>${formatted.replace(/\n/g, '</p><p>')}</p>`;
+}
+
+function addMessage(text, sender = 'bot') {
+  const chat = document.getElementById('chat');
+
+  const row = document.createElement('div');
+  row.className = `msg-row ${sender === 'user' ? 'user-row' : 'bot-row'}`;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-wrap';
+
+  const message = document.createElement('div');
   message.className = `msg ${sender}`;
-  message.textContent = text;
+
+  if (sender === 'bot') {
+    message.innerHTML = formatBotMessage(text);
+  } else {
+    message.textContent = text;
+  }
 
   wrap.appendChild(message);
   row.appendChild(wrap);
@@ -80,10 +299,10 @@ function addMessage(text, sender = "bot") {
 }
 
 function addWelcomeCard() {
-  const chat = document.getElementById("chat");
+  const chat = document.getElementById('chat');
 
-  const card = document.createElement("div");
-  card.className = "welcome-card";
+  const card = document.createElement('div');
+  card.className = 'welcome-card';
   card.innerHTML = `
     <h2>How can we help?</h2>
     <p>Describe the issue and we’ll guide the next best step. If needed, we can prepare an escalation draft for support.</p>
@@ -93,52 +312,50 @@ function addWelcomeCard() {
 }
 
 function handleKey(event) {
-  if (event.key === "Enter") {
+  if (event.key === 'Enter') {
     event.preventDefault();
     send();
   }
 }
 
 async function send() {
-  const input = document.getElementById("input");
+  const input = document.getElementById('input');
   const message = input.value.trim();
 
   if (!message) return;
 
-  addMessage(message, "user");
-  input.value = "";
+  addMessage(message, 'user');
+  input.value = '';
 
   try {
-    const response = await fetch("/api/chat", {
-      method: "POST",
+    const response = await fetch('/api/chat', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "x-session-id": sessionId
+        'Content-Type': 'application/json',
+        'x-session-id': sessionId
       },
       body: JSON.stringify({ message })
     });
 
     if (!response.ok) {
-      throw new Error("Failed to get response");
+      throw new Error('Failed to get response');
     }
 
     const data = await response.json();
-    addMessage(data.reply || "Support response received.", "bot");
+    addMessage(data.reply || 'Support response received.', 'bot');
   } catch (error) {
     console.error(error);
-    addMessage("There was a problem sending your message. Please try again.", "bot");
+    addMessage('There was a problem sending your message. Please try again.', 'bot');
   }
 }
 
 function resetChat() {
-  const chat = document.getElementById("chat");
-  chat.innerHTML = "";
+  const chat = document.getElementById('chat');
+  chat.innerHTML = '';
   addWelcomeCard();
-  addMessage("How can we help?", "bot");
 }
 
 addWelcomeCard();
-addMessage("How can we help?", "bot");
 </script>
 </body>
 </html>
