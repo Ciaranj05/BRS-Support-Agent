@@ -4,115 +4,17 @@
   <meta charset="UTF-8" />
   <title>BRS Support Agent</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230f172a'/%3E%3Ctext x='50' y='60' font-size='44' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3EB%3C/text%3E%3C/svg%3E">
+  <style>body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef2ff;color:#0f172a} .app{max-width:1080px;margin:24px auto;background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.08)} .header{padding:24px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center}.title{font-size:28px;font-weight:800}.subtitle{color:#64748b}.status{background:#dcfce7;color:#166534;padding:10px 14px;border-radius:999px;font-weight:700}.chat{height:70vh;overflow:auto;padding:24px;background:#f8fafc}.msg{max-width:75%;padding:16px 18px;border-radius:20px;margin-bottom:16px;line-height:1.6}.user{margin-left:auto;background:#0f172a;color:#fff}.bot{background:#fff;border:1px solid #e2e8f0}.input-wrap{display:flex;gap:10px;padding:16px;border-top:1px solid #e2e8f0}input{flex:1;padding:14px;border-radius:14px;border:1px solid #cbd5e1}button{padding:14px 18px;border:none;border-radius:14px;background:#0f172a;color:#fff;font-weight:700;cursor:pointer}.option-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.option-btn{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}</style>
 </head>
 <body>
-  <div id="chat"></div>
-  <input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" />
-  <button id="sendBtn" onclick="send()">Send</button>
-  <button onclick="resetChat()">New Issue</button>
-
+<div class="app">
+<div class="header"><div><div class="title">BRS Support Agent</div><div class="subtitle">Support guidance for bookings, payments, memberships and admin queries.</div></div><div class="status">Support Agent Online</div></div>
+<div id="chat" class="chat"></div>
+<div class="input-wrap"><input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)"><button id="sendBtn" onclick="send()">Send</button><button onclick="resetChat()">New Issue</button></div>
+</div>
 <script>
-const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUUID();
-localStorage.setItem("brsSupportSessionId", sessionId);
-let isSending = false;
-let activeOptionRow = null;
-
-function escapeHtml(text) {
-  return String(text || "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
-}
-
-function getQuickReplyOptions(text) {
-  const questionMatch = String(text || "").match(/[^.!?\n][^?\n]*\?/g);
-  if (!questionMatch) return [];
-  const q = questionMatch[questionMatch.length - 1].trim();
-  const lower = q.toLowerCase();
-
-  if (/full refund.*partial refund|partial refund.*full refund/i.test(q)) return ["Full Refund", "Partial Refund"];
-  if (/yes\s+or\s+no|^(have|has|is|are|was|were|do|does|did|can|could|should|will|would)\b/i.test(lower) && !/\s+or\s+|,/.test(lower.replace(/yes\s+or\s+no/g, ""))) return ["Yes", "No"];
-
-  const colon = q.match(/(?:which|what)\s+[^:]{0,140}:\s*(.+)$/i);
-  const source = colon ? colon[1] : q.replace(/^(is this|is it|are you|do you want to|are you trying to|are you looking to|do you need to|are you asking about|do you mean)\s+(about\s+)?/i, "");
-
-  if (/\s+or\s+|,/.test(source)) {
-    return source
-      .replace(/[?]$/g, "")
-      .replace(/\b(or something else|or another issue|or other)\b/gi, ", something else")
-      .split(/\s*,\s*|\s+or\s+|\s*\/\s*/i)
-      .map(x => x.trim())
-      .map(x => x.replace(/^(a|an|the|adding|creating|setting up|checking|reviewing)\s+/i, ""))
-      .filter(Boolean)
-      .slice(0, 8)
-      .map(x => x.replace(/\b\w/g, c => c.toUpperCase()));
-  }
-
-  return [];
-}
-
-function addMessage(text, sender = "bot", options = []) {
-  const chat = document.getElementById("chat");
-  const div = document.createElement("div");
-  div.className = sender;
-  div.innerHTML = sender === "bot" ? escapeHtml(text).replace(/\n/g, "<br>") : escapeHtml(text);
-
-  const finalOptions = sender === "bot" ? (options.length ? options : getQuickReplyOptions(text)) : [];
-  if (finalOptions.length) {
-    const row = document.createElement("div");
-    row.className = "option-row";
-    finalOptions.forEach(option => {
-      const btn = document.createElement("button");
-      btn.textContent = option.label || option;
-      btn.onclick = () => send(option.value || option.label || option, option.label || option);
-      row.appendChild(btn);
-    });
-    div.appendChild(row);
-    activeOptionRow = row;
-  }
-
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function handleKey(event) {
-  if (event.key === "Enter") send();
-}
-
-async function send(messageOverride = null, displayText = null) {
-  if (isSending) return;
-  const input = document.getElementById("input");
-  const message = messageOverride || input.value.trim();
-  if (!message) return;
-
-  if (activeOptionRow) activeOptionRow.querySelectorAll("button").forEach(b => b.disabled = true);
-  addMessage(displayText || message, "user");
-  input.value = "";
-  isSending = true;
-  document.getElementById("sendBtn").disabled = true;
-
-  try {
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-session-id": sessionId },
-      body: JSON.stringify({ message })
-    });
-    const data = await response.json();
-    addMessage(data.reply || "No response received.", "bot", data.options || []);
-  } catch (e) {
-    addMessage("There was a problem sending your message. Please try again.", "bot");
-  }
-
-  isSending = false;
-  document.getElementById("sendBtn").disabled = false;
-  input.focus();
-}
-
-async function resetChat() {
-  document.getElementById("chat").innerHTML = "";
-  await fetch("/api/reset", { method: "POST", headers: { "x-session-id": sessionId } }).catch(() => {});
-}
-
-addMessage("How can we help?", "bot");
+const sessionId=localStorage.getItem('brsSupportSessionId')||crypto.randomUUID();localStorage.setItem('brsSupportSessionId',sessionId);let isSending=false;function esc(t){return String(t||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}function extractOptions(t){const m=String(t||'').match(/[^.!?\n][^?\n]*\?/g);if(!m)return[];const q=m[m.length-1];if(/full refund.*partial refund|partial refund.*full refund/i.test(q))return['Full Refund','Partial Refund'];if(/yes or no/i.test(q))return['Yes','No'];return[]}function addMessage(text,sender='bot',opts=[]){const chat=document.getElementById('chat');const div=document.createElement('div');div.className='msg '+sender;div.innerHTML=esc(text).replace(/\n/g,'<br>');const options=opts.length?opts:extractOptions(text);if(options.length){const row=document.createElement('div');row.className='option-row';options.forEach(o=>{const b=document.createElement('button');b.className='option-btn';b.textContent=o;b.onclick=()=>send(o,o);row.appendChild(b)});div.appendChild(row)}chat.appendChild(div);chat.scrollTop=chat.scrollHeight}function handleKey(e){if(e.key==='Enter')send()}async function send(m=null,d=null){if(isSending)return;const input=document.getElementById('input');const message=m||input.value.trim();if(!message)return;addMessage(d||message,'user');input.value='';isSending=true;try{const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json','x-session-id':sessionId},body:JSON.stringify({message})});const data=await r.json();addMessage(data.reply||'No response received.','bot',data.options||[])}catch(e){addMessage('There was a problem sending your message. Please try again.','bot')}isSending=false}function resetChat(){document.getElementById('chat').innerHTML='';addMessage('How can we help?','bot')}addMessage('How can we help?','bot');
 </script>
 </body>
 </html>
