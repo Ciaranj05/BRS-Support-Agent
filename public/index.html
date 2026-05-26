@@ -159,6 +159,28 @@
     .bot li { margin-bottom: 10px; padding-left: 4px; }
     .bot strong { color: #0f172a; }
 
+    .option-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .option-btn {
+      padding: 10px 14px;
+      min-height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, 0.28);
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .option-btn:hover { background: #dbeafe; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(37, 99, 235, 0.14); }
+    .option-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+
     .typing {
       display: inline-flex;
       align-items: center;
@@ -238,6 +260,7 @@
       .input { flex-wrap: wrap; }
       input { min-width: 100%; }
       button { min-height: 42px; flex: 1; }
+      .option-btn { flex: 1 1 100%; }
     }
   </style>
 </head>
@@ -270,6 +293,7 @@ const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUU
 localStorage.setItem("brsSupportSessionId", sessionId);
 let isSending = false;
 let typingRow = null;
+let activeOptionRow = null;
 
 function formatBotMessage(text) {
   let formatted = text
@@ -299,7 +323,12 @@ function scrollChatToBottom() {
   chat.scrollTop = chat.scrollHeight;
 }
 
-function addMessage(text, sender = 'bot') {
+function disableActiveOptions() {
+  if (!activeOptionRow) return;
+  activeOptionRow.querySelectorAll('button').forEach(button => button.disabled = true);
+}
+
+function addMessage(text, sender = 'bot', options = []) {
   const chat = document.getElementById('chat');
 
   const row = document.createElement('div');
@@ -315,6 +344,23 @@ function addMessage(text, sender = 'bot') {
     message.innerHTML = formatBotMessage(text);
   } else {
     message.textContent = text;
+  }
+
+  if (sender === 'bot' && Array.isArray(options) && options.length) {
+    const optionRow = document.createElement('div');
+    optionRow.className = 'option-row';
+
+    options.forEach(option => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'option-btn';
+      button.textContent = option.label || option.value;
+      button.onclick = () => sendOption(option);
+      optionRow.appendChild(button);
+    });
+
+    message.appendChild(optionRow);
+    activeOptionRow = optionRow;
   }
 
   wrap.appendChild(message);
@@ -376,15 +422,21 @@ function handleKey(event) {
   }
 }
 
-async function send() {
+function sendOption(option) {
+  if (isSending) return;
+  disableActiveOptions();
+  send(option.value || option.label, option.label || option.value);
+}
+
+async function send(messageOverride = null, displayText = null) {
   if (isSending) return;
 
   const input = document.getElementById('input');
-  const message = input.value.trim();
+  const message = messageOverride || input.value.trim();
 
   if (!message) return;
 
-  addMessage(message, 'user');
+  addMessage(displayText || message, 'user');
   input.value = '';
   setSendingState(true);
   showTypingIndicator();
@@ -405,7 +457,7 @@ async function send() {
 
     const data = await response.json();
     removeTypingIndicator();
-    addMessage(data.reply || 'Support response received.', 'bot');
+    addMessage(data.reply || 'Support response received.', 'bot', data.options || []);
   } catch (error) {
     console.error(error);
     removeTypingIndicator();
@@ -420,6 +472,7 @@ function resetChat() {
   const chat = document.getElementById('chat');
   removeTypingIndicator();
   setSendingState(false);
+  activeOptionRow = null;
   chat.innerHTML = '';
   addWelcomeCard();
 }
