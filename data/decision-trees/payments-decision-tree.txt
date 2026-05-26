@@ -1,13 +1,13 @@
 # PAYMENTS – DECISION TREE
 
-Use this when the issue relates to payments, refunds, payouts, or billing.
+Use this when the issue relates to payments, refunds, payouts, billing, payment requests, failed payments, or payment allocation.
 
 ---
 
 ## 1. INITIAL TRIAGE
 
 IF multiple users are affected:
-→ Escalate immediately (possible wider system or payment issue)
+→ Escalate immediately (possible wider system or payment issue).
 
 IF single user:
 → Identify issue type:
@@ -17,6 +17,9 @@ IF single user:
 - Refund
 - Payment failure
 - Payout / reporting
+- Payment request
+
+If the user clearly asks about a refund, go directly to the REFUND section. Do not give generic refund instructions.
 
 ---
 
@@ -31,15 +34,15 @@ Ask:
 Fully paid
 
 → BLUE:
-Part paid  
+Part paid
 → Check total vs amount paid
 
 → RED:
-Unpaid  
+Unpaid
 → Open booking → Payments tab
 
 → YELLOW:
-Overpaid  
+Overpaid
 → Check for:
 - Removed players
 - Booking changes
@@ -47,12 +50,16 @@ Overpaid
 
 Then guide:
 
-1. Click tee time  
-2. Open booking  
-3. Open Payments tab  
+Go to:
+Tee Sheet >> Tee Time >> Booking Details >> Payments tab
+
+Then:
+- Open the tee time
+- Open the booking details
+- Expand the Payments tab
 
 Follow-up:
-“Is there a payment listed in the Payments tab?”
+“Is there a payment listed in the Payments tab? Yes or No”
 
 ---
 
@@ -62,39 +69,40 @@ This is a priority scenario.
 
 Guide system checks immediately:
 
-1. Open booking or bill  
-2. Check Payments tab  
-3. Go to:
-   Tools >> BRS Payments >> Transactions  
-4. Search by:
-   - Amount  
-   - Date  
-   - Customer name  
+Go to:
+Tools >> BRS Payments >> Transactions
+
+Then:
+- Open the booking or bill first
+- Check the Payments tab
+- Search Transactions by amount
+- Search Transactions by date
+- Search using customer name or booking/bill reference if available
 
 ---
 
 ### OUTCOME A — PAYMENT EXISTS
 
-→ Likely mismatch or allocation issue  
+→ Likely mismatch or allocation issue.
 
 Next steps:
-1. Check allocation  
-2. Check “Left to Allocate”  
-3. Confirm correct booking / bill  
+- Check allocation
+- Check “Left to Allocate”
+- Confirm correct booking / bill
 
 IF mismatch remains:
-→ Escalate  
+→ Escalate.
 
 ---
 
 ### OUTCOME B — NO PAYMENT IN BRS, USER CONFIRMS MONEY TAKEN
 
-→ Escalate immediately  
+→ Escalate immediately.
 
 Do NOT:
-- Ask for further proof  
-- Assume bank transfer  
-- Continue troubleshooting  
+- Ask for further proof
+- Assume bank transfer
+- Continue troubleshooting
 
 Use:
 
@@ -110,61 +118,96 @@ I can raise this with support now.”
 
 Ask ONE question:
 
-“Can the customer confirm if the payment has actually left their account?”
+“Can the customer confirm if the payment has actually left their account? Yes or No”
 
 → If YES:
-Escalate  
+Escalate.
 
 → If NO:
-Advise retry payment  
+Advise retry payment.
 
 → If unsure:
-Ask to check bank / card statement  
+Ask them to check bank / card statement.
 
 ---
 
 ## 4. REFUND
 
-Ask:
-“Is this a full or partial refund?”
+IF asked “How do I refund a booking?” or any booking/customer refund question:
+
+Give the detailed BRS Payments refund pathway below.
+
+Go to:
+Tee Sheet >> Tee Time >> Booking Details >> Payments tab
 
 Then:
-
-1. Open booking  
-2. Go to Payments  
-3. Select correct payment  
-4. Click Refund  
-5. Choose amount  
-6. Confirm  
-
-Then clarify:
-
-IF payment was online:
-→ Refund goes to original card (5–10 days)
-
-IF offline:
-→ Refund must be processed outside BRS  
+- From the tee sheet, click the tee time to open the Booking Details screen
+- Expand the Payments tab
+- Find the correct online payment
+- Confirm the payment is the correct one to refund
+- Click Refund
+- The system will populate the full refundable amount automatically
+- For a partial refund, manually enter the amount to be refunded
+- Click Refund to send the payment back to the customer
 
 Important:
-→ Always confirm before refunding  
-→ Always refund against correct payment  
+- Always confirm the correct booking and payment before clicking Refund
+- Refunds can be full or partial
+- Partial refunds require the refund amount to be entered manually
+- Online refunds go back to the original card
+- Refunds usually take 5–10 days to appear in the customer account
+- Online payments completed through BRS Payments should show a Refund button when eligible
+
+To review refund records:
+
+Go to:
+Tools >> BRS Payments >> Refunds
+
+Then:
+- Search/review the refund record
+- Confirm the refund date and amount
+
+IF there is no Refund button:
+- Confirm the payment was taken through BRS Payments
+- Confirm the payment is eligible for online refund
+- If the club does not use BRS Payments, follow the offline/non-BRS Payments refund process
+- Escalate if the payment should be refundable but no refund option is available
+
+IF the refund is offline:
+- Offline refunds may include cash, PDQ, or cheque
+- The money must be returned outside BRS
+- Do not tell the customer the money has been returned unless the offline refund has actually been completed
+
+IF customer says refund has not arrived:
+- Check Tools >> BRS Payments >> Refunds
+- Confirm the refund exists
+- Confirm the refund date
+- Confirm the correct payment was refunded
+- Advise the normal 5–10 day timeframe
+- Escalate if outside normal timeframe or disputed
+
+Do not:
+- Give generic “log in and find booking” instructions
+- Say “Cancel and Refund” unless that is the exact available action
+- Tell the user BRS automatically notifies the customer unless confirmed
+- Tell the user a refund has completed unless it has actually been processed
 
 ---
 
 ## 5. PAYMENT FAILURE
 
 IF multiple users affected:
-→ Escalate  
+→ Escalate.
 
 IF single user:
 
-Steps:
-1. Retry payment  
-2. Check card details  
-3. Try alternative method  
+Then:
+- Retry payment
+- Check card details
+- Try alternative method
 
 IF repeated failures:
-→ Escalate  
+→ Escalate.
 
 ---
 
@@ -173,45 +216,40 @@ IF repeated failures:
 IF payment exists but bill or booking is incorrect:
 
 Check:
-
-1. Payment exists  
-2. Allocation  
-3. “Left to Allocate” = 0  
+- Payment exists
+- Allocation
+- “Left to Allocate” = 0
 
 IF still incorrect:
-→ Escalate  
+→ Escalate.
 
 ---
 
 ## 7. PAYOUT QUERY
 
-Guide:
+Go to:
+Tools >> BRS Payments >> Payouts
 
-Tools >> BRS Payments >> Payouts  
-
-Explain:
-
-- Shows when funds are paid into bank  
-- Includes fees  
-- Based on rolling schedule  
+Then explain:
+- Shows when funds are paid into bank
+- Includes fees
+- Based on rolling schedule
 
 IF figures do not match after checking breakdown:
-→ Escalate  
+→ Escalate.
 
 ---
 
 ## 8. VAT REPORT QUERY
 
-Guide:
+Go to:
+Tools >> BRS Payments >> VAT Reports
 
-Tools >> BRS Payments >> VAT Reports  
-
-Explain:
-
-- Gross sales  
-- Fees  
-- Net sales  
-- VAT breakdown  
+Then explain:
+- Gross sales
+- Fees
+- Net sales
+- VAT breakdown
 
 ---
 
@@ -219,11 +257,13 @@ Explain:
 
 IF booking-related:
 
-→ Booking → Payments → New Booking Payment  
+Go to:
+Tee Sheet >> Booking >> Payments >> New Booking Payment
 
 IF not booking-related:
 
-→ Tools >> BRS Payments >> General Payment Requests  
+Go to:
+Tools >> BRS Payments >> General Payment Requests
 
 ---
 
@@ -231,12 +271,14 @@ IF not booking-related:
 
 Escalate if:
 
-- No payment in BRS but money taken  
-- Payment mismatch remains  
-- Refund unclear or disputed  
-- Multiple payment failures  
-- Reporting discrepancy  
-- Customer dispute  
+- No payment in BRS but money taken
+- Payment mismatch remains
+- Refund unclear or disputed
+- Refund does not appear after the normal 5–10 day timeframe
+- Refund button is missing when the payment should be eligible
+- Multiple payment failures occur
+- Reporting discrepancy remains
+- Customer disputes payment
 
 ---
 
@@ -244,14 +286,19 @@ Escalate if:
 
 Always:
 
-✔ Check BRS first  
-✔ Guide to exact location in system  
-✔ Ask only when needed  
-✔ Escalate when conditions are met  
+✔ Check BRS first
+✔ Guide to exact location in system
+✔ Use BRS navigation labels
+✔ Ask only when needed
+✔ Escalate when conditions are met
+✔ Confirm before processing a refund
+✔ Refund against the correct payment only
 
 Never:
 
-❌ Assume external payment  
-❌ Manually mark as paid  
-❌ Continue after escalation condition  
-❌ Ask unnecessary follow-up questions  
+❌ Assume external payment
+❌ Manually mark as paid
+❌ Continue after escalation condition
+❌ Ask unnecessary follow-up questions
+❌ Give generic refund steps when the user asks about BRS booking refunds
+❌ Say a refund is complete unless it has actually been processed
