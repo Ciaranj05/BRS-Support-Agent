@@ -37,6 +37,12 @@ const transactionOptions = [
   { label: "No, no transaction found", value: "No, I cannot find a matching transaction in BRS Payments" },
 ];
 
+const refundSourceOptions = [
+  { label: "BRS / GolfNow online payment", value: "The booking was paid online through BRS or GolfNow" },
+  { label: "Paid at the club", value: "The booking was paid directly at the club" },
+  { label: "Not sure", value: "I am not sure how the booking was paid" },
+];
+
 const yesNoOptions = [
   { label: "Yes", value: "Yes" },
   { label: "No", value: "No" },
@@ -52,10 +58,7 @@ function cleanupSessions() {
     if (!state?.updatedAt || now - state.updatedAt > SESSION_TTL_MS) sessions.delete(sessionId);
   }
   if (sessions.size <= SESSION_LIMIT) return;
-  [...sessions.entries()]
-    .sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0))
-    .slice(0, sessions.size - SESSION_LIMIT)
-    .forEach(([sessionId]) => sessions.delete(sessionId));
+  [...sessions.entries()].sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0)).slice(0, sessions.size - SESSION_LIMIT).forEach(([sessionId]) => sessions.delete(sessionId));
 }
 
 function getSessionId(req) {
@@ -70,20 +73,9 @@ function getSessionState(sessionId) {
   return state;
 }
 
-function saveSessionState(sessionId, state) {
-  sessions.set(sessionId, { ...state, updatedAt: Date.now() });
-}
-
-function resetSessionState(sessionId) {
-  const freshState = createDefaultState();
-  sessions.set(sessionId, freshState);
-  return freshState;
-}
-
-function loadFile(filePath) {
-  const fullPath = path.join(__dirname, filePath);
-  return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : "";
-}
+function saveSessionState(sessionId, state) { sessions.set(sessionId, { ...state, updatedAt: Date.now() }); }
+function resetSessionState(sessionId) { const freshState = createDefaultState(); sessions.set(sessionId, freshState); return freshState; }
+function loadFile(filePath) { const fullPath = path.join(__dirname, filePath); return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : ""; }
 
 function detectTopic(message) {
   const lower = message.toLowerCase();
@@ -111,6 +103,9 @@ RESPONSE STYLE:
 - Never advise creating a new booking until the payment / booking record has been checked.
 - For closed logic questions, make the options clear so the UI can show buttons.
 
+REFUND RULE:
+For refund requests, first confirm whether payment was made online through BRS/GolfNow, paid directly at the club, or unknown. Do not give a long refund checklist before this is confirmed.
+
 PRIORITY ORDER:
 1. Core behaviour rules
 2. Relevant decision tree
@@ -133,6 +128,26 @@ function isConversationEnd(message) {
   return lower.includes("all good") || lower.includes("thanks") || lower.includes("thank you") || lower.includes("sorted") || lower.includes("that worked") || lower.includes("resolved");
 }
 
+function isRefundRequest(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("refund") && (lower.includes("booking") || lower.includes("payment") || lower.includes("golfer") || lower.includes("customer"));
+}
+
+function isOnlinePaymentAnswer(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("online") || lower.includes("golfnow") || lower.includes("brs") || lower.includes("through brs");
+}
+
+function isClubPaymentAnswer(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("club") || lower.includes("paid directly") || lower.includes("cash") || lower.includes("card terminal") || lower.includes("at the club");
+}
+
+function isNotSureAnswer(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("not sure") || lower.includes("unsure") || lower.includes("don't know") || lower.includes("dont know");
+}
+
 function isPaymentMissingScenario(text) {
   const lower = text.toLowerCase();
   const paymentTerms = lower.includes("paid") || lower.includes("payment") || lower.includes("money") || lower.includes("bank statement") || lower.includes("receipt") || lower.includes("proof of payment");
@@ -153,6 +168,7 @@ function userConfirmedRecordFound(message) {
 
 function getOptionsForReply(reply, topic, state) {
   const lower = reply.toLowerCase();
+  if (state.escalationState === "refund_source_asked") return refundSourceOptions;
   if (topic === "general" && lower.includes("bookings") && lower.includes("payments")) return topicOptions;
   if (state.escalationState === "check_asked") return transactionOptions;
   if (lower.includes("have you") || lower.includes("can you confirm") || lower.includes("is this") || lower.includes("does this") || lower.includes("do you") || lower.includes("are you")) return yesNoOptions;
@@ -202,14 +218,39 @@ app.post("/api/chat", async (req, res) => {
   try {
     const { message } = req.body;
     if (!message || !message.trim()) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [] });
-    if (isConversationEnd(message)) {
-      resetSessionState(sessionId);
-      return res.json({ reply: "Great — glad that’s sorted. Starting fresh for the next issue.", escalationReady: false, options: [] });
-    }
+    if (isConversationEnd(message)) { resetSessionState(sessionId); return res.json({ reply: "Great — glad that’s sorted. Starting fresh for the next issue.", escalationReady: false, options: [] }); }
 
     const detectedTopic = detectTopic(message);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
     const topic = state.currentTopic || detectedTopic;
+
+    if (state.escalationState === "refund_source_asked") {
+      state.conversationHistory.push({ role: "user", content: message });
+      let reply;
+      let options = [];
+
+      if (isOnlinePaymentAnswer(message)) {
+        state.escalationState = "none";
+        reply = "For an online BRS/GolfNow payment, first locate the booking or payment in Tools > BRS Payments > Transactions. Can you see the matching transaction there?";
+        state.escalationState = "check_asked";
+        options = transactionOptions;
+      } else if (isClubPaymentAnswer(message)) {
+        state.escalationState = "none";
+        reply = "If it was paid directly at the club, the refund should usually be handled through the club’s own payment method or till process, not the online BRS Payments flow. Do you also need to cancel or amend the booking on the tee sheet?";
+        options = yesNoOptions;
+      } else if (isNotSureAnswer(message)) {
+        reply = "No problem. First check the booking/payment source: look for an online payment record in Tools > BRS Payments > Transactions. Can you see a matching transaction there?";
+        state.escalationState = "check_asked";
+        options = transactionOptions;
+      } else {
+        reply = "Please confirm where the payment was made so I can guide the correct refund route.";
+        options = refundSourceOptions;
+      }
+
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic: "payments", options });
+    }
 
     if (topic === "general") {
       state.conversationHistory.push({ role: "user", content: message });
@@ -221,58 +262,50 @@ app.post("/api/chat", async (req, res) => {
 
     if (state.escalationState === "check_asked") {
       state.conversationHistory.push({ role: "user", content: message });
-
       if (userConfirmedRecordFound(message)) {
         state.escalationState = "none";
         const reply = "Thanks. If the transaction is visible in BRS Payments, check whether it is linked to a booking, bill, or failed/abandoned booking reference. What status does the transaction show?";
-        state.conversationHistory.push({ role: "assistant", content: reply });
-        saveSessionState(sessionId, state);
+        state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
         return res.json({ reply, escalationReady: false, topic: "payments", options: [] });
       }
-
       if (userConfirmedNoRecord(message)) {
         state.escalationState = "escalated";
         const reply = "Thanks — if there is no matching transaction in BRS Payments, this needs to be investigated with the payments platform. I’ve prepared an escalation draft for support below. Please review it before sending.";
-        state.conversationHistory.push({ role: "assistant", content: reply });
-        state.escalationDraft = createEscalationDraft(state.conversationHistory);
-        saveSessionState(sessionId, state);
+        state.conversationHistory.push({ role: "assistant", content: reply }); state.escalationDraft = createEscalationDraft(state.conversationHistory); saveSessionState(sessionId, state);
         return res.json({ reply, escalationReady: true, escalationDraft: state.escalationDraft, topic: "payments", options: [] });
       }
-
       const reply = "Please select whether the matching transaction is visible in Tools > BRS Payments > Transactions.";
-      state.conversationHistory.push({ role: "assistant", content: reply });
-      saveSessionState(sessionId, state);
+      state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "payments", options: transactionOptions });
     }
 
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
     const combinedText = `${historyText} ${message}`;
 
-    if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
-      state.escalationState = "check_asked";
-      const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools > BRS Payments > Transactions. Can you see a matching transaction there?";
+    if (isRefundRequest(combinedText)) {
+      state.currentTopic = "payments";
+      state.escalationState = "refund_source_asked";
+      const reply = "I can help with that. First, can you confirm where the booking/payment was made: BRS/GolfNow online payment, paid directly at the club, or not sure?";
       state.conversationHistory.push({ role: "user", content: message });
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic: "payments", options: refundSourceOptions });
+    }
+
+    if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
+      state.escalationState = "check_asked";
+      const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools > BRS Payments > Transactions. Can you see a matching transaction there?";
+      state.conversationHistory.push({ role: "user", content: message }); state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic, options: transactionOptions });
     }
 
     state.conversationHistory.push({ role: "user", content: message });
-    const response = await client.responses.create({
-      model: "gpt-4.1",
-      input: [
-        { role: "system", content: getContextForTopic(topic) },
-        ...state.conversationHistory.slice(-12),
-      ],
-    });
-
+    const response = await client.responses.create({ model: "gpt-4.1", input: [{ role: "system", content: getContextForTopic(topic) }, ...state.conversationHistory.slice(-12)] });
     const reply = response.output_text;
-    state.conversationHistory.push({ role: "assistant", content: reply });
-    saveSessionState(sessionId, state);
+    state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
     res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state) });
   } catch (error) {
-    console.error("FULL ERROR:", error);
-    saveSessionState(sessionId, state);
+    console.error("FULL ERROR:", error); saveSessionState(sessionId, state);
     res.status(500).json({ reply: "Sorry — something went wrong. Please try again.", escalationReady: false, options: [] });
   }
 });
@@ -287,9 +320,6 @@ app.post("/send-escalation", async (req, res) => {
   res.json({ message: "Escalation prepared. Email sending is not connected yet, but this is the email that would be sent.", draft: state.escalationDraft });
 });
 
-app.post("/reset", (req, res) => {
-  resetSessionState(getSessionId(req));
-  res.json({ message: "Conversation reset." });
-});
+app.post("/reset", (req, res) => { resetSessionState(getSessionId(req)); res.json({ message: "Conversation reset." }); });
 
 export default function handler(req, res) { return app(req, res); }
