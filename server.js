@@ -12,13 +12,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "syntax-fix-topic-routing-v3";
+const APP_VERSION = "dynamic-options-state-fix-v4";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -76,7 +75,7 @@ function detectTopic(message) {
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
   if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet") || lower.includes("payment scheme")) return "memberships";
   if (lower.includes("user") || lower.includes("admin") || lower.includes("superuser") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
-  if (lower.includes("booking") || lower.includes("tee") || lower.includes("timesheet") || lower.includes("player") || lower.includes("green fee") || lower.includes("society")) return "teesheet";
+  if (lower.includes("booking") || lower.includes("tee") || lower.includes("timesheet") || lower.includes("player") || lower.includes("green fee") || lower.includes("society") || lower.includes("move")) return "teesheet";
   if (lower.includes("configure") || lower.includes("setup") || lower.includes("email template") || lower.includes("green fee rate")) return "admin-setup";
   return "general";
 }
@@ -95,6 +94,7 @@ RESPONSE STYLE:
 - Do not ask what system/platform the user means after a BRS topic is detected.
 - Use approved BRS navigation labels only.
 - If the answer exists in the knowledge file, provide it directly.
+- If you ask a question with options, write the options naturally in the question, for example: "Is this for members or visitors?" or "Is this about bookings, payments, or memberships?"
 
 PRIORITY ORDER:
 1. Relevant decision tree
@@ -181,7 +181,7 @@ Then:
 6. Enter a reason if required.
 7. Click Refund to transfer the payment back to the customer.
 
-Please allow 5–10 days for refunds to return to the customer account.
+Please allow 5-10 days for refunds to return to the customer account.
 
 To retrieve a record of refunds, go to:
 Tools >> Payments >> Refunds`;
@@ -190,7 +190,7 @@ Tools >> Payments >> Refunds`;
 function isPaymentMissingScenario(text) {
   const lower = text.toLowerCase();
   const paymentTerms = lower.includes("paid") || lower.includes("payment") || lower.includes("money") || lower.includes("bank statement") || lower.includes("receipt") || lower.includes("proof of payment");
-  const missingBookingTerms = lower.includes("no booking") || lower.includes("not on the teesheet") || lower.includes("not on tee sheet") || lower.includes("turned up") || lower.includes("tuned up") || lower.includes("booking not showing");
+  const missingBookingTerms = lower.includes("no booking") || lower.includes("not on the teesheet") || lower.includes("not on tee sheet") || lower.includes("turned up") || lower.includes("booking not showing");
   const noRecordTerms = lower.includes("no record") || lower.includes("not showing") || lower.includes("can't see") || lower.includes("cant see") || lower.includes("cannot see") || lower.includes("no payment") || lower.includes("no transaction") || lower.includes("not in brs") || lower.includes("not in the system") || lower.includes("nothing there");
   return paymentTerms && (missingBookingTerms || noRecordTerms);
 }
@@ -203,6 +203,15 @@ function userConfirmedNoRecord(message) {
 function userConfirmedRecordFound(message) {
   const lower = message.toLowerCase();
   return lower.includes("yes") || lower.includes("found") || lower.includes("transaction found") || lower.includes("can see") || lower.includes("there is a transaction");
+}
+
+function clearStaleStateForMessage(state, message) {
+  if (state.escalationState === "refund_type_asked" && !isRefundRequest(message) && !isFullRefundAnswer(message) && !isPartialRefundAnswer(message)) {
+    state.escalationState = "none";
+  }
+  if (state.escalationState === "check_asked" && !isPaymentMissingScenario(message) && !userConfirmedNoRecord(message) && !userConfirmedRecordFound(message)) {
+    state.escalationState = "none";
+  }
 }
 
 function createEscalationDraft(conversationHistory) {
@@ -229,6 +238,8 @@ app.post("/api/chat", async (req, res) => {
     const { message } = req.body;
     if (!message || !message.trim()) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
     if (isConversationEnd(message)) { resetSessionState(sessionId); return res.json({ reply: "Great - glad that is sorted. Starting fresh for the next issue.", escalationReady: false, options: [], version: APP_VERSION }); }
+
+    clearStaleStateForMessage(state, message);
 
     const detectedTopic = detectTopic(message);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
@@ -262,10 +273,7 @@ app.post("/api/chat", async (req, res) => {
         saveSessionState(sessionId, state);
         return res.json({ reply, escalationReady: false, topic: "payments", options: [], version: APP_VERSION });
       }
-      const reply = "Is this a full refund or partial refund?";
-      state.conversationHistory.push({ role: "assistant", content: reply });
-      saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: APP_VERSION });
+      state.escalationState = "none";
     }
 
     if (isRefundRequest(message)) {
