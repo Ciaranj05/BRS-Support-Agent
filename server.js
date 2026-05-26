@@ -224,13 +224,15 @@ app.post("/api/chat", async (req, res) => {
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
     const topic = state.currentTopic || detectedTopic;
 
+    const historyText = state.conversationHistory.map((m) => m.content).join(" ");
+    const combinedText = `${historyText} ${message}`;
+
     if (state.escalationState === "refund_source_asked") {
       state.conversationHistory.push({ role: "user", content: message });
       let reply;
       let options = [];
 
       if (isOnlinePaymentAnswer(message)) {
-        state.escalationState = "none";
         reply = "For an online BRS/GolfNow payment, first locate the booking or payment in Tools > BRS Payments > Transactions. Can you see the matching transaction there?";
         state.escalationState = "check_asked";
         options = transactionOptions;
@@ -250,6 +252,23 @@ app.post("/api/chat", async (req, res) => {
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "payments", options });
+    }
+
+    if (isRefundRequest(combinedText)) {
+      state.currentTopic = "payments";
+      state.escalationState = "refund_source_asked";
+      const reply = "I can help with that. First, can you confirm where the booking/payment was made: BRS/GolfNow online payment, paid directly at the club, or not sure?";
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic: "payments", options: refundSourceOptions });
+    }
+
+    if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
+      state.escalationState = "check_asked";
+      const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools > BRS Payments > Transactions. Can you see a matching transaction there?";
+      state.conversationHistory.push({ role: "user", content: message }); state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic, options: transactionOptions });
     }
 
     if (topic === "general") {
@@ -277,26 +296,6 @@ app.post("/api/chat", async (req, res) => {
       const reply = "Please select whether the matching transaction is visible in Tools > BRS Payments > Transactions.";
       state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "payments", options: transactionOptions });
-    }
-
-    const historyText = state.conversationHistory.map((m) => m.content).join(" ");
-    const combinedText = `${historyText} ${message}`;
-
-    if (isRefundRequest(combinedText)) {
-      state.currentTopic = "payments";
-      state.escalationState = "refund_source_asked";
-      const reply = "I can help with that. First, can you confirm where the booking/payment was made: BRS/GolfNow online payment, paid directly at the club, or not sure?";
-      state.conversationHistory.push({ role: "user", content: message });
-      state.conversationHistory.push({ role: "assistant", content: reply });
-      saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "payments", options: refundSourceOptions });
-    }
-
-    if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
-      state.escalationState = "check_asked";
-      const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools > BRS Payments > Transactions. Can you see a matching transaction there?";
-      state.conversationHistory.push({ role: "user", content: message }); state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic, options: transactionOptions });
     }
 
     state.conversationHistory.push({ role: "user", content: message });
