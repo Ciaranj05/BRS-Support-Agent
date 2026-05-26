@@ -15,10 +15,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+const APP_VERSION = "guided-refund-buttons-v4";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -209,7 +209,9 @@ Kind regards`,
   };
 }
 
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true, version: APP_VERSION });
+});
 
 app.post("/api/chat", async (req, res) => {
   const sessionId = getSessionId(req);
@@ -217,8 +219,8 @@ app.post("/api/chat", async (req, res) => {
 
   try {
     const { message } = req.body;
-    if (!message || !message.trim()) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [] });
-    if (isConversationEnd(message)) { resetSessionState(sessionId); return res.json({ reply: "Great — glad that’s sorted. Starting fresh for the next issue.", escalationReady: false, options: [] }); }
+    if (!message || !message.trim()) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
+    if (isConversationEnd(message)) { resetSessionState(sessionId); return res.json({ reply: "Great — glad that’s sorted. Starting fresh for the next issue.", escalationReady: false, options: [], version: APP_VERSION }); }
 
     const detectedTopic = detectTopic(message);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
@@ -251,7 +253,7 @@ app.post("/api/chat", async (req, res) => {
 
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "payments", options });
+      return res.json({ reply, escalationReady: false, topic: "payments", options, version: APP_VERSION });
     }
 
     if (isRefundRequest(combinedText)) {
@@ -261,14 +263,14 @@ app.post("/api/chat", async (req, res) => {
       state.conversationHistory.push({ role: "user", content: message });
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "payments", options: refundSourceOptions });
+      return res.json({ reply, escalationReady: false, topic: "payments", options: refundSourceOptions, version: APP_VERSION });
     }
 
     if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
       state.escalationState = "check_asked";
       const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools > BRS Payments > Transactions. Can you see a matching transaction there?";
       state.conversationHistory.push({ role: "user", content: message }); state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic, options: transactionOptions });
+      return res.json({ reply, escalationReady: false, topic, options: transactionOptions, version: APP_VERSION });
     }
 
     if (topic === "general") {
@@ -276,7 +278,7 @@ app.post("/api/chat", async (req, res) => {
       const reply = "Got it — just to check, is this about bookings, payments, memberships, users, or system setup?";
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state) });
+      return res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state), version: APP_VERSION });
     }
 
     if (state.escalationState === "check_asked") {
@@ -285,27 +287,27 @@ app.post("/api/chat", async (req, res) => {
         state.escalationState = "none";
         const reply = "Thanks. If the transaction is visible in BRS Payments, check whether it is linked to a booking, bill, or failed/abandoned booking reference. What status does the transaction show?";
         state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
-        return res.json({ reply, escalationReady: false, topic: "payments", options: [] });
+        return res.json({ reply, escalationReady: false, topic: "payments", options: [], version: APP_VERSION });
       }
       if (userConfirmedNoRecord(message)) {
         state.escalationState = "escalated";
         const reply = "Thanks — if there is no matching transaction in BRS Payments, this needs to be investigated with the payments platform. I’ve prepared an escalation draft for support below. Please review it before sending.";
         state.conversationHistory.push({ role: "assistant", content: reply }); state.escalationDraft = createEscalationDraft(state.conversationHistory); saveSessionState(sessionId, state);
-        return res.json({ reply, escalationReady: true, escalationDraft: state.escalationDraft, topic: "payments", options: [] });
+        return res.json({ reply, escalationReady: true, escalationDraft: state.escalationDraft, topic: "payments", options: [], version: APP_VERSION });
       }
       const reply = "Please select whether the matching transaction is visible in Tools > BRS Payments > Transactions.";
       state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "payments", options: transactionOptions });
+      return res.json({ reply, escalationReady: false, topic: "payments", options: transactionOptions, version: APP_VERSION });
     }
 
     state.conversationHistory.push({ role: "user", content: message });
     const response = await client.responses.create({ model: "gpt-4.1", input: [{ role: "system", content: getContextForTopic(topic) }, ...state.conversationHistory.slice(-12)] });
     const reply = response.output_text;
     state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
-    res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state) });
+    res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state), version: APP_VERSION });
   } catch (error) {
     console.error("FULL ERROR:", error); saveSessionState(sessionId, state);
-    res.status(500).json({ reply: "Sorry — something went wrong. Please try again.", escalationReady: false, options: [] });
+    res.status(500).json({ reply: "Sorry — something went wrong. Please try again.", escalationReady: false, options: [], version: APP_VERSION });
   }
 });
 
@@ -320,5 +322,8 @@ app.post("/send-escalation", async (req, res) => {
 });
 
 app.post("/reset", (req, res) => { resetSessionState(getSessionId(req)); res.json({ message: "Conversation reset." }); });
+
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 
 export default function handler(req, res) { return app(req, res); }
