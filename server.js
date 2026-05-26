@@ -26,6 +26,19 @@ const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
 globalThis.__brsSupportSessions = sessions;
 
+const topicOptions = [
+  { label: "Bookings", value: "This is about bookings or the tee sheet" },
+  { label: "Payments", value: "This is about payments" },
+  { label: "Memberships", value: "This is about memberships" },
+  { label: "Users", value: "This is about users, logins or permissions" },
+  { label: "System setup", value: "This is about system setup or configuration" },
+];
+
+const yesNoOptions = [
+  { label: "Yes", value: "Yes" },
+  { label: "No", value: "No" },
+];
+
 function createDefaultState() {
   return {
     conversationHistory: [],
@@ -162,6 +175,8 @@ PRIORITY ORDER:
 3. Relevant knowledge file
 4. Safe escalation if unsure
 
+When you ask a closed logic question, make the options clear in plain language. The UI may turn obvious choices into buttons.
+
 TOPIC:
 ${topic}
 
@@ -228,6 +243,31 @@ function userConfirmedNoRecord(message) {
   );
 }
 
+function getOptionsForReply(reply, topic, state) {
+  const lower = reply.toLowerCase();
+
+  if (topic === "general" && lower.includes("bookings") && lower.includes("payments")) {
+    return topicOptions;
+  }
+
+  if (state.escalationState === "check_asked") {
+    return yesNoOptions;
+  }
+
+  if (
+    lower.includes("have you") ||
+    lower.includes("can you confirm") ||
+    lower.includes("is this") ||
+    lower.includes("does this") ||
+    lower.includes("do you") ||
+    lower.includes("are you")
+  ) {
+    return yesNoOptions;
+  }
+
+  return [];
+}
+
 function createEscalationDraft(conversationHistory) {
   const transcript = conversationHistory
     .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
@@ -269,7 +309,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.post("/chat", async (req, res) => {
+app.post("/api/chat", async (req, res) => {
   const sessionId = getSessionId(req);
   const state = getSessionState(sessionId);
 
@@ -277,43 +317,24 @@ app.post("/chat", async (req, res) => {
     const { message } = req.body;
 
     if (!message || !message.trim()) {
-      return res.json({
-        reply: "Please enter a question.",
-        escalationReady: false,
-      });
+      return res.json({ reply: "Please enter a question.", escalationReady: false, options: [] });
     }
 
     if (isConversationEnd(message)) {
       resetSessionState(sessionId);
-
-      return res.json({
-        reply: "Great — glad that’s sorted. Starting fresh for the next issue.",
-        escalationReady: false,
-      });
+      return res.json({ reply: "Great — glad that’s sorted. Starting fresh for the next issue.", escalationReady: false, options: [] });
     }
 
     let detectedTopic = detectTopic(message);
-
-    if (detectedTopic !== "general") {
-      state.currentTopic = detectedTopic;
-    }
-
+    if (detectedTopic !== "general") state.currentTopic = detectedTopic;
     const topic = state.currentTopic || detectedTopic;
 
     if (topic === "general") {
       state.conversationHistory.push({ role: "user", content: message });
-
-      const reply =
-        "Got it — just to check, is this about bookings, payments, memberships, users, or system setup?";
-
+      const reply = "Got it — just to check, is this about bookings, payments, memberships, users, or system setup?";
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-
-      return res.json({
-        reply,
-        escalationReady: false,
-        topic,
-      });
+      return res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state) });
     }
 
     if (state.escalationState === "check_asked") {
@@ -321,39 +342,24 @@ app.post("/chat", async (req, res) => {
 
       if (userConfirmedNoRecord(message)) {
         state.escalationState = "escalated";
-
         const reply = `I understand — that’s frustrating.
 
 Since there’s no record in BRS, this will need to be checked with our payments platform.
 
 I’ve prepared an escalation draft for support below. Please review it before sending.`;
-
         state.conversationHistory.push({ role: "assistant", content: reply });
         state.escalationDraft = createEscalationDraft(state.conversationHistory);
         saveSessionState(sessionId, state);
-
-        return res.json({
-          reply,
-          escalationReady: true,
-          escalationDraft: state.escalationDraft,
-          topic: "payments",
-        });
+        return res.json({ reply, escalationReady: true, escalationDraft: state.escalationDraft, topic: "payments", options: [] });
       }
 
       state.escalationState = "none";
-
       const reply = `No problem — let’s continue checking this carefully.
 
 What did you find in Tools >> BRS Payments >> Transactions?`;
-
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-
-      return res.json({
-        reply,
-        escalationReady: false,
-        topic: "payments",
-      });
+      return res.json({ reply, escalationReady: false, topic: "payments", options: [] });
     }
 
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
@@ -361,22 +367,15 @@ What did you find in Tools >> BRS Payments >> Transactions?`;
 
     if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
       state.escalationState = "check_asked";
-
       const reply = `I understand — that’s frustrating.
 
 Just to confirm — have you checked:
 Tools >> BRS Payments >> Transactions
 and still cannot see any record?`;
-
       state.conversationHistory.push({ role: "user", content: message });
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-
-      return res.json({
-        reply,
-        escalationReady: false,
-        topic,
-      });
+      return res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state) });
     }
 
     state.conversationHistory.push({ role: "user", content: message });
@@ -393,24 +392,20 @@ and still cannot see any record?`;
     });
 
     const reply = response.output_text;
-
     state.conversationHistory.push({ role: "assistant", content: reply });
     saveSessionState(sessionId, state);
 
-    res.json({
-      reply,
-      escalationReady: false,
-      topic,
-    });
+    res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state) });
   } catch (error) {
     console.error("FULL ERROR:", error);
     saveSessionState(sessionId, state);
-
-    res.status(500).json({
-      reply: "Sorry — something went wrong. Please try again.",
-      escalationReady: false,
-    });
+    res.status(500).json({ reply: "Sorry — something went wrong. Please try again.", escalationReady: false, options: [] });
   }
+});
+
+app.post("/chat", (req, res, next) => {
+  req.url = "/api/chat";
+  next();
 });
 
 app.post("/send-escalation", async (req, res) => {
@@ -418,9 +413,7 @@ app.post("/send-escalation", async (req, res) => {
   const state = getSessionState(sessionId);
 
   if (!state.escalationDraft) {
-    return res.status(400).json({
-      message: "No escalation draft is ready.",
-    });
+    return res.status(400).json({ message: "No escalation draft is ready." });
   }
 
   console.log("ESCALATION READY TO SEND:");
@@ -430,8 +423,7 @@ app.post("/send-escalation", async (req, res) => {
   console.log("Body:", state.escalationDraft.body);
 
   res.json({
-    message:
-      "Escalation prepared. Email sending is not connected yet, but this is the email that would be sent.",
+    message: "Escalation prepared. Email sending is not connected yet, but this is the email that would be sent.",
     draft: state.escalationDraft,
   });
 });
