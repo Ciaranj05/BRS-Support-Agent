@@ -19,7 +19,6 @@
       --primary: #111827;
       --primary-2: #334155;
       --accent: #2563eb;
-      --accent-soft: #dbeafe;
       --success: #16a34a;
       --chat-bg: #f8fafc;
       --shadow: 0 30px 90px rgba(15, 23, 42, 0.16);
@@ -295,27 +294,170 @@ let isSending = false;
 let typingRow = null;
 let activeOptionRow = null;
 
+function escapeHtml(text) {
+  return String(text || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function formatBotMessage(text) {
-  let formatted = text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^### (.*)$/gm, '<h3>$1</h3>');
+  const safe = escapeHtml(text || "");
+  const lines = safe.split("\n");
+  let html = "";
+  let inList = false;
+  let inOrderedList = false;
 
-  if (/\d+\./.test(text)) {
-    const lines = text.split('\n').filter(Boolean);
-    const listItems = lines
-      .filter(line => /^\d+\./.test(line.trim()))
-      .map(line => `<li>${line.replace(/^\d+\.\s*/, '')}</li>`)
-      .join('');
-
-    const intro = lines
-      .filter(line => !/^\d+\./.test(line.trim()))
-      .map(line => `<p>${line}</p>`)
-      .join('');
-
-    return `${intro}<ol>${listItems}</ol>`;
+  function closeLists() {
+    if (inList) { html += "</ul>"; inList = false; }
+    if (inOrderedList) { html += "</ol>"; inOrderedList = false; }
   }
 
-  return `<p>${formatted.replace(/\n/g, '</p><p>')}</p>`;
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    if (/^###\s+/.test(trimmed)) {
+      closeLists();
+      html += `<h3>${trimmed.replace(/^###\s+/, "")}</h3>`;
+      return;
+    }
+
+    if (/^\d+\.\s+/.test(trimmed)) {
+      if (inList) { html += "</ul>"; inList = false; }
+      if (!inOrderedList) { html += "<ol>"; inOrderedList = true; }
+      html += `<li>${trimmed.replace(/^\d+\.\s+/, "")}</li>`;
+      return;
+    }
+
+    if (/^[-•]\s+/.test(trimmed)) {
+      if (inOrderedList) { html += "</ol>"; inOrderedList = false; }
+      if (!inList) { html += "<ul>"; inList = true; }
+      html += `<li>${trimmed.replace(/^[-•]\s+/, "")}</li>`;
+      return;
+    }
+
+    closeLists();
+    html += `<p>${trimmed.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`;
+  });
+
+  closeLists();
+  return html || `<p>${safe}</p>`;
+}
+
+function titleCaseOption(option) {
+  const trimmed = String(option || "").trim().replace(/\s+/g, " ");
+  const keepLower = new Set(["a", "an", "and", "or", "the", "to", "of", "for", "in", "on"]);
+  return trimmed.split(" ").map((word, index) => {
+    if (word.includes(">>")) return word;
+    const lower = word.toLowerCase();
+    if (index > 0 && keepLower.has(lower)) return lower;
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }).join(" ");
+}
+
+function stripQuestionLead(text) {
+  return String(text || "")
+    .replace(/^(is|are|was|were|do|does|did|can|could|should|has|have|had|will|would|which|what|where|who|when)\b\s*/i, "")
+    .replace(/^(your|you|we|i|this|it|the|a|an)\b\s*/i, "")
+    .replace(/^(query|question|issue|request)\s+(about|for|related to)\s+/i, "")
+    .replace(/^(about|for|related to|trying to|looking to|wanting to|want to|need to|adding|creating|changing|making|setting up|setting|checking|reviewing)\b\s*/i, "")
+    .replace(/^(a|an|the)\b\s*/i, "")
+    .trim();
+}
+
+function normaliseOption(option) {
+  return String(option || "")
+    .replace(/\bbrand new\b/i, "new")
+    .replace(/\bsomething else\b/i, "something else")
+    .trim();
+}
+
+function uniqueOptions(options) {
+  const seen = new Set();
+  return options
+    .map(option => String(option || "").replace(/[?.!]+$/g, "").trim())
+    .filter(option => option.length > 0 && option.length <= 55)
+    .filter(option => !/^(this|it|the|a|an|about|for)$/i.test(option))
+    .filter(option => {
+      const key = option.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 8);
+}
+
+function splitOptions(optionText) {
+  return uniqueOptions(
+    String(optionText || "")
+      .replace(/[?]$/g, "")
+      .replace(/\b(or something else|or another issue|or other)\b/gi, ", something else")
+      .split(/\s*,\s*|\s+or\s+|\s*\/\s*/i)
+      .map(stripQuestionLead)
+      .map(normaliseOption)
+      .map(option => option.replace(/^(something else|other|another issue)$/i, "Something else"))
+      .map(titleCaseOption)
+  );
+}
+
+function isBinaryQuestion(question) {
+  const q = String(question || "").trim().toLowerCase();
+  if (/\b(yes\s+or\s+no|yes\/no)\b/.test(q)) return true;
+  if (/\b(or|,)\b/.test(q)) return false;
+  return /^(have|has|had|is|are|was|were|do|does|did|can|could|should|will|would)\b/.test(q);
+}
+
+function getChoiceOptions(question) {
+  const q = String(question || "").replace(/\?$/, "").trim();
+  const lower = q.toLowerCase();
+
+  const colonMatch = q.match(/(?:which|what)\s+[^:]{0,140}:\s*(.+)$/i);
+  if (colonMatch) return splitOptions(colonMatch[1]);
+
+  const aboutMatch = q.match(/(?:is|are|was|were)\s+(?:your\s+)?(?:query|question|issue|request|this|it)\s+(?:about|for|related to)\s+(.+)$/i);
+  if (aboutMatch && /\b(or|,)\b/i.test(aboutMatch[1])) return splitOptions(aboutMatch[1]);
+
+  const intentMatch = q.match(/(?:are you|do you want to|are you trying to|are you looking to|would you like to|do you need to|are you asking to|are you asking about)\s+(.+)$/i);
+  if (intentMatch && /\b(or|,)\b/i.test(intentMatch[1])) return splitOptions(intentMatch[1]);
+
+  const thisAboutMatch = q.match(/(?:is this|is it|was this|was it|do you mean|are you asking)\s+(?:about\s+)?(.+)$/i);
+  if (thisAboutMatch && /\b(or|,)\b/i.test(thisAboutMatch[1])) return splitOptions(thisAboutMatch[1]);
+
+  const embeddedChoiceMatch = q.match(/^(?:is|are|was|were|do|does|did|can|could|should|would|will|have|has|had)\b\s+(.+)$/i);
+  if (embeddedChoiceMatch && /\b(or|,)\b/i.test(embeddedChoiceMatch[1])) return splitOptions(embeddedChoiceMatch[1]);
+
+  if (/\b(or|,)\b/i.test(lower) && !isBinaryQuestion(q)) return splitOptions(q);
+  return [];
+}
+
+function getQuickReplyOptions(question) {
+  const q = String(question || "").trim();
+  const lower = q.toLowerCase();
+  if (!q.endsWith("?")) return [];
+
+  const choiceOptions = getChoiceOptions(q);
+  if (choiceOptions.length > 1) return choiceOptions;
+
+  if (/\b(product area|area|module|category)\b/.test(lower)) return ["Bookings", "Tee Sheet", "Payments", "Memberships", "Admin", "User Management"];
+  if (/\b(escalat|send to support|raise.*support)\b/.test(lower)) return ["Yes, escalate", "No, continue troubleshooting"];
+  if (isBinaryQuestion(q)) return ["Yes", "No"];
+  return [];
+}
+
+function extractLastQuestion(text) {
+  const matches = String(text || "").match(/[^.!?\n][^?\n]*\?/g);
+  if (!matches || !matches.length) return "";
+  return matches[matches.length - 1].trim();
+}
+
+function buildDynamicOptions(reply, serverOptions = []) {
+  if (Array.isArray(serverOptions) && serverOptions.length) return serverOptions;
+  const question = extractLastQuestion(reply);
+  const quickOptions = getQuickReplyOptions(question);
+  return quickOptions.map(option => ({ label: option, value: option }));
 }
 
 function scrollChatToBottom() {
@@ -372,19 +514,11 @@ function addMessage(text, sender = 'bot', options = []) {
 
 function showTypingIndicator() {
   removeTypingIndicator();
-
   const chat = document.getElementById('chat');
   typingRow = document.createElement('div');
   typingRow.className = 'msg-row bot-row';
   typingRow.setAttribute('aria-live', 'polite');
-  typingRow.innerHTML = `
-    <div class="msg-wrap">
-      <div class="msg bot typing" aria-label="Support Agent is typing">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-  `;
-
+  typingRow.innerHTML = `<div class="msg-wrap"><div class="msg bot typing" aria-label="Support Agent is typing"><span></span><span></span><span></span></div></div>`;
   chat.appendChild(typingRow);
   scrollChatToBottom();
 }
@@ -404,14 +538,9 @@ function setSendingState(sending) {
 
 function addWelcomeCard() {
   const chat = document.getElementById('chat');
-
   const card = document.createElement('div');
   card.className = 'welcome-card';
-  card.innerHTML = `
-    <h2>How can we help?</h2>
-    <p>Describe the issue and we’ll guide the next best step. If needed, we can prepare an escalation draft for support.</p>
-  `;
-
+  card.innerHTML = `<h2>How can we help?</h2><p>Describe the issue and we’ll guide the next best step. If needed, we can prepare an escalation draft for support.</p>`;
   chat.appendChild(card);
 }
 
@@ -444,20 +573,15 @@ async function send(messageOverride = null, displayText = null) {
   try {
     const response = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-session-id': sessionId
-      },
+      headers: { 'Content-Type': 'application/json', 'x-session-id': sessionId },
       body: JSON.stringify({ message })
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to get response');
-    }
+    if (!response.ok) throw new Error('Failed to get response');
 
     const data = await response.json();
     removeTypingIndicator();
-    addMessage(data.reply || 'Support response received.', 'bot', data.options || []);
+    addMessage(data.reply || 'Support response received.', 'bot', buildDynamicOptions(data.reply || '', data.options || []));
   } catch (error) {
     console.error(error);
     removeTypingIndicator();
