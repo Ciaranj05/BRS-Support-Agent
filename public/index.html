@@ -10,17 +10,20 @@
   <style>
     * { box-sizing: border-box; }
     :root {
-      --bg: #eef3f9;
-      --surface: #ffffff;
+      --bg: #eaf1fb;
+      --surface: rgba(255, 255, 255, 0.88);
+      --surface-solid: #ffffff;
       --text: #0f172a;
       --muted: #64748b;
-      --border: #e2e8f0;
-      --primary: #0f172a;
-      --primary-2: #1e293b;
+      --border: rgba(148, 163, 184, 0.28);
+      --primary: #111827;
+      --primary-2: #334155;
       --accent: #2563eb;
+      --accent-soft: #dbeafe;
       --success: #16a34a;
-      --shadow: 0 30px 90px rgba(15, 23, 42, 0.14);
-      --card-shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
+      --chat-bg: #f8fafc;
+      --shadow: 0 30px 90px rgba(15, 23, 42, 0.16);
+      --card-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
     }
 
     body {
@@ -28,7 +31,10 @@
       min-height: 100vh;
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       color: var(--text);
-      background: radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.08), transparent 30%), linear-gradient(135deg, #eef3f9, #f8fafc);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(37, 99, 235, 0.18), transparent 32%),
+        radial-gradient(circle at 88% 16%, rgba(14, 165, 233, 0.14), transparent 28%),
+        linear-gradient(135deg, #eaf1fb, #f8fafc 52%, #eef2ff);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -37,14 +43,16 @@
 
     .app {
       width: 100%;
-      max-width: 1040px;
+      max-width: 1080px;
       height: 92vh;
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 28px;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.68);
+      border-radius: 32px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
     }
 
     .header {
@@ -52,49 +60,40 @@
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
+      gap: 18px;
       align-items: center;
-      background: white;
+      background: rgba(255,255,255,0.82);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .brand { display: flex; align-items: center; gap: 14px; }
 
     .mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       color: white;
       display: grid;
       place-items: center;
       font-weight: 900;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);
     }
 
-    .title {
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    .subtitle {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 14px;
-    }
+    .title { font-size: 21px; font-weight: 850; letter-spacing: -0.02em; }
+    .subtitle { margin-top: 4px; color: var(--muted); font-size: 14px; }
 
     .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 12px;
+      padding: 9px 13px;
       border-radius: 999px;
       background: #f0fdf4;
       border: 1px solid #bbf7d0;
       color: #166534;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
     .dot {
@@ -102,107 +101,107 @@
       height: 8px;
       background: var(--success);
       border-radius: 999px;
+      box-shadow: 0 0 0 5px rgba(22, 163, 74, 0.12);
     }
 
     #chat {
       flex: 1;
-      padding: 26px;
+      padding: 28px;
       overflow-y: auto;
-      background: #f8fafc;
+      background:
+        linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.94)),
+        radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.07), transparent 36%);
     }
 
     .welcome-card {
-      background: white;
+      background: var(--surface-solid);
       border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 20px;
-      margin-bottom: 24px;
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 26px;
       box-shadow: var(--card-shadow);
     }
 
-    .msg-row {
-      display: flex;
-      margin-bottom: 22px;
-    }
+    .welcome-card h2 { margin: 0 0 8px; letter-spacing: -0.03em; }
+    .welcome-card p { margin: 0; color: var(--muted); line-height: 1.6; }
 
-    .user-row {
-      justify-content: flex-end;
-    }
-
-    .bot-row {
-      justify-content: flex-start;
-    }
-
-    .msg-wrap {
-      max-width: 72%;
-    }
+    .msg-row { display: flex; margin-bottom: 18px; animation: slideIn 180ms ease-out; }
+    .user-row { justify-content: flex-end; }
+    .bot-row { justify-content: flex-start; }
+    .msg-wrap { max-width: min(74%, 720px); }
 
     .msg {
-      border-radius: 18px;
+      border-radius: 20px;
       font-size: 15px;
       line-height: 1.7;
     }
 
     .user {
-      padding: 16px 18px;
-      background: var(--primary);
+      padding: 15px 18px;
+      background: linear-gradient(135deg, var(--primary), #1f2937);
       color: white;
-      border-bottom-right-radius: 6px;
+      border-bottom-right-radius: 7px;
       white-space: pre-wrap;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
     }
 
     .bot {
       padding: 18px 20px;
       background: white;
       border: 1px solid var(--border);
-      border-bottom-left-radius: 6px;
+      border-bottom-left-radius: 7px;
       box-shadow: var(--card-shadow);
     }
 
-    .bot h3 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 17px;
+    .bot h3 { margin-top: 0; margin-bottom: 12px; font-size: 17px; }
+    .bot p { margin: 0 0 12px; color: #1e293b; }
+    .bot ol, .bot ul { margin: 10px 0 14px 22px; padding: 0; }
+    .bot li { margin-bottom: 10px; padding-left: 4px; }
+    .bot strong { color: #0f172a; }
+
+    .typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 74px;
+      padding: 15px 18px;
     }
 
-    .bot p {
-      margin: 0 0 12px;
-      color: #1e293b;
+    .typing span {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #94a3b8;
+      animation: bounce 1.1s infinite ease-in-out;
     }
 
-    .bot ol,
-    .bot ul {
-      margin: 10px 0 14px 22px;
-      padding: 0;
-    }
-
-    .bot li {
-      margin-bottom: 10px;
-      padding-left: 4px;
-    }
-
-    .bot strong {
-      color: #0f172a;
-    }
+    .typing span:nth-child(2) { animation-delay: 0.15s; }
+    .typing span:nth-child(3) { animation-delay: 0.3s; }
 
     .input-wrap {
       padding: 16px;
       border-top: 1px solid var(--border);
-      background: white;
+      background: rgba(255,255,255,0.9);
     }
 
     .input {
       display: flex;
-      gap: 8px;
+      gap: 10px;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #f8fafc;
     }
 
     input {
       flex: 1;
-      padding: 14px;
+      padding: 12px 14px;
       border-radius: 14px;
-      border: 1px solid var(--border);
-      font-size: 14px;
+      border: none;
+      background: transparent;
+      font-size: 15px;
       outline: none;
+      color: var(--text);
     }
 
     button {
@@ -211,14 +210,34 @@
       border: none;
       background: var(--primary);
       color: white;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
+      transition: transform 120ms ease, opacity 120ms ease, box-shadow 120ms ease;
     }
 
-    .reset-btn {
-      background: #f1f5f9;
-      color: var(--text);
-      border: 1px solid var(--border);
+    button:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(15, 23, 42, 0.16); }
+    button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+    .reset-btn { background: #ffffff; color: var(--text); border: 1px solid var(--border); }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.45; }
+      40% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(6px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 12px; }
+      .app { height: 96vh; border-radius: 24px; }
+      .header { align-items: flex-start; flex-direction: column; padding: 18px; }
+      #chat { padding: 18px; }
+      .msg-wrap { max-width: 90%; }
+      .input { flex-wrap: wrap; }
+      input { min-width: 100%; }
+      button { min-height: 42px; flex: 1; }
     }
   </style>
 </head>
@@ -240,7 +259,7 @@
     <div class="input-wrap">
       <div class="input">
         <input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" />
-        <button onclick="send()">Send</button>
+        <button id="sendBtn" onclick="send()">Send</button>
         <button onclick="resetChat()" class="reset-btn">New Issue</button>
       </div>
     </div>
@@ -249,6 +268,8 @@
 <script>
 const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUUID();
 localStorage.setItem("brsSupportSessionId", sessionId);
+let isSending = false;
+let typingRow = null;
 
 function formatBotMessage(text) {
   let formatted = text
@@ -273,6 +294,11 @@ function formatBotMessage(text) {
   return `<p>${formatted.replace(/\n/g, '</p><p>')}</p>`;
 }
 
+function scrollChatToBottom() {
+  const chat = document.getElementById('chat');
+  chat.scrollTop = chat.scrollHeight;
+}
+
 function addMessage(text, sender = 'bot') {
   const chat = document.getElementById('chat');
 
@@ -295,7 +321,39 @@ function addMessage(text, sender = 'bot') {
   row.appendChild(wrap);
   chat.appendChild(row);
 
-  chat.scrollTop = chat.scrollHeight;
+  scrollChatToBottom();
+}
+
+function showTypingIndicator() {
+  removeTypingIndicator();
+
+  const chat = document.getElementById('chat');
+  typingRow = document.createElement('div');
+  typingRow.className = 'msg-row bot-row';
+  typingRow.setAttribute('aria-live', 'polite');
+  typingRow.innerHTML = `
+    <div class="msg-wrap">
+      <div class="msg bot typing" aria-label="Support Agent is typing">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  `;
+
+  chat.appendChild(typingRow);
+  scrollChatToBottom();
+}
+
+function removeTypingIndicator() {
+  if (typingRow) {
+    typingRow.remove();
+    typingRow = null;
+  }
+}
+
+function setSendingState(sending) {
+  isSending = sending;
+  document.getElementById('sendBtn').disabled = sending;
+  document.getElementById('input').disabled = sending;
 }
 
 function addWelcomeCard() {
@@ -312,13 +370,15 @@ function addWelcomeCard() {
 }
 
 function handleKey(event) {
-  if (event.key === 'Enter') {
+  if (event.key === 'Enter' && !isSending) {
     event.preventDefault();
     send();
   }
 }
 
 async function send() {
+  if (isSending) return;
+
   const input = document.getElementById('input');
   const message = input.value.trim();
 
@@ -326,6 +386,8 @@ async function send() {
 
   addMessage(message, 'user');
   input.value = '';
+  setSendingState(true);
+  showTypingIndicator();
 
   try {
     const response = await fetch('/api/chat', {
@@ -342,15 +404,22 @@ async function send() {
     }
 
     const data = await response.json();
+    removeTypingIndicator();
     addMessage(data.reply || 'Support response received.', 'bot');
   } catch (error) {
     console.error(error);
+    removeTypingIndicator();
     addMessage('There was a problem sending your message. Please try again.', 'bot');
+  } finally {
+    setSendingState(false);
+    input.focus();
   }
 }
 
 function resetChat() {
   const chat = document.getElementById('chat');
+  removeTypingIndicator();
+  setSendingState(false);
   chat.innerHTML = '';
   addWelcomeCard();
 }
