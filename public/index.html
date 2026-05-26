@@ -6,602 +6,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230f172a'/%3E%3Ctext x='50' y='60' font-size='44' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3EB%3C/text%3E%3C/svg%3E">
-
-  <style>
-    * { box-sizing: border-box; }
-    :root {
-      --bg: #eaf1fb;
-      --surface: rgba(255, 255, 255, 0.88);
-      --surface-solid: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: rgba(148, 163, 184, 0.28);
-      --primary: #111827;
-      --primary-2: #334155;
-      --accent: #2563eb;
-      --success: #16a34a;
-      --chat-bg: #f8fafc;
-      --shadow: 0 30px 90px rgba(15, 23, 42, 0.16);
-      --card-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 12% 8%, rgba(37, 99, 235, 0.18), transparent 32%),
-        radial-gradient(circle at 88% 16%, rgba(14, 165, 233, 0.14), transparent 28%),
-        linear-gradient(135deg, #eaf1fb, #f8fafc 52%, #eef2ff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 28px;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 1080px;
-      height: 92vh;
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.68);
-      border-radius: 32px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-    }
-
-    .header {
-      padding: 22px 26px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      align-items: center;
-      background: rgba(255,255,255,0.82);
-    }
-
-    .brand { display: flex; align-items: center; gap: 14px; }
-
-    .mark {
-      width: 46px;
-      height: 46px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      color: white;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);
-    }
-
-    .title { font-size: 21px; font-weight: 850; letter-spacing: -0.02em; }
-    .subtitle { margin-top: 4px; color: var(--muted); font-size: 14px; }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 13px;
-      border-radius: 999px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      color: #166534;
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: var(--success);
-      border-radius: 999px;
-      box-shadow: 0 0 0 5px rgba(22, 163, 74, 0.12);
-    }
-
-    #chat {
-      flex: 1;
-      padding: 28px;
-      overflow-y: auto;
-      background:
-        linear-gradient(rgba(248,250,252,0.88), rgba(248,250,252,0.94)),
-        radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.07), transparent 36%);
-    }
-
-    .welcome-card {
-      background: var(--surface-solid);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 22px;
-      margin-bottom: 26px;
-      box-shadow: var(--card-shadow);
-    }
-
-    .welcome-card h2 { margin: 0 0 8px; letter-spacing: -0.03em; }
-    .welcome-card p { margin: 0; color: var(--muted); line-height: 1.6; }
-
-    .msg-row { display: flex; margin-bottom: 18px; animation: slideIn 180ms ease-out; }
-    .user-row { justify-content: flex-end; }
-    .bot-row { justify-content: flex-start; }
-    .msg-wrap { max-width: min(74%, 720px); }
-
-    .msg {
-      border-radius: 20px;
-      font-size: 15px;
-      line-height: 1.7;
-    }
-
-    .user {
-      padding: 15px 18px;
-      background: linear-gradient(135deg, var(--primary), #1f2937);
-      color: white;
-      border-bottom-right-radius: 7px;
-      white-space: pre-wrap;
-      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
-    }
-
-    .bot {
-      padding: 18px 20px;
-      background: white;
-      border: 1px solid var(--border);
-      border-bottom-left-radius: 7px;
-      box-shadow: var(--card-shadow);
-    }
-
-    .bot h3 { margin-top: 0; margin-bottom: 12px; font-size: 17px; }
-    .bot p { margin: 0 0 12px; color: #1e293b; }
-    .bot ol, .bot ul { margin: 10px 0 14px 22px; padding: 0; }
-    .bot li { margin-bottom: 10px; padding-left: 4px; }
-    .bot strong { color: #0f172a; }
-
-    .option-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .option-btn {
-      padding: 10px 14px;
-      min-height: 40px;
-      border-radius: 999px;
-      border: 1px solid rgba(37, 99, 235, 0.28);
-      background: #eff6ff;
-      color: #1d4ed8;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: none;
-    }
-
-    .option-btn:hover { background: #dbeafe; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(37, 99, 235, 0.14); }
-    .option-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
-
-    .typing {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      min-width: 74px;
-      padding: 15px 18px;
-    }
-
-    .typing span {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #94a3b8;
-      animation: bounce 1.1s infinite ease-in-out;
-    }
-
-    .typing span:nth-child(2) { animation-delay: 0.15s; }
-    .typing span:nth-child(3) { animation-delay: 0.3s; }
-
-    .input-wrap {
-      padding: 16px;
-      border-top: 1px solid var(--border);
-      background: rgba(255,255,255,0.9);
-    }
-
-    .input {
-      display: flex;
-      gap: 10px;
-      padding: 8px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: #f8fafc;
-    }
-
-    input {
-      flex: 1;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: none;
-      background: transparent;
-      font-size: 15px;
-      outline: none;
-      color: var(--text);
-    }
-
-    button {
-      padding: 0 18px;
-      border-radius: 14px;
-      border: none;
-      background: var(--primary);
-      color: white;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 120ms ease, opacity 120ms ease, box-shadow 120ms ease;
-    }
-
-    button:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(15, 23, 42, 0.16); }
-    button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
-    .reset-btn { background: #ffffff; color: var(--text); border: 1px solid var(--border); }
-
-    @keyframes bounce {
-      0%, 80%, 100% { transform: translateY(0); opacity: 0.45; }
-      40% { transform: translateY(-5px); opacity: 1; }
-    }
-
-    @keyframes slideIn {
-      from { transform: translateY(6px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    @media (max-width: 720px) {
-      body { padding: 12px; }
-      .app { height: 96vh; border-radius: 24px; }
-      .header { align-items: flex-start; flex-direction: column; padding: 18px; }
-      #chat { padding: 18px; }
-      .msg-wrap { max-width: 90%; }
-      .input { flex-wrap: wrap; }
-      input { min-width: 100%; }
-      button { min-height: 42px; flex: 1; }
-      .option-btn { flex: 1 1 100%; }
-    }
-  </style>
 </head>
 <body>
-  <div class="app">
-    <div class="header">
-      <div class="brand">
-        <div class="mark">B</div>
-        <div>
-          <div class="title">BRS Support Agent</div>
-          <div class="subtitle">Support guidance for bookings, payments, memberships and admin queries.</div>
-        </div>
-      </div>
-      <div class="status-pill"><span class="dot"></span>Support Agent Online</div>
-    </div>
-
-    <div id="chat"></div>
-
-    <div class="input-wrap">
-      <div class="input">
-        <input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" />
-        <button id="sendBtn" onclick="send()">Send</button>
-        <button onclick="resetChat()" class="reset-btn">New Issue</button>
-      </div>
-    </div>
-  </div>
+  <div id="chat"></div>
+  <input id="input" placeholder="Describe the customer issue..." onkeydown="handleKey(event)" />
+  <button id="sendBtn" onclick="send()">Send</button>
+  <button onclick="resetChat()">New Issue</button>
 
 <script>
 const sessionId = localStorage.getItem("brsSupportSessionId") || crypto.randomUUID();
 localStorage.setItem("brsSupportSessionId", sessionId);
 let isSending = false;
-let typingRow = null;
 let activeOptionRow = null;
 
 function escapeHtml(text) {
-  return String(text || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return String(text || "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 }
 
-function formatBotMessage(text) {
-  const safe = escapeHtml(text || "");
-  const lines = safe.split("\n");
-  let html = "";
-  let inList = false;
-  let inOrderedList = false;
+function getQuickReplyOptions(text) {
+  const questionMatch = String(text || "").match(/[^.!?\n][^?\n]*\?/g);
+  if (!questionMatch) return [];
+  const q = questionMatch[questionMatch.length - 1].trim();
+  const lower = q.toLowerCase();
 
-  function closeLists() {
-    if (inList) { html += "</ul>"; inList = false; }
-    if (inOrderedList) { html += "</ol>"; inOrderedList = false; }
-  }
+  if (/full refund.*partial refund|partial refund.*full refund/i.test(q)) return ["Full Refund", "Partial Refund"];
+  if (/yes\s+or\s+no|^(have|has|is|are|was|were|do|does|did|can|could|should|will|would)\b/i.test(lower) && !/\s+or\s+|,/.test(lower.replace(/yes\s+or\s+no/g, ""))) return ["Yes", "No"];
 
-  lines.forEach(line => {
-    const trimmed = line.trim();
-    if (!trimmed) return;
+  const colon = q.match(/(?:which|what)\s+[^:]{0,140}:\s*(.+)$/i);
+  const source = colon ? colon[1] : q.replace(/^(is this|is it|are you|do you want to|are you trying to|are you looking to|do you need to|are you asking about|do you mean)\s+(about\s+)?/i, "");
 
-    if (/^###\s+/.test(trimmed)) {
-      closeLists();
-      html += `<h3>${trimmed.replace(/^###\s+/, "")}</h3>`;
-      return;
-    }
-
-    if (/^\d+\.\s+/.test(trimmed)) {
-      if (inList) { html += "</ul>"; inList = false; }
-      if (!inOrderedList) { html += "<ol>"; inOrderedList = true; }
-      html += `<li>${trimmed.replace(/^\d+\.\s+/, "")}</li>`;
-      return;
-    }
-
-    if (/^[-•]\s+/.test(trimmed)) {
-      if (inOrderedList) { html += "</ol>"; inOrderedList = false; }
-      if (!inList) { html += "<ul>"; inList = true; }
-      html += `<li>${trimmed.replace(/^[-•]\s+/, "")}</li>`;
-      return;
-    }
-
-    closeLists();
-    html += `<p>${trimmed.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}</p>`;
-  });
-
-  closeLists();
-  return html || `<p>${safe}</p>`;
-}
-
-function titleCaseOption(option) {
-  const trimmed = String(option || "").trim().replace(/\s+/g, " ");
-  const keepLower = new Set(["a", "an", "and", "or", "the", "to", "of", "for", "in", "on"]);
-  return trimmed.split(" ").map((word, index) => {
-    if (word.includes(">>")) return word;
-    const lower = word.toLowerCase();
-    if (index > 0 && keepLower.has(lower)) return lower;
-    return lower.charAt(0).toUpperCase() + lower.slice(1);
-  }).join(" ");
-}
-
-function stripQuestionLead(text) {
-  return String(text || "")
-    .replace(/^(is|are|was|were|do|does|did|can|could|should|has|have|had|will|would|which|what|where|who|when)\b\s*/i, "")
-    .replace(/^(your|you|we|i|this|it|the|a|an)\b\s*/i, "")
-    .replace(/^(query|question|issue|request)\s+(about|for|related to)\s+/i, "")
-    .replace(/^(about|for|related to|trying to|looking to|wanting to|want to|need to|adding|creating|changing|making|setting up|setting|checking|reviewing)\b\s*/i, "")
-    .replace(/^(a|an|the)\b\s*/i, "")
-    .trim();
-}
-
-function normaliseOption(option) {
-  return String(option || "")
-    .replace(/\bbrand new\b/i, "new")
-    .replace(/\bsomething else\b/i, "something else")
-    .trim();
-}
-
-function uniqueOptions(options) {
-  const seen = new Set();
-  return options
-    .map(option => String(option || "").replace(/[?.!]+$/g, "").trim())
-    .filter(option => option.length > 0 && option.length <= 55)
-    .filter(option => !/^(this|it|the|a|an|about|for)$/i.test(option))
-    .filter(option => {
-      const key = option.toLowerCase();
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    })
-    .slice(0, 8);
-}
-
-function splitOptions(optionText) {
-  return uniqueOptions(
-    String(optionText || "")
+  if (/\s+or\s+|,/.test(source)) {
+    return source
       .replace(/[?]$/g, "")
       .replace(/\b(or something else|or another issue|or other)\b/gi, ", something else")
       .split(/\s*,\s*|\s+or\s+|\s*\/\s*/i)
-      .map(stripQuestionLead)
-      .map(normaliseOption)
-      .map(option => option.replace(/^(something else|other|another issue)$/i, "Something else"))
-      .map(titleCaseOption)
-  );
-}
+      .map(x => x.trim())
+      .map(x => x.replace(/^(a|an|the|adding|creating|setting up|checking|reviewing)\s+/i, ""))
+      .filter(Boolean)
+      .slice(0, 8)
+      .map(x => x.replace(/\b\w/g, c => c.toUpperCase()));
+  }
 
-function isBinaryQuestion(question) {
-  const q = String(question || "").trim().toLowerCase();
-  if (/\b(yes\s+or\s+no|yes\/no)\b/.test(q)) return true;
-  if (/\b(or|,)\b/.test(q)) return false;
-  return /^(have|has|had|is|are|was|were|do|does|did|can|could|should|will|would)\b/.test(q);
-}
-
-function getChoiceOptions(question) {
-  const q = String(question || "").replace(/\?$/, "").trim();
-  const lower = q.toLowerCase();
-
-  const colonMatch = q.match(/(?:which|what)\s+[^:]{0,140}:\s*(.+)$/i);
-  if (colonMatch) return splitOptions(colonMatch[1]);
-
-  const aboutMatch = q.match(/(?:is|are|was|were)\s+(?:your\s+)?(?:query|question|issue|request|this|it)\s+(?:about|for|related to)\s+(.+)$/i);
-  if (aboutMatch && /\b(or|,)\b/i.test(aboutMatch[1])) return splitOptions(aboutMatch[1]);
-
-  const intentMatch = q.match(/(?:are you|do you want to|are you trying to|are you looking to|would you like to|do you need to|are you asking to|are you asking about)\s+(.+)$/i);
-  if (intentMatch && /\b(or|,)\b/i.test(intentMatch[1])) return splitOptions(intentMatch[1]);
-
-  const thisAboutMatch = q.match(/(?:is this|is it|was this|was it|do you mean|are you asking)\s+(?:about\s+)?(.+)$/i);
-  if (thisAboutMatch && /\b(or|,)\b/i.test(thisAboutMatch[1])) return splitOptions(thisAboutMatch[1]);
-
-  const embeddedChoiceMatch = q.match(/^(?:is|are|was|were|do|does|did|can|could|should|would|will|have|has|had)\b\s+(.+)$/i);
-  if (embeddedChoiceMatch && /\b(or|,)\b/i.test(embeddedChoiceMatch[1])) return splitOptions(embeddedChoiceMatch[1]);
-
-  if (/\b(or|,)\b/i.test(lower) && !isBinaryQuestion(q)) return splitOptions(q);
   return [];
 }
 
-function getQuickReplyOptions(question) {
-  const q = String(question || "").trim();
-  const lower = q.toLowerCase();
-  if (!q.endsWith("?")) return [];
+function addMessage(text, sender = "bot", options = []) {
+  const chat = document.getElementById("chat");
+  const div = document.createElement("div");
+  div.className = sender;
+  div.innerHTML = sender === "bot" ? escapeHtml(text).replace(/\n/g, "<br>") : escapeHtml(text);
 
-  const choiceOptions = getChoiceOptions(q);
-  if (choiceOptions.length > 1) return choiceOptions;
+  const finalOptions = sender === "bot" ? (options.length ? options : getQuickReplyOptions(text)) : [];
+  if (finalOptions.length) {
+    const row = document.createElement("div");
+    row.className = "option-row";
+    finalOptions.forEach(option => {
+      const btn = document.createElement("button");
+      btn.textContent = option.label || option;
+      btn.onclick = () => send(option.value || option.label || option, option.label || option);
+      row.appendChild(btn);
+    });
+    div.appendChild(row);
+    activeOptionRow = row;
+  }
 
-  if (/\b(product area|area|module|category)\b/.test(lower)) return ["Bookings", "Tee Sheet", "Payments", "Memberships", "Admin", "User Management"];
-  if (/\b(escalat|send to support|raise.*support)\b/.test(lower)) return ["Yes, escalate", "No, continue troubleshooting"];
-  if (isBinaryQuestion(q)) return ["Yes", "No"];
-  return [];
-}
-
-function extractLastQuestion(text) {
-  const matches = String(text || "").match(/[^.!?\n][^?\n]*\?/g);
-  if (!matches || !matches.length) return "";
-  return matches[matches.length - 1].trim();
-}
-
-function buildDynamicOptions(reply, serverOptions = []) {
-  if (Array.isArray(serverOptions) && serverOptions.length) return serverOptions;
-  const question = extractLastQuestion(reply);
-  const quickOptions = getQuickReplyOptions(question);
-  return quickOptions.map(option => ({ label: option, value: option }));
-}
-
-function scrollChatToBottom() {
-  const chat = document.getElementById('chat');
+  chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 }
 
-function disableActiveOptions() {
-  if (!activeOptionRow) return;
-  activeOptionRow.querySelectorAll('button').forEach(button => button.disabled = true);
-}
-
-function addMessage(text, sender = 'bot', options = []) {
-  const chat = document.getElementById('chat');
-
-  const row = document.createElement('div');
-  row.className = `msg-row ${sender === 'user' ? 'user-row' : 'bot-row'}`;
-
-  const wrap = document.createElement('div');
-  wrap.className = 'msg-wrap';
-
-  const message = document.createElement('div');
-  message.className = `msg ${sender}`;
-
-  if (sender === 'bot') {
-    message.innerHTML = formatBotMessage(text);
-  } else {
-    message.textContent = text;
-  }
-
-  if (sender === 'bot' && Array.isArray(options) && options.length) {
-    const optionRow = document.createElement('div');
-    optionRow.className = 'option-row';
-
-    options.forEach(option => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'option-btn';
-      button.textContent = option.label || option.value;
-      button.onclick = () => sendOption(option);
-      optionRow.appendChild(button);
-    });
-
-    message.appendChild(optionRow);
-    activeOptionRow = optionRow;
-  }
-
-  wrap.appendChild(message);
-  row.appendChild(wrap);
-  chat.appendChild(row);
-
-  scrollChatToBottom();
-}
-
-function showTypingIndicator() {
-  removeTypingIndicator();
-  const chat = document.getElementById('chat');
-  typingRow = document.createElement('div');
-  typingRow.className = 'msg-row bot-row';
-  typingRow.setAttribute('aria-live', 'polite');
-  typingRow.innerHTML = `<div class="msg-wrap"><div class="msg bot typing" aria-label="Support Agent is typing"><span></span><span></span><span></span></div></div>`;
-  chat.appendChild(typingRow);
-  scrollChatToBottom();
-}
-
-function removeTypingIndicator() {
-  if (typingRow) {
-    typingRow.remove();
-    typingRow = null;
-  }
-}
-
-function setSendingState(sending) {
-  isSending = sending;
-  document.getElementById('sendBtn').disabled = sending;
-  document.getElementById('input').disabled = sending;
-}
-
-function addWelcomeCard() {
-  const chat = document.getElementById('chat');
-  const card = document.createElement('div');
-  card.className = 'welcome-card';
-  card.innerHTML = `<h2>How can we help?</h2><p>Describe the issue and we’ll guide the next best step. If needed, we can prepare an escalation draft for support.</p>`;
-  chat.appendChild(card);
-}
-
 function handleKey(event) {
-  if (event.key === 'Enter' && !isSending) {
-    event.preventDefault();
-    send();
-  }
-}
-
-function sendOption(option) {
-  if (isSending) return;
-  disableActiveOptions();
-  send(option.value || option.label, option.label || option.value);
+  if (event.key === "Enter") send();
 }
 
 async function send(messageOverride = null, displayText = null) {
   if (isSending) return;
-
-  const input = document.getElementById('input');
+  const input = document.getElementById("input");
   const message = messageOverride || input.value.trim();
-
   if (!message) return;
 
-  addMessage(displayText || message, 'user');
-  input.value = '';
-  setSendingState(true);
-  showTypingIndicator();
+  if (activeOptionRow) activeOptionRow.querySelectorAll("button").forEach(b => b.disabled = true);
+  addMessage(displayText || message, "user");
+  input.value = "";
+  isSending = true;
+  document.getElementById("sendBtn").disabled = true;
 
   try {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-session-id': sessionId },
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-session-id": sessionId },
       body: JSON.stringify({ message })
     });
-
-    if (!response.ok) throw new Error('Failed to get response');
-
     const data = await response.json();
-    removeTypingIndicator();
-    addMessage(data.reply || 'Support response received.', 'bot', buildDynamicOptions(data.reply || '', data.options || []));
-  } catch (error) {
-    console.error(error);
-    removeTypingIndicator();
-    addMessage('There was a problem sending your message. Please try again.', 'bot');
-  } finally {
-    setSendingState(false);
-    input.focus();
+    addMessage(data.reply || "No response received.", "bot", data.options || []);
+  } catch (e) {
+    addMessage("There was a problem sending your message. Please try again.", "bot");
   }
+
+  isSending = false;
+  document.getElementById("sendBtn").disabled = false;
+  input.focus();
 }
 
-function resetChat() {
-  const chat = document.getElementById('chat');
-  removeTypingIndicator();
-  setSendingState(false);
-  activeOptionRow = null;
-  chat.innerHTML = '';
-  addWelcomeCard();
+async function resetChat() {
+  document.getElementById("chat").innerHTML = "";
+  await fetch("/api/reset", { method: "POST", headers: { "x-session-id": sessionId } }).catch(() => {});
 }
 
-addWelcomeCard();
+addMessage("How can we help?", "bot");
 </script>
 </body>
 </html>
