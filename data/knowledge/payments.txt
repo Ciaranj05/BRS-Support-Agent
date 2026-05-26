@@ -32,6 +32,7 @@ Main areas:
 - Payouts
 - VAT Reports
 - General Payment Requests
+- Refunds
 
 ---
 
@@ -187,23 +188,47 @@ If payment fails:
 
 ## REFUNDS
 
-Before refunding, always confirm the correct payment.
+Before refunding, always confirm the correct booking and the correct payment.
 
-Steps:
+For BRS Payments online payments:
 
-1. Click the tee time
-2. Open the booking
-3. Click Payments
-4. Find the correct payment
+Go to:
+
+Tee Sheet >> Tee Time >> Booking Details >> Payments tab
+
+Then:
+
+1. From the tee sheet, click the tee time to open the Booking Details screen
+2. Expand the Payments tab
+3. Find the correct online payment
+4. Confirm the payment was completed online and has a Refund button available
 5. Click Refund
-6. Choose full or partial refund
-7. Confirm
+6. The system will automatically populate the full refundable amount
+7. For a partial refund, manually enter the amount to be refunded
+8. Click Refund to send the payment back to the customer
 
 Important:
 
 - Refunds can be full or partial
 - Refunds must be processed against the correct payment
-- Confirm before processing refunds
+- Confirm before clicking Refund
+- For partial refunds, only enter the amount that should be returned
+- Online payments completed online since September 2020 should show a Refund button when eligible
+- Please allow 5–10 days for refunds to return to the customer account
+
+To retrieve a record of refunds:
+
+Go to:
+
+Tools >> BRS Payments >> Refunds
+
+Use this area to review refund records.
+
+If the club does not use BRS Payments:
+
+- Do not imply BRS will transfer the money automatically
+- Follow the relevant non-BRS Payments/offline refund process
+- Offline refunds may need to be completed outside BRS
 
 ---
 
@@ -213,14 +238,15 @@ Online refunds:
 
 - Return to the original card
 - Can take 5–10 days
-- Are automatically recorded in BRS
+- Are recorded in BRS when processed through BRS Payments
 
 If customer says refund has not arrived:
 
 1. Confirm refund exists in BRS
 2. Confirm refund date
-3. Advise expected refund timeframe
-4. Escalate if outside normal timeframe
+3. Confirm it was processed against the correct payment
+4. Advise the expected 5–10 day refund timeframe
+5. Escalate if outside normal timeframe or disputed
 
 ---
 
@@ -235,7 +261,7 @@ Offline refunds include:
 Important:
 
 - These must be completed outside BRS
-- BRS only records the refund
+- BRS only records the refund where applicable
 - Do not imply money has been returned unless the offline refund was actually completed
 
 ---
@@ -474,6 +500,8 @@ Escalate if:
 - Payment mismatch remains after checks
 - No payment in BRS but money was taken
 - Refund is unclear
+- Refund is disputed
+- Refund does not appear after the normal 5–10 day timeframe
 - Multiple payment failures occur
 - Reporting figures do not match after checks
 - Customer disputes payment
@@ -512,6 +540,8 @@ Always:
 - Confirm payment status
 - Check allocation before assuming payment is missing
 - Escalate when escalation conditions are met
+- Confirm before processing a refund
+- Refund against the correct payment only
 
 Never:
 
@@ -519,3 +549,4 @@ Never:
 - Manually mark as paid without confirmation
 - Continue troubleshooting after escalation condition is met
 - Ask for proof when payment has already been confirmed and no BRS record exists
+- Tell a customer a refund has been completed unless the refund was actually processed
