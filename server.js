@@ -18,7 +18,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "approved-refund-guide-v1";
+const APP_VERSION = "topic-routing-fix-v2";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -40,11 +40,6 @@ const transactionOptions = [
 const fullPartialRefundOptions = [
   { label: "Full Refund", value: "This is a full refund" },
   { label: "Partial Refund", value: "This is a partial refund" },
-];
-
-const yesNoOptions = [
-  { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" },
 ];
 
 function createDefaultState() {
@@ -79,9 +74,9 @@ function loadFile(filePath) { const fullPath = path.join(__dirname, filePath); r
 function detectTopic(message) {
   const lower = message.toLowerCase();
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
-  if (lower.includes("booking") || lower.includes("tee") || lower.includes("timesheet") || lower.includes("player") || lower.includes("green fee") || lower.includes("society")) return "teesheet";
   if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet") || lower.includes("payment scheme")) return "memberships";
   if (lower.includes("user") || lower.includes("admin") || lower.includes("superuser") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
+  if (lower.includes("booking") || lower.includes("tee") || lower.includes("timesheet") || lower.includes("player") || lower.includes("green fee") || lower.includes("society")) return "teesheet";
   if (lower.includes("configure") || lower.includes("setup") || lower.includes("email template") || lower.includes("green fee rate")) return "admin-setup";
   return "general";
 }
@@ -94,15 +89,17 @@ function getContextForTopic(topic) {
 ${instructions}
 
 RESPONSE STYLE:
+- Use the relevant BRS knowledge and decision tree. Do not answer as a generic IT assistant.
 - Keep replies short and operational.
 - Ask only one next-step question at a time.
-- Do not give generic checklists.
+- Do not ask what system/platform the user means after a BRS topic is detected.
 - Use approved BRS navigation labels only.
+- If the answer exists in the knowledge file, provide it directly.
 
 PRIORITY ORDER:
-1. Core behaviour rules
-2. Relevant decision tree
-3. Relevant knowledge file
+1. Relevant decision tree
+2. Relevant knowledge file
+3. Core behaviour rules
 4. Safe escalation if unsure
 
 TOPIC:
@@ -126,6 +123,35 @@ function isRefundRequest(text) {
   return lower.includes("refund") && (lower.includes("booking") || lower.includes("payment") || lower.includes("golfer") || lower.includes("customer"));
 }
 
+function isAdminUserCreateRequest(text) {
+  const lower = text.toLowerCase();
+  return (lower.includes("admin user") || lower.includes("new user") || lower.includes("create user") || lower.includes("add user")) && (lower.includes("create") || lower.includes("add") || lower.includes("setup") || lower.includes("set up"));
+}
+
+function approvedAdminUserReply() {
+  return `Go to:
+Users >> Add New
+
+Then:
+1. Click the dropdown beside User Group.
+2. Choose the correct user type.
+3. Complete the required fields: User Group, Username, Membership Type, First Name, and Last Name.
+4. Complete Password and Re-type Password to set the user password.
+5. Click Create New User.
+
+User group options:
+- Admin: overall control of the system. Cannot add other Admin users.
+- Staff: can complete most day-to-day tasks, but cannot access the Tools menu or Revenue Reports.
+- StaffReadOnly: can view but cannot save changes.
+- Member: can only log in through the Members Booking pages to view or book tee times.
+
+To change the password later:
+1. Go back to Users.
+2. Click Find User.
+3. Open the user from the list.
+4. Use Change Password, or use Reset Password if an email address is saved for the user.`;
+}
+
 function isFullRefundAnswer(text) {
   const lower = text.toLowerCase();
   return lower.includes("full refund") || lower === "full" || lower.includes("full amount");
@@ -134,8 +160,7 @@ function isFullRefundAnswer(text) {
 function isPartialRefundAnswer(text) {
   const lower = text.toLowerCase();
   return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund");
-}
-
+}\n
 function approvedRefundReply(type = "refund") {
   const partialLine = type === "partial"
     ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund."
@@ -179,47 +204,16 @@ function userConfirmedRecordFound(message) {
   return lower.includes("yes") || lower.includes("found") || lower.includes("transaction found") || lower.includes("can see") || lower.includes("there is a transaction");
 }
 
-function getOptionsForReply(reply, topic, state) {
-  const lower = reply.toLowerCase();
-  if (state.escalationState === "refund_type_asked") return fullPartialRefundOptions;
-  if (topic === "general" && lower.includes("bookings") && lower.includes("payments")) return topicOptions;
-  if (state.escalationState === "check_asked") return transactionOptions;
-  if (lower.includes("have you") || lower.includes("can you confirm") || lower.includes("is this") || lower.includes("does this") || lower.includes("do you") || lower.includes("are you")) return yesNoOptions;
-  return [];
-}
-
 function createEscalationDraft(conversationHistory) {
   const transcript = conversationHistory.map((m) => `${m.role.toUpperCase()}: ${m.content}`).join("\n");
-  return {
-    to: "support@brsgolf.com",
-    subject: "Payment missing in BRS – support investigation required",
-    body: `Hi Support Team,
+  return { to: "support@brsgolf.com", subject: "Payment missing in BRS – support investigation required", body: `Hi Support Team,
 
 A payment issue needs investigation.
-
-Summary:
-A customer/golfer has confirmed payment was taken, but no matching record is visible in BRS.
-
-Checks completed:
-- Booking / bill checked where available
-- Tools >> BRS Payments >> Transactions checked
-- No matching record found
-
-Action required:
-Please investigate this with the payments platform and advise.
-
-Details to add if available:
-- Club:
-- Customer / Golfer name:
-- Amount:
-- Date / Time:
-- Booking / Bill reference:
 
 Conversation transcript:
 ${transcript}
 
-Kind regards`,
-  };
+Kind regards` };
 }
 
 app.get("/api/health", (req, res) => {
@@ -237,10 +231,19 @@ app.post("/api/chat", async (req, res) => {
 
     const detectedTopic = detectTopic(message);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
-    const topic = state.currentTopic || detectedTopic;
+    const topic = detectedTopic !== "general" ? detectedTopic : (state.currentTopic || detectedTopic);
 
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
     const combinedText = `${historyText} ${message}`;
+
+    if (isAdminUserCreateRequest(message)) {
+      state.currentTopic = "user-management";
+      const reply = approvedAdminUserReply();
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic: "user-management", options: [], version: APP_VERSION });
+    }
 
     if (state.escalationState === "refund_type_asked") {
       state.conversationHistory.push({ role: "user", content: message });
@@ -264,7 +267,7 @@ app.post("/api/chat", async (req, res) => {
       return res.json({ reply, escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: APP_VERSION });
     }
 
-    if (isRefundRequest(combinedText)) {
+    if (isRefundRequest(message)) {
       state.currentTopic = "payments";
       state.escalationState = "refund_type_asked";
       const reply = "Is this a full refund or partial refund?";
@@ -276,7 +279,7 @@ app.post("/api/chat", async (req, res) => {
 
     if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
       state.escalationState = "check_asked";
-      const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools > BRS Payments > Transactions. Can you see a matching transaction there?";
+      const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools >> BRS Payments >> Transactions. Can you see a matching transaction there?";
       state.conversationHistory.push({ role: "user", content: message }); state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic, options: transactionOptions, version: APP_VERSION });
     }
@@ -286,7 +289,7 @@ app.post("/api/chat", async (req, res) => {
       const reply = "Got it — just to check, is this about bookings, payments, memberships, users, or system setup?";
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state), version: APP_VERSION });
+      return res.json({ reply, escalationReady: false, topic, options: topicOptions, version: APP_VERSION });
     }
 
     if (state.escalationState === "check_asked") {
@@ -303,7 +306,7 @@ app.post("/api/chat", async (req, res) => {
         state.conversationHistory.push({ role: "assistant", content: reply }); state.escalationDraft = createEscalationDraft(state.conversationHistory); saveSessionState(sessionId, state);
         return res.json({ reply, escalationReady: true, escalationDraft: state.escalationDraft, topic: "payments", options: [], version: APP_VERSION });
       }
-      const reply = "Please select whether the matching transaction is visible in Tools > BRS Payments > Transactions.";
+      const reply = "Please select whether the matching transaction is visible in Tools >> BRS Payments >> Transactions.";
       state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "payments", options: transactionOptions, version: APP_VERSION });
     }
@@ -312,7 +315,7 @@ app.post("/api/chat", async (req, res) => {
     const response = await client.responses.create({ model: "gpt-4.1", input: [{ role: "system", content: getContextForTopic(topic) }, ...state.conversationHistory.slice(-12)] });
     const reply = response.output_text;
     state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
-    res.json({ reply, escalationReady: false, topic, options: getOptionsForReply(reply, topic, state), version: APP_VERSION });
+    res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
   } catch (error) {
     console.error("FULL ERROR:", error); saveSessionState(sessionId, state);
     res.status(500).json({ reply: "Sorry — something went wrong. Please try again.", escalationReady: false, options: [], version: APP_VERSION });
@@ -320,15 +323,6 @@ app.post("/api/chat", async (req, res) => {
 });
 
 app.post("/chat", (req, res, next) => { req.url = "/api/chat"; next(); });
-
-app.post("/send-escalation", async (req, res) => {
-  const sessionId = getSessionId(req);
-  const state = getSessionState(sessionId);
-  if (!state.escalationDraft) return res.status(400).json({ message: "No escalation draft is ready." });
-  console.log("ESCALATION READY TO SEND:", state.escalationDraft);
-  res.json({ message: "Escalation prepared. Email sending is not connected yet, but this is the email that would be sent.", draft: state.escalationDraft });
-});
-
 app.post("/reset", (req, res) => { resetSessionState(getSessionId(req)); res.json({ message: "Conversation reset." }); });
 app.post("/api/reset", (req, res) => { resetSessionState(getSessionId(req)); res.json({ message: "Conversation reset." }); });
 
