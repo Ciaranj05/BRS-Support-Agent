@@ -1,4 +1,7 @@
+import OpenAI from "openai";
 import handler from "../server.js";
+
+const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const moveBookingReply = `To move a booking and keep payment information attached:
 
@@ -14,6 +17,21 @@ Important:
 - Using Cut from inside the booking keeps the payment information attached.
 - If the checkbox on the tee sheet is selected first and the booking is cut from there, the payment information will not transfer.`;
 
+const forbiddenMoveBookingTerms = [
+  "drag",
+  "drop",
+  "right-click",
+  "right click",
+  "move option",
+  "reschedule option",
+  "change time",
+  "edit the booking",
+  "court",
+  "member or visitor",
+  "single booking",
+  "group booking",
+];
+
 function isMoveBookingRequest(text = "") {
   const lower = text.toLowerCase();
   const hasBooking = lower.includes("booking") || lower.includes("tee time") || lower.includes("tee-time") || lower.includes("teetime");
@@ -21,16 +39,51 @@ function isMoveBookingRequest(text = "") {
   return hasBooking && hasMoveIntent;
 }
 
-export default function chatHandler(req, res) {
+function containsForbiddenMoveBookingTerm(text = "") {
+  const lower = text.toLowerCase();
+  return forbiddenMoveBookingTerms.some((term) => lower.includes(term));
+}
+
+async function createSafeMoveBookingReply(userMessage) {
+  try {
+    const response = await client.responses.create({
+      model: "gpt-4.1",
+      input: [
+        {
+          role: "system",
+          content: `You rewrite BRS Golf support guidance for clarity and a natural tone.
+
+Use ONLY the approved source text below. Do not add new workflow steps, questions, options, product names, or assumptions. Do not mention member vs visitor, single vs group bookings, courts, dragging, dropping, right-clicking, editing, Move, Reschedule, or Change Time.
+
+Keep the answer concise. Preserve every numbered action and the payment warning.
+
+APPROVED SOURCE:
+${moveBookingReply}`,
+        },
+        { role: "user", content: userMessage },
+      ],
+    });
+
+    const reply = response.output_text?.trim();
+    if (!reply || containsForbiddenMoveBookingTerm(reply)) return moveBookingReply;
+    return reply;
+  } catch (error) {
+    console.error("Move booking rewrite failed:", error);
+    return moveBookingReply;
+  }
+}
+
+export default async function chatHandler(req, res) {
   const message = req.body?.message?.toString() || "";
 
   if (req.method === "POST" && isMoveBookingRequest(message)) {
+    const reply = await createSafeMoveBookingReply(message);
     return res.status(200).json({
-      reply: moveBookingReply,
+      reply,
       escalationReady: false,
       topic: "teesheet",
       options: [],
-      version: "approved-move-booking-direct-answer-v1",
+      version: "approved-move-booking-safe-rewrite-v1",
     });
   }
 
