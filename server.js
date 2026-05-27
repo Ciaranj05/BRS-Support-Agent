@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "grounded-answer-safety-v2";
+const APP_VERSION = "expanded-retrieval-grounding-v1";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
@@ -45,6 +45,14 @@ const fullPartialRefundOptions = [
   { label: "Full Refund", value: "This is a full refund" },
   { label: "Partial Refund", value: "This is a partial refund" },
 ];
+
+const topicSearchHints = {
+  teesheet: ["tee sheet booking timesheet", "configure timesheet", "booking details"],
+  payments: ["refund online payment", "BRS Payments transactions", "payment request refund"],
+  memberships: ["member profile membership subscription bill", "member wallet payment scheme"],
+  "user-management": ["users permissions admin user", "create user reset password"],
+  "admin-setup": ["system configuration setup", "tools system configuration"],
+};
 
 function createDefaultState() {
   return { conversationHistory: [], escalationState: "none", escalationDraft: null, currentTopic: null, updatedAt: Date.now() };
@@ -109,8 +117,28 @@ function stripHtml(html = "") {
     .trim();
 }
 
-function truncateText(value = "", limit = 1800) {
+function truncateText(value = "", limit = 2200) {
   return value.length > limit ? `${value.slice(0, limit).trim()}...` : value;
+}
+
+function uniqueValues(values) {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
+function parseJsonArray(text = "") {
+  try {
+    const parsed = JSON.parse(text);
+    return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : [];
+  } catch {
+    const match = text.match(/\[[\s\S]*\]/);
+    if (!match) return [];
+    try {
+      const parsed = JSON.parse(match[0]);
+      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : [];
+    } catch {
+      return [];
+    }
+  }
 }
 
 async function fetchWithTimeout(url, timeoutMs = 4500) {
@@ -131,7 +159,70 @@ async function fetchWithTimeout(url, timeoutMs = 4500) {
   }
 }
 
-async function getHelpCenterArticles(query) {
+function getKeywordSearchQueries(message, topic) {
+  const lower = message.toLowerCase();
+  const queries = [message, ...(topicSearchHints[topic] || [])];
+
+  if (lower.includes("refund") || lower.includes("refund button") || lower.includes("can't refund") || lower.includes("cannot refund")) {
+    queries.push("refund online payment booking details refund button");
+    queries.push("BRS Payments refund payment booking");
+  }
+
+  if (lower.includes("tee time") || lower.includes("tee times") || lower.includes("timesheet") || lower.includes("tee sheet")) {
+    queries.push("configure timesheet tee times");
+    queries.push("configure timesheet year not available");
+    queries.push("add tee times timesheet");
+  }
+
+  if (lower.includes("payment") || lower.includes("paid") || lower.includes("transaction")) {
+    queries.push("BRS Payments transactions payment booking");
+    queries.push("payment missing booking not showing");
+  }
+
+  if (lower.includes("password") || lower.includes("login") || lower.includes("permission") || lower.includes("user")) {
+    queries.push("user login permissions reset password");
+    queries.push("admin user staff permissions");
+  }
+
+  if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill")) {
+    queries.push("membership subscription bill member profile");
+    queries.push("member wallet payment scheme");
+  }
+
+  if (lower.includes("buggy") || lower.includes("buggies")) {
+    queries.push("buggy booking system configuration");
+    queries.push("buggy management availability");
+  }
+
+  return uniqueValues(queries).slice(0, 8);
+}
+
+async function getExpandedSearchQueries(message, topic) {
+  const baseQueries = getKeywordSearchQueries(message, topic);
+
+  try {
+    const response = await client.responses.create({
+      model: "gpt-4.1",
+      input: [
+        {
+          role: "system",
+          content: `You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, menu names, and article keywords. Do not answer the question.`,
+        },
+        {
+          role: "user",
+          content: `Topic: ${topic}\nUser question: ${message}`,
+        },
+      ],
+    });
+
+    return uniqueValues([...baseQueries, ...parseJsonArray(response.output_text)]).slice(0, 10);
+  } catch (error) {
+    console.error("Help Center query expansion failed:", error);
+    return baseQueries;
+  }
+}
+
+async function searchHelpCenter(query) {
   const cleanedQuery = query.toLowerCase().replace(/[^a-z0-9\s-]/g, " ").replace(/\s+/g, " ").trim();
   if (!cleanedQuery || cleanedQuery.length < 3) return [];
 
@@ -142,21 +233,41 @@ async function getHelpCenterArticles(query) {
   const payload = await fetchWithTimeout(`${HELP_CENTER_SEARCH_URL}?${params.toString()}`);
   const articles = (payload?.results || [])
     .filter((article) => article.result_type === "article" && article.title && article.html_url && article.body)
-    .slice(0, 3)
+    .slice(0, 5)
     .map((article) => ({
       title: article.title,
       url: article.html_url,
       updatedAt: article.updated_at,
       text: truncateText(stripHtml(article.body)),
+      query: cleanedQuery,
     }));
 
   helpCenterCache.set(cleanedQuery, { createdAt: Date.now(), articles });
   return articles;
 }
 
+async function getHelpCenterArticles(message, topic) {
+  const queries = await getExpandedSearchQueries(message, topic);
+  const batches = await Promise.all(queries.map((query) => searchHelpCenter(query)));
+  const byUrl = new Map();
+
+  for (const article of batches.flat()) {
+    if (!byUrl.has(article.url)) byUrl.set(article.url, article);
+  }
+
+  return [...byUrl.values()].slice(0, 5);
+}
+
 function formatHelpCenterContext(articles) {
   if (!articles.length) return "";
-  return articles.map((article, index) => `ARTICLE ${index + 1}: ${article.title}\nURL: ${article.url}\nUPDATED: ${article.updatedAt || "Unknown"}\nTEXT:\n${article.text}`).join("\n\n---\n\n");
+  return articles.map((article, index) => `ARTICLE ${index + 1}: ${article.title}\nURL: ${article.url}\nUPDATED: ${article.updatedAt || "Unknown"}\nMATCHED QUERY: ${article.query || "Unknown"}\nTEXT:\n${article.text}`).join("\n\n---\n\n");
+}
+
+function getApprovedSupportContext(topic) {
+  const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
+  const knowledge = loadFile(`data/knowledge/${topic}.txt`);
+  const context = [decisionTree, knowledge].filter(Boolean).join("\n\n---\n\n");
+  return truncateText(context, 5000);
 }
 
 function hasHelpCenterSource(reply = "") {
@@ -168,8 +279,9 @@ function appendSourceIfMissing(reply, articles) {
   return `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`;
 }
 
-async function isReplyGrounded(reply, helpCenterContext) {
-  if (!reply || reply === UNKNOWN_REPLY || !hasHelpCenterSource(reply)) return false;
+async function isReplyGrounded(reply, helpCenterContext, approvedSupportContext, sourceRequired) {
+  if (!reply || reply === UNKNOWN_REPLY) return false;
+  if (sourceRequired && !hasHelpCenterSource(reply)) return false;
 
   try {
     const verification = await client.responses.create({
@@ -177,24 +289,26 @@ async function isReplyGrounded(reply, helpCenterContext) {
       input: [
         {
           role: "system",
-          content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the BRS Help Center article context.
+          content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the supplied BRS sources.
+
+Sources may include BRS Help Center articles and local approved support guidance.
 
 Reply exactly SUPPORTED if:
-- the answer is based on one or more provided BRS Help Center articles, and
-- the troubleshooting path is a reasonable application of those articles to the user's issue, and
-- the answer includes a BRS Help Center article URL.
+- the answer is based on the supplied BRS sources, and
+- the troubleshooting path is a reasonable application of those sources to the user's issue, and
+- any product-specific UI labels, buttons, menu paths, workflows, prices, rules, or policies are present in the supplied sources.
 
 Reply exactly UNSUPPORTED only if:
-- the answer invents product-specific UI labels, buttons, menu paths, workflows, prices, rules, or policies that are not present in the article context, or
-- the answer contradicts the article context, or
-- the article context is unrelated to the user's issue, or
-- the answer has no BRS Help Center article URL.
+- the answer invents product-specific UI labels, buttons, menu paths, workflows, prices, rules, or policies that are not present in the supplied sources, or
+- the answer contradicts the supplied sources, or
+- the supplied sources are unrelated to the user's issue, or
+- a Help Center URL is required but the answer has no BRS Help Center article URL.
 
-Do not reject an answer just because it combines related article facts into a troubleshooting sequence.`,
+Do not reject an answer just because it translates vague wording into likely BRS product terms or combines related source facts into a troubleshooting sequence.`,
         },
         {
           role: "user",
-          content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext}\n\nASSISTANT ANSWER:\n${reply}`,
+          content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext || "No Help Center articles found."}\n\nLOCAL APPROVED SUPPORT GUIDANCE:\n${approvedSupportContext || "No local approved guidance found."}\n\nHELP CENTER URL REQUIRED: ${sourceRequired ? "yes" : "no"}\n\nASSISTANT ANSWER:\n${reply}`,
         },
       ],
     });
@@ -207,17 +321,19 @@ Do not reject an answer just because it combines related article facts into a tr
 }
 
 async function createGroundedReply(message, topic, conversationHistory) {
-  const articles = await getHelpCenterArticles(message);
-  if (!articles.length) return UNKNOWN_REPLY;
-
+  const articles = await getHelpCenterArticles(message, topic);
   const helpCenterContext = formatHelpCenterContext(articles);
+  const approvedSupportContext = getApprovedSupportContext(topic);
+
+  if (!helpCenterContext && !approvedSupportContext) return UNKNOWN_REPLY;
+
   const response = await client.responses.create({
     model: "gpt-4.1",
-    input: [{ role: "system", content: getContextForTopic(topic, helpCenterContext) }, ...conversationHistory.slice(-12)],
+    input: [{ role: "system", content: getContextForTopic(topic, helpCenterContext, approvedSupportContext) }, ...conversationHistory.slice(-12)],
   });
 
   const reply = appendSourceIfMissing(response.output_text?.trim() || "", articles);
-  return await isReplyGrounded(reply, helpCenterContext) ? reply : UNKNOWN_REPLY;
+  return await isReplyGrounded(reply, helpCenterContext, approvedSupportContext, Boolean(articles.length)) ? reply : UNKNOWN_REPLY;
 }
 
 function parseDirectAnswerRoutes(decisionTree) {
@@ -266,7 +382,7 @@ function detectTopic(message) {
   return "general";
 }
 
-function getContextForTopic(topic, helpCenterContext = "") {
+function getContextForTopic(topic, helpCenterContext = "", approvedSupportContext = "") {
   const instructions = loadFile("data/instructions.txt");
   const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
   const knowledge = loadFile(`data/knowledge/${topic}.txt`);
@@ -274,31 +390,33 @@ function getContextForTopic(topic, helpCenterContext = "") {
 ${instructions}
 
 RESPONSE STYLE:
-- Use the relevant BRS knowledge, decision tree, and BRS Help Center article context. Do not answer as a generic IT assistant.
-- Answer only when the provided approved knowledge or BRS Help Center article context supports a useful response.
-- If the provided sources are unrelated to the user's question, reply exactly: ${UNKNOWN_REPLY}
+- Use the relevant BRS Help Center article context and approved local support guidance. Do not answer as a generic IT assistant.
+- Try to answer from BRS Help Center articles first.
+- If no useful Help Center article is available, answer from approved local support guidance when it clearly supports the answer.
+- If neither source supports a useful response, reply exactly: ${UNKNOWN_REPLY}
 - Keep replies short and operational.
 - Ask only one next-step question at a time.
 - Do not ask what system/platform the user means after a BRS topic is detected.
 - Use approved BRS navigation labels only.
-- If the answer exists in the knowledge file, provide it directly.
 - If Help Center article context is provided, use it as product documentation and include the most relevant source link at the end.
-- You may combine related article facts into practical troubleshooting steps, but do not invent product workflows, buttons, menu items, prices, policies, or rules that are not present in the provided sources.
+- You may translate vague user wording into likely BRS product terms and combine related source facts into practical troubleshooting steps.
+- Do not invent product workflows, buttons, menu items, prices, policies, or rules that are not present in the provided sources.
 - If you ask a question with options, write the options naturally in the question, for example: "Is this for members or visitors?" or "Is this about bookings, payments, or memberships?"
 
 PRIORITY ORDER:
 1. Direct approved answers from local knowledge
 2. Relevant BRS Help Center article context
-3. Relevant decision tree
-4. Relevant knowledge file
-5. Core behaviour rules
-6. Safe escalation if unsure
+3. Approved local support guidance
+4. Safe escalation if unsure
 
 TOPIC:
 ${topic}
 
 BRS HELP CENTER ARTICLE CONTEXT:
 ${helpCenterContext || "No matching Help Center article was found for this message."}
+
+APPROVED LOCAL SUPPORT GUIDANCE:
+${approvedSupportContext || "No approved local support guidance was found for this topic."}
 
 RELEVANT DECISION TREE:
 ${decisionTree}
