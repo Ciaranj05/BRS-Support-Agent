@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "knowledge-direct-answer-v2";
+const APP_VERSION = "knowledge-direct-answer-v3";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -80,7 +80,7 @@ function splitRouteTerms(value) {
 
 function parseDirectAnswerRoutes(decisionTree) {
   const routes = [];
-  const routeRegex = /^ROUTE:\s*(.+?)\s*$([\s\S]*?)(?=^ROUTE:\s*|^---\s*$|\z)/gim;
+  const routeRegex = /^ROUTE:\s*(.+?)\s*$([\s\S]*?)(?=^ROUTE:\s*|^---\s*$|$)/gim;
   let match;
 
   while ((match = routeRegex.exec(decisionTree)) !== null) {
@@ -103,7 +103,7 @@ function routeMatchesMessage(route, message) {
 
 function getApprovedAnswer(topic, answerId) {
   const knowledge = loadFile(`data/knowledge/${topic}.txt`);
-  const answerRegex = new RegExp(`## APPROVED ANSWER:\\s*${escapeRegExp(answerId)}\\s*\\n([\\s\\S]*?)\\n## END APPROVED ANSWER`, "i");
+  const answerRegex = new RegExp(`## APPROVED ANSWER:\\s*${escapeRegExp(answerId)}\\s*\\r?\\n([\\s\\S]*?)\\r?\\n## END APPROVED ANSWER`, "i");
   return knowledge.match(answerRegex)?.[1]?.trim() || null;
 }
 
@@ -303,6 +303,13 @@ app.post("/api/chat", async (req, res) => {
       state.currentTopic = "admin-setup";
       state.escalationState = "none";
       topic = "admin-setup";
+      const reply = getApprovedAnswer("admin-setup", "buggy-booking-availability");
+      if (reply) {
+        state.conversationHistory.push({ role: "user", content: message });
+        state.conversationHistory.push({ role: "assistant", content: reply });
+        saveSessionState(sessionId, state);
+        return res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
+      }
     }
 
     const directAnswer = getDirectAnswerForMessage(topic, message);
