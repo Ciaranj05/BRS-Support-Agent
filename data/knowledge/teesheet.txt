@@ -77,6 +77,8 @@ Steps:
 
 ## MOVE A BOOKING
 
+When a user asks how to move, transfer, or reschedule a booking, do not ask whether it is for the same day or a different day. The process is the same either way.
+
 Before moving, confirm:
 
 - Original date/time
@@ -85,13 +87,17 @@ Before moving, confirm:
 To move a booking and keep payment information attached:
 
 1. Click the tee time to open the booking details page
-2. Click Cut
+2. Click Cut from inside the booking details page
 3. Return to the tee sheet
-4. Tick the checkbox beside the tee time you want to move the booking to
-5. Click Paste
+4. Go to the new date if the booking is being moved to a different day
+5. Tick the checkbox beside the tee time you want to move the booking to
+6. Click Paste
 
 Important:
 
+- Do not tell users to use a Move or Reschedule option for teesheet bookings
+- Do not tell users to right-click the booking to move it
+- Do not tell users to drag and drop or click a slot to drop the booking
 - Using Cut from inside the booking keeps the payment information attached
 - If you use the checkbox on the tee sheet first and cut the booking from there, the payment information will not transfer
 - Always check the payment status after moving the booking
