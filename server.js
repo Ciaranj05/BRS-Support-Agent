@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "dynamic-options-state-fix-v4";
+const APP_VERSION = "buggy-booking-direct-answer-v1";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -75,6 +75,7 @@ function detectTopic(message) {
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
   if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet") || lower.includes("payment scheme")) return "memberships";
   if (lower.includes("user") || lower.includes("admin") || lower.includes("superuser") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
+  if (lower.includes("buggy") || lower.includes("buggies")) return "admin-setup";
   if (lower.includes("booking") || lower.includes("tee") || lower.includes("timesheet") || lower.includes("player") || lower.includes("green fee") || lower.includes("society") || lower.includes("move")) return "teesheet";
   if (lower.includes("configure") || lower.includes("setup") || lower.includes("email template") || lower.includes("green fee rate")) return "admin-setup";
   return "general";
@@ -150,6 +151,23 @@ To change the password later:
 2. Click Find User.
 3. Open the user from the list.
 4. Use Change Password, or use Reset Password if an email address is saved for the user.`;
+}
+
+function isBuggyBookingRequest(text) {
+  const lower = text.toLowerCase();
+  const buggyTerm = lower.includes("buggy") || lower.includes("buggies");
+  const setupTerm = lower.includes("count") || lower.includes("number") || lower.includes("available") || lower.includes("availability") || lower.includes("book") || lower.includes("booking") || lower.includes("online") || lower.includes("switch on") || lower.includes("enable") || lower.includes("turn on") || lower.includes("setup") || lower.includes("set up") || lower.includes("configure") || lower.includes("update") || lower.includes("modify") || lower.includes("change");
+  return buggyTerm && setupTerm;
+}
+
+function approvedBuggyBookingReply() {
+  return `To switch on the feature go to "Tools">>"System Configuration" and go to the "Buggy Booking" section.
+
+Here you enter the Number of Buggies the club has, and the amount of time each buggy is needed before and after each round (for charging, cleaning etc).
+The allow visitors to book buggies online setting, if checked, and the number of buggies setup is greater that zero, visitors will see the number of buggies available against each tee time and will be able to book either 1 or 2 buggies as long as they are available to be booked.
+Note that the price of the buggy is not included at the time of the booking so must be added in afterwards by staff at the club.
+If any changes are made click "Update" at the top or bottom of the page to save your changes.
+Once you have set up this, go back to the timesheet and you will see the number of buggies appearing on the right hand side of the screen. This number will fluctuate depending on how many buggies are available See the image below. The are 10 available buggies, but because the 09:00 tee time has 1 buggy against it, only 9 are available for a time before and after the tee time.`;
 }
 
 function isFullRefundAnswer(text) {
@@ -247,6 +265,16 @@ app.post("/api/chat", async (req, res) => {
 
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
     const combinedText = `${historyText} ${message}`;
+
+    if (isBuggyBookingRequest(message)) {
+      state.currentTopic = "admin-setup";
+      state.escalationState = "none";
+      const reply = approvedBuggyBookingReply();
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic: "admin-setup", options: [], version: APP_VERSION });
+    }
 
     if (isAdminUserCreateRequest(message)) {
       state.currentTopic = "user-management";
