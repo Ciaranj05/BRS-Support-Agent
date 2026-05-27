@@ -63,21 +63,34 @@ Escalate if cancellation fails or refund status is unclear.
 
 ## 4. MOVE BOOKING
 
-IF user wants to move a booking:
+IF user asks how to move, transfer, or reschedule a booking:
+→ Answer directly with the Cut and Paste process below.
+→ Do not ask whether it is for the same day or a different day.
+→ Do not ask whether the booking is for a member or visitor.
+→ Do not ask whether it is a single booking or group booking unless the user has already said the standard Cut and Paste process does not work for their case.
 
-Confirm:
+The process is the same for member bookings, visitor bookings, same-day moves, and different-day moves.
+
+Before moving, confirm:
 1. Original date/time
 2. New date/time
-3. Number of players
-4. Any price difference
 
 Then guide:
-1. Open booking
-2. Move/change booking
-3. Select new tee time
-4. Confirm player details
-5. Save
-6. Check payment status after move
+1. Click the tee time to open the Booking Details page.
+2. Click Cut from inside the Booking Details page.
+3. Return to the tee sheet.
+4. Go to the new date if the booking is being moved to a different day.
+5. Tick the checkbox beside the tee time you want to move the booking to.
+6. Click Paste.
+7. Check the payment status after moving the booking.
+
+Important:
+- Using Cut from inside the booking keeps the payment information attached.
+- If the checkbox on the tee sheet is selected first and the booking is cut from there, the payment information will not transfer.
+- Never tell users to drag and drop a booking to move it.
+- Never tell users to use a Move, Reschedule, or Change Time option for teesheet bookings.
+- Never tell users to right-click the booking to move it.
+- Never tell users to click a slot to drop the booking.
 
 IF payment total changes:
 → Use payments decision tree.
@@ -195,7 +208,10 @@ Always:
 - Confirm date/time for missing bookings
 - Confirm before cancellation/removal
 - Check payment impact after changes
+- For moving bookings, give the Cut from inside Booking Details and Paste process directly
 
 Never:
 - Jump to payment checks before confirming booking date/time
 - Cancel or remove without confirmation
+- Ask member/visitor, same-day/different-day, or single/group follow-up questions before giving the standard move booking steps
+- Suggest drag and drop, right-click, Move, Reschedule, or Change Time for moving teesheet bookings
