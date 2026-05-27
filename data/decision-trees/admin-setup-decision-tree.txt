@@ -10,7 +10,6 @@ These routes return approved answers from the knowledge file without model rewri
 
 ROUTE: buggy-booking-availability
 MATCH ANY: buggy, buggies
-MATCH ANY: count, number, available, availability, book, booking, online, switch on, enable, turn on, setup, set up, configure, update, modify, change
 ANSWER ID: buggy-booking-availability
 
 ---
@@ -68,11 +67,13 @@ Escalate if rule saves but does not apply.
 
 ## 4. BUGGY BOOKING / BUGGY AVAILABILITY
 
-IF user asks about buggy booking, buggy availability, buggy count, number of buggies, visitor buggy booking, enabling buggies online, or changing buggy settings:
+IF user asks about buggy booking, buggy availability, buggy count, number of buggies, visitor buggy booking, enabling buggies online, changing buggy settings, or any other buggy-related question:
 
 → Use direct answer route buggy-booking-availability.
 
-Do not ask a follow-up question if the user is clearly asking how to configure buggy booking or availability.
+If the user's buggy question is not covered by the approved answer, be transparent that the current approved buggy guidance only covers buggy booking setup and availability.
+
+Do not ask a follow-up question if the user is asking about buggies.
 
 Escalate if:
 - Buggy settings do not save after clicking Update
