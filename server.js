@@ -17,9 +17,13 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "knowledge-direct-answer-v4";
+const APP_VERSION = "help-center-context-v1";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
+const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
+const HELP_CENTER_CACHE_TTL_MS = 1000 * 60 * 30;
+const helpCenterCache = globalThis.__brsHelpCenterCache || new Map();
+globalThis.__brsHelpCenterCache = helpCenterCache;
 const sessions = globalThis.__brsSupportSessions || new Map();
 globalThis.__brsSupportSessions = sessions;
 
@@ -78,6 +82,87 @@ function splitRouteTerms(value) {
   return value.split(",").map((term) => term.trim().toLowerCase()).filter(Boolean);
 }
 
+function decodeHtmlEntities(value = "") {
+  return value
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&gt;/g, ">")
+    .replace(/&lt;/g, "<")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'");
+}
+
+function stripHtml(html = "") {
+  return decodeHtmlEntities(html)
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<iframe[\s\S]*?<\/iframe>/gi, " ")
+    .replace(/<img[^>]*>/gi, " ")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>|<\/li>|<\/h[1-6]>/gi, "\n")
+    .replace(/<li[^>]*>/gi, "- ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n\s+/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function truncateText(value = "", limit = 1800) {
+  return value.length > limit ? `${value.slice(0, limit).trim()}...` : value;
+}
+
+async function fetchWithTimeout(url, timeoutMs = 4500) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: { Accept: "application/json", "User-Agent": "BRS-Support-Agent/1.0" },
+    });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (error) {
+    console.error("Help Center fetch failed:", error);
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function getHelpCenterArticles(query) {
+  const cleanedQuery = query.toLowerCase().replace(/[^a-z0-9\s-]/g, " ").replace(/\s+/g, " ").trim();
+  if (!cleanedQuery || cleanedQuery.length < 3) return [];
+
+  const cached = helpCenterCache.get(cleanedQuery);
+  if (cached && Date.now() - cached.createdAt < HELP_CENTER_CACHE_TTL_MS) return cached.articles;
+
+  const params = new URLSearchParams({ query: cleanedQuery, locale: "en-us", per_page: "5" });
+  const payload = await fetchWithTimeout(`${HELP_CENTER_SEARCH_URL}?${params.toString()}`);
+  const articles = (payload?.results || [])
+    .filter((article) => article.result_type === "article" && article.title && article.html_url && article.body)
+    .slice(0, 3)
+    .map((article) => ({
+      title: article.title,
+      url: article.html_url,
+      updatedAt: article.updated_at,
+      text: truncateText(stripHtml(article.body)),
+    }));
+
+  helpCenterCache.set(cleanedQuery, { createdAt: Date.now(), articles });
+  return articles;
+}
+
+function formatHelpCenterContext(articles) {
+  if (!articles.length) return "";
+  return articles.map((article, index) => `ARTICLE ${index + 1}: ${article.title}\nURL: ${article.url}\nUPDATED: ${article.updatedAt || "Unknown"}\nTEXT:\n${article.text}`).join("\n\n---\n\n");
+}
+
+async function getHelpCenterContext(message) {
+  const articles = await getHelpCenterArticles(message);
+  return formatHelpCenterContext(articles);
+}
+
 function parseDirectAnswerRoutes(decisionTree) {
   const routes = [];
   const routeRegex = /^ROUTE:\s*(.+?)\s*$([\s\S]*?)(?=^ROUTE:\s*|^---\s*$|$)/gim;
@@ -124,7 +209,7 @@ function detectTopic(message) {
   return "general";
 }
 
-function getContextForTopic(topic) {
+function getContextForTopic(topic, helpCenterContext = "") {
   const instructions = loadFile("data/instructions.txt");
   const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
   const knowledge = loadFile(`data/knowledge/${topic}.txt`);
@@ -132,22 +217,28 @@ function getContextForTopic(topic) {
 ${instructions}
 
 RESPONSE STYLE:
-- Use the relevant BRS knowledge and decision tree. Do not answer as a generic IT assistant.
+- Use the relevant BRS knowledge, decision tree, and BRS Help Center article context. Do not answer as a generic IT assistant.
 - Keep replies short and operational.
 - Ask only one next-step question at a time.
 - Do not ask what system/platform the user means after a BRS topic is detected.
 - Use approved BRS navigation labels only.
 - If the answer exists in the knowledge file, provide it directly.
+- If Help Center article context is provided, use it as product documentation and include the most relevant source link at the end.
 - If you ask a question with options, write the options naturally in the question, for example: "Is this for members or visitors?" or "Is this about bookings, payments, or memberships?"
 
 PRIORITY ORDER:
-1. Relevant decision tree
-2. Relevant knowledge file
-3. Core behaviour rules
-4. Safe escalation if unsure
+1. Direct approved answers from local knowledge
+2. Relevant BRS Help Center article context
+3. Relevant decision tree
+4. Relevant knowledge file
+5. Core behaviour rules
+6. Safe escalation if unsure
 
 TOPIC:
 ${topic}
+
+BRS HELP CENTER ARTICLE CONTEXT:
+${helpCenterContext || "No matching Help Center article was found for this message."}
 
 RELEVANT DECISION TREE:
 ${decisionTree}
@@ -391,7 +482,8 @@ app.post("/api/chat", async (req, res) => {
     }
 
     state.conversationHistory.push({ role: "user", content: message });
-    const response = await client.responses.create({ model: "gpt-4.1", input: [{ role: "system", content: getContextForTopic(topic) }, ...state.conversationHistory.slice(-12)] });
+    const helpCenterContext = await getHelpCenterContext(message);
+    const response = await client.responses.create({ model: "gpt-4.1", input: [{ role: "system", content: getContextForTopic(topic, helpCenterContext) }, ...state.conversationHistory.slice(-12)] });
     const reply = response.output_text;
     state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
     res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
