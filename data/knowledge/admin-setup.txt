@@ -99,6 +99,38 @@ Escalate if:
 
 ---
 
+## BUGGY BOOKING / BUGGY MANAGEMENT
+
+Use when the user asks how to modify the buggy count, switch on buggy booking, or allow visitors to book buggies online.
+
+Advise the user to go to Tools > System Configuration, then find the Buggy Booking section.
+
+In this section they can configure:
+
+- Number of Buggies the club has
+- The amount of time each buggy is needed before a round
+- The amount of time each buggy is needed after a round, for example for charging or cleaning
+- Whether visitors are allowed to book buggies online
+
+If "allow visitors to book buggies online" is enabled and the Number of Buggies is greater than zero, visitors will see buggy availability against each tee time and can book 1 or 2 buggies when available.
+
+Make clear that the buggy price is not included at the time of booking. Staff must add the buggy charge afterwards at the club.
+
+If any changes are made, the user must click Update at the top or bottom of the page to save them.
+
+After setup, advise the user to return to the timesheet. The available buggy count will appear on the right-hand side and will change depending on buggy allocations before and after tee times.
+
+Example explanation: if the club has 10 available buggies and the 09:00 tee time has 1 buggy allocated, only 9 buggies may be available for the relevant time before and after that tee time.
+
+Escalate if:
+
+- Buggy settings do not save after clicking Update
+- Buggy counts do not appear on the timesheet after setup
+- Online buggy availability does not match the configured number of buggies
+- Visitors cannot book buggies even though the setting is enabled
+
+---
+
 ## ADMIN CONFIGURATION
 
 Use when the user asks about general admin settings.
