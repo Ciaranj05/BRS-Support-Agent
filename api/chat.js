@@ -17,6 +17,25 @@ Important:
 - Using Cut from inside the booking keeps the payment information attached.
 - If the checkbox on the tee sheet is selected first and the booking is cut from there, the payment information will not transfer.`;
 
+const unavailableTeeTimesReply = `If there are no tee times available for a future year, first check whether that year is enabled, then configure the timesheet for the required dates.
+
+Check the year is available:
+1. Go to Tools >> System Configuration.
+2. Under Display Configuration, check Calendar end year.
+3. Change Calendar end year to the year you need, for example 2027.
+4. Click Update at the top of the page.
+
+Then configure the tee times:
+1. Go to Tools >> Configure Timesheet.
+2. Select the relevant year and date range.
+3. Choose the tee time interval and tee time range.
+4. Select the days of the week this should apply to.
+5. Click Configure the Timesheet.
+
+Sources:
+[Configure timesheet - Year not available](https://help.brsgolf.com/hc/en-us/articles/360001525034-Configure-timesheet-Year-not-available)
+[Configure the timesheet](https://help.brsgolf.com/hc/en-us/articles/360001478994-Configure-the-timesheet)`;
+
 const forbiddenMoveBookingTerms = [
   "drag",
   "drop",
@@ -37,6 +56,14 @@ function isMoveBookingRequest(text = "") {
   const hasBooking = lower.includes("booking") || lower.includes("tee time") || lower.includes("tee-time") || lower.includes("teetime");
   const hasMoveIntent = lower.includes("move") || lower.includes("moving") || lower.includes("transfer") || lower.includes("reschedule") || lower.includes("change time") || lower.includes("different time") || lower.includes("different day");
   return hasBooking && hasMoveIntent;
+}
+
+function isUnavailableTeeTimesRequest(text = "") {
+  const lower = text.toLowerCase();
+  const hasTeeTimes = lower.includes("tee time") || lower.includes("tee times") || lower.includes("teetime") || lower.includes("timesheet") || lower.includes("tee sheet");
+  const hasUnavailableIntent = lower.includes("not available") || lower.includes("no tee") || lower.includes("no times") || lower.includes("aren't any") || lower.includes("are not any") || lower.includes("can't see") || lower.includes("cannot see") || lower.includes("missing");
+  const hasYear = /20\d{2}/.test(lower);
+  return hasTeeTimes && hasUnavailableIntent && hasYear;
 }
 
 function containsForbiddenMoveBookingTerm(text = "") {
@@ -84,6 +111,16 @@ export default async function chatHandler(req, res) {
       topic: "teesheet",
       options: [],
       version: "approved-move-booking-safe-rewrite-v1",
+    });
+  }
+
+  if (req.method === "POST" && isUnavailableTeeTimesRequest(message)) {
+    return res.status(200).json({
+      reply: unavailableTeeTimesReply,
+      escalationReady: false,
+      topic: "teesheet",
+      options: [],
+      version: "approved-unavailable-tee-times-v1",
     });
   }
 
