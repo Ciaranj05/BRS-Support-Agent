@@ -41,7 +41,7 @@ If the user cannot find a booking:
 
 Ask:
 
-“Can you confirm the booking date and tee time?”
+Can you confirm the booking date and tee time?
 
 Then check:
 
@@ -73,50 +73,6 @@ Steps:
 4. Check payment status
 5. Cancel the booking
 
-Important:
-
-- Always confirm before cancellation
-- Check whether refund action is needed
-- If payment exists, follow payments/refund logic
-
-Escalate if cancellation fails or payment/refund status is unclear.
-
----
-
-## REFUND A BOOKING
-
-Before processing a refund, confirm:
-
-- Correct booking/customer
-- Refund amount
-- Whether the refund should be full or partial
-- Whether the booking should also be cancelled
-
-Steps:
-
-1. Open the tee time
-2. Open the booking details
-3. Expand or open the Payments tab/section
-4. Review payment status and payment history
-5. Select the refund option or refund button
-6. Choose full refund or partial refund amount if applicable
-7. Confirm the refund
-8. Verify the payment status updates correctly after refund
-
-Important:
-
-- The refund option is normally inside the Payments section of the booking
-- Some systems may show "Cancel and Refund" instead of a separate refund button
-- Check for overpayments or remaining balances after partial refunds
-- If refund approval is required, follow the club approval process
-
-Escalate if:
-
-- Refund button is missing
-- Payment record does not match booking status
-- Refund fails or remains pending
-- The refunded amount looks incorrect
-
 ---
 
 ## MOVE A BOOKING
@@ -125,155 +81,17 @@ Before moving, confirm:
 
 - Original date/time
 - New date/time
-- Number of players
-- Any price difference
 
-Steps:
+To move a booking and keep payment information attached:
 
-1. Open the existing booking
-2. Choose move/change booking option
-3. Select new tee time
-4. Confirm player details
-5. Check payment status after move
+1. Click the tee time to open the booking details page
+2. Click Cut
+3. Return to the tee sheet
+4. Tick the checkbox beside the tee time you want to move the booking to
+5. Click Paste
 
 Important:
 
-- Moving a booking may change payment totals
-- Moving may create part-paid or overpaid status
-- Check payment allocation after moving
-
----
-
-## ADD PLAYER TO BOOKING
-
-Before adding a player, check:
-
-- Tee time capacity
-- Booking rules
-- Member/visitor restrictions
-- Price impact
-
-Steps:
-
-1. Open booking
-2. Add player
-3. Confirm player type
-4. Save booking
-5. Check payment amount if required
-
----
-
-## REMOVE PLAYER FROM BOOKING
-
-Before removing a player, confirm the change.
-
-Steps:
-
-1. Open booking
-2. Remove player
-3. Save booking
-4. Check payment status
-
-Important:
-
-- Removing a player may create an overpayment
-- If payment exists, check whether refund is needed
-
----
-
-## PAYMENT STATUS ON BOOKING
-
-Booking colours:
-
-- Green = Fully paid
-- Blue = Part paid
-- Red = Unpaid
-- Yellow = Overpaid
-
-If payment status looks wrong:
-
-1. Open booking
-2. Go to Payments tab
-3. Check payment total
-4. Check allocation
-5. If payment exists but status is wrong, use payments knowledge
-
----
-
-## BOOKING VISIBILITY
-
-If a tee time or booking is not visible online, check:
-
-- Date/time availability
-- Booking rules
-- Member/visitor restrictions
-- Blocked times
-- Competition/society reservations
-- Online booking settings
-
-Escalate if the tee time should be visible but is not.
-
----
-
-## PLAYER DETAILS
-
-Use booking details to check:
-
-- Player names
-- Contact details
-- Member/visitor status
-- Notes
-- Booking source
-
-If details are wrong, confirm the correct details before updating.
-
----
-
-## SOCIETY OR GROUP BOOKINGS
-
-For society/group bookings, check:
-
-- Number of players
-- Tee time range
-- Deposit/payment status
-- Contact details
-- Booking notes
-
-If payment is involved, follow payments logic.
-
----
-
-## COMMON CAUSE → EFFECT
-
-- Removing players may create overpayment
-- Moving booking may change price
-- Booking rules may hide tee times
-- Blocked times may prevent booking
-- Incorrect date/time search may make booking appear missing
-- Payment allocation may cause incorrect payment status
-
----
-
-## ESCALATION TRIGGERS
-
-Escalate if:
-
-- Booking cannot be found after date/time checks
-- Booking data appears inconsistent
-- Booking cannot be moved/cancelled
-- Payment status does not match payment record
-- Multiple bookings are affected
-- Tee sheet availability does not match setup
-
----
-
-## RESPONSE STYLE
-
-Keep tee sheet answers direct.
-
-Preferred format:
-
-1. Acknowledge briefly
-2. Confirm date/time if booking is missing
-3. Give exact next check
-4. Ask one follow-up if needed
+- Using Cut from inside the booking keeps the payment information attached
+- If you use the checkbox on the tee sheet first and cut the booking from there, the payment information will not transfer
+- Always check the payment status after moving the booking
