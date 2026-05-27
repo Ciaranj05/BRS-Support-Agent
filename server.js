@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "grounded-answer-safety-v1";
+const APP_VERSION = "grounded-answer-safety-v2";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
@@ -177,7 +177,20 @@ async function isReplyGrounded(reply, helpCenterContext) {
       input: [
         {
           role: "system",
-          content: `You are a strict support-answer verifier. Check whether the assistant answer is fully supported by the BRS Help Center article context. If any instruction, fact, UI label, option, or workflow step is not explicitly supported by the article context, reply exactly UNSUPPORTED. If everything is supported, reply exactly SUPPORTED.`,
+          content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the BRS Help Center article context.
+
+Reply exactly SUPPORTED if:
+- the answer is based on one or more provided BRS Help Center articles, and
+- the troubleshooting path is a reasonable application of those articles to the user's issue, and
+- the answer includes a BRS Help Center article URL.
+
+Reply exactly UNSUPPORTED only if:
+- the answer invents product-specific UI labels, buttons, menu paths, workflows, prices, rules, or policies that are not present in the article context, or
+- the answer contradicts the article context, or
+- the article context is unrelated to the user's issue, or
+- the answer has no BRS Help Center article URL.
+
+Do not reject an answer just because it combines related article facts into a troubleshooting sequence.`,
         },
         {
           role: "user",
@@ -262,15 +275,15 @@ ${instructions}
 
 RESPONSE STYLE:
 - Use the relevant BRS knowledge, decision tree, and BRS Help Center article context. Do not answer as a generic IT assistant.
-- Answer only when the provided approved knowledge or BRS Help Center article context explicitly supports the answer.
-- If the provided sources do not explicitly answer the user's question, reply exactly: ${UNKNOWN_REPLY}
+- Answer only when the provided approved knowledge or BRS Help Center article context supports a useful response.
+- If the provided sources are unrelated to the user's question, reply exactly: ${UNKNOWN_REPLY}
 - Keep replies short and operational.
 - Ask only one next-step question at a time.
 - Do not ask what system/platform the user means after a BRS topic is detected.
 - Use approved BRS navigation labels only.
 - If the answer exists in the knowledge file, provide it directly.
 - If Help Center article context is provided, use it as product documentation and include the most relevant source link at the end.
-- Do not add product workflows, buttons, menu items, or troubleshooting steps that are not present in the provided sources.
+- You may combine related article facts into practical troubleshooting steps, but do not invent product workflows, buttons, menu items, prices, policies, or rules that are not present in the provided sources.
 - If you ask a question with options, write the options naturally in the question, for example: "Is this for members or visitors?" or "Is this about bookings, payments, or memberships?"
 
 PRIORITY ORDER:
