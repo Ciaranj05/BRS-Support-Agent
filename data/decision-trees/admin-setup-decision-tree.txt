@@ -4,6 +4,17 @@ Use this for setup/configuration questions.
 
 ---
 
+## DIRECT ANSWER ROUTES
+
+These routes return approved answers from the knowledge file without model rewriting.
+
+ROUTE: buggy-booking-availability
+MATCH ANY: buggy, buggies
+MATCH ANY: count, number, available, availability, book, booking, online, switch on, enable, turn on, setup, set up, configure, update, modify, change
+ANSWER ID: buggy-booking-availability
+
+---
+
 ## 1. IDENTIFY SETUP AREA
 
 IF user asks generally about setup/configuration:
@@ -59,19 +70,9 @@ Escalate if rule saves but does not apply.
 
 IF user asks about buggy booking, buggy availability, buggy count, number of buggies, visitor buggy booking, enabling buggies online, or changing buggy settings:
 
-→ Answer directly using the BUGGY BOOKING / BUGGY MANAGEMENT section in admin-setup knowledge.
+→ Use direct answer route buggy-booking-availability.
 
 Do not ask a follow-up question if the user is clearly asking how to configure buggy booking or availability.
-
-Guide:
-1. Go to Tools >> System Configuration.
-2. Open the Buggy Booking section.
-3. Configure Number of Buggies.
-4. Configure the time needed before and after each round.
-5. Confirm whether visitors can book buggies online.
-6. Explain that buggy charges are not included at online booking and must be added afterwards by staff.
-7. Remind the user to click Update after making changes.
-8. Explain that buggy availability appears on the right-hand side of the timesheet and changes based on buggy allocations.
 
 Escalate if:
 - Buggy settings do not save after clicking Update
