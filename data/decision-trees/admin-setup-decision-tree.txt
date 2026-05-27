@@ -12,6 +12,43 @@ ROUTE: buggy-booking-availability
 MATCH ANY: buggy, buggies
 ANSWER ID: buggy-booking-availability
 
+ROUTE: tee-sheet-setup
+MATCH ANY: tee sheet
+MATCH ANY: timesheet
+MATCH ANY: configure, tee
+MATCH ANY: configure, timesheet
+MATCH ANY: setup, tee sheet
+MATCH ANY: setup, timesheet
+MATCH ANY: tee intervals
+MATCH ANY: opening times
+MATCH ANY: closing times
+MATCH ANY: blocked times
+ANSWER ID: tee-sheet-setup
+
+ROUTE: green-fee-rates
+MATCH ANY: green fee
+MATCH ANY: green fees
+MATCH ANY: rates
+MATCH ANY: visitor rate
+MATCH ANY: member rate
+ANSWER ID: green-fee-rates
+
+ROUTE: booking-rules
+MATCH ANY: booking rules
+MATCH ANY: restrictions
+MATCH ANY: booking restrictions
+MATCH ANY: advance booking
+MATCH ANY: player limits
+ANSWER ID: booking-rules
+
+ROUTE: email-templates
+MATCH ANY: email template
+MATCH ANY: email templates
+MATCH ANY: confirmation email
+MATCH ANY: reminder email
+MATCH ANY: customer email
+ANSWER ID: email-templates
+
 ---
 
 ## 1. IDENTIFY SETUP AREA
@@ -30,19 +67,12 @@ IF area is clear:
 
 IF user asks about green fee rates:
 
-Check:
-1. Date range
-2. Weekday/weekend rule
-3. Member/visitor rate
-4. Time range
-5. Restrictions
-
-Then guide user to verify the configured rate against a live tee time.
+→ Use direct answer route green-fee-rates.
 
 Escalate if:
 - Rate does not apply
 - Live price differs from setup
-- Multiple rates/clubs affected
+- Multiple clubs/rates are affected
 
 ---
 
@@ -50,16 +80,7 @@ Escalate if:
 
 IF user asks about booking rules/restrictions:
 
-Check:
-1. Who can book
-2. How far in advance
-3. Time restrictions
-4. Player limits
-5. Member/visitor access
-6. Online availability
-
-Ask:
-“What rule are you trying to apply?”
+→ Use direct answer route booking-rules.
 
 Escalate if rule saves but does not apply.
 
@@ -87,11 +108,7 @@ Escalate if:
 
 IF user asks about emails/templates:
 
-Check:
-1. Template type
-2. Booking/payment/membership/general use
-3. Merge fields
-4. Test email
+→ Use direct answer route email-templates.
 
 Escalate if:
 - Template does not save
@@ -102,15 +119,9 @@ Escalate if:
 
 ## 6. TEE SHEET SETUP
 
-IF user asks about tee sheet setup:
+IF user asks about tee sheet setup, timesheet setup, opening/closing times, tee intervals, blocked times, booking slots, member/visitor availability, or configuring the tee sheet:
 
-Check:
-1. Opening/closing times
-2. Tee intervals
-3. Course/holes
-4. Booking slots
-5. Member/visitor availability
-6. Blocked times
+→ Use direct answer route tee-sheet-setup.
 
 Escalate if live tee sheet does not match setup.
 
@@ -147,10 +158,12 @@ Escalate if:
 ## KEY BEHAVIOUR
 
 Always:
-- Confirm the setup area when it is unclear
+- Confirm the setup area only when it is unclear
+- If the setup area is clear and a direct route exists, return the approved answer without asking a follow-up question
 - Give exact checks
 - Confirm before changing live customer/member-facing settings
 
 Never:
 - Guess which setting controls behaviour
 - Recommend changing live setup without confirmation
+- Invent navigation paths that are not present in the approved knowledge
