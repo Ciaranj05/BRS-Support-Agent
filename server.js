@@ -17,11 +17,12 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "help-center-context-v1";
+const APP_VERSION = "grounded-answer-safety-v1";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
 const HELP_CENTER_CACHE_TTL_MS = 1000 * 60 * 30;
+const UNKNOWN_REPLY = "I don't have enough confirmed information in the BRS Help Center or approved support guidance to answer that accurately. Please check the BRS Help Center or escalate this to support.";
 const helpCenterCache = globalThis.__brsHelpCenterCache || new Map();
 globalThis.__brsHelpCenterCache = helpCenterCache;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -158,9 +159,52 @@ function formatHelpCenterContext(articles) {
   return articles.map((article, index) => `ARTICLE ${index + 1}: ${article.title}\nURL: ${article.url}\nUPDATED: ${article.updatedAt || "Unknown"}\nTEXT:\n${article.text}`).join("\n\n---\n\n");
 }
 
-async function getHelpCenterContext(message) {
+function hasHelpCenterSource(reply = "") {
+  return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply);
+}
+
+function appendSourceIfMissing(reply, articles) {
+  if (hasHelpCenterSource(reply) || !articles.length) return reply;
+  return `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`;
+}
+
+async function isReplyGrounded(reply, helpCenterContext) {
+  if (!reply || reply === UNKNOWN_REPLY || !hasHelpCenterSource(reply)) return false;
+
+  try {
+    const verification = await client.responses.create({
+      model: "gpt-4.1",
+      input: [
+        {
+          role: "system",
+          content: `You are a strict support-answer verifier. Check whether the assistant answer is fully supported by the BRS Help Center article context. If any instruction, fact, UI label, option, or workflow step is not explicitly supported by the article context, reply exactly UNSUPPORTED. If everything is supported, reply exactly SUPPORTED.`,
+        },
+        {
+          role: "user",
+          content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext}\n\nASSISTANT ANSWER:\n${reply}`,
+        },
+      ],
+    });
+
+    return verification.output_text?.trim().toUpperCase() === "SUPPORTED";
+  } catch (error) {
+    console.error("Grounding verification failed:", error);
+    return false;
+  }
+}
+
+async function createGroundedReply(message, topic, conversationHistory) {
   const articles = await getHelpCenterArticles(message);
-  return formatHelpCenterContext(articles);
+  if (!articles.length) return UNKNOWN_REPLY;
+
+  const helpCenterContext = formatHelpCenterContext(articles);
+  const response = await client.responses.create({
+    model: "gpt-4.1",
+    input: [{ role: "system", content: getContextForTopic(topic, helpCenterContext) }, ...conversationHistory.slice(-12)],
+  });
+
+  const reply = appendSourceIfMissing(response.output_text?.trim() || "", articles);
+  return await isReplyGrounded(reply, helpCenterContext) ? reply : UNKNOWN_REPLY;
 }
 
 function parseDirectAnswerRoutes(decisionTree) {
@@ -218,12 +262,15 @@ ${instructions}
 
 RESPONSE STYLE:
 - Use the relevant BRS knowledge, decision tree, and BRS Help Center article context. Do not answer as a generic IT assistant.
+- Answer only when the provided approved knowledge or BRS Help Center article context explicitly supports the answer.
+- If the provided sources do not explicitly answer the user's question, reply exactly: ${UNKNOWN_REPLY}
 - Keep replies short and operational.
 - Ask only one next-step question at a time.
 - Do not ask what system/platform the user means after a BRS topic is detected.
 - Use approved BRS navigation labels only.
 - If the answer exists in the knowledge file, provide it directly.
 - If Help Center article context is provided, use it as product documentation and include the most relevant source link at the end.
+- Do not add product workflows, buttons, menu items, or troubleshooting steps that are not present in the provided sources.
 - If you ask a question with options, write the options naturally in the question, for example: "Is this for members or visitors?" or "Is this about bookings, payments, or memberships?"
 
 PRIORITY ORDER:
@@ -482,9 +529,7 @@ app.post("/api/chat", async (req, res) => {
     }
 
     state.conversationHistory.push({ role: "user", content: message });
-    const helpCenterContext = await getHelpCenterContext(message);
-    const response = await client.responses.create({ model: "gpt-4.1", input: [{ role: "system", content: getContextForTopic(topic, helpCenterContext) }, ...state.conversationHistory.slice(-12)] });
-    const reply = response.output_text;
+    const reply = await createGroundedReply(message, topic, state.conversationHistory);
     state.conversationHistory.push({ role: "assistant", content: reply }); saveSessionState(sessionId, state);
     res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
   } catch (error) {
