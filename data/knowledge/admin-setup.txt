@@ -6,7 +6,11 @@ Use this knowledge for system setup, configuration, green fee setup, email templ
 
 ## CORE RULE
 
-Always confirm what the user is trying to configure before giving detailed steps.
+Only confirm what the user is trying to configure when the setup area is unclear.
+
+If the user clearly states the setup area and an approved answer exists, return the approved answer directly without asking a follow-up question.
+
+Never invent navigation paths, setup locations, or configuration steps that are not present in the approved knowledge.
 
 Common setup areas:
 
@@ -23,15 +27,16 @@ Common setup areas:
 
 Use when the user asks about setting up or changing green fees.
 
-Typical checks:
+## APPROVED ANSWER: green-fee-rates
+nWhen configuring green fee rates, confirm:
+1. The date range
+2. Visitor or member pricing
+3. Weekday/weekend setup
+4. Whether the rate applies to all times or specific tee times
+5. Whether restrictions apply
 
-1. Confirm the date range
-2. Confirm visitor/member rate
-3. Confirm weekday/weekend rules
-4. Confirm whether the rate applies to all times or specific times
-5. Confirm whether any restrictions apply
-
-If unsure whether the rate is correct, advise checking the configured rate against a live tee time.
+After setup, always verify the configured rate against a live tee time to confirm the correct price is displaying.
+## END APPROVED ANSWER
 
 Escalate if:
 
@@ -45,16 +50,17 @@ Escalate if:
 
 Use when configuring booking restrictions.
 
-Check:
-
+## APPROVED ANSWER: booking-rules
+When configuring booking rules, check:
 - Who can book
 - How far in advance bookings can be made
 - Time restrictions
 - Player limits
-- Member/visitor access
+- Member or visitor access
 - Online availability
 
-Always confirm the rule before advising changes.
+Always confirm the exact rule before changing live booking behaviour.
+## END APPROVED ANSWER
 
 ---
 
@@ -62,12 +68,15 @@ Always confirm the rule before advising changes.
 
 Use when the user asks about confirmation emails, reminders, or customer emails.
 
-Check:
-
-1. Which email template is being updated
+## APPROVED ANSWER: email-templates
+When updating email templates, confirm:
+1. Which template is being updated
 2. Whether it applies to bookings, payments, memberships, or general communication
 3. Whether merge fields are being used
 4. Whether a test email has been sent
+
+After making changes, send a test email to confirm the template displays correctly.
+## END APPROVED ANSWER
 
 Escalate if:
 
@@ -81,15 +90,18 @@ Escalate if:
 
 Use when the user asks about tee sheet configuration.
 
-Check:
-
-- Opening/closing times
+## APPROVED ANSWER: tee-sheet-setup
+When configuring the tee sheet, check:
+- Opening and closing times
 - Tee intervals
 - Number of holes
 - Booking slots
-- Visitor/member availability
+- Visitor and member availability
 - Blocked times
 - Competition or society bookings
+
+After updating the setup, verify the live tee sheet matches the configured availability and restrictions.
+## END APPROVED ANSWER
 
 Escalate if:
 
@@ -172,7 +184,7 @@ Keep setup answers practical.
 
 Preferred format:
 
-1. Confirm what they are configuring
+1. Confirm what they are configuring only if unclear
 2. Give exact area to check
-3. Provide 1–3 next steps
-4. Ask one follow-up if needed
+3. Provide concise next steps
+4. Ask one follow-up only when needed
