@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "buggy-booking-direct-answer-v1";
+const APP_VERSION = "knowledge-direct-answer-v2";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -69,6 +69,49 @@ function getSessionState(sessionId) {
 function saveSessionState(sessionId, state) { sessions.set(sessionId, { ...state, updatedAt: Date.now() }); }
 function resetSessionState(sessionId) { const freshState = createDefaultState(); sessions.set(sessionId, freshState); return freshState; }
 function loadFile(filePath) { const fullPath = path.join(__dirname, filePath); return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : ""; }
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function splitRouteTerms(value) {
+  return value.split(",").map((term) => term.trim().toLowerCase()).filter(Boolean);
+}
+
+function parseDirectAnswerRoutes(decisionTree) {
+  const routes = [];
+  const routeRegex = /^ROUTE:\s*(.+?)\s*$([\s\S]*?)(?=^ROUTE:\s*|^---\s*$|\z)/gim;
+  let match;
+
+  while ((match = routeRegex.exec(decisionTree)) !== null) {
+    const [, id, body] = match;
+    const answerId = body.match(/^ANSWER ID:\s*(.+?)\s*$/im)?.[1]?.trim();
+    const matchAnyGroups = [...body.matchAll(/^MATCH ANY:\s*(.+?)\s*$/gim)].map((line) => splitRouteTerms(line[1]));
+
+    if (answerId && matchAnyGroups.length) {
+      routes.push({ id: id.trim(), answerId, matchAnyGroups });
+    }
+  }
+
+  return routes;
+}
+
+function routeMatchesMessage(route, message) {
+  const lower = message.toLowerCase();
+  return route.matchAnyGroups.every((group) => group.some((term) => lower.includes(term)));
+}
+
+function getApprovedAnswer(topic, answerId) {
+  const knowledge = loadFile(`data/knowledge/${topic}.txt`);
+  const answerRegex = new RegExp(`## APPROVED ANSWER:\\s*${escapeRegExp(answerId)}\\s*\\n([\\s\\S]*?)\\n## END APPROVED ANSWER`, "i");
+  return knowledge.match(answerRegex)?.[1]?.trim() || null;
+}
+
+function getDirectAnswerForMessage(topic, message) {
+  const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
+  const route = parseDirectAnswerRoutes(decisionTree).find((candidate) => routeMatchesMessage(candidate, message));
+  return route ? getApprovedAnswer(topic, route.answerId) : null;
+}
 
 function detectTopic(message) {
   const lower = message.toLowerCase();
@@ -251,7 +294,7 @@ app.post("/api/chat", async (req, res) => {
 
     const detectedTopic = detectTopic(message);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
-    const topic = detectedTopic !== "general" ? detectedTopic : (state.currentTopic || detectedTopic);
+    let topic = detectedTopic !== "general" ? detectedTopic : (state.currentTopic || detectedTopic);
 
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
     const combinedText = `${historyText} ${message}`;
@@ -259,6 +302,15 @@ app.post("/api/chat", async (req, res) => {
     if (isBuggyBookingRequest(message)) {
       state.currentTopic = "admin-setup";
       state.escalationState = "none";
+      topic = "admin-setup";
+    }
+
+    const directAnswer = getDirectAnswerForMessage(topic, message);
+    if (directAnswer) {
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: directAnswer });
+      saveSessionState(sessionId, state);
+      return res.json({ reply: directAnswer, escalationReady: false, topic, options: [], version: APP_VERSION });
     }
 
     if (isAdminUserCreateRequest(message)) {
