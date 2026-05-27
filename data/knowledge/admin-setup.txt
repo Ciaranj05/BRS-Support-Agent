@@ -103,24 +103,15 @@ Escalate if:
 
 Use when the user asks how to modify the buggy count, switch on buggy booking, or allow visitors to book buggies online.
 
-Advise the user to go to Tools > System Configuration, then find the Buggy Booking section.
+## APPROVED ANSWER: buggy-booking-availability
+To switch on the feature go to "Tools">>"System Configuration" and go to the "Buggy Booking" section.
 
-In this section they can configure:
-
-- Number of Buggies the club has
-- The amount of time each buggy is needed before a round
-- The amount of time each buggy is needed after a round, for example for charging or cleaning
-- Whether visitors are allowed to book buggies online
-
-If "allow visitors to book buggies online" is enabled and the Number of Buggies is greater than zero, visitors will see buggy availability against each tee time and can book 1 or 2 buggies when available.
-
-Make clear that the buggy price is not included at the time of booking. Staff must add the buggy charge afterwards at the club.
-
-If any changes are made, the user must click Update at the top or bottom of the page to save them.
-
-After setup, advise the user to return to the timesheet. The available buggy count will appear on the right-hand side and will change depending on buggy allocations before and after tee times.
-
-Example explanation: if the club has 10 available buggies and the 09:00 tee time has 1 buggy allocated, only 9 buggies may be available for the relevant time before and after that tee time.
+Here you enter the Number of Buggies the club has, and the amount of time each buggy is needed before and after each round (for charging, cleaning etc).
+The allow visitors to book buggies online setting, if checked, and the number of buggies setup is greater that zero, visitors will see the number of buggies available against each tee time and will be able to book either 1 or 2 buggies as long as they are available to be booked.
+Note that the price of the buggy is not included at the time of the booking so must be added in afterwards by staff at the club.
+If any changes are made click "Update" at the top or bottom of the page to save your changes.
+Once you have set up this, go back to the timesheet and you will see the number of buggies appearing on the right hand side of the screen. This number will fluctuate depending on how many buggies are available See the image below. The are 10 available buggies, but because the 09:00 tee time has 1 buggy against it, only 9 are available for a time before and after the tee time.
+## END APPROVED ANSWER
 
 Escalate if:
 
