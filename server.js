@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "knowledge-direct-answer-v3";
+const APP_VERSION = "knowledge-direct-answer-v4";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const sessions = globalThis.__brsSupportSessions || new Map();
@@ -198,9 +198,7 @@ To change the password later:
 
 function isBuggyBookingRequest(text) {
   const lower = text.toLowerCase();
-  const buggyTerm = lower.includes("buggy") || lower.includes("buggies");
-  const setupTerm = lower.includes("count") || lower.includes("number") || lower.includes("available") || lower.includes("availability") || lower.includes("book") || lower.includes("booking") || lower.includes("online") || lower.includes("switch on") || lower.includes("enable") || lower.includes("turn on") || lower.includes("setup") || lower.includes("set up") || lower.includes("configure") || lower.includes("update") || lower.includes("modify") || lower.includes("change");
-  return buggyTerm && setupTerm;
+  return lower.includes("buggy") || lower.includes("buggies");
 }
 
 function isFullRefundAnswer(text) {
