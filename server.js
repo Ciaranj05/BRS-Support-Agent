@@ -160,16 +160,6 @@ function isBuggyBookingRequest(text) {
   return buggyTerm && setupTerm;
 }
 
-function approvedBuggyBookingReply() {
-  return `To switch on the feature go to "Tools">>"System Configuration" and go to the "Buggy Booking" section.
-
-Here you enter the Number of Buggies the club has, and the amount of time each buggy is needed before and after each round (for charging, cleaning etc).
-The allow visitors to book buggies online setting, if checked, and the number of buggies setup is greater that zero, visitors will see the number of buggies available against each tee time and will be able to book either 1 or 2 buggies as long as they are available to be booked.
-Note that the price of the buggy is not included at the time of the booking so must be added in afterwards by staff at the club.
-If any changes are made click "Update" at the top or bottom of the page to save your changes.
-Once you have set up this, go back to the timesheet and you will see the number of buggies appearing on the right hand side of the screen. This number will fluctuate depending on how many buggies are available See the image below. The are 10 available buggies, but because the 09:00 tee time has 1 buggy against it, only 9 are available for a time before and after the tee time.`;
-}
-
 function isFullRefundAnswer(text) {
   const lower = text.toLowerCase();
   return lower.includes("full refund") || lower === "full" || lower.includes("full amount");
@@ -269,11 +259,6 @@ app.post("/api/chat", async (req, res) => {
     if (isBuggyBookingRequest(message)) {
       state.currentTopic = "admin-setup";
       state.escalationState = "none";
-      const reply = approvedBuggyBookingReply();
-      state.conversationHistory.push({ role: "user", content: message });
-      state.conversationHistory.push({ role: "assistant", content: reply });
-      saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "admin-setup", options: [], version: APP_VERSION });
     }
 
     if (isAdminUserCreateRequest(message)) {
