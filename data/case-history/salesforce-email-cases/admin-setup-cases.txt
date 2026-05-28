@@ -1,0 +1,26 @@
+# ADMIN SETUP – SALESFORCE CASE HISTORY
+
+## CASE: buggy-availability-not-matching
+
+Topic: admin-setup
+Product area: buggy booking / availability
+
+Customer question:
+The number of available buggies on the tee sheet does not match the configured amount.
+
+Resolved guidance:
+- Confirm the number of buggies configured.
+- Confirm the before/after reservation time for buggy usage.
+- Check whether existing tee times already have buggy allocations.
+- Confirm visitors are allowed to book buggies online.
+- Click Update after changes.
+- Verify the tee sheet availability updates correctly.
+
+Use when user asks:
+- buggy availability incorrect
+- buggy count wrong
+- buggy numbers not updating
+- buggy booking issue
+
+Do not use if:
+- Approved buggy guidance already answers the question directly.
