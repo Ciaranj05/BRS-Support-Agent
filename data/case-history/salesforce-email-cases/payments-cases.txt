@@ -1,0 +1,25 @@
+# PAYMENTS – SALESFORCE CASE HISTORY
+
+## CASE: missing-top-up-not-showing
+
+Topic: payments
+Product area: memberships / wallets
+
+Customer question:
+Member says a top-up payment is missing.
+
+Resolved guidance:
+- Check Tools >> BRS Payments >> Transactions.
+- Search the date range for the payment.
+- Check Memberships >> Reports >> Wallet Transactions.
+- Confirm the wallet is assigned to the member.
+- If the transaction does not exist in BRS Payments, escalate to support.
+
+Use when user asks:
+- missing top-up
+- wallet credit not showing
+- member balance incorrect
+- payment missing
+
+Do not use if:
+- Approved knowledge contains a direct answer that conflicts with this case.
