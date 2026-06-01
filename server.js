@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "dynamic-clarification-routing-v1";
+const APP_VERSION = "supported-clarification-routing-v1";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
@@ -29,60 +29,139 @@ globalThis.__brsHelpCenterCache = helpCenterCache;
 const sessions = globalThis.__brsSupportSessions || new Map();
 globalThis.__brsSupportSessions = sessions;
 
-const CLARIFICATION_GUIDE = `
-Use these as internal product areas, not as literal button labels. User-facing buttons should be tasks or symptoms.
+const SUPPORTED_CLARIFICATION_PROFILES = {
+  "account-create": {
+    topic: "general",
+    question: "What kind of record are you trying to create?",
+    context: "Ambiguous create account request. Supported routes are admin/staff users and member profiles only.",
+    options: [
+      { label: "Admin or staff user", value: "Clarification answer: Admin or staff user" },
+      { label: "Member profile", value: "Clarification answer: Member profile" },
+      { label: "I'm not sure", value: "Clarification answer: I'm not sure what kind of record" },
+      { label: "Type details instead", value: "Clarification answer: I need to type details instead" },
+    ],
+  },
+  "booking-access": {
+    topic: "teesheet",
+    question: "What cannot be booked or seen?",
+    context: "Online booking or availability issue.",
+    options: [
+      { label: "Member tee time booking", value: "Clarification answer: Members cannot book tee times online" },
+      { label: "Visitor tee time booking", value: "Clarification answer: Visitors cannot book tee times online" },
+      { label: "Competition entry", value: "Clarification answer: People cannot book into a competition" },
+      { label: "Tee time not visible online", value: "Clarification answer: Tee time is not visible online" },
+      { label: "Facility booking", value: "Clarification answer: Facility booking issue" },
+      { label: "Type details instead", value: "Clarification answer: I need to type booking availability details" },
+    ],
+  },
+  "booking-change": {
+    topic: "teesheet",
+    question: "What do you need to do with the booking?",
+    context: "Tee sheet booking task.",
+    options: [
+      { label: "Find missing booking", value: "Clarification answer: Booking cannot be found" },
+      { label: "Move a booking", value: "Clarification answer: Move a booking" },
+      { label: "Cancel a booking", value: "Clarification answer: Cancel a booking" },
+      { label: "Add or remove players", value: "Clarification answer: Add or remove players on a booking" },
+      { label: "Check payment status", value: "Clarification answer: Check booking payment status" },
+      { label: "Type details instead", value: "Clarification answer: I need to type booking details" },
+    ],
+  },
+  "payment-issue": {
+    topic: "payments",
+    question: "Which payment issue is closest?",
+    context: "Supported payment issue routes.",
+    options: [
+      { label: "Refund a booking", value: "Clarification answer: Refund a booking" },
+      { label: "Customer says they paid", value: "Clarification answer: Customer says they paid but it is not showing" },
+      { label: "Payment not showing", value: "Clarification answer: Payment not showing in BRS" },
+      { label: "Payment failed", value: "Clarification answer: Payment failed" },
+      { label: "Payout or report", value: "Clarification answer: Payment payout or reporting issue" },
+      { label: "Payment request", value: "Clarification answer: Payment request" },
+    ],
+  },
+  "membership-issue": {
+    topic: "memberships",
+    question: "Which membership area is closest?",
+    context: "Supported membership routes.",
+    options: [
+      { label: "Member profile", value: "Clarification answer: Member profile" },
+      { label: "Bill", value: "Clarification answer: Member bill issue" },
+      { label: "Subscription", value: "Clarification answer: Membership subscription issue" },
+      { label: "Subscription cycle", value: "Clarification answer: Subscription cycle setup" },
+      { label: "Payment scheme", value: "Clarification answer: Membership payment scheme" },
+      { label: "Wallet/account balance", value: "Clarification answer: Wallet or account balance" },
+    ],
+  },
+  "user-access": {
+    topic: "user-management",
+    question: "Which user or access task is closest?",
+    context: "Supported user-management routes.",
+    options: [
+      { label: "Add a user", value: "Clarification answer: Add an admin or staff user" },
+      { label: "Change permissions", value: "Clarification answer: Change user permissions" },
+      { label: "Login issue", value: "Clarification answer: User login issue" },
+      { label: "Deactivate user", value: "Clarification answer: Deactivate a user" },
+      { label: "User limit", value: "Clarification answer: User limit issue" },
+      { label: "Which role to use", value: "Clarification answer: Which user role should I use" },
+    ],
+  },
+  "competition-issue": {
+    topic: "teesheet",
+    question: "Which competition task is closest?",
+    context: "Supported competition routes. Open and regular competition guide overlap should stay hidden from users.",
+    options: [
+      { label: "People cannot book in", value: "Clarification answer: People cannot book into a competition" },
+      { label: "Create or edit details", value: "Clarification answer: Create or edit competition details" },
+      { label: "Draws or entry sheets", value: "Clarification answer: Competition draws or entry sheets" },
+      { label: "Change or cancel entry", value: "Clarification answer: Change or cancel a competition entry" },
+      { label: "Purse or payments", value: "Clarification answer: Competition purse or payments" },
+    ],
+  },
+  "setup-issue": {
+    topic: "admin-setup",
+    question: "Which setup area is closest?",
+    context: "Supported setup/configuration routes.",
+    options: [
+      { label: "Tee sheet setup", value: "Clarification answer: Tee sheet setup" },
+      { label: "Green fee rates", value: "Clarification answer: Green fee rates" },
+      { label: "Booking rules", value: "Clarification answer: Booking rules" },
+      { label: "Buggy booking", value: "Clarification answer: Buggy booking" },
+      { label: "Email templates", value: "Clarification answer: Email templates" },
+      { label: "Membership/billing settings", value: "Clarification answer: Membership or billing settings" },
+    ],
+  },
+  "admin-comms-reports": {
+    topic: "admin-setup",
+    question: "Which admin area is closest?",
+    context: "Supported reporting, communications, GDPR, and device routes.",
+    options: [
+      { label: "Reports", value: "Clarification answer: Reports" },
+      { label: "Emails or texts", value: "Clarification answer: Emails or text messages" },
+      { label: "GDPR", value: "Clarification answer: GDPR request" },
+      { label: "Clubhouse PC/device", value: "Clarification answer: Clubhouse PC or device" },
+      { label: "Green fee printer", value: "Clarification answer: Green fee printer" },
+      { label: "Type details instead", value: "Clarification answer: I need to type admin details" },
+    ],
+  },
+  unsupported: {
+    topic: "general",
+    question: "I do not have a confirmed route for that yet. Can you add a bit more detail?",
+    context: "No supported clarification profile matched.",
+    options: [
+      { label: "Type details instead", value: "Clarification answer: I need to type more details" },
+      { label: "Booking or tee sheet", value: "Clarification answer: Booking or tee sheet issue" },
+      { label: "Payment or refund", value: "Clarification answer: Payment or refund issue" },
+      { label: "Member or subscription", value: "Clarification answer: Member or subscription issue" },
+      { label: "User login or permissions", value: "Clarification answer: User login or permissions issue" },
+    ],
+  },
+};
 
-Booking and tee sheet work:
-- find, move, cancel, edit bookings
-- add/remove players
-- booking payment status
-- tee times, timesheet, tee sheet setup
-- member booking, visitor booking, societies, waiting list, online availability
-
-Payments and money:
-- booking refunds, full/partial refunds, BRS Payments vs offline payments
-- missing payments, failed payments, payment requests
-- payouts, VAT/reporting, transactions
-- membership bill payments, wallet top-ups, competition purse or competition entry payments
-
-Memberships:
-- member profiles/accounts
-- bills, subscriptions, subscription cycles
-- payment schemes, wallets/account balances
-- member access and online booking access
-
-Users and access:
-- admin/staff users
-- permissions, roles, login, password reset, deactivation, user limits
-- distinguish this from member profiles/accounts and visitor/customer accounts
-
-Competitions:
-- people cannot book into a competition
-- competition visibility, member entries, visitor/open entries
-- create/edit competition details
-- draws, entry sheets, changing/cancelling entries
-- competition purse/payments
-
-Setup, comms, reports, devices:
-- club setup/settings, booking rules, green fees, buggies, email templates
-- reports, emails/texts, GDPR, clubhouse PC/device, green fee printer
-
-Clarification rules:
-- Ask one concise question at a time.
-- Buttons must answer that question directly.
-- Avoid redundant choices that split internal guide categories if the user would see them as the same task.
-- Include an "I'm not sure" or "Something else" option when ambiguity is high.
-- If typing is truly needed, include one option like "Type details instead".
-`;
-
-const fallbackClarificationOptions = [
-  { label: "Booking or tee sheet", value: "This is about a booking or tee sheet issue" },
-  { label: "Payment or refund", value: "This is about a payment or refund issue" },
-  { label: "Member or subscription", value: "This is about a member, bill, or subscription issue" },
-  { label: "User login or permissions", value: "This is about a user, login, or permissions issue" },
-  { label: "Club setup or reports", value: "This is about setup, reports, emails, GDPR, or devices" },
-  { label: "Type details instead", value: "I need to type more details because none of the choices fit" },
-];
+const PROFILE_DESCRIPTIONS = Object.entries(SUPPORTED_CLARIFICATION_PROFILES)
+  .filter(([id]) => id !== "unsupported")
+  .map(([id, profile]) => `${id}: ${profile.context}; options: ${profile.options.map((option) => option.label).join(", ")}`)
+  .join("\n");
 
 const transactionOptions = [
   { label: "Yes, transaction found", value: "Yes, I found the matching transaction in BRS Payments" },
@@ -108,15 +187,7 @@ const topicSearchHints = {
 };
 
 function createDefaultState() {
-  return {
-    conversationHistory: [],
-    escalationState: "none",
-    escalationDraft: null,
-    currentTopic: null,
-    clarificationContext: null,
-    clarificationCount: 0,
-    updatedAt: Date.now(),
-  };
+  return { conversationHistory: [], escalationState: "none", escalationDraft: null, currentTopic: null, clarificationContext: null, clarificationCount: 0, updatedAt: Date.now() };
 }
 
 function cleanupSessions() {
@@ -125,10 +196,7 @@ function cleanupSessions() {
     if (!state?.updatedAt || now - state.updatedAt > SESSION_TTL_MS) sessions.delete(sessionId);
   }
   if (sessions.size <= SESSION_LIMIT) return;
-  [...sessions.entries()]
-    .sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0))
-    .slice(0, sessions.size - SESSION_LIMIT)
-    .forEach(([sessionId]) => sessions.delete(sessionId));
+  [...sessions.entries()].sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0)).slice(0, sessions.size - SESSION_LIMIT).forEach(([sessionId]) => sessions.delete(sessionId));
 }
 
 function getSessionId(req) {
@@ -143,33 +211,13 @@ function getSessionState(sessionId) {
   return state;
 }
 
-function saveSessionState(sessionId, state) {
-  sessions.set(sessionId, { ...state, updatedAt: Date.now() });
-}
-
-function resetSessionState(sessionId) {
-  const freshState = createDefaultState();
-  sessions.set(sessionId, freshState);
-  return freshState;
-}
-
-function loadFile(filePath) {
-  const fullPath = path.join(__dirname, filePath);
-  return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : "";
-}
-
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
+function saveSessionState(sessionId, state) { sessions.set(sessionId, { ...state, updatedAt: Date.now() }); }
+function resetSessionState(sessionId) { const freshState = createDefaultState(); sessions.set(sessionId, freshState); return freshState; }
+function loadFile(filePath) { const fullPath = path.join(__dirname, filePath); return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : ""; }
+function escapeRegExp(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
 
 function decodeHtmlEntities(value = "") {
-  return value
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&gt;/g, ">")
-    .replace(/&lt;/g, "<")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'");
+  return value.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
 }
 
 function stripHtml(html = "") {
@@ -188,13 +236,8 @@ function stripHtml(html = "") {
     .trim();
 }
 
-function truncateText(value = "", limit = 2200) {
-  return value.length > limit ? `${value.slice(0, limit).trim()}...` : value;
-}
-
-function uniqueValues(values) {
-  return [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))];
-}
+function truncateText(value = "", limit = 2200) { return value.length > limit ? `${value.slice(0, limit).trim()}...` : value; }
+function uniqueValues(values) { return [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))]; }
 
 function parseJsonObject(text = "") {
   try {
@@ -232,10 +275,7 @@ async function fetchWithTimeout(url, timeoutMs = 4500) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: { Accept: "application/json", "User-Agent": "BRS-Support-Agent/1.0" },
-    });
+    const response = await fetch(url, { signal: controller.signal, headers: { Accept: "application/json", "User-Agent": "BRS-Support-Agent/1.0" } });
     if (!response.ok) return null;
     return await response.json();
   } catch (error) {
@@ -247,20 +287,14 @@ async function fetchWithTimeout(url, timeoutMs = 4500) {
 }
 
 function buildSearchMessage(message, state = {}) {
-  return uniqueValues([
-    state.clarificationContext || "",
-    ...state.conversationHistory.slice(-6).map((item) => item.content || ""),
-    message,
-  ]).join(" ");
+  return uniqueValues([state.clarificationContext || "", ...state.conversationHistory.slice(-6).map((item) => item.content || ""), message]).join(" ");
 }
 
 function getKeywordSearchQueries(message, topic, state = {}) {
   const lower = message.toLowerCase();
   const queries = [message, ...(topicSearchHints[topic] || []), state.clarificationContext || ""];
 
-  if (lower.includes("account")) {
-    queries.push("create account admin staff user member profile visitor booking BRS Payments account");
-  }
+  if (lower.includes("account")) queries.push("admin staff user member profile account");
   if (lower.includes("competition")) {
     queries.push("competition setup open competition member visitor booking draw entry sheet purse");
     queries.push("open competitions visitor booking competition entry payment purse");
@@ -296,22 +330,14 @@ function getKeywordSearchQueries(message, topic, state = {}) {
 
 async function getExpandedSearchQueries(message, topic, state = {}) {
   const baseQueries = getKeywordSearchQueries(message, topic, state);
-
   try {
     const response = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        {
-          role: "system",
-          content: "You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, guide categories, menu names, and article keywords. Do not answer the question.",
-        },
-        {
-          role: "user",
-          content: `Topic: ${topic}\nClarification context: ${state.clarificationContext || "None"}\nUser question: ${message}`,
-        },
+        { role: "system", content: "You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, guide categories, menu names, and article keywords. Do not answer the question." },
+        { role: "user", content: `Topic: ${topic}\nClarification context: ${state.clarificationContext || "None"}\nUser question: ${message}` },
       ],
     });
-
     return uniqueValues([...baseQueries, ...parseJsonArray(response.output_text)]).slice(0, 12);
   } catch (error) {
     console.error("Help Center query expansion failed:", error);
@@ -331,13 +357,7 @@ async function searchHelpCenter(query) {
   const articles = (payload?.results || [])
     .filter((article) => article.result_type === "article" && article.title && article.html_url && article.body)
     .slice(0, 5)
-    .map((article) => ({
-      title: article.title,
-      url: article.html_url,
-      updatedAt: article.updated_at,
-      text: truncateText(stripHtml(article.body)),
-      query: cleanedQuery,
-    }));
+    .map((article) => ({ title: article.title, url: article.html_url, updatedAt: article.updated_at, text: truncateText(stripHtml(article.body)), query: cleanedQuery }));
 
   helpCenterCache.set(cleanedQuery, { createdAt: Date.now(), articles });
   return articles;
@@ -348,11 +368,9 @@ async function getHelpCenterArticles(message, topic, state = {}) {
   const queries = await getExpandedSearchQueries(searchMessage, topic, state);
   const batches = await Promise.all(queries.map((query) => searchHelpCenter(query)));
   const byUrl = new Map();
-
   for (const article of batches.flat()) {
     if (!byUrl.has(article.url)) byUrl.set(article.url, article);
   }
-
   return [...byUrl.values()].slice(0, 5);
 }
 
@@ -364,30 +382,20 @@ function formatHelpCenterContext(articles) {
 function getApprovedSupportContext(topic) {
   const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
   const knowledge = loadFile(`data/knowledge/${topic}.txt`);
-  const context = [decisionTree, knowledge].filter(Boolean).join("\n\n---\n\n");
-  return truncateText(context, 5000);
+  return truncateText([decisionTree, knowledge].filter(Boolean).join("\n\n---\n\n"), 5000);
 }
 
-function hasHelpCenterSource(reply = "") {
-  return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply);
-}
-
-function appendSourceIfMissing(reply, articles) {
-  if (hasHelpCenterSource(reply) || !articles.length) return reply;
-  return `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`;
-}
+function hasHelpCenterSource(reply = "") { return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply); }
+function appendSourceIfMissing(reply, articles) { return hasHelpCenterSource(reply) || !articles.length ? reply : `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`; }
 
 async function isReplyGrounded(reply, helpCenterContext, approvedSupportContext, sourceRequired) {
   if (!reply || reply === UNKNOWN_REPLY) return false;
   if (sourceRequired && !hasHelpCenterSource(reply)) return false;
-
   try {
     const verification = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        {
-          role: "system",
-          content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the supplied BRS sources.
+        { role: "system", content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the supplied BRS sources.
 
 Sources may include BRS Help Center articles and local approved support guidance.
 
@@ -402,15 +410,10 @@ Reply exactly UNSUPPORTED only if:
 - the supplied sources are unrelated to the user's issue, or
 - a Help Center URL is required but the answer has no BRS Help Center article URL.
 
-Do not reject an answer just because it translates vague wording into likely BRS product terms or combines related source facts into a troubleshooting sequence.`,
-        },
-        {
-          role: "user",
-          content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext || "No Help Center articles found."}\n\nLOCAL APPROVED SUPPORT GUIDANCE:\n${approvedSupportContext || "No local approved guidance found."}\n\nHELP CENTER URL REQUIRED: ${sourceRequired ? "yes" : "no"}\n\nASSISTANT ANSWER:\n${reply}`,
-        },
+Do not reject an answer just because it translates vague wording into likely BRS product terms or combines related source facts into a troubleshooting sequence.` },
+        { role: "user", content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext || "No Help Center articles found."}\n\nLOCAL APPROVED SUPPORT GUIDANCE:\n${approvedSupportContext || "No local approved guidance found."}\n\nHELP CENTER URL REQUIRED: ${sourceRequired ? "yes" : "no"}\n\nASSISTANT ANSWER:\n${reply}` },
       ],
     });
-
     return verification.output_text?.trim().toUpperCase() === "SUPPORTED";
   } catch (error) {
     console.error("Grounding verification failed:", error);
@@ -422,7 +425,6 @@ async function createGroundedReply(message, topic, conversationHistory, state = 
   const articles = await getHelpCenterArticles(message, topic, state);
   const helpCenterContext = formatHelpCenterContext(articles);
   const approvedSupportContext = getApprovedSupportContext(topic);
-
   if (!helpCenterContext && !approvedSupportContext) return UNKNOWN_REPLY;
 
   const response = await client.responses.create({
@@ -438,17 +440,12 @@ function parseDirectAnswerRoutes(decisionTree) {
   const routes = [];
   const routeRegex = /^ROUTE:\s*(.+?)\s*$([\s\S]*?)(?=^ROUTE:\s*|^---\s*$|$)/gim;
   let match;
-
   while ((match = routeRegex.exec(decisionTree)) !== null) {
     const [, id, body] = match;
     const answerId = body.match(/^ANSWER ID:\s*(.+?)\s*$/im)?.[1]?.trim();
     const matchAnyGroups = [...body.matchAll(/^MATCH ANY:\s*(.+?)\s*$/gim)].map((line) => line[1].split(",").map((term) => term.trim().toLowerCase()).filter(Boolean));
-
-    if (answerId && matchAnyGroups.length) {
-      routes.push({ id: id.trim(), answerId, matchAnyGroups });
-    }
+    if (answerId && matchAnyGroups.length) routes.push({ id: id.trim(), answerId, matchAnyGroups });
   }
-
   return routes;
 }
 
@@ -564,36 +561,14 @@ To change the password later:
 4. Use Change Password, or use Reset Password if an email address is saved for the user.`;
 }
 
-function isBuggyBookingRequest(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("buggy") || lower.includes("buggies");
-}
-
-function isFullRefundAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("full refund") || lower === "full" || lower.includes("full amount");
-}
-
-function isPartialRefundAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund");
-}
-
-function isBrsPaymentAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes");
-}
-
-function isNonBrsPaymentAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no";
-}
+function isBuggyBookingRequest(text) { const lower = text.toLowerCase(); return lower.includes("buggy") || lower.includes("buggies"); }
+function isFullRefundAnswer(text) { const lower = text.toLowerCase(); return lower.includes("full refund") || lower === "full" || lower.includes("full amount"); }
+function isPartialRefundAnswer(text) { const lower = text.toLowerCase(); return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund"); }
+function isBrsPaymentAnswer(text) { const lower = text.toLowerCase(); return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes"); }
+function isNonBrsPaymentAnswer(text) { const lower = text.toLowerCase(); return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no"; }
 
 function approvedRefundReply(type = "refund") {
-  const partialLine = type === "partial"
-    ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund."
-    : "The system will automatically add the full refundable amount for you to refund.";
-
+  const partialLine = type === "partial" ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund." : "The system will automatically add the full refundable amount for you to refund.";
   return `BRS customers using the BRS Payments processor can refund online payments from the Booking Details screen. If the club does not use BRS Payments, use the non-BRS Payments refund process instead.
 
 Go to:
@@ -645,15 +620,9 @@ function userConfirmedRecordFound(message) {
 }
 
 function clearStaleStateForMessage(state, message) {
-  if (state.escalationState === "refund_type_asked" && !isRefundRequest(message) && !isFullRefundAnswer(message) && !isPartialRefundAnswer(message)) {
-    state.escalationState = "none";
-  }
-  if (state.escalationState === "refund_source_asked" && !isBrsPaymentAnswer(message) && !isNonBrsPaymentAnswer(message)) {
-    state.escalationState = "none";
-  }
-  if (state.escalationState === "check_asked" && !isPaymentMissingScenario(message) && !userConfirmedNoRecord(message) && !userConfirmedRecordFound(message)) {
-    state.escalationState = "none";
-  }
+  if (state.escalationState === "refund_type_asked" && !isRefundRequest(message) && !isFullRefundAnswer(message) && !isPartialRefundAnswer(message)) state.escalationState = "none";
+  if (state.escalationState === "refund_source_asked" && !isBrsPaymentAnswer(message) && !isNonBrsPaymentAnswer(message)) state.escalationState = "none";
+  if (state.escalationState === "check_asked" && !isPaymentMissingScenario(message) && !userConfirmedNoRecord(message) && !userConfirmedRecordFound(message)) state.escalationState = "none";
 }
 
 function createEscalationDraft(conversationHistory) {
@@ -673,84 +642,80 @@ function isBroadOrAmbiguous(message, topic, state) {
   const lower = message.toLowerCase();
   const ambiguousTerms = ["account", "setup", "set up", "not working", "can't book", "cant book", "cannot book", "won't let", "wont let", "issue", "problem", "help", "access"];
   if (topic === "general") return true;
-  return ambiguousTerms.some((term) => lower.includes(term)) && lower.split(/\s+/).length <= 9;
+  return ambiguousTerms.some((term) => lower.includes(term)) && lower.split(/\s+/).length <= 10;
 }
 
-function normalizeClarificationOptions(options = []) {
-  const labels = uniqueValues(options.map((option) => typeof option === "string" ? option : option?.label));
-  return labels.slice(0, 6).map((label) => ({ label, value: `Clarification answer: ${label}` }));
+function heuristicClarificationProfile(message, topic) {
+  const lower = message.toLowerCase();
+  if ((lower.includes("create") || lower.includes("add") || lower.includes("new")) && lower.includes("account")) return "account-create";
+  if (lower.includes("competition")) return "competition-issue";
+  if (lower.includes("can't book") || lower.includes("cant book") || lower.includes("cannot book") || lower.includes("won't let") || lower.includes("wont let") || lower.includes("not visible") || lower.includes("availability")) return "booking-access";
+  if (lower.includes("refund") || lower.includes("payment") || lower.includes("paid") || lower.includes("payout") || lower.includes("transaction")) return "payment-issue";
+  if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet")) return "membership-issue";
+  if (lower.includes("user") || lower.includes("staff") || lower.includes("admin") || lower.includes("login") || lower.includes("permission")) return "user-access";
+  if (lower.includes("report") || lower.includes("email") || lower.includes("text") || lower.includes("gdpr") || lower.includes("printer") || lower.includes("device") || lower.includes("clubhouse pc")) return "admin-comms-reports";
+  if (lower.includes("setup") || lower.includes("set up") || lower.includes("configure") || lower.includes("green fee") || lower.includes("booking rule") || lower.includes("buggy")) return "setup-issue";
+  if (topic === "teesheet") return "booking-change";
+  if (topic === "payments") return "payment-issue";
+  if (topic === "memberships") return "membership-issue";
+  if (topic === "user-management") return "user-access";
+  if (topic === "admin-setup") return "setup-issue";
+  return "unsupported";
 }
 
-async function createDynamicClarification(message, topic, state, reason = "The request is ambiguous or not supported enough to answer safely.") {
+async function classifyClarificationProfile(message, topic, state, reason) {
+  const heuristic = heuristicClarificationProfile(message, topic);
+  if (heuristic !== "unsupported") return heuristic;
+
   try {
     const response = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        {
-          role: "system",
-          content: `You design clarification questions for a BRS Golf support chatbot.
+        { role: "system", content: `Choose one supported clarification profile for a BRS Golf support chatbot. Return only JSON: {"profile":"profile-id"}.
 
-The user has asked something the bot cannot safely answer yet. Create one concise clarification question and 3 to 6 button labels that answer that question.
+You may only choose one of these IDs. Do not invent IDs, questions, or buttons. If none fit, choose unsupported.
 
-Return only JSON with this shape:
-{"question":"...","options":["...","..."],"context":"short internal summary"}
-
-Rules:
-- Buttons must be dynamic and based on the user's message, not a fixed menu.
-- Use the product-area guide below as source material, but do not copy it as literal categories.
-- Use task/symptom wording a support user would recognise.
-- Avoid redundant buttons that split internal categories users would see as the same thing.
-- Include "I'm not sure" or "Something else" when useful.
-- Include "Type details instead" only when button answers may not cover the situation.
-- Do not answer the support question.
-
-${CLARIFICATION_GUIDE}`,
-        },
-        {
-          role: "user",
-          content: `Reason clarification is needed: ${reason}\nDetected topic: ${topic}\nExisting clarification context: ${state.clarificationContext || "None"}\nRecent conversation:\n${state.conversationHistory.slice(-6).map((item) => `${item.role}: ${item.content}`).join("\n")}\n\nLatest user message: ${message}`,
-        },
+${PROFILE_DESCRIPTIONS}
+unsupported: no supported profile fits` },
+        { role: "user", content: `Reason: ${reason}\nDetected topic: ${topic}\nClarification context: ${state.clarificationContext || "None"}\nRecent conversation:\n${state.conversationHistory.slice(-6).map((item) => `${item.role}: ${item.content}`).join("\n")}\nLatest user message: ${message}` },
       ],
     });
-
-    const parsed = parseJsonObject(response.output_text);
-    const question = typeof parsed?.question === "string" && parsed.question.trim() ? parsed.question.trim() : "What do you mean?";
-    const options = normalizeClarificationOptions(parsed?.options);
-    if (!options.length) throw new Error("No clarification options returned");
-
-    state.clarificationContext = uniqueValues([state.clarificationContext || "", parsed?.context || "", `Clarification question: ${question}`]).join(" | ");
-    state.clarificationCount = (state.clarificationCount || 0) + 1;
-    return { reply: question, escalationReady: false, topic, options, version: APP_VERSION };
+    const profile = parseJsonObject(response.output_text)?.profile;
+    return SUPPORTED_CLARIFICATION_PROFILES[profile] ? profile : "unsupported";
   } catch (error) {
-    console.error("Dynamic clarification failed:", error);
-    state.clarificationContext = uniqueValues([state.clarificationContext || "", "Fallback clarification used"]).join(" | ");
-    state.clarificationCount = (state.clarificationCount || 0) + 1;
-    return {
-      reply: "Which area is this closest to?",
-      escalationReady: false,
-      topic,
-      options: fallbackClarificationOptions,
-      version: APP_VERSION,
-    };
+    console.error("Clarification profile classification failed:", error);
+    return "unsupported";
   }
+}
+
+async function createSupportedClarification(message, topic, state, reason = "The request is ambiguous or not supported enough to answer safely.") {
+  const profileId = await classifyClarificationProfile(message, topic, state, reason);
+  const profile = SUPPORTED_CLARIFICATION_PROFILES[profileId] || SUPPORTED_CLARIFICATION_PROFILES.unsupported;
+  state.clarificationContext = uniqueValues([state.clarificationContext || "", profile.context, `Clarification question: ${profile.question}`]).join(" | ");
+  state.clarificationCount = (state.clarificationCount || 0) + 1;
+  return { reply: profile.question, escalationReady: false, topic: profile.topic || topic, options: profile.options, version: APP_VERSION };
 }
 
 function appendClarificationToMessage(message) {
   return message.replace(/^Clarification answer:\s*/i, "").trim();
 }
 
-app.get("/api/health", (req, res) => {
-  res.json({ ok: true, version: APP_VERSION });
-});
+function applyClarificationAnswerToState(state, message) {
+  state.clarificationContext = uniqueValues([state.clarificationContext || "", `User selected: ${message}`]).join(" | ");
+}
+
+app.get("/api/health", (req, res) => { res.json({ ok: true, version: APP_VERSION }); });
 
 app.post("/api/chat", async (req, res) => {
   const sessionId = getSessionId(req);
   const state = getSessionState(sessionId);
 
   try {
-    const rawMessage = req.body?.message;
-    const message = appendClarificationToMessage(String(rawMessage || "").trim());
+    const rawText = String(req.body?.message || "").trim();
+    const wasClarificationAnswer = /^Clarification answer:\s*/i.test(rawText);
+    const message = appendClarificationToMessage(rawText);
     if (!message) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
+    if (wasClarificationAnswer) applyClarificationAnswerToState(state, message);
     if (isConversationEnd(message)) {
       resetSessionState(sessionId);
       return res.json({ reply: "Great - glad that is sorted. Starting fresh for the next issue.", escalationReady: false, options: [], version: APP_VERSION });
@@ -767,7 +732,7 @@ app.post("/api/chat", async (req, res) => {
     if (isBuggyBookingRequest(message)) {
       state.currentTopic = "admin-setup";
       state.escalationState = "none";
-      state.clarificationContext = "Buggy booking or buggy availability";
+      state.clarificationContext = uniqueValues([state.clarificationContext || "", "Buggy booking or buggy availability"]).join(" | ");
       const reply = getApprovedAnswer("admin-setup", "buggy-booking-availability");
       if (reply) {
         state.conversationHistory.push({ role: "user", content: message });
@@ -828,7 +793,7 @@ app.post("/api/chat", async (req, res) => {
 
     if (isRefundRequest(message)) {
       state.currentTopic = "payments";
-      state.clarificationContext = "Booking refund";
+      state.clarificationContext = uniqueValues([state.clarificationContext || "", "Booking refund"]).join(" | ");
       state.escalationState = "refund_type_asked";
       const reply = "Is this a full refund or partial refund?";
       state.conversationHistory.push({ role: "user", content: message });
@@ -846,7 +811,7 @@ app.post("/api/chat", async (req, res) => {
       return res.json({ reply, escalationReady: false, topic, options: transactionOptions, version: APP_VERSION });
     }
 
-    if (isAdminUserCreateRequest(message)) {
+    if (isAdminUserCreateRequest(message) || (state.clarificationContext?.includes("account request") && message.toLowerCase().includes("admin or staff user"))) {
       state.currentTopic = "user-management";
       const reply = approvedAdminUserReply();
       state.conversationHistory.push({ role: "user", content: message });
@@ -857,7 +822,7 @@ app.post("/api/chat", async (req, res) => {
 
     if (isBroadOrAmbiguous(message, topic, state)) {
       state.conversationHistory.push({ role: "user", content: message });
-      const clarification = await createDynamicClarification(message, topic, state, "The request uses broad or ambiguous wording.");
+      const clarification = await createSupportedClarification(message, topic, state, "The request uses broad or ambiguous wording.");
       state.conversationHistory.push({ role: "assistant", content: clarification.reply });
       saveSessionState(sessionId, state);
       return res.json(clarification);
@@ -875,7 +840,7 @@ app.post("/api/chat", async (req, res) => {
     const reply = await createGroundedReply(message, topic, state.conversationHistory, state);
 
     if (reply === UNKNOWN_REPLY && state.clarificationCount < 2) {
-      const clarification = await createDynamicClarification(message, topic, state, "The available sources did not support a confident answer.");
+      const clarification = await createSupportedClarification(message, topic, state, "The available sources did not support a confident answer.");
       state.conversationHistory.push({ role: "assistant", content: clarification.reply });
       saveSessionState(sessionId, state);
       return res.json(clarification);
