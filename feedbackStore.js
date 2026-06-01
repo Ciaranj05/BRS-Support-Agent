@@ -35,13 +35,14 @@ async function writeStore(store) {
 }
 
 function withStoreUpdate(updateFn) {
-  writeQueue = writeQueue.then(async () => {
+  const nextWrite = writeQueue.catch(() => {}).then(async () => {
     const store = await readStore();
     const result = await updateFn(store);
     await writeStore(store);
     return result;
   });
-  return writeQueue;
+  writeQueue = nextWrite.catch(() => {});
+  return nextWrite;
 }
 
 function normaliseScore(score) {
