@@ -1,4 +1,4 @@
-# ADMIN SETUP – DECISION TREE
+# ADMIN SETUP - DECISION TREE
 
 Use this for setup/configuration questions.
 
@@ -10,6 +10,12 @@ These routes return approved answers from the knowledge file without model rewri
 
 ROUTE: buggy-booking-availability
 MATCH ANY: buggy, buggies
+MATCH ANY: buggy availability
+MATCH ANY: buggy booking
+MATCH ANY: golf cart
+MATCH ANY: buggy count
+MATCH ANY: number of buggies
+MATCH ANY: visitors book buggies
 ANSWER ID: buggy-booking-availability
 
 ROUTE: tee-sheet-setup
@@ -23,6 +29,11 @@ MATCH ANY: tee intervals
 MATCH ANY: opening times
 MATCH ANY: closing times
 MATCH ANY: blocked times
+MATCH ANY: slot intervals
+MATCH ANY: start time
+MATCH ANY: end time
+MATCH ANY: member availability
+MATCH ANY: visitor availability
 ANSWER ID: tee-sheet-setup
 
 ROUTE: green-fee-rates
@@ -31,6 +42,11 @@ MATCH ANY: green fees
 MATCH ANY: rates
 MATCH ANY: visitor rate
 MATCH ANY: member rate
+MATCH ANY: green fee price
+MATCH ANY: visitor price
+MATCH ANY: member price
+MATCH ANY: price wrong
+MATCH ANY: rate not applying
 ANSWER ID: green-fee-rates
 
 ROUTE: booking-rules
@@ -39,6 +55,10 @@ MATCH ANY: restrictions
 MATCH ANY: booking restrictions
 MATCH ANY: advance booking
 MATCH ANY: player limits
+MATCH ANY: how far ahead
+MATCH ANY: booking window
+MATCH ANY: who can book
+MATCH ANY: online availability rule
 ANSWER ID: booking-rules
 
 ROUTE: email-templates
@@ -47,7 +67,79 @@ MATCH ANY: email templates
 MATCH ANY: confirmation email
 MATCH ANY: reminder email
 MATCH ANY: customer email
+MATCH ANY: booking email
+MATCH ANY: payment email
+MATCH ANY: membership email
+MATCH ANY: email wording
 ANSWER ID: email-templates
+
+---
+
+## COMMON WORDING MAP
+
+Treat these user phrases as the matching supported setup route. Do not invent a new setup area if one of these maps cleanly.
+
+Green fee rates:
+- price wrong
+- visitor price
+- member price
+- green fee amount
+- rate not applying
+- weekday price
+- weekend price
+
+Booking rules:
+- who can book
+- booking window
+- how far ahead can they book
+- advance booking
+- player limit
+- online restrictions
+- member restriction
+- visitor restriction
+
+Buggy booking:
+- buggy
+- buggies
+- golf cart
+- cart availability
+- number of buggies
+- visitors book buggies online
+- buggy count not showing
+
+Email templates:
+- email wording
+- confirmation email
+- reminder email
+- booking email
+- payment email
+- membership email
+- test email
+
+Tee sheet setup:
+- timesheet setup
+- tee intervals
+- slot intervals
+- opening times
+- closing times
+- blocked times
+- member availability
+- visitor availability
+
+User/admin setup:
+- staff account
+- admin user
+- read only staff
+- permissions
+- user roles
+- login access
+
+Membership/billing setup:
+- subscription cycle
+- payment scheme
+- membership settings
+- bill settings
+- wallet settings
 
 ---
 
@@ -56,10 +148,10 @@ ANSWER ID: email-templates
 IF user asks generally about setup/configuration:
 
 Ask:
-“What are you trying to configure — green fee rates, booking rules, buggy booking, email templates, users, tee sheet settings, or membership/billing settings?”
+"What are you trying to configure - green fee rates, booking rules, buggy booking, email templates, users, tee sheet settings, or membership/billing settings?"
 
 IF area is clear:
-→ Go directly to that section.
+-> Go directly to that section.
 
 ---
 
@@ -67,7 +159,7 @@ IF area is clear:
 
 IF user asks about green fee rates:
 
-→ Use direct answer route green-fee-rates.
+-> Use direct answer route green-fee-rates.
 
 Escalate if:
 - Rate does not apply
@@ -80,7 +172,7 @@ Escalate if:
 
 IF user asks about booking rules/restrictions:
 
-→ Use direct answer route booking-rules.
+-> Use direct answer route booking-rules.
 
 Escalate if rule saves but does not apply.
 
@@ -90,7 +182,7 @@ Escalate if rule saves but does not apply.
 
 IF user asks about buggy booking, buggy availability, buggy count, number of buggies, visitor buggy booking, enabling buggies online, changing buggy settings, or any other buggy-related question:
 
-→ Use direct answer route buggy-booking-availability.
+-> Use direct answer route buggy-booking-availability.
 
 If the user's buggy question is not covered by the approved answer, be transparent that the current approved buggy guidance only covers buggy booking setup and availability.
 
@@ -108,7 +200,7 @@ Escalate if:
 
 IF user asks about emails/templates:
 
-→ Use direct answer route email-templates.
+-> Use direct answer route email-templates.
 
 Escalate if:
 - Template does not save
@@ -121,7 +213,7 @@ Escalate if:
 
 IF user asks about tee sheet setup, timesheet setup, opening/closing times, tee intervals, blocked times, booking slots, member/visitor availability, or configuring the tee sheet:
 
-→ Use direct answer route tee-sheet-setup.
+-> Use direct answer route tee-sheet-setup.
 
 Escalate if live tee sheet does not match setup.
 
@@ -131,7 +223,7 @@ Escalate if live tee sheet does not match setup.
 
 IF setup request involves users, admins, staff, login or permissions:
 
-→ Use user-management decision tree.
+-> Use user-management decision tree.
 
 ---
 
@@ -139,7 +231,7 @@ IF setup request involves users, admins, staff, login or permissions:
 
 IF setup request involves members, bills, subscriptions or payment schemes:
 
-→ Use memberships decision tree.
+-> Use memberships decision tree.
 
 ---
 
@@ -162,8 +254,10 @@ Always:
 - If the setup area is clear and a direct route exists, return the approved answer without asking a follow-up question
 - Give exact checks
 - Confirm before changing live customer/member-facing settings
+- Treat user/admin setup and membership/billing setup as handoffs to their own decision trees
 
 Never:
 - Guess which setting controls behaviour
 - Recommend changing live setup without confirmation
 - Invent navigation paths that are not present in the approved knowledge
+- Invent unsupported setup areas from vague user wording
