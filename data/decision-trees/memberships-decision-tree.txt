@@ -4,6 +4,12 @@ Use this for member profiles, bills, subscriptions, subscription cycles, payment
 
 ---
 
+ROUTE: create-member-profile-account
+MATCH ANY: member profile, create member profile, member account, create account, new member account
+ANSWER ID: create-member-profile-account
+
+---
+
 ## 1. IDENTIFY MEMBERSHIP ISSUE
 
 IF issue is clear:
