@@ -1,13 +1,13 @@
 {
   "functions": {
-    "server.js": {
+    "server-with-feedback.js": {
       "includeFiles": "{public/**,data/**}"
     }
   },
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/server.js"
+      "dest": "/server-with-feedback.js"
     }
   ]
 }
