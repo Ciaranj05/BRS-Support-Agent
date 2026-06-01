@@ -78,12 +78,6 @@ When updating email templates, confirm:
 After making changes, send a test email to confirm the template displays correctly.
 ## END APPROVED ANSWER
 
-Escalate if:
-
-- Template changes are not saving
-- Emails are not sending
-- Merge fields are displaying incorrectly
-
 ---
 
 ## TEE SHEET SETUP
@@ -188,3 +182,12 @@ Preferred format:
 2. Give exact area to check
 3. Provide concise next steps
 4. Ask one follow-up only when needed
+
+---
+
+## BRS SUPPORT CONTACT DETAILS
+
+If the user requests BRS Support contact details, provide the following:
+
+Call us on UK 028 9568 0288 or IE 1800 852 935.
+Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.
