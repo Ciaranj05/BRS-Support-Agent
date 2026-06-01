@@ -33,6 +33,7 @@
     th, td { padding: 12px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
     th { color: #475569; font-size: 12px; text-transform: uppercase; }
     .empty { color: #64748b; padding: 18px 0; }
+    @media (max-width: 1100px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     @media (max-width: 820px) { .topbar, .filter-panel { align-items: flex-start; flex-direction: column; } .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .score-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } table { display: block; overflow-x: auto; white-space: nowrap; } }
     @media (max-width: 520px) { .cards { grid-template-columns: 1fr; } }
   </style>
@@ -61,9 +62,13 @@
     </section>
 
     <section class="cards">
+      <div class="card"><div class="label">Total Queries</div><div id="totalQueries" class="value">-</div></div>
       <div class="card"><div class="label">Resolved</div><div id="totalResolved" class="value">-</div></div>
+      <div class="card"><div class="label">Not Resolved</div><div id="totalNotResolved" class="value">-</div></div>
+      <div class="card"><div class="label">Escalated</div><div id="totalEscalated" class="value">-</div></div>
       <div class="card"><div class="label">Responses</div><div id="totalResponses" class="value">-</div></div>
       <div class="card"><div class="label">Response Rate</div><div id="responseRate" class="value">-</div></div>
+      <div class="card"><div class="label">Resolution Rate</div><div id="resolutionRate" class="value">-</div></div>
       <div class="card"><div class="label">Average Score</div><div id="averageScore" class="value">-</div></div>
     </section>
 
@@ -128,13 +133,14 @@
         host.innerHTML = '<div class="empty">No resolved queries have been recorded yet.</div>';
         return;
       }
-      host.innerHTML = `<table><thead><tr><th>Resolved</th><th>Session</th><th>Topic</th><th>Score</th><th>Comment</th></tr></thead><tbody>${rows.map((row) => `
+      host.innerHTML = `<table><thead><tr><th>Resolved</th><th>Outcome</th><th>Session</th><th>Topic</th><th>Score</th><th>Comment</th></tr></thead><tbody>${rows.map((row) => `
         <tr>
           <td>${esc(fmtDate(row.resolvedAt))}</td>
+          <td>${row.resolved === false ? 'Not resolved' : 'Resolved'}${row.escalated ? ' / Escalated' : ''}</td>
           <td>${esc(row.sessionId)}</td>
           <td>${esc(row.topic || '-')}</td>
           <td>${row.score ?? '-'}</td>
-          <td>${esc(row.comment || '')}</td>
+          <td>${esc(row.comment || row.outcomeComment || '')}</td>
         </tr>`).join('')}</tbody></table>`;
     }
 
@@ -143,9 +149,13 @@
       const response = await fetch(`/api/admin/survey-metrics${params.toString() ? `?${params}` : ''}`);
       const data = await response.json();
       setRangeLabel();
+      setText('totalQueries', data.totalQueries ?? data.totalResolved ?? 0);
       setText('totalResolved', data.totalResolved ?? 0);
+      setText('totalNotResolved', data.totalNotResolved ?? 0);
+      setText('totalEscalated', data.totalEscalated ?? 0);
       setText('totalResponses', data.totalSurveyResponses ?? 0);
       setText('responseRate', `${Math.round((data.responseRate || 0) * 100)}%`);
+      setText('resolutionRate', `${Math.round((data.resolutionRate || 0) * 100)}%`);
       setText('averageScore', data.averageScore ?? '-');
       renderScoreGrid(data.scoreCounts || {});
       renderRecentTable(data.recentResponses || []);
