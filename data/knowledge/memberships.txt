@@ -37,6 +37,22 @@ If a member cannot be found, confirm:
 - Email
 - Membership number if available
 
+## APPROVED ANSWER: create-member-profile-account
+Member booking accounts are handled through member registration and the member profile, not through a visitor account route.
+
+Use this route when the user has clarified they mean a member profile/account:
+
+1. Give the member the club's BRS Members Tee Time Reservation URL, or add that URL to the club website.
+2. The member registers their details through the club website/member booking link.
+3. The club verifies the registration.
+4. Enable the member's profile once the registration has been verified.
+5. After the profile is enabled, the member can sign in and make bookings.
+
+If the club uses a Club Systems website with Single Sign On, the member should log in through the Members area of the Club Systems website instead. Contact Club Systems if Single Sign On, Diary Integration, or BRS booking links need to be enabled.
+
+Source: [Member Registration](https://help.brsgolf.com/hc/en-us/articles/360005511873-Member-Registration)
+## END APPROVED ANSWER
+
 ---
 
 ## BILLING
