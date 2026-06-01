@@ -17,97 +17,71 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "task-refinement-routing-v2";
+const APP_VERSION = "dynamic-clarification-routing-v1";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
 const HELP_CENTER_CACHE_TTL_MS = 1000 * 60 * 30;
 const UNKNOWN_REPLY = "I don't have enough confirmed information in the BRS Help Center or approved support guidance to answer that accurately. Please check the BRS Help Center or escalate this to support.";
+
 const helpCenterCache = globalThis.__brsHelpCenterCache || new Map();
 globalThis.__brsHelpCenterCache = helpCenterCache;
 const sessions = globalThis.__brsSupportSessions || new Map();
 globalThis.__brsSupportSessions = sessions;
 
-const taskOptions = [
-  { label: "Find, change, or cancel a booking", value: "ROUTE:bookings" },
-  { label: "Refund, payment, or payout issue", value: "ROUTE:payments" },
-  { label: "Member, bill, or subscription issue", value: "ROUTE:memberships" },
-  { label: "Competition setup or entries", value: "ROUTE:competitions" },
-  { label: "Online booking availability", value: "ROUTE:availability" },
-  { label: "User login or permissions", value: "ROUTE:users" },
-  { label: "Club setup or settings", value: "ROUTE:setup" },
-  { label: "Reports, emails, or GDPR", value: "ROUTE:admin-comms" },
-];
+const CLARIFICATION_GUIDE = `
+Use these as internal product areas, not as literal button labels. User-facing buttons should be tasks or symptoms.
 
-const bookingOptions = [
-  { label: "Booking not showing", value: "ROUTE:bookings:not-showing" },
-  { label: "Move a booking", value: "ROUTE:bookings:move" },
-  { label: "Cancel a booking", value: "ROUTE:bookings:cancel" },
-  { label: "Add or remove players", value: "ROUTE:bookings:players" },
-  { label: "Booking payment status", value: "ROUTE:bookings:payment-status" },
-  { label: "Tee time not visible online", value: "ROUTE:availability" },
-];
+Booking and tee sheet work:
+- find, move, cancel, edit bookings
+- add/remove players
+- booking payment status
+- tee times, timesheet, tee sheet setup
+- member booking, visitor booking, societies, waiting list, online availability
 
-const paymentOptions = [
-  { label: "Refund a booking", value: "ROUTE:payments:refund" },
-  { label: "Customer says they paid", value: "ROUTE:payments:customer-paid" },
-  { label: "Payment not showing", value: "ROUTE:payments:not-showing" },
-  { label: "Payment failed", value: "ROUTE:payments:failed" },
-  { label: "Payout/reporting issue", value: "ROUTE:payments:payout" },
-  { label: "Payment request", value: "ROUTE:payments:request" },
-];
+Payments and money:
+- booking refunds, full/partial refunds, BRS Payments vs offline payments
+- missing payments, failed payments, payment requests
+- payouts, VAT/reporting, transactions
+- membership bill payments, wallet top-ups, competition purse or competition entry payments
 
-const membershipOptions = [
-  { label: "Find or update a member", value: "ROUTE:memberships:member-profile" },
-  { label: "Bill looks wrong", value: "ROUTE:memberships:bill" },
-  { label: "Payment not applied to bill", value: "ROUTE:memberships:bill-payment" },
-  { label: "Subscription setup/change", value: "ROUTE:memberships:subscription" },
-  { label: "Payment scheme issue", value: "ROUTE:memberships:payment-scheme" },
-  { label: "Wallet/account balance", value: "ROUTE:memberships:wallet" },
-];
+Memberships:
+- member profiles/accounts
+- bills, subscriptions, subscription cycles
+- payment schemes, wallets/account balances
+- member access and online booking access
 
-const competitionOptions = [
-  { label: "People cannot book into a competition", value: "ROUTE:competitions:booking-access" },
-  { label: "Create or edit competition details", value: "ROUTE:competitions:create-edit" },
-  { label: "Draws or entry sheets", value: "ROUTE:competitions:draws-entries" },
-  { label: "Change or cancel an entry", value: "ROUTE:competitions:change-cancel-entry" },
-  { label: "Competition purse or payments", value: "ROUTE:competitions:purse-payments" },
-];
+Users and access:
+- admin/staff users
+- permissions, roles, login, password reset, deactivation, user limits
+- distinguish this from member profiles/accounts and visitor/customer accounts
 
-const availabilityOptions = [
-  { label: "Tee times not visible online", value: "ROUTE:availability:tee-times" },
-  { label: "Members cannot book", value: "ROUTE:availability:members" },
-  { label: "Visitors cannot book", value: "ROUTE:availability:visitors" },
-  { label: "Competition not visible/bookable", value: "ROUTE:competitions:booking-access" },
-  { label: "Facility booking issue", value: "ROUTE:availability:facility" },
-  { label: "Waiting list issue", value: "ROUTE:availability:waiting-list" },
-];
+Competitions:
+- people cannot book into a competition
+- competition visibility, member entries, visitor/open entries
+- create/edit competition details
+- draws, entry sheets, changing/cancelling entries
+- competition purse/payments
 
-const setupOptions = [
-  { label: "Tee sheet setup", value: "ROUTE:setup:tee-sheet" },
-  { label: "Green fee rates", value: "ROUTE:setup:green-fees" },
-  { label: "Booking rules", value: "ROUTE:setup:booking-rules" },
-  { label: "Buggy booking", value: "ROUTE:setup:buggies" },
-  { label: "Email templates", value: "ROUTE:setup:email-templates" },
-  { label: "Users or permissions", value: "ROUTE:users" },
-];
+Setup, comms, reports, devices:
+- club setup/settings, booking rules, green fees, buggies, email templates
+- reports, emails/texts, GDPR, clubhouse PC/device, green fee printer
 
-const adminCommsOptions = [
-  { label: "Reports", value: "ROUTE:admin-comms:reports" },
-  { label: "Emails or text messages", value: "ROUTE:admin-comms:messages" },
-  { label: "GDPR request", value: "ROUTE:admin-comms:gdpr" },
-  { label: "Clubhouse PC or device", value: "ROUTE:admin-comms:device" },
-  { label: "Green fee printer", value: "ROUTE:admin-comms:printer" },
-  { label: "Something else", value: "ROUTE:admin-comms:other" },
-];
+Clarification rules:
+- Ask one concise question at a time.
+- Buttons must answer that question directly.
+- Avoid redundant choices that split internal guide categories if the user would see them as the same task.
+- Include an "I'm not sure" or "Something else" option when ambiguity is high.
+- If typing is truly needed, include one option like "Type details instead".
+`;
 
-const userOptions = [
-  { label: "Add a user", value: "ROUTE:users:add" },
-  { label: "Change permissions", value: "ROUTE:users:permissions" },
-  { label: "Login issue", value: "ROUTE:users:login" },
-  { label: "Deactivate a user", value: "ROUTE:users:deactivate" },
-  { label: "User limit issue", value: "ROUTE:users:limit" },
-  { label: "Which role should I use?", value: "ROUTE:users:roles" },
+const fallbackClarificationOptions = [
+  { label: "Booking or tee sheet", value: "This is about a booking or tee sheet issue" },
+  { label: "Payment or refund", value: "This is about a payment or refund issue" },
+  { label: "Member or subscription", value: "This is about a member, bill, or subscription issue" },
+  { label: "User login or permissions", value: "This is about a user, login, or permissions issue" },
+  { label: "Club setup or reports", value: "This is about setup, reports, emails, GDPR, or devices" },
+  { label: "Type details instead", value: "I need to type more details because none of the choices fit" },
 ];
 
 const transactionOptions = [
@@ -126,62 +100,23 @@ const fullPartialRefundOptions = [
 ];
 
 const topicSearchHints = {
-  teesheet: ["tee sheet booking timesheet", "configure timesheet", "booking details"],
-  payments: ["refund online payment", "BRS Payments transactions", "payment request refund"],
-  memberships: ["member profile membership subscription bill", "member wallet payment scheme"],
-  "user-management": ["users permissions admin user", "create user reset password"],
-  "admin-setup": ["system configuration setup", "tools system configuration"],
-};
-
-const routeMetadata = {
-  "bookings:not-showing": { topic: "teesheet", hints: ["booking not showing tee sheet", "booking cannot be found", "tee sheet booking date time"] },
-  "bookings:move": { topic: "teesheet", hints: ["move booking cut paste booking details", "reschedule tee time booking"] },
-  "bookings:cancel": { topic: "teesheet", hints: ["cancel tee sheet booking", "cancel booking payment status"] },
-  "bookings:players": { topic: "teesheet", hints: ["add remove player booking tee sheet", "booking players"] },
-  "bookings:payment-status": { topic: "teesheet", hints: ["booking payment status colours", "booking details payments tab"] },
-  "payments:refund": { topic: "payments", hints: ["refund booking BRS Payments", "full refund partial refund booking"] },
-  "payments:customer-paid": { topic: "payments", hints: ["customer says paid no booking", "BRS Payments transactions paid not showing"] },
-  "payments:not-showing": { topic: "payments", hints: ["payment not showing transaction", "missing payment booking bill"] },
-  "payments:failed": { topic: "payments", hints: ["payment failed BRS Payments", "card payment failure"] },
-  "payments:payout": { topic: "payments", hints: ["BRS Payments payouts reports", "payment reporting payout"] },
-  "payments:request": { topic: "payments", hints: ["payment request booking", "general payment request"] },
-  "memberships:member-profile": { topic: "memberships", hints: ["member profile find update member", "membership member search"] },
-  "memberships:bill": { topic: "memberships", hints: ["member bill looks wrong", "membership bill amount"] },
-  "memberships:bill-payment": { topic: "memberships", hints: ["membership payment not applied bill", "bill payment allocation"] },
-  "memberships:subscription": { topic: "memberships", hints: ["membership subscription setup change", "subscription cycles"] },
-  "memberships:payment-scheme": { topic: "memberships", hints: ["membership payment scheme", "scheduled payments grace period"] },
-  "memberships:wallet": { topic: "memberships", hints: ["member wallet account balances", "wallet top up transaction"] },
-  "competitions:booking-access": { topic: "teesheet", hints: ["competition not bookable", "people cannot book into competition", "open competition visitor booking member competition booking competition visibility"] },
-  "competitions:create-edit": { topic: "teesheet", hints: ["competition setup create edit", "open competition setup", "regular competition setup"] },
-  "competitions:draws-entries": { topic: "teesheet", hints: ["competition draw entry sheet", "single player draw entry", "multi-player draw entry"] },
-  "competitions:change-cancel-entry": { topic: "teesheet", hints: ["change cancel competition entry", "competition booking entry"] },
-  "competitions:purse-payments": { topic: "payments", hints: ["competition purse payment", "competition entry payment", "competition purse top up"] },
-  "availability:tee-times": { topic: "teesheet", hints: ["tee times not visible online", "online booking availability"] },
-  "availability:members": { topic: "teesheet", hints: ["members cannot book online", "member booking availability"] },
-  "availability:visitors": { topic: "teesheet", hints: ["visitors cannot book online", "visitor booking availability green fee"] },
-  "availability:facility": { topic: "admin-setup", hints: ["facility booking availability", "facility booking setup"] },
-  "availability:waiting-list": { topic: "teesheet", hints: ["waiting list booking", "tee time waiting list"] },
-  "setup:tee-sheet": { topic: "admin-setup", hints: ["tee sheet setup timesheet", "configure timesheet"] },
-  "setup:green-fees": { topic: "admin-setup", hints: ["green fee rates visitor rate", "member rate green fee"] },
-  "setup:booking-rules": { topic: "admin-setup", hints: ["booking rules restrictions", "advance booking player limits"] },
-  "setup:buggies": { topic: "admin-setup", hints: ["buggy booking availability", "buggies online booking"] },
-  "setup:email-templates": { topic: "admin-setup", hints: ["email templates confirmation email", "customer email template"] },
-  "users:add": { topic: "user-management", hints: ["add new user admin staff", "create user"] },
-  "users:permissions": { topic: "user-management", hints: ["change user permissions", "staff admin permissions"] },
-  "users:login": { topic: "user-management", hints: ["user login password reset", "cannot log in"] },
-  "users:deactivate": { topic: "user-management", hints: ["deactivate user", "remove user access"] },
-  "users:limit": { topic: "user-management", hints: ["user limit", "cannot add user limit"] },
-  "users:roles": { topic: "user-management", hints: ["user roles permissions", "admin staff read only"] },
-  "admin-comms:reports": { topic: "admin-setup", hints: ["reports", "revenue reports booking reports"] },
-  "admin-comms:messages": { topic: "admin-setup", hints: ["email text communication", "send email text members"] },
-  "admin-comms:gdpr": { topic: "admin-setup", hints: ["GDPR request", "data privacy"] },
-  "admin-comms:device": { topic: "admin-setup", hints: ["clubhouse PC device", "clubhouse computer"] },
-  "admin-comms:printer": { topic: "admin-setup", hints: ["green fee printer", "printer setup"] },
-  "admin-comms:other": { topic: "admin-setup", hints: ["miscellaneous setup support", "admin configuration"] },
+  teesheet: ["tee sheet booking timesheet", "booking details", "member visitor booking", "competition booking availability"],
+  payments: ["refund online payment", "BRS Payments transactions", "payment request refund", "competition purse payment"],
+  memberships: ["member profile membership subscription bill", "member wallet payment scheme", "member online access"],
+  "user-management": ["users permissions admin user", "create user reset password", "staff login roles"],
+  "admin-setup": ["system configuration setup", "tools system configuration", "reports emails GDPR device printer"],
 };
 
 function createDefaultState() {
-  return { conversationHistory: [], escalationState: "none", escalationDraft: null, currentTopic: null, routeContext: null, routeHints: [], updatedAt: Date.now() };
+  return {
+    conversationHistory: [],
+    escalationState: "none",
+    escalationDraft: null,
+    currentTopic: null,
+    clarificationContext: null,
+    clarificationCount: 0,
+    updatedAt: Date.now(),
+  };
 }
 
 function cleanupSessions() {
@@ -190,7 +125,10 @@ function cleanupSessions() {
     if (!state?.updatedAt || now - state.updatedAt > SESSION_TTL_MS) sessions.delete(sessionId);
   }
   if (sessions.size <= SESSION_LIMIT) return;
-  [...sessions.entries()].sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0)).slice(0, sessions.size - SESSION_LIMIT).forEach(([sessionId]) => sessions.delete(sessionId));
+  [...sessions.entries()]
+    .sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0))
+    .slice(0, sessions.size - SESSION_LIMIT)
+    .forEach(([sessionId]) => sessions.delete(sessionId));
 }
 
 function getSessionId(req) {
@@ -205,14 +143,33 @@ function getSessionState(sessionId) {
   return state;
 }
 
-function saveSessionState(sessionId, state) { sessions.set(sessionId, { ...state, updatedAt: Date.now() }); }
-function resetSessionState(sessionId) { const freshState = createDefaultState(); sessions.set(sessionId, freshState); return freshState; }
-function loadFile(filePath) { const fullPath = path.join(__dirname, filePath); return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : ""; }
-function escapeRegExp(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
-function splitRouteTerms(value) { return value.split(",").map((term) => term.trim().toLowerCase()).filter(Boolean); }
+function saveSessionState(sessionId, state) {
+  sessions.set(sessionId, { ...state, updatedAt: Date.now() });
+}
+
+function resetSessionState(sessionId) {
+  const freshState = createDefaultState();
+  sessions.set(sessionId, freshState);
+  return freshState;
+}
+
+function loadFile(filePath) {
+  const fullPath = path.join(__dirname, filePath);
+  return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : "";
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 function decodeHtmlEntities(value = "") {
-  return value.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
+  return value
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&gt;/g, ">")
+    .replace(/&lt;/g, "<")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'");
 }
 
 function stripHtml(html = "") {
@@ -231,8 +188,29 @@ function stripHtml(html = "") {
     .trim();
 }
 
-function truncateText(value = "", limit = 2200) { return value.length > limit ? `${value.slice(0, limit).trim()}...` : value; }
-function uniqueValues(values) { return [...new Set(values.map((value) => value.trim()).filter(Boolean))]; }
+function truncateText(value = "", limit = 2200) {
+  return value.length > limit ? `${value.slice(0, limit).trim()}...` : value;
+}
+
+function uniqueValues(values) {
+  return [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))];
+}
+
+function parseJsonObject(text = "") {
+  try {
+    const parsed = JSON.parse(text);
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : null;
+  } catch {
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) return null;
+    try {
+      const parsed = JSON.parse(match[0]);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+}
 
 function parseJsonArray(text = "") {
   try {
@@ -254,7 +232,10 @@ async function fetchWithTimeout(url, timeoutMs = 4500) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetch(url, { signal: controller.signal, headers: { Accept: "application/json", "User-Agent": "BRS-Support-Agent/1.0" } });
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: { Accept: "application/json", "User-Agent": "BRS-Support-Agent/1.0" },
+    });
     if (!response.ok) return null;
     return await response.json();
   } catch (error) {
@@ -266,15 +247,22 @@ async function fetchWithTimeout(url, timeoutMs = 4500) {
 }
 
 function buildSearchMessage(message, state = {}) {
-  return uniqueValues([state.routeContext || "", ...(state.routeHints || []), message]).join(" ");
+  return uniqueValues([
+    state.clarificationContext || "",
+    ...state.conversationHistory.slice(-6).map((item) => item.content || ""),
+    message,
+  ]).join(" ");
 }
 
 function getKeywordSearchQueries(message, topic, state = {}) {
   const lower = message.toLowerCase();
-  const queries = [message, ...(topicSearchHints[topic] || []), ...(state.routeHints || [])];
+  const queries = [message, ...(topicSearchHints[topic] || []), state.clarificationContext || ""];
 
+  if (lower.includes("account")) {
+    queries.push("create account admin staff user member profile visitor booking BRS Payments account");
+  }
   if (lower.includes("competition")) {
-    queries.push("competition setup open competition member visitor booking draw entry sheet");
+    queries.push("competition setup open competition member visitor booking draw entry sheet purse");
     queries.push("open competitions visitor booking competition entry payment purse");
   }
   if (lower.includes("refund") || lower.includes("refund button") || lower.includes("can't refund") || lower.includes("cannot refund")) {
@@ -308,14 +296,22 @@ function getKeywordSearchQueries(message, topic, state = {}) {
 
 async function getExpandedSearchQueries(message, topic, state = {}) {
   const baseQueries = getKeywordSearchQueries(message, topic, state);
+
   try {
     const response = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        { role: "system", content: "You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, guide categories, menu names, and article keywords. Do not answer the question." },
-        { role: "user", content: `Topic: ${topic}\nRoute context: ${state.routeContext || "None"}\nUser question: ${message}` },
+        {
+          role: "system",
+          content: "You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, guide categories, menu names, and article keywords. Do not answer the question.",
+        },
+        {
+          role: "user",
+          content: `Topic: ${topic}\nClarification context: ${state.clarificationContext || "None"}\nUser question: ${message}`,
+        },
       ],
     });
+
     return uniqueValues([...baseQueries, ...parseJsonArray(response.output_text)]).slice(0, 12);
   } catch (error) {
     console.error("Help Center query expansion failed:", error);
@@ -335,7 +331,13 @@ async function searchHelpCenter(query) {
   const articles = (payload?.results || [])
     .filter((article) => article.result_type === "article" && article.title && article.html_url && article.body)
     .slice(0, 5)
-    .map((article) => ({ title: article.title, url: article.html_url, updatedAt: article.updated_at, text: truncateText(stripHtml(article.body)), query: cleanedQuery }));
+    .map((article) => ({
+      title: article.title,
+      url: article.html_url,
+      updatedAt: article.updated_at,
+      text: truncateText(stripHtml(article.body)),
+      query: cleanedQuery,
+    }));
 
   helpCenterCache.set(cleanedQuery, { createdAt: Date.now(), articles });
   return articles;
@@ -346,9 +348,11 @@ async function getHelpCenterArticles(message, topic, state = {}) {
   const queries = await getExpandedSearchQueries(searchMessage, topic, state);
   const batches = await Promise.all(queries.map((query) => searchHelpCenter(query)));
   const byUrl = new Map();
+
   for (const article of batches.flat()) {
     if (!byUrl.has(article.url)) byUrl.set(article.url, article);
   }
+
   return [...byUrl.values()].slice(0, 5);
 }
 
@@ -360,20 +364,30 @@ function formatHelpCenterContext(articles) {
 function getApprovedSupportContext(topic) {
   const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
   const knowledge = loadFile(`data/knowledge/${topic}.txt`);
-  return truncateText([decisionTree, knowledge].filter(Boolean).join("\n\n---\n\n"), 5000);
+  const context = [decisionTree, knowledge].filter(Boolean).join("\n\n---\n\n");
+  return truncateText(context, 5000);
 }
 
-function hasHelpCenterSource(reply = "") { return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply); }
-function appendSourceIfMissing(reply, articles) { return hasHelpCenterSource(reply) || !articles.length ? reply : `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`; }
+function hasHelpCenterSource(reply = "") {
+  return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply);
+}
+
+function appendSourceIfMissing(reply, articles) {
+  if (hasHelpCenterSource(reply) || !articles.length) return reply;
+  return `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`;
+}
 
 async function isReplyGrounded(reply, helpCenterContext, approvedSupportContext, sourceRequired) {
   if (!reply || reply === UNKNOWN_REPLY) return false;
   if (sourceRequired && !hasHelpCenterSource(reply)) return false;
+
   try {
     const verification = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        { role: "system", content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the supplied BRS sources.
+        {
+          role: "system",
+          content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the supplied BRS sources.
 
 Sources may include BRS Help Center articles and local approved support guidance.
 
@@ -388,10 +402,15 @@ Reply exactly UNSUPPORTED only if:
 - the supplied sources are unrelated to the user's issue, or
 - a Help Center URL is required but the answer has no BRS Help Center article URL.
 
-Do not reject an answer just because it translates vague wording into likely BRS product terms or combines related source facts into a troubleshooting sequence.` },
-        { role: "user", content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext || "No Help Center articles found."}\n\nLOCAL APPROVED SUPPORT GUIDANCE:\n${approvedSupportContext || "No local approved guidance found."}\n\nHELP CENTER URL REQUIRED: ${sourceRequired ? "yes" : "no"}\n\nASSISTANT ANSWER:\n${reply}` },
+Do not reject an answer just because it translates vague wording into likely BRS product terms or combines related source facts into a troubleshooting sequence.`,
+        },
+        {
+          role: "user",
+          content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext || "No Help Center articles found."}\n\nLOCAL APPROVED SUPPORT GUIDANCE:\n${approvedSupportContext || "No local approved guidance found."}\n\nHELP CENTER URL REQUIRED: ${sourceRequired ? "yes" : "no"}\n\nASSISTANT ANSWER:\n${reply}`,
+        },
       ],
     });
+
     return verification.output_text?.trim().toUpperCase() === "SUPPORTED";
   } catch (error) {
     console.error("Grounding verification failed:", error);
@@ -403,6 +422,7 @@ async function createGroundedReply(message, topic, conversationHistory, state = 
   const articles = await getHelpCenterArticles(message, topic, state);
   const helpCenterContext = formatHelpCenterContext(articles);
   const approvedSupportContext = getApprovedSupportContext(topic);
+
   if (!helpCenterContext && !approvedSupportContext) return UNKNOWN_REPLY;
 
   const response = await client.responses.create({
@@ -418,12 +438,17 @@ function parseDirectAnswerRoutes(decisionTree) {
   const routes = [];
   const routeRegex = /^ROUTE:\s*(.+?)\s*$([\s\S]*?)(?=^ROUTE:\s*|^---\s*$|$)/gim;
   let match;
+
   while ((match = routeRegex.exec(decisionTree)) !== null) {
     const [, id, body] = match;
     const answerId = body.match(/^ANSWER ID:\s*(.+?)\s*$/im)?.[1]?.trim();
-    const matchAnyGroups = [...body.matchAll(/^MATCH ANY:\s*(.+?)\s*$/gim)].map((line) => splitRouteTerms(line[1]));
-    if (answerId && matchAnyGroups.length) routes.push({ id: id.trim(), answerId, matchAnyGroups });
+    const matchAnyGroups = [...body.matchAll(/^MATCH ANY:\s*(.+?)\s*$/gim)].map((line) => line[1].split(",").map((term) => term.trim().toLowerCase()).filter(Boolean));
+
+    if (answerId && matchAnyGroups.length) {
+      routes.push({ id: id.trim(), answerId, matchAnyGroups });
+    }
   }
+
   return routes;
 }
 
@@ -447,8 +472,8 @@ function getDirectAnswerForMessage(topic, message) {
 function detectTopic(message) {
   const lower = message.toLowerCase();
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
-  if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet") || lower.includes("payment scheme")) return "memberships";
-  if (lower.includes("user") || lower.includes("admin") || lower.includes("superuser") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
+  if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet")) return "memberships";
+  if (lower.includes("admin user") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
   if (lower.includes("buggy") || lower.includes("buggies")) return "admin-setup";
   if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) return "teesheet";
   if (lower.includes("booking") || lower.includes("tee") || lower.includes("timesheet") || lower.includes("player") || lower.includes("green fee") || lower.includes("society") || lower.includes("move")) return "teesheet";
@@ -465,13 +490,12 @@ ${instructions}
 
 RESPONSE STYLE:
 - Use the relevant BRS Help Center article context and approved local support guidance. Do not answer as a generic IT assistant.
-- The user's selected route is important context: ${state.routeContext || "No guided route selected."}
+- Clarification context from the user: ${state.clarificationContext || "No clarification context yet."}
 - Try to answer from BRS Help Center articles first.
 - If no useful Help Center article is available, answer from approved local support guidance when it clearly supports the answer.
 - If neither source supports a useful response, reply exactly: ${UNKNOWN_REPLY}
 - Keep replies short and operational.
 - Ask only one next-step question at a time.
-- Do not ask what system/platform the user means after a BRS topic is detected.
 - Use approved BRS navigation labels only.
 - If Help Center article context is provided, use it as product documentation and include the most relevant source link at the end.
 - You may translate vague user wording into likely BRS product terms and combine related source facts into practical troubleshooting steps.
@@ -481,7 +505,8 @@ PRIORITY ORDER:
 1. Direct approved answers from local knowledge
 2. Relevant BRS Help Center article context
 3. Approved local support guidance
-4. Safe escalation if unsure
+4. Ask a clarification question if the request is ambiguous
+5. Safe escalation if unsure
 
 TOPIC:
 ${topic}
@@ -512,7 +537,7 @@ function isRefundRequest(text) {
 
 function isAdminUserCreateRequest(text) {
   const lower = text.toLowerCase();
-  return (lower.includes("admin user") || lower.includes("new user") || lower.includes("create user") || lower.includes("add user")) && (lower.includes("create") || lower.includes("add") || lower.includes("setup") || lower.includes("set up"));
+  return (lower.includes("admin user") || lower.includes("staff user") || lower.includes("new user") || lower.includes("create user") || lower.includes("add user")) && (lower.includes("create") || lower.includes("add") || lower.includes("setup") || lower.includes("set up"));
 }
 
 function approvedAdminUserReply() {
@@ -539,14 +564,36 @@ To change the password later:
 4. Use Change Password, or use Reset Password if an email address is saved for the user.`;
 }
 
-function isBuggyBookingRequest(text) { const lower = text.toLowerCase(); return lower.includes("buggy") || lower.includes("buggies"); }
-function isFullRefundAnswer(text) { const lower = text.toLowerCase(); return lower.includes("full refund") || lower === "full" || lower.includes("full amount"); }
-function isPartialRefundAnswer(text) { const lower = text.toLowerCase(); return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund"); }
-function isBrsPaymentAnswer(text) { const lower = text.toLowerCase(); return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes"); }
-function isNonBrsPaymentAnswer(text) { const lower = text.toLowerCase(); return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no"; }
+function isBuggyBookingRequest(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("buggy") || lower.includes("buggies");
+}
+
+function isFullRefundAnswer(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("full refund") || lower === "full" || lower.includes("full amount");
+}
+
+function isPartialRefundAnswer(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund");
+}
+
+function isBrsPaymentAnswer(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes");
+}
+
+function isNonBrsPaymentAnswer(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no";
+}
 
 function approvedRefundReply(type = "refund") {
-  const partialLine = type === "partial" ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund." : "The system will automatically add the full refundable amount for you to refund.";
+  const partialLine = type === "partial"
+    ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund."
+    : "The system will automatically add the full refundable amount for you to refund.";
+
   return `BRS customers using the BRS Payments processor can refund online payments from the Booking Details screen. If the club does not use BRS Payments, use the non-BRS Payments refund process instead.
 
 Go to:
@@ -598,9 +645,15 @@ function userConfirmedRecordFound(message) {
 }
 
 function clearStaleStateForMessage(state, message) {
-  if (state.escalationState === "refund_type_asked" && !isRefundRequest(message) && !isFullRefundAnswer(message) && !isPartialRefundAnswer(message)) state.escalationState = "none";
-  if (state.escalationState === "refund_source_asked" && !isBrsPaymentAnswer(message) && !isNonBrsPaymentAnswer(message)) state.escalationState = "none";
-  if (state.escalationState === "check_asked" && !isPaymentMissingScenario(message) && !userConfirmedNoRecord(message) && !userConfirmedRecordFound(message)) state.escalationState = "none";
+  if (state.escalationState === "refund_type_asked" && !isRefundRequest(message) && !isFullRefundAnswer(message) && !isPartialRefundAnswer(message)) {
+    state.escalationState = "none";
+  }
+  if (state.escalationState === "refund_source_asked" && !isBrsPaymentAnswer(message) && !isNonBrsPaymentAnswer(message)) {
+    state.escalationState = "none";
+  }
+  if (state.escalationState === "check_asked" && !isPaymentMissingScenario(message) && !userConfirmedNoRecord(message) && !userConfirmedRecordFound(message)) {
+    state.escalationState = "none";
+  }
 }
 
 function createEscalationDraft(conversationHistory) {
@@ -615,252 +668,119 @@ ${transcript}
 Kind regards` };
 }
 
-function setRouteContext(state, routeKey, label) {
-  const meta = routeMetadata[routeKey] || {};
-  state.currentTopic = meta.topic || state.currentTopic || "general";
-  state.routeContext = label;
-  state.routeHints = meta.hints || [];
-}
-
-function broadRouteResponse(route, state) {
-  if (route === "bookings") {
-    state.currentTopic = "teesheet";
-    state.routeContext = "Find, change, or cancel a booking";
-    state.routeHints = ["booking tee sheet", "booking details", "timesheet booking"];
-    return { reply: "Which booking task is closest?", topic: "teesheet", options: bookingOptions };
-  }
-  if (route === "payments") {
-    state.currentTopic = "payments";
-    state.routeContext = "Refund, payment, or payout issue";
-    state.routeHints = ["BRS Payments refund transaction payout payment request"];
-    return { reply: "Which payment task is closest?", topic: "payments", options: paymentOptions };
-  }
-  if (route === "memberships") {
-    state.currentTopic = "memberships";
-    state.routeContext = "Member, bill, or subscription issue";
-    state.routeHints = ["membership member bill subscription wallet payment scheme"];
-    return { reply: "Which membership task is closest?", topic: "memberships", options: membershipOptions };
-  }
-  if (route === "competitions") {
-    state.currentTopic = "teesheet";
-    state.routeContext = "Competition setup or entries";
-    state.routeHints = ["competition open competition regular competition draw entry sheet purse"];
-    return { reply: "Which competition task is closest?", topic: "teesheet", options: competitionOptions };
-  }
-  if (route === "availability") {
-    state.currentTopic = "teesheet";
-    state.routeContext = "Online booking availability";
-    state.routeHints = ["online booking availability tee time visible member visitor facility waiting list"];
-    return { reply: "Which online availability issue is closest?", topic: "teesheet", options: availabilityOptions };
-  }
-  if (route === "users") {
-    state.currentTopic = "user-management";
-    state.routeContext = "User login or permissions";
-    state.routeHints = ["users login permissions roles admin staff"];
-    return { reply: "Which user or access task is closest?", topic: "user-management", options: userOptions };
-  }
-  if (route === "setup") {
-    state.currentTopic = "admin-setup";
-    state.routeContext = "Club setup or settings";
-    state.routeHints = ["basic setup configuration green fee booking rules tee sheet email templates"];
-    return { reply: "Which setup area is closest?", topic: "admin-setup", options: setupOptions };
-  }
-  if (route === "admin-comms") {
-    state.currentTopic = "admin-setup";
-    state.routeContext = "Reports, emails, or GDPR";
-    state.routeHints = ["reports communication email text GDPR clubhouse PC green fee printer"];
-    return { reply: "Which admin area is closest?", topic: "admin-setup", options: adminCommsOptions };
-  }
-  return null;
-}
-
-function terminalRouteResponse(routeKey, label, state) {
-  setRouteContext(state, routeKey, label);
-
-  if (routeKey === "payments:refund") {
-    state.escalationState = "refund_type_asked";
-    return { reply: "Is this a full refund or partial refund?", topic: "payments", options: fullPartialRefundOptions };
-  }
-
-  if (routeKey === "payments:customer-paid" || routeKey === "payments:not-showing") {
-    state.escalationState = "check_asked";
-    return { reply: "First, check Tools >> BRS Payments >> Transactions. Can you see a matching transaction there?", topic: "payments", options: transactionOptions };
-  }
-
-  const promptByArea = {
-    "competitions:booking-access": "Tell me whether this affects members, visitors, or both, and what they see when they try to book.",
-    "competitions:create-edit": "Tell me what competition detail needs creating or changing.",
-    "competitions:draws-entries": "Tell me what is happening with the draw or entry sheet. Include the competition date if useful.",
-    "competitions:change-cancel-entry": "Tell me what entry needs changing or cancelling and whether a payment is involved.",
-    "competitions:purse-payments": "Tell me what is happening with the competition purse or entry payment.",
-    "bookings:not-showing": "Tell me the booking date and tee time, plus what the customer says should be there.",
-    "bookings:move": "Tell me the original date/time and the new date/time for the booking.",
-    "bookings:cancel": "Tell me what needs cancelling and whether there is a payment on the booking.",
-    "bookings:players": "Tell me whether you need to add or remove players, and what happens when you try.",
-    "bookings:payment-status": "Tell me what colour/status is showing on the booking payment symbol.",
-  };
-
-  return {
-    reply: promptByArea[routeKey] || "Tell me the exact issue you are seeing. You can include names, dates, amounts, or what appears on screen.",
-    topic: state.currentTopic,
-    options: [{ label: "Something else", value: `I need help with another ${label} issue` }],
-  };
-}
-
-function labelForRoute(routeValue) {
-  const allOptions = [...taskOptions, ...bookingOptions, ...paymentOptions, ...membershipOptions, ...competitionOptions, ...availabilityOptions, ...setupOptions, ...adminCommsOptions, ...userOptions];
-  return allOptions.find((option) => option.value === routeValue)?.label || routeValue.replace(/^ROUTE:/, "").replace(/[:-]/g, " ");
-}
-
-function handleRouteSelection(message, state) {
-  if (!message.startsWith("ROUTE:")) return null;
-  const route = message.replace(/^ROUTE:/, "");
-  const broad = broadRouteResponse(route, state);
-  if (broad) return broad;
-  return terminalRouteResponse(route, labelForRoute(message), state);
-}
-
-function shouldAskTaskClarifier(message, topic, state) {
-  if (state.routeContext || topic !== "general") return false;
+function isBroadOrAmbiguous(message, topic, state) {
+  if (state.clarificationContext) return false;
   const lower = message.toLowerCase();
-  return lower.length < 24 || lower.includes("help") || lower.includes("issue") || lower.includes("problem") || lower.includes("not working");
+  const ambiguousTerms = ["account", "setup", "set up", "not working", "can't book", "cant book", "cannot book", "won't let", "wont let", "issue", "problem", "help", "access"];
+  if (topic === "general") return true;
+  return ambiguousTerms.some((term) => lower.includes(term)) && lower.split(/\s+/).length <= 9;
 }
 
-function isCompetitionBookingAccessIssue(lower) {
-  return lower.includes("competition") && (lower.includes("can't book") || lower.includes("cant book") || lower.includes("cannot book") || lower.includes("can't book in") || lower.includes("book into") || lower.includes("book in") || lower.includes("not book") || lower.includes("unable to book") || lower.includes("won't let") || lower.includes("wont let"));
+function normalizeClarificationOptions(options = []) {
+  const labels = uniqueValues(options.map((option) => typeof option === "string" ? option : option?.label));
+  return labels.slice(0, 6).map((label) => ({ label, value: `Clarification answer: ${label}` }));
 }
 
-function getClarifierForMessage(message, topic, state) {
-  if (state.routeContext) return null;
-  const lower = message.toLowerCase();
+async function createDynamicClarification(message, topic, state, reason = "The request is ambiguous or not supported enough to answer safely.") {
+  try {
+    const response = await client.responses.create({
+      model: "gpt-4.1",
+      input: [
+        {
+          role: "system",
+          content: `You design clarification questions for a BRS Golf support chatbot.
 
-  if (isCompetitionBookingAccessIssue(lower)) {
-    setRouteContext(state, "competitions:booking-access", "People cannot book into a competition");
-    return null;
+The user has asked something the bot cannot safely answer yet. Create one concise clarification question and 3 to 6 button labels that answer that question.
+
+Return only JSON with this shape:
+{"question":"...","options":["...","..."],"context":"short internal summary"}
+
+Rules:
+- Buttons must be dynamic and based on the user's message, not a fixed menu.
+- Use the product-area guide below as source material, but do not copy it as literal categories.
+- Use task/symptom wording a support user would recognise.
+- Avoid redundant buttons that split internal categories users would see as the same thing.
+- Include "I'm not sure" or "Something else" when useful.
+- Include "Type details instead" only when button answers may not cover the situation.
+- Do not answer the support question.
+
+${CLARIFICATION_GUIDE}`,
+        },
+        {
+          role: "user",
+          content: `Reason clarification is needed: ${reason}\nDetected topic: ${topic}\nExisting clarification context: ${state.clarificationContext || "None"}\nRecent conversation:\n${state.conversationHistory.slice(-6).map((item) => `${item.role}: ${item.content}`).join("\n")}\n\nLatest user message: ${message}`,
+        },
+      ],
+    });
+
+    const parsed = parseJsonObject(response.output_text);
+    const question = typeof parsed?.question === "string" && parsed.question.trim() ? parsed.question.trim() : "What do you mean?";
+    const options = normalizeClarificationOptions(parsed?.options);
+    if (!options.length) throw new Error("No clarification options returned");
+
+    state.clarificationContext = uniqueValues([state.clarificationContext || "", parsed?.context || "", `Clarification question: ${question}`]).join(" | ");
+    state.clarificationCount = (state.clarificationCount || 0) + 1;
+    return { reply: question, escalationReady: false, topic, options, version: APP_VERSION };
+  } catch (error) {
+    console.error("Dynamic clarification failed:", error);
+    state.clarificationContext = uniqueValues([state.clarificationContext || "", "Fallback clarification used"]).join(" | ");
+    state.clarificationCount = (state.clarificationCount || 0) + 1;
+    return {
+      reply: "Which area is this closest to?",
+      escalationReady: false,
+      topic,
+      options: fallbackClarificationOptions,
+      version: APP_VERSION,
+    };
   }
-
-  if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) {
-    state.currentTopic = "teesheet";
-    state.routeContext = "Competition setup or entries";
-    state.routeHints = ["competition open competition regular competition draw entry sheet purse"];
-    return { reply: "Which competition task is closest?", topic: "teesheet", options: competitionOptions };
-  }
-
-  if (lower.includes("refund") || lower.includes("payment") || lower.includes("paid") || lower.includes("payout")) {
-    state.currentTopic = "payments";
-    state.routeContext = "Refund, payment, or payout issue";
-    state.routeHints = ["BRS Payments refund transaction payout payment request"];
-    return { reply: "Which payment task is closest?", topic: "payments", options: paymentOptions };
-  }
-
-  if (lower.includes("member") || lower.includes("bill") || lower.includes("subscription") || lower.includes("wallet")) {
-    state.currentTopic = "memberships";
-    state.routeContext = "Member, bill, or subscription issue";
-    state.routeHints = ["membership member bill subscription wallet payment scheme"];
-    return { reply: "Which membership task is closest?", topic: "memberships", options: membershipOptions };
-  }
-
-  if (lower.includes("booking") || lower.includes("tee time") || lower.includes("tee sheet") || lower.includes("timesheet")) {
-    state.currentTopic = "teesheet";
-    state.routeContext = "Find, change, or cancel a booking";
-    state.routeHints = ["booking tee sheet", "booking details", "timesheet booking"];
-    return { reply: "Which booking task is closest?", topic: "teesheet", options: bookingOptions };
-  }
-
-  if (lower.includes("login") || lower.includes("permission") || lower.includes("user")) {
-    state.currentTopic = "user-management";
-    state.routeContext = "User login or permissions";
-    state.routeHints = ["users login permissions roles admin staff"];
-    return { reply: "Which user or access task is closest?", topic: "user-management", options: userOptions };
-  }
-
-  if (shouldAskTaskClarifier(message, topic, state)) return { reply: "What does the customer need help with?", topic: "general", options: taskOptions };
-  return null;
 }
 
-app.get("/api/health", (req, res) => { res.json({ ok: true, version: APP_VERSION }); });
+function appendClarificationToMessage(message) {
+  return message.replace(/^Clarification answer:\s*/i, "").trim();
+}
+
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true, version: APP_VERSION });
+});
 
 app.post("/api/chat", async (req, res) => {
   const sessionId = getSessionId(req);
   const state = getSessionState(sessionId);
 
   try {
-    const { message } = req.body;
-    if (!message || !message.trim()) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
+    const rawMessage = req.body?.message;
+    const message = appendClarificationToMessage(String(rawMessage || "").trim());
+    if (!message) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
     if (isConversationEnd(message)) {
       resetSessionState(sessionId);
       return res.json({ reply: "Great - glad that is sorted. Starting fresh for the next issue.", escalationReady: false, options: [], version: APP_VERSION });
-    }
-
-    const routeResponse = handleRouteSelection(message, state);
-    if (routeResponse) {
-      state.conversationHistory.push({ role: "user", content: labelForRoute(message) });
-      state.conversationHistory.push({ role: "assistant", content: routeResponse.reply });
-      saveSessionState(sessionId, state);
-      return res.json({ ...routeResponse, escalationReady: false, version: APP_VERSION });
     }
 
     clearStaleStateForMessage(state, message);
 
     const detectedTopic = detectTopic(message);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
-    let topic = detectedTopic !== "general" ? detectedTopic : (state.currentTopic || detectedTopic);
-
+    const topic = detectedTopic !== "general" ? detectedTopic : (state.currentTopic || detectedTopic);
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
     const combinedText = `${historyText} ${message}`;
 
     if (isBuggyBookingRequest(message)) {
       state.currentTopic = "admin-setup";
       state.escalationState = "none";
-      state.routeContext = "Buggy booking";
-      state.routeHints = ["buggy booking availability", "buggies online booking"];
-      topic = "admin-setup";
+      state.clarificationContext = "Buggy booking or buggy availability";
       const reply = getApprovedAnswer("admin-setup", "buggy-booking-availability");
       if (reply) {
         state.conversationHistory.push({ role: "user", content: message });
         state.conversationHistory.push({ role: "assistant", content: reply });
         saveSessionState(sessionId, state);
-        return res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
+        return res.json({ reply, escalationReady: false, topic: "admin-setup", options: [], version: APP_VERSION });
       }
-    }
-
-    const clarifier = getClarifierForMessage(message, topic, state);
-    if (clarifier) {
-      state.conversationHistory.push({ role: "user", content: message });
-      state.conversationHistory.push({ role: "assistant", content: clarifier.reply });
-      saveSessionState(sessionId, state);
-      return res.json({ ...clarifier, escalationReady: false, version: APP_VERSION });
-    }
-
-    const directAnswer = getDirectAnswerForMessage(topic, buildSearchMessage(message, state));
-    if (directAnswer) {
-      state.conversationHistory.push({ role: "user", content: message });
-      state.conversationHistory.push({ role: "assistant", content: directAnswer });
-      saveSessionState(sessionId, state);
-      return res.json({ reply: directAnswer, escalationReady: false, topic, options: [], version: APP_VERSION });
-    }
-
-    if (isAdminUserCreateRequest(message)) {
-      state.currentTopic = "user-management";
-      const reply = approvedAdminUserReply();
-      state.conversationHistory.push({ role: "user", content: message });
-      state.conversationHistory.push({ role: "assistant", content: reply });
-      saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "user-management", options: [], version: APP_VERSION });
     }
 
     if (state.escalationState === "refund_type_asked") {
       state.conversationHistory.push({ role: "user", content: message });
-      if (isFullRefundAnswer(message)) {
-        state.pendingRefundType = "full";
-        state.escalationState = "refund_source_asked";
-        const reply = "Was the payment taken through BRS Payments?";
-        state.conversationHistory.push({ role: "assistant", content: reply });
-        saveSessionState(sessionId, state);
-        return res.json({ reply, escalationReady: false, topic: "payments", options: brsPaymentOptions, version: APP_VERSION });
-      }
-      if (isPartialRefundAnswer(message)) {
-        state.pendingRefundType = "partial";
+      if (isFullRefundAnswer(message) || isPartialRefundAnswer(message)) {
+        state.pendingRefundType = isPartialRefundAnswer(message) ? "partial" : "full";
         state.escalationState = "refund_source_asked";
         const reply = "Was the payment taken through BRS Payments?";
         state.conversationHistory.push({ role: "assistant", content: reply });
@@ -881,35 +801,6 @@ app.post("/api/chat", async (req, res) => {
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "payments", options: [], version: APP_VERSION });
-    }
-
-    if (isRefundRequest(message)) {
-      state.currentTopic = "payments";
-      state.routeContext = "Refund a booking";
-      state.routeHints = ["refund booking BRS Payments", "full refund partial refund booking"];
-      state.escalationState = "refund_type_asked";
-      const reply = "Is this a full refund or partial refund?";
-      state.conversationHistory.push({ role: "user", content: message });
-      state.conversationHistory.push({ role: "assistant", content: reply });
-      saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: APP_VERSION });
-    }
-
-    if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
-      state.escalationState = "check_asked";
-      const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools >> BRS Payments >> Transactions. Can you see a matching transaction there?";
-      state.conversationHistory.push({ role: "user", content: message });
-      state.conversationHistory.push({ role: "assistant", content: reply });
-      saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic, options: transactionOptions, version: APP_VERSION });
-    }
-
-    if (topic === "general") {
-      state.conversationHistory.push({ role: "user", content: message });
-      const reply = "What does the customer need help with?";
-      state.conversationHistory.push({ role: "assistant", content: reply });
-      saveSessionState(sessionId, state);
-      return res.json({ reply, escalationReady: false, topic, options: taskOptions, version: APP_VERSION });
     }
 
     if (state.escalationState === "check_asked") {
@@ -935,8 +826,61 @@ app.post("/api/chat", async (req, res) => {
       return res.json({ reply, escalationReady: false, topic: "payments", options: transactionOptions, version: APP_VERSION });
     }
 
+    if (isRefundRequest(message)) {
+      state.currentTopic = "payments";
+      state.clarificationContext = "Booking refund";
+      state.escalationState = "refund_type_asked";
+      const reply = "Is this a full refund or partial refund?";
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: APP_VERSION });
+    }
+
+    if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
+      state.escalationState = "check_asked";
+      const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools >> BRS Payments >> Transactions. Can you see a matching transaction there?";
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic, options: transactionOptions, version: APP_VERSION });
+    }
+
+    if (isAdminUserCreateRequest(message)) {
+      state.currentTopic = "user-management";
+      const reply = approvedAdminUserReply();
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: false, topic: "user-management", options: [], version: APP_VERSION });
+    }
+
+    if (isBroadOrAmbiguous(message, topic, state)) {
+      state.conversationHistory.push({ role: "user", content: message });
+      const clarification = await createDynamicClarification(message, topic, state, "The request uses broad or ambiguous wording.");
+      state.conversationHistory.push({ role: "assistant", content: clarification.reply });
+      saveSessionState(sessionId, state);
+      return res.json(clarification);
+    }
+
+    const directAnswer = getDirectAnswerForMessage(topic, buildSearchMessage(message, state));
+    if (directAnswer) {
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: directAnswer });
+      saveSessionState(sessionId, state);
+      return res.json({ reply: directAnswer, escalationReady: false, topic, options: [], version: APP_VERSION });
+    }
+
     state.conversationHistory.push({ role: "user", content: message });
     const reply = await createGroundedReply(message, topic, state.conversationHistory, state);
+
+    if (reply === UNKNOWN_REPLY && state.clarificationCount < 2) {
+      const clarification = await createDynamicClarification(message, topic, state, "The available sources did not support a confident answer.");
+      state.conversationHistory.push({ role: "assistant", content: clarification.reply });
+      saveSessionState(sessionId, state);
+      return res.json(clarification);
+    }
+
     state.conversationHistory.push({ role: "assistant", content: reply });
     saveSessionState(sessionId, state);
     res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
