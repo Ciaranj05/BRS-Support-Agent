@@ -1,10 +1,60 @@
 import fs from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
+import pg from "pg";
 
+const { Pool } = pg;
 const STORE_PATH = path.join(process.cwd(), "data", "feedback-store.json");
 const EMPTY_STORE = { resolvedInteractions: [], surveyResponses: [] };
+const DATABASE_URL = process.env.DATABASE_URL;
 let writeQueue = Promise.resolve();
+let pool = null;
+let schemaReady = null;
+
+function getPool() {
+  if (!DATABASE_URL) return null;
+  if (!pool) {
+    pool = new Pool({
+      connectionString: DATABASE_URL,
+      ssl: DATABASE_URL.includes("localhost") ? false : { rejectUnauthorized: false },
+    });
+  }
+  return pool;
+}
+
+async function ensureDatabaseSchema() {
+  const db = getPool();
+  if (!db) return;
+  if (!schemaReady) {
+    schemaReady = db.query(`
+      CREATE TABLE IF NOT EXISTS resolved_interactions (
+        id TEXT PRIMARY KEY,
+        session_id TEXT NOT NULL,
+        conversation_id TEXT,
+        topic TEXT,
+        resolved_by TEXT NOT NULL DEFAULT 'user',
+        resolved_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        conversation_history JSONB NOT NULL DEFAULT '[]'::jsonb
+      );
+
+      CREATE TABLE IF NOT EXISTS survey_responses (
+        id TEXT PRIMARY KEY,
+        resolved_interaction_id TEXT NOT NULL REFERENCES resolved_interactions(id) ON DELETE CASCADE,
+        session_id TEXT NOT NULL,
+        conversation_id TEXT,
+        type TEXT NOT NULL DEFAULT 'resolution-score',
+        score INTEGER NOT NULL CHECK (score >= 0 AND score <= 10),
+        comment TEXT NOT NULL DEFAULT '',
+        submitted_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        UNIQUE (resolved_interaction_id)
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_resolved_interactions_resolved_at ON resolved_interactions(resolved_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_survey_responses_score ON survey_responses(score);
+    `);
+  }
+  await schemaReady;
+}
 
 async function ensureStoreFile() {
   await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
@@ -15,7 +65,7 @@ async function ensureStoreFile() {
   }
 }
 
-async function readStore() {
+async function readJsonStore() {
   await ensureStoreFile();
   try {
     const raw = await fs.readFile(STORE_PATH, "utf-8");
@@ -30,15 +80,15 @@ async function readStore() {
   }
 }
 
-async function writeStore(store) {
+async function writeJsonStore(store) {
   await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2));
 }
 
-function withStoreUpdate(updateFn) {
+function withJsonStoreUpdate(updateFn) {
   const nextWrite = writeQueue.catch(() => {}).then(async () => {
-    const store = await readStore();
+    const store = await readJsonStore();
     const result = await updateFn(store);
-    await writeStore(store);
+    await writeJsonStore(store);
     return result;
   });
   writeQueue = nextWrite.catch(() => {});
@@ -61,40 +111,188 @@ function serialiseHistory(history = []) {
     : [];
 }
 
-export async function recordResolvedInteraction({ sessionId, conversationId, resolvedBy = "user", topic = null, conversationHistory = [] }) {
-  return withStoreUpdate((store) => {
+function rowToResolvedInteraction(row) {
+  return {
+    id: row.id,
+    sessionId: row.session_id,
+    conversationId: row.conversation_id,
+    topic: row.topic,
+    resolvedBy: row.resolved_by,
+    resolvedAt: row.resolved_at instanceof Date ? row.resolved_at.toISOString() : row.resolved_at,
+    conversationHistory: row.conversation_history || [],
+  };
+}
+
+function rowToSurveyResponse(row) {
+  return {
+    id: row.id,
+    resolvedInteractionId: row.resolved_interaction_id,
+    sessionId: row.session_id,
+    conversationId: row.conversation_id,
+    type: row.type,
+    score: row.score,
+    comment: row.comment || "",
+    submittedAt: row.submitted_at instanceof Date ? row.submitted_at.toISOString() : row.submitted_at,
+  };
+}
+
+async function recordResolvedInteractionInDatabase({ sessionId, conversationId, resolvedBy = "user", topic = null, conversationHistory = [] }) {
+  await ensureDatabaseSchema();
+  const db = getPool();
+  const id = randomUUID();
+  const history = serialiseHistory(conversationHistory);
+  const result = await db.query(
+    `INSERT INTO resolved_interactions (id, session_id, conversation_id, topic, resolved_by, conversation_history)
+     VALUES ($1, $2, $3, $4, $5, $6::jsonb)
+     RETURNING *`,
+    [id, sessionId || "unknown-session", conversationId || sessionId || null, topic, resolvedBy, JSON.stringify(history)]
+  );
+  return rowToResolvedInteraction(result.rows[0]);
+}
+
+async function recordSurveyScoreInDatabase({ resolvedInteractionId, sessionId, conversationId, score, type = "resolution-score", comment = "", topic = null, conversationHistory = [] }) {
+  await ensureDatabaseSchema();
+  const db = getPool();
+  const surveyScore = normaliseScore(score);
+  const client = await db.connect();
+
+  try {
+    await client.query("BEGIN");
+    let resolvedInteraction = null;
+
+    if (resolvedInteractionId) {
+      const existing = await client.query("SELECT * FROM resolved_interactions WHERE id = $1", [resolvedInteractionId]);
+      resolvedInteraction = existing.rows[0] || null;
+    }
+
+    if (!resolvedInteraction) {
+      const created = await client.query(
+        `INSERT INTO resolved_interactions (id, session_id, conversation_id, topic, resolved_by, conversation_history)
+         VALUES ($1, $2, $3, $4, 'user', $5::jsonb)
+         RETURNING *`,
+        [randomUUID(), sessionId || "unknown-session", conversationId || sessionId || null, topic, JSON.stringify(serialiseHistory(conversationHistory))]
+      );
+      resolvedInteraction = created.rows[0];
+    }
+
+    const response = await client.query(
+      `INSERT INTO survey_responses (id, resolved_interaction_id, session_id, conversation_id, type, score, comment)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       ON CONFLICT (resolved_interaction_id)
+       DO UPDATE SET type = EXCLUDED.type, score = EXCLUDED.score, comment = EXCLUDED.comment, submitted_at = NOW()
+       RETURNING *`,
+      [
+        randomUUID(),
+        resolvedInteraction.id,
+        resolvedInteraction.session_id,
+        resolvedInteraction.conversation_id,
+        type,
+        surveyScore,
+        String(comment || "").trim(),
+      ]
+    );
+
+    await client.query("COMMIT");
+    return {
+      resolvedInteraction: rowToResolvedInteraction(resolvedInteraction),
+      surveyResponse: rowToSurveyResponse(response.rows[0]),
+    };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+async function getSurveyMetricsFromDatabase() {
+  await ensureDatabaseSchema();
+  const db = getPool();
+  const [totals, scores, recent] = await Promise.all([
+    db.query(`
+      SELECT
+        (SELECT COUNT(*)::int FROM resolved_interactions) AS total_resolved,
+        (SELECT COUNT(*)::int FROM survey_responses) AS total_survey_responses,
+        (SELECT ROUND(AVG(score)::numeric, 2)::float FROM survey_responses) AS average_score
+    `),
+    db.query("SELECT score, COUNT(*)::int AS count FROM survey_responses GROUP BY score"),
+    db.query(`
+      SELECT
+        ri.id AS resolved_interaction_id,
+        ri.session_id,
+        ri.conversation_id,
+        ri.topic,
+        ri.resolved_at,
+        sr.score,
+        sr.comment,
+        sr.submitted_at
+      FROM resolved_interactions ri
+      LEFT JOIN survey_responses sr ON sr.resolved_interaction_id = ri.id
+      ORDER BY ri.resolved_at DESC
+      LIMIT 50
+    `),
+  ]);
+
+  const totalResolved = totals.rows[0]?.total_resolved || 0;
+  const totalSurveyResponses = totals.rows[0]?.total_survey_responses || 0;
+  const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, score) => [String(score), 0]));
+  for (const row of scores.rows) scoreCounts[String(row.score)] = row.count;
+
+  return {
+    totalResolved,
+    totalSurveyResponses,
+    responseRate: totalResolved ? totalSurveyResponses / totalResolved : 0,
+    averageScore: totals.rows[0]?.average_score ?? null,
+    scoreCounts,
+    recentResponses: recent.rows.map((row) => ({
+      resolvedInteractionId: row.resolved_interaction_id,
+      sessionId: row.session_id,
+      conversationId: row.conversation_id,
+      topic: row.topic,
+      resolvedAt: row.resolved_at instanceof Date ? row.resolved_at.toISOString() : row.resolved_at,
+      score: row.score ?? null,
+      comment: row.comment || "",
+      submittedAt: row.submitted_at instanceof Date ? row.submitted_at.toISOString() : row.submitted_at,
+    })),
+  };
+}
+
+export async function recordResolvedInteraction(payload) {
+  if (getPool()) return recordResolvedInteractionInDatabase(payload);
+  return withJsonStoreUpdate((store) => {
     const now = new Date().toISOString();
     const resolvedInteraction = {
       id: randomUUID(),
-      sessionId: sessionId || "unknown-session",
-      conversationId: conversationId || sessionId || null,
-      topic,
-      resolvedBy,
+      sessionId: payload.sessionId || "unknown-session",
+      conversationId: payload.conversationId || payload.sessionId || null,
+      topic: payload.topic || null,
+      resolvedBy: payload.resolvedBy || "user",
       resolvedAt: now,
-      conversationHistory: serialiseHistory(conversationHistory),
+      conversationHistory: serialiseHistory(payload.conversationHistory),
     };
     store.resolvedInteractions.push(resolvedInteraction);
     return resolvedInteraction;
   });
 }
 
-export async function recordSurveyScore({ resolvedInteractionId, sessionId, conversationId, score, type = "resolution-score", comment = "", topic = null, conversationHistory = [] }) {
-  const surveyScore = normaliseScore(score);
-  return withStoreUpdate((store) => {
+export async function recordSurveyScore(payload) {
+  if (getPool()) return recordSurveyScoreInDatabase(payload);
+  const surveyScore = normaliseScore(payload.score);
+  return withJsonStoreUpdate((store) => {
     const now = new Date().toISOString();
-    let resolvedInteraction = resolvedInteractionId
-      ? store.resolvedInteractions.find((item) => item.id === resolvedInteractionId)
+    let resolvedInteraction = payload.resolvedInteractionId
+      ? store.resolvedInteractions.find((item) => item.id === payload.resolvedInteractionId)
       : null;
 
     if (!resolvedInteraction) {
       resolvedInteraction = {
         id: randomUUID(),
-        sessionId: sessionId || "unknown-session",
-        conversationId: conversationId || sessionId || null,
-        topic,
+        sessionId: payload.sessionId || "unknown-session",
+        conversationId: payload.conversationId || payload.sessionId || null,
+        topic: payload.topic || null,
         resolvedBy: "user",
         resolvedAt: now,
-        conversationHistory: serialiseHistory(conversationHistory),
+        conversationHistory: serialiseHistory(payload.conversationHistory),
       };
       store.resolvedInteractions.push(resolvedInteraction);
     }
@@ -105,9 +303,9 @@ export async function recordSurveyScore({ resolvedInteractionId, sessionId, conv
       resolvedInteractionId: resolvedInteraction.id,
       sessionId: resolvedInteraction.sessionId,
       conversationId: resolvedInteraction.conversationId,
-      type,
+      type: payload.type || "resolution-score",
       score: surveyScore,
-      comment: String(comment || "").trim(),
+      comment: String(payload.comment || "").trim(),
       submittedAt: now,
     };
 
@@ -119,7 +317,9 @@ export async function recordSurveyScore({ resolvedInteractionId, sessionId, conv
 }
 
 export async function getSurveyMetrics() {
-  const store = await readStore();
+  if (getPool()) return getSurveyMetricsFromDatabase();
+
+  const store = await readJsonStore();
   const totalResolved = store.resolvedInteractions.length;
   const totalSurveyResponses = store.surveyResponses.length;
   const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, score) => [String(score), 0]));
