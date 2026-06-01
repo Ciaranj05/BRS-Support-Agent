@@ -111,6 +111,44 @@ function serialiseHistory(history = []) {
     : [];
 }
 
+function normaliseDateRange({ startDate, endDate } = {}) {
+  const range = {};
+  if (startDate) {
+    const start = new Date(`${startDate}T00:00:00.000Z`);
+    if (!Number.isNaN(start.getTime())) range.startDate = start;
+  }
+  if (endDate) {
+    const end = new Date(`${endDate}T00:00:00.000Z`);
+    if (!Number.isNaN(end.getTime())) {
+      end.setUTCDate(end.getUTCDate() + 1);
+      range.endDate = end;
+    }
+  }
+  return range;
+}
+
+function dateInRange(value, range) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return false;
+  if (range.startDate && date < range.startDate) return false;
+  if (range.endDate && date >= range.endDate) return false;
+  return true;
+}
+
+function buildResolvedDateWhere(range) {
+  const conditions = [];
+  const values = [];
+  if (range.startDate) {
+    values.push(range.startDate.toISOString());
+    conditions.push(`ri.resolved_at >= $${values.length}`);
+  }
+  if (range.endDate) {
+    values.push(range.endDate.toISOString());
+    conditions.push(`ri.resolved_at < $${values.length}`);
+  }
+  return { clause: conditions.length ? `WHERE ${conditions.join(" AND ")}` : "", values };
+}
+
 function rowToResolvedInteraction(row) {
   return {
     id: row.id,
@@ -205,17 +243,28 @@ async function recordSurveyScoreInDatabase({ resolvedInteractionId, sessionId, c
   }
 }
 
-async function getSurveyMetricsFromDatabase() {
+async function getSurveyMetricsFromDatabase(options = {}) {
   await ensureDatabaseSchema();
   const db = getPool();
+  const range = normaliseDateRange(options);
+  const filter = buildResolvedDateWhere(range);
   const [totals, scores, recent] = await Promise.all([
     db.query(`
       SELECT
-        (SELECT COUNT(*)::int FROM resolved_interactions) AS total_resolved,
-        (SELECT COUNT(*)::int FROM survey_responses) AS total_survey_responses,
-        (SELECT ROUND(AVG(score)::numeric, 2)::float FROM survey_responses) AS average_score
-    `),
-    db.query("SELECT score, COUNT(*)::int AS count FROM survey_responses GROUP BY score"),
+        COUNT(ri.id)::int AS total_resolved,
+        COUNT(sr.id)::int AS total_survey_responses,
+        ROUND(AVG(sr.score)::numeric, 2)::float AS average_score
+      FROM resolved_interactions ri
+      LEFT JOIN survey_responses sr ON sr.resolved_interaction_id = ri.id
+      ${filter.clause}
+    `, filter.values),
+    db.query(`
+      SELECT sr.score, COUNT(*)::int AS count
+      FROM resolved_interactions ri
+      JOIN survey_responses sr ON sr.resolved_interaction_id = ri.id
+      ${filter.clause}
+      GROUP BY sr.score
+    `, filter.values),
     db.query(`
       SELECT
         ri.id AS resolved_interaction_id,
@@ -228,9 +277,10 @@ async function getSurveyMetricsFromDatabase() {
         sr.submitted_at
       FROM resolved_interactions ri
       LEFT JOIN survey_responses sr ON sr.resolved_interaction_id = ri.id
+      ${filter.clause}
       ORDER BY ri.resolved_at DESC
       LIMIT 50
-    `),
+    `, filter.values),
   ]);
 
   const totalResolved = totals.rows[0]?.total_resolved || 0;
@@ -316,24 +366,28 @@ export async function recordSurveyScore(payload) {
   });
 }
 
-export async function getSurveyMetrics() {
-  if (getPool()) return getSurveyMetricsFromDatabase();
+export async function getSurveyMetrics(options = {}) {
+  if (getPool()) return getSurveyMetricsFromDatabase(options);
 
   const store = await readJsonStore();
-  const totalResolved = store.resolvedInteractions.length;
-  const totalSurveyResponses = store.surveyResponses.length;
+  const range = normaliseDateRange(options);
+  const filteredInteractions = store.resolvedInteractions.filter((interaction) => dateInRange(interaction.resolvedAt, range));
+  const filteredInteractionIds = new Set(filteredInteractions.map((interaction) => interaction.id));
+  const filteredResponses = store.surveyResponses.filter((response) => filteredInteractionIds.has(response.resolvedInteractionId));
+  const totalResolved = filteredInteractions.length;
+  const totalSurveyResponses = filteredResponses.length;
   const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, score) => [String(score), 0]));
   let scoreTotal = 0;
 
-  for (const response of store.surveyResponses) {
+  for (const response of filteredResponses) {
     if (Number.isInteger(response.score) && response.score >= 0 && response.score <= 10) {
       scoreCounts[String(response.score)] += 1;
       scoreTotal += response.score;
     }
   }
 
-  const responsesByInteraction = new Map(store.surveyResponses.map((response) => [response.resolvedInteractionId, response]));
-  const recentResponses = store.resolvedInteractions
+  const responsesByInteraction = new Map(filteredResponses.map((response) => [response.resolvedInteractionId, response]));
+  const recentResponses = filteredInteractions
     .slice()
     .reverse()
     .slice(0, 50)
