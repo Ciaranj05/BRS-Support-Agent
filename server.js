@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "supported-clarification-routing-v1";
+const APP_VERSION = "supported-clarification-routing-v2";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
@@ -637,8 +637,24 @@ ${transcript}
 Kind regards` };
 }
 
+function isFreshAmbiguousRootQuestion(message) {
+  const lower = message.toLowerCase();
+  const startsLikeNewQuestion = /^(how|what|why|where|when|can|could|i need|help|please)\b/.test(lower);
+  const ambiguousRootTerms = ["account", "setup", "set up", "not working", "can't book", "cant book", "cannot book", "won't let", "wont let", "issue", "problem", "access"];
+  return startsLikeNewQuestion && ambiguousRootTerms.some((term) => lower.includes(term));
+}
+
+function resetClarificationForNewRootQuestion(state) {
+  state.clarificationContext = null;
+  state.clarificationCount = 0;
+  state.currentTopic = null;
+  if (!["refund_type_asked", "refund_source_asked", "check_asked"].includes(state.escalationState)) {
+    state.escalationState = "none";
+  }
+}
+
 function isBroadOrAmbiguous(message, topic, state) {
-  if (state.clarificationContext) return false;
+  if (state.clarificationContext && !isFreshAmbiguousRootQuestion(message)) return false;
   const lower = message.toLowerCase();
   const ambiguousTerms = ["account", "setup", "set up", "not working", "can't book", "cant book", "cannot book", "won't let", "wont let", "issue", "problem", "help", "access"];
   if (topic === "general") return true;
@@ -715,6 +731,7 @@ app.post("/api/chat", async (req, res) => {
     const wasClarificationAnswer = /^Clarification answer:\s*/i.test(rawText);
     const message = appendClarificationToMessage(rawText);
     if (!message) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
+    if (!wasClarificationAnswer && isFreshAmbiguousRootQuestion(message)) resetClarificationForNewRootQuestion(state);
     if (wasClarificationAnswer) applyClarificationAnswerToState(state, message);
     if (isConversationEnd(message)) {
       resetSessionState(sessionId);
@@ -811,7 +828,7 @@ app.post("/api/chat", async (req, res) => {
       return res.json({ reply, escalationReady: false, topic, options: transactionOptions, version: APP_VERSION });
     }
 
-    if (isAdminUserCreateRequest(message) || (state.clarificationContext?.includes("account request") && message.toLowerCase().includes("admin or staff user"))) {
+    if (isAdminUserCreateRequest(message) || (state.clarificationContext?.includes("Ambiguous create account request") && message.toLowerCase().includes("admin or staff user"))) {
       state.currentTopic = "user-management";
       const reply = approvedAdminUserReply();
       state.conversationHistory.push({ role: "user", content: message });
