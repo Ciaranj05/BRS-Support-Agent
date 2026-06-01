@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "task-refinement-routing-v1";
+const APP_VERSION = "task-refinement-routing-v2";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
@@ -67,27 +67,18 @@ const membershipOptions = [
 ];
 
 const competitionOptions = [
-  { label: "Create or edit a competition", value: "ROUTE:competitions:create-edit" },
-  { label: "Open competition setup", value: "ROUTE:competitions:open-setup" },
-  { label: "Member competition booking", value: "ROUTE:competitions:member-booking" },
-  { label: "Visitor/open competition booking", value: "ROUTE:competitions:visitor-booking" },
+  { label: "People cannot book into a competition", value: "ROUTE:competitions:booking-access" },
+  { label: "Create or edit competition details", value: "ROUTE:competitions:create-edit" },
   { label: "Draws or entry sheets", value: "ROUTE:competitions:draws-entries" },
+  { label: "Change or cancel an entry", value: "ROUTE:competitions:change-cancel-entry" },
   { label: "Competition purse or payments", value: "ROUTE:competitions:purse-payments" },
-];
-
-const competitionProblemOptions = [
-  { label: "Visitors cannot book in", value: "Visitors cannot book into an open competition" },
-  { label: "Booking link or visibility issue", value: "The competition booking link or online visibility is not working" },
-  { label: "Entry payment problem", value: "There is a payment issue with a competition entry" },
-  { label: "Change or cancel an entry", value: "I need to change or cancel a competition entry" },
-  { label: "Something else", value: "I need help with another competition issue" },
 ];
 
 const availabilityOptions = [
   { label: "Tee times not visible online", value: "ROUTE:availability:tee-times" },
   { label: "Members cannot book", value: "ROUTE:availability:members" },
   { label: "Visitors cannot book", value: "ROUTE:availability:visitors" },
-  { label: "Competition not visible", value: "ROUTE:competitions:visitor-booking" },
+  { label: "Competition not visible/bookable", value: "ROUTE:competitions:booking-access" },
   { label: "Facility booking issue", value: "ROUTE:availability:facility" },
   { label: "Waiting list issue", value: "ROUTE:availability:waiting-list" },
 ];
@@ -160,11 +151,10 @@ const routeMetadata = {
   "memberships:subscription": { topic: "memberships", hints: ["membership subscription setup change", "subscription cycles"] },
   "memberships:payment-scheme": { topic: "memberships", hints: ["membership payment scheme", "scheduled payments grace period"] },
   "memberships:wallet": { topic: "memberships", hints: ["member wallet account balances", "wallet top up transaction"] },
+  "competitions:booking-access": { topic: "teesheet", hints: ["competition not bookable", "people cannot book into competition", "open competition visitor booking member competition booking competition visibility"] },
   "competitions:create-edit": { topic: "teesheet", hints: ["competition setup create edit", "open competition setup", "regular competition setup"] },
-  "competitions:open-setup": { topic: "teesheet", hints: ["open competition setup", "visitor open competition booking"] },
-  "competitions:member-booking": { topic: "teesheet", hints: ["member competition booking", "competition entry members"] },
-  "competitions:visitor-booking": { topic: "teesheet", hints: ["open competition visitor booking", "visitor competition entry", "competition booking link"] },
   "competitions:draws-entries": { topic: "teesheet", hints: ["competition draw entry sheet", "single player draw entry", "multi-player draw entry"] },
+  "competitions:change-cancel-entry": { topic: "teesheet", hints: ["change cancel competition entry", "competition booking entry"] },
   "competitions:purse-payments": { topic: "payments", hints: ["competition purse payment", "competition entry payment", "competition purse top up"] },
   "availability:tee-times": { topic: "teesheet", hints: ["tee times not visible online", "online booking availability"] },
   "availability:members": { topic: "teesheet", hints: ["members cannot book online", "member booking availability"] },
@@ -191,15 +181,7 @@ const routeMetadata = {
 };
 
 function createDefaultState() {
-  return {
-    conversationHistory: [],
-    escalationState: "none",
-    escalationDraft: null,
-    currentTopic: null,
-    routeContext: null,
-    routeHints: [],
-    updatedAt: Date.now(),
-  };
+  return { conversationHistory: [], escalationState: "none", escalationDraft: null, currentTopic: null, routeContext: null, routeHints: [], updatedAt: Date.now() };
 }
 
 function cleanupSessions() {
@@ -208,10 +190,7 @@ function cleanupSessions() {
     if (!state?.updatedAt || now - state.updatedAt > SESSION_TTL_MS) sessions.delete(sessionId);
   }
   if (sessions.size <= SESSION_LIMIT) return;
-  [...sessions.entries()]
-    .sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0))
-    .slice(0, sessions.size - SESSION_LIMIT)
-    .forEach(([sessionId]) => sessions.delete(sessionId));
+  [...sessions.entries()].sort((a, b) => (a[1].updatedAt || 0) - (b[1].updatedAt || 0)).slice(0, sessions.size - SESSION_LIMIT).forEach(([sessionId]) => sessions.delete(sessionId));
 }
 
 function getSessionId(req) {
@@ -229,23 +208,11 @@ function getSessionState(sessionId) {
 function saveSessionState(sessionId, state) { sessions.set(sessionId, { ...state, updatedAt: Date.now() }); }
 function resetSessionState(sessionId) { const freshState = createDefaultState(); sessions.set(sessionId, freshState); return freshState; }
 function loadFile(filePath) { const fullPath = path.join(__dirname, filePath); return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : ""; }
-
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function splitRouteTerms(value) {
-  return value.split(",").map((term) => term.trim().toLowerCase()).filter(Boolean);
-}
+function escapeRegExp(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function splitRouteTerms(value) { return value.split(",").map((term) => term.trim().toLowerCase()).filter(Boolean); }
 
 function decodeHtmlEntities(value = "") {
-  return value
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&gt;/g, ">")
-    .replace(/&lt;/g, "<")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'");
+  return value.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
 }
 
 function stripHtml(html = "") {
@@ -264,13 +231,8 @@ function stripHtml(html = "") {
     .trim();
 }
 
-function truncateText(value = "", limit = 2200) {
-  return value.length > limit ? `${value.slice(0, limit).trim()}...` : value;
-}
-
-function uniqueValues(values) {
-  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
-}
+function truncateText(value = "", limit = 2200) { return value.length > limit ? `${value.slice(0, limit).trim()}...` : value; }
+function uniqueValues(values) { return [...new Set(values.map((value) => value.trim()).filter(Boolean))]; }
 
 function parseJsonArray(text = "") {
   try {
@@ -292,10 +254,7 @@ async function fetchWithTimeout(url, timeoutMs = 4500) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: { Accept: "application/json", "User-Agent": "BRS-Support-Agent/1.0" },
-    });
+    const response = await fetch(url, { signal: controller.signal, headers: { Accept: "application/json", "User-Agent": "BRS-Support-Agent/1.0" } });
     if (!response.ok) return null;
     return await response.json();
   } catch (error) {
@@ -307,11 +266,7 @@ async function fetchWithTimeout(url, timeoutMs = 4500) {
 }
 
 function buildSearchMessage(message, state = {}) {
-  return uniqueValues([
-    state.routeContext || "",
-    ...(state.routeHints || []),
-    message,
-  ]).join(" ");
+  return uniqueValues([state.routeContext || "", ...(state.routeHints || []), message]).join(" ");
 }
 
 function getKeywordSearchQueries(message, topic, state = {}) {
@@ -322,33 +277,27 @@ function getKeywordSearchQueries(message, topic, state = {}) {
     queries.push("competition setup open competition member visitor booking draw entry sheet");
     queries.push("open competitions visitor booking competition entry payment purse");
   }
-
   if (lower.includes("refund") || lower.includes("refund button") || lower.includes("can't refund") || lower.includes("cannot refund")) {
     queries.push("refund online payment booking details refund button");
     queries.push("BRS Payments refund payment booking");
   }
-
   if (lower.includes("tee time") || lower.includes("tee times") || lower.includes("timesheet") || lower.includes("tee sheet")) {
     queries.push("configure timesheet tee times");
     queries.push("configure timesheet year not available");
     queries.push("add tee times timesheet");
   }
-
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("transaction")) {
     queries.push("BRS Payments transactions payment booking");
     queries.push("payment missing booking not showing");
   }
-
   if (lower.includes("password") || lower.includes("login") || lower.includes("permission") || lower.includes("user")) {
     queries.push("user login permissions reset password");
     queries.push("admin user staff permissions");
   }
-
   if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill")) {
     queries.push("membership subscription bill member profile");
     queries.push("member wallet payment scheme");
   }
-
   if (lower.includes("buggy") || lower.includes("buggies")) {
     queries.push("buggy booking system configuration");
     queries.push("buggy management availability");
@@ -359,22 +308,14 @@ function getKeywordSearchQueries(message, topic, state = {}) {
 
 async function getExpandedSearchQueries(message, topic, state = {}) {
   const baseQueries = getKeywordSearchQueries(message, topic, state);
-
   try {
     const response = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        {
-          role: "system",
-          content: "You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, guide categories, menu names, and article keywords. Do not answer the question.",
-        },
-        {
-          role: "user",
-          content: `Topic: ${topic}\nRoute context: ${state.routeContext || "None"}\nUser question: ${message}`,
-        },
+        { role: "system", content: "You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, guide categories, menu names, and article keywords. Do not answer the question." },
+        { role: "user", content: `Topic: ${topic}\nRoute context: ${state.routeContext || "None"}\nUser question: ${message}` },
       ],
     });
-
     return uniqueValues([...baseQueries, ...parseJsonArray(response.output_text)]).slice(0, 12);
   } catch (error) {
     console.error("Help Center query expansion failed:", error);
@@ -394,13 +335,7 @@ async function searchHelpCenter(query) {
   const articles = (payload?.results || [])
     .filter((article) => article.result_type === "article" && article.title && article.html_url && article.body)
     .slice(0, 5)
-    .map((article) => ({
-      title: article.title,
-      url: article.html_url,
-      updatedAt: article.updated_at,
-      text: truncateText(stripHtml(article.body)),
-      query: cleanedQuery,
-    }));
+    .map((article) => ({ title: article.title, url: article.html_url, updatedAt: article.updated_at, text: truncateText(stripHtml(article.body)), query: cleanedQuery }));
 
   helpCenterCache.set(cleanedQuery, { createdAt: Date.now(), articles });
   return articles;
@@ -411,11 +346,9 @@ async function getHelpCenterArticles(message, topic, state = {}) {
   const queries = await getExpandedSearchQueries(searchMessage, topic, state);
   const batches = await Promise.all(queries.map((query) => searchHelpCenter(query)));
   const byUrl = new Map();
-
   for (const article of batches.flat()) {
     if (!byUrl.has(article.url)) byUrl.set(article.url, article);
   }
-
   return [...byUrl.values()].slice(0, 5);
 }
 
@@ -427,30 +360,20 @@ function formatHelpCenterContext(articles) {
 function getApprovedSupportContext(topic) {
   const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
   const knowledge = loadFile(`data/knowledge/${topic}.txt`);
-  const context = [decisionTree, knowledge].filter(Boolean).join("\n\n---\n\n");
-  return truncateText(context, 5000);
+  return truncateText([decisionTree, knowledge].filter(Boolean).join("\n\n---\n\n"), 5000);
 }
 
-function hasHelpCenterSource(reply = "") {
-  return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply);
-}
-
-function appendSourceIfMissing(reply, articles) {
-  if (hasHelpCenterSource(reply) || !articles.length) return reply;
-  return `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`;
-}
+function hasHelpCenterSource(reply = "") { return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply); }
+function appendSourceIfMissing(reply, articles) { return hasHelpCenterSource(reply) || !articles.length ? reply : `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`; }
 
 async function isReplyGrounded(reply, helpCenterContext, approvedSupportContext, sourceRequired) {
   if (!reply || reply === UNKNOWN_REPLY) return false;
   if (sourceRequired && !hasHelpCenterSource(reply)) return false;
-
   try {
     const verification = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        {
-          role: "system",
-          content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the supplied BRS sources.
+        { role: "system", content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the supplied BRS sources.
 
 Sources may include BRS Help Center articles and local approved support guidance.
 
@@ -465,15 +388,10 @@ Reply exactly UNSUPPORTED only if:
 - the supplied sources are unrelated to the user's issue, or
 - a Help Center URL is required but the answer has no BRS Help Center article URL.
 
-Do not reject an answer just because it translates vague wording into likely BRS product terms or combines related source facts into a troubleshooting sequence.`,
-        },
-        {
-          role: "user",
-          content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext || "No Help Center articles found."}\n\nLOCAL APPROVED SUPPORT GUIDANCE:\n${approvedSupportContext || "No local approved guidance found."}\n\nHELP CENTER URL REQUIRED: ${sourceRequired ? "yes" : "no"}\n\nASSISTANT ANSWER:\n${reply}`,
-        },
+Do not reject an answer just because it translates vague wording into likely BRS product terms or combines related source facts into a troubleshooting sequence.` },
+        { role: "user", content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext || "No Help Center articles found."}\n\nLOCAL APPROVED SUPPORT GUIDANCE:\n${approvedSupportContext || "No local approved guidance found."}\n\nHELP CENTER URL REQUIRED: ${sourceRequired ? "yes" : "no"}\n\nASSISTANT ANSWER:\n${reply}` },
       ],
     });
-
     return verification.output_text?.trim().toUpperCase() === "SUPPORTED";
   } catch (error) {
     console.error("Grounding verification failed:", error);
@@ -485,7 +403,6 @@ async function createGroundedReply(message, topic, conversationHistory, state = 
   const articles = await getHelpCenterArticles(message, topic, state);
   const helpCenterContext = formatHelpCenterContext(articles);
   const approvedSupportContext = getApprovedSupportContext(topic);
-
   if (!helpCenterContext && !approvedSupportContext) return UNKNOWN_REPLY;
 
   const response = await client.responses.create({
@@ -501,17 +418,12 @@ function parseDirectAnswerRoutes(decisionTree) {
   const routes = [];
   const routeRegex = /^ROUTE:\s*(.+?)\s*$([\s\S]*?)(?=^ROUTE:\s*|^---\s*$|$)/gim;
   let match;
-
   while ((match = routeRegex.exec(decisionTree)) !== null) {
     const [, id, body] = match;
     const answerId = body.match(/^ANSWER ID:\s*(.+?)\s*$/im)?.[1]?.trim();
     const matchAnyGroups = [...body.matchAll(/^MATCH ANY:\s*(.+?)\s*$/gim)].map((line) => splitRouteTerms(line[1]));
-
-    if (answerId && matchAnyGroups.length) {
-      routes.push({ id: id.trim(), answerId, matchAnyGroups });
-    }
+    if (answerId && matchAnyGroups.length) routes.push({ id: id.trim(), answerId, matchAnyGroups });
   }
-
   return routes;
 }
 
@@ -564,7 +476,6 @@ RESPONSE STYLE:
 - If Help Center article context is provided, use it as product documentation and include the most relevant source link at the end.
 - You may translate vague user wording into likely BRS product terms and combine related source facts into practical troubleshooting steps.
 - Do not invent product workflows, buttons, menu items, prices, policies, or rules that are not present in the provided sources.
-- If you ask a question with options, write the options naturally in the question.
 
 PRIORITY ORDER:
 1. Direct approved answers from local knowledge
@@ -628,36 +539,14 @@ To change the password later:
 4. Use Change Password, or use Reset Password if an email address is saved for the user.`;
 }
 
-function isBuggyBookingRequest(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("buggy") || lower.includes("buggies");
-}
-
-function isFullRefundAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("full refund") || lower === "full" || lower.includes("full amount");
-}
-
-function isPartialRefundAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund");
-}
-
-function isBrsPaymentAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes");
-}
-
-function isNonBrsPaymentAnswer(text) {
-  const lower = text.toLowerCase();
-  return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no";
-}
+function isBuggyBookingRequest(text) { const lower = text.toLowerCase(); return lower.includes("buggy") || lower.includes("buggies"); }
+function isFullRefundAnswer(text) { const lower = text.toLowerCase(); return lower.includes("full refund") || lower === "full" || lower.includes("full amount"); }
+function isPartialRefundAnswer(text) { const lower = text.toLowerCase(); return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund"); }
+function isBrsPaymentAnswer(text) { const lower = text.toLowerCase(); return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes"); }
+function isNonBrsPaymentAnswer(text) { const lower = text.toLowerCase(); return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no"; }
 
 function approvedRefundReply(type = "refund") {
-  const partialLine = type === "partial"
-    ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund."
-    : "The system will automatically add the full refundable amount for you to refund.";
-
+  const partialLine = type === "partial" ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund." : "The system will automatically add the full refundable amount for you to refund.";
   return `BRS customers using the BRS Payments processor can refund online payments from the Booking Details screen. If the club does not use BRS Payments, use the non-BRS Payments refund process instead.
 
 Go to:
@@ -709,15 +598,9 @@ function userConfirmedRecordFound(message) {
 }
 
 function clearStaleStateForMessage(state, message) {
-  if (state.escalationState === "refund_type_asked" && !isRefundRequest(message) && !isFullRefundAnswer(message) && !isPartialRefundAnswer(message)) {
-    state.escalationState = "none";
-  }
-  if (state.escalationState === "refund_source_asked" && !isBrsPaymentAnswer(message) && !isNonBrsPaymentAnswer(message)) {
-    state.escalationState = "none";
-  }
-  if (state.escalationState === "check_asked" && !isPaymentMissingScenario(message) && !userConfirmedNoRecord(message) && !userConfirmedRecordFound(message)) {
-    state.escalationState = "none";
-  }
+  if (state.escalationState === "refund_type_asked" && !isRefundRequest(message) && !isFullRefundAnswer(message) && !isPartialRefundAnswer(message)) state.escalationState = "none";
+  if (state.escalationState === "refund_source_asked" && !isBrsPaymentAnswer(message) && !isNonBrsPaymentAnswer(message)) state.escalationState = "none";
+  if (state.escalationState === "check_asked" && !isPaymentMissingScenario(message) && !userConfirmedNoRecord(message) && !userConfirmedRecordFound(message)) state.escalationState = "none";
 }
 
 function createEscalationDraft(conversationHistory) {
@@ -762,7 +645,7 @@ function broadRouteResponse(route, state) {
     state.currentTopic = "teesheet";
     state.routeContext = "Competition setup or entries";
     state.routeHints = ["competition open competition regular competition draw entry sheet purse"];
-    return { reply: "Which competition area is this closest to?", topic: "teesheet", options: competitionOptions };
+    return { reply: "Which competition task is closest?", topic: "teesheet", options: competitionOptions };
   }
   if (route === "availability") {
     state.currentTopic = "teesheet";
@@ -801,26 +684,14 @@ function terminalRouteResponse(routeKey, label, state) {
 
   if (routeKey === "payments:customer-paid" || routeKey === "payments:not-showing") {
     state.escalationState = "check_asked";
-    return {
-      reply: "First, check Tools >> BRS Payments >> Transactions. Can you see a matching transaction there?",
-      topic: "payments",
-      options: transactionOptions,
-    };
-  }
-
-  if (routeKey === "competitions:visitor-booking") {
-    return {
-      reply: "What is the problem with the visitor/open competition booking? You can choose one of these or type the exact issue.",
-      topic: state.currentTopic,
-      options: competitionProblemOptions,
-    };
+    return { reply: "First, check Tools >> BRS Payments >> Transactions. Can you see a matching transaction there?", topic: "payments", options: transactionOptions };
   }
 
   const promptByArea = {
-    "competitions:create-edit": "Tell me what you need to create or change in the competition setup. Include whether it is a regular or open competition if you know.",
-    "competitions:open-setup": "Tell me what is happening with the open competition setup. Include the competition date if useful.",
-    "competitions:member-booking": "Tell me what is happening with the member competition booking. Include what the member sees if possible.",
+    "competitions:booking-access": "Tell me whether this affects members, visitors, or both, and what they see when they try to book.",
+    "competitions:create-edit": "Tell me what competition detail needs creating or changing.",
     "competitions:draws-entries": "Tell me what is happening with the draw or entry sheet. Include the competition date if useful.",
+    "competitions:change-cancel-entry": "Tell me what entry needs changing or cancelling and whether a payment is involved.",
     "competitions:purse-payments": "Tell me what is happening with the competition purse or entry payment.",
     "bookings:not-showing": "Tell me the booking date and tee time, plus what the customer says should be there.",
     "bookings:move": "Tell me the original date/time and the new date/time for the booking.",
@@ -837,17 +708,7 @@ function terminalRouteResponse(routeKey, label, state) {
 }
 
 function labelForRoute(routeValue) {
-  const allOptions = [
-    ...taskOptions,
-    ...bookingOptions,
-    ...paymentOptions,
-    ...membershipOptions,
-    ...competitionOptions,
-    ...availabilityOptions,
-    ...setupOptions,
-    ...adminCommsOptions,
-    ...userOptions,
-  ];
+  const allOptions = [...taskOptions, ...bookingOptions, ...paymentOptions, ...membershipOptions, ...competitionOptions, ...availabilityOptions, ...setupOptions, ...adminCommsOptions, ...userOptions];
   return allOptions.find((option) => option.value === routeValue)?.label || routeValue.replace(/^ROUTE:/, "").replace(/[:-]/g, " ");
 }
 
@@ -865,15 +726,24 @@ function shouldAskTaskClarifier(message, topic, state) {
   return lower.length < 24 || lower.includes("help") || lower.includes("issue") || lower.includes("problem") || lower.includes("not working");
 }
 
+function isCompetitionBookingAccessIssue(lower) {
+  return lower.includes("competition") && (lower.includes("can't book") || lower.includes("cant book") || lower.includes("cannot book") || lower.includes("can't book in") || lower.includes("book into") || lower.includes("book in") || lower.includes("not book") || lower.includes("unable to book") || lower.includes("won't let") || lower.includes("wont let"));
+}
+
 function getClarifierForMessage(message, topic, state) {
   if (state.routeContext) return null;
   const lower = message.toLowerCase();
+
+  if (isCompetitionBookingAccessIssue(lower)) {
+    setRouteContext(state, "competitions:booking-access", "People cannot book into a competition");
+    return null;
+  }
 
   if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) {
     state.currentTopic = "teesheet";
     state.routeContext = "Competition setup or entries";
     state.routeHints = ["competition open competition regular competition draw entry sheet purse"];
-    return { reply: "Which competition area is this closest to?", topic: "teesheet", options: competitionOptions };
+    return { reply: "Which competition task is closest?", topic: "teesheet", options: competitionOptions };
   }
 
   if (lower.includes("refund") || lower.includes("payment") || lower.includes("paid") || lower.includes("payout")) {
@@ -904,16 +774,11 @@ function getClarifierForMessage(message, topic, state) {
     return { reply: "Which user or access task is closest?", topic: "user-management", options: userOptions };
   }
 
-  if (shouldAskTaskClarifier(message, topic, state)) {
-    return { reply: "What does the customer need help with?", topic: "general", options: taskOptions };
-  }
-
+  if (shouldAskTaskClarifier(message, topic, state)) return { reply: "What does the customer need help with?", topic: "general", options: taskOptions };
   return null;
 }
 
-app.get("/api/health", (req, res) => {
-  res.json({ ok: true, version: APP_VERSION });
-});
+app.get("/api/health", (req, res) => { res.json({ ok: true, version: APP_VERSION }); });
 
 app.post("/api/chat", async (req, res) => {
   const sessionId = getSessionId(req);
