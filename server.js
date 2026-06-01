@@ -17,7 +17,7 @@ app.use(express.json());
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const APP_VERSION = "supported-clarification-routing-v2";
+const APP_VERSION = "audience-aware-clarification-routing-v3";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const SESSION_LIMIT = 1000;
 const HELP_CENTER_SEARCH_URL = "https://help.brsgolf.com/api/v2/help_center/articles/search.json";
@@ -30,6 +30,17 @@ const sessions = globalThis.__brsSupportSessions || new Map();
 globalThis.__brsSupportSessions = sessions;
 
 const SUPPORTED_CLARIFICATION_PROFILES = {
+  "competition-charge": {
+    topic: "teesheet",
+    question: "Who are you charging for the competition?",
+    context: "Competition charging request. Members are charged through the competition purse; visitors/open competition entrants are charged through visitor/open competition fee setup.",
+    options: [
+      { label: "Members", value: "Clarification answer: Members competition charging through the competition purse" },
+      { label: "Visitors", value: "Clarification answer: Visitors open competition charging through green fee or entry fee setup" },
+      { label: "Both", value: "Clarification answer: Both members and visitors competition charging" },
+      { label: "Type details instead", value: "Clarification answer: I need to type competition charging details" },
+    ],
+  },
   "account-create": {
     topic: "general",
     question: "What kind of record are you trying to create?",
@@ -72,10 +83,10 @@ const SUPPORTED_CLARIFICATION_PROFILES = {
     question: "Which payment issue is closest?",
     context: "Supported payment issue routes.",
     options: [
+      { label: "Booking payment", value: "Clarification answer: Booking payment issue" },
+      { label: "Membership/bill payment", value: "Clarification answer: Membership or bill payment issue" },
       { label: "Refund a booking", value: "Clarification answer: Refund a booking" },
       { label: "Customer says they paid", value: "Clarification answer: Customer says they paid but it is not showing" },
-      { label: "Payment not showing", value: "Clarification answer: Payment not showing in BRS" },
-      { label: "Payment failed", value: "Clarification answer: Payment failed" },
       { label: "Payout or report", value: "Clarification answer: Payment payout or reporting issue" },
       { label: "Payment request", value: "Clarification answer: Payment request" },
     ],
@@ -111,6 +122,7 @@ const SUPPORTED_CLARIFICATION_PROFILES = {
     question: "Which competition task is closest?",
     context: "Supported competition routes. Open and regular competition guide overlap should stay hidden from users.",
     options: [
+      { label: "Charge or fees", value: "Clarification answer: Competition charging or fees" },
       { label: "People cannot book in", value: "Clarification answer: People cannot book into a competition" },
       { label: "Create or edit details", value: "Clarification answer: Create or edit competition details" },
       { label: "Draws or entry sheets", value: "Clarification answer: Competition draws or entry sheets" },
@@ -179,7 +191,13 @@ const fullPartialRefundOptions = [
 ];
 
 const topicSearchHints = {
-  teesheet: ["tee sheet booking timesheet", "booking details", "member visitor booking", "competition booking availability"],
+  teesheet: [
+    "tee sheet booking timesheet",
+    "booking details",
+    "member visitor booking",
+    "competition booking availability",
+    "competition purse members charge competition fees open competition visitor green fee",
+  ],
   payments: ["refund online payment", "BRS Payments transactions", "payment request refund", "competition purse payment"],
   memberships: ["member profile membership subscription bill", "member wallet payment scheme", "member online access"],
   "user-management": ["users permissions admin user", "create user reset password", "staff login roles"],
@@ -215,6 +233,9 @@ function saveSessionState(sessionId, state) { sessions.set(sessionId, { ...state
 function resetSessionState(sessionId) { const freshState = createDefaultState(); sessions.set(sessionId, freshState); return freshState; }
 function loadFile(filePath) { const fullPath = path.join(__dirname, filePath); return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : ""; }
 function escapeRegExp(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function uniqueValues(values) { return [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))]; }
+function hasAny(lower, terms) { return terms.some((term) => lower.includes(term)); }
+function normalise(text = "") { return String(text || "").toLowerCase(); }
 
 function decodeHtmlEntities(value = "") {
   return value.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
@@ -237,7 +258,6 @@ function stripHtml(html = "") {
 }
 
 function truncateText(value = "", limit = 2200) { return value.length > limit ? `${value.slice(0, limit).trim()}...` : value; }
-function uniqueValues(values) { return [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))]; }
 
 function parseJsonObject(text = "") {
   try {
@@ -290,14 +310,51 @@ function buildSearchMessage(message, state = {}) {
   return uniqueValues([state.clarificationContext || "", ...state.conversationHistory.slice(-6).map((item) => item.content || ""), message]).join(" ");
 }
 
+function isChargeOrFeeRequest(text) {
+  const lower = normalise(text);
+  return hasAny(lower, ["charge", "charging", "fee", "fees", "cost", "price", "pricing", "take payment", "payment", "paid", "purse"]);
+}
+
+function hasMemberAudience(text) {
+  const lower = normalise(text);
+  return hasAny(lower, ["member", "members", "member's", "members'"]);
+}
+
+function hasVisitorAudience(text) {
+  const lower = normalise(text);
+  return hasAny(lower, ["visitor", "visitors", "guest", "guests", "open competition", "open competitions", "public", "non-member", "non member"]);
+}
+
+function hasBothAudiences(text) {
+  const lower = normalise(text);
+  return hasAny(lower, ["both", "members and visitors", "visitors and members", "member and visitor", "visitor and member"]);
+}
+
+function isCompetitionRequest(text) { return normalise(text).includes("competition"); }
+function isCompetitionChargeRequest(text) { return isCompetitionRequest(text) && isChargeOrFeeRequest(text); }
+function hasCompetitionChargeAudience(text) { return hasMemberAudience(text) || hasVisitorAudience(text) || hasBothAudiences(text); }
+
 function getKeywordSearchQueries(message, topic, state = {}) {
-  const lower = message.toLowerCase();
-  const queries = [message, ...(topicSearchHints[topic] || []), state.clarificationContext || ""];
+  const lower = normalise(message);
+  const context = state.clarificationContext || "";
+  const contextLower = normalise(context);
+  const queries = [message, ...(topicSearchHints[topic] || []), context];
 
   if (lower.includes("account")) queries.push("admin staff user member profile account");
-  if (lower.includes("competition")) {
+  if (lower.includes("competition") || contextLower.includes("competition")) {
     queries.push("competition setup open competition member visitor booking draw entry sheet purse");
     queries.push("open competitions visitor booking competition entry payment purse");
+    queries.push("competition purse members charge competition fees");
+    queries.push("competition purse deduct member entry fee");
+    queries.push("open competition visitor green fee entry fee charge visitors");
+  }
+  if ((lower.includes("competition") || contextLower.includes("competition")) && (hasMemberAudience(lower) || contextLower.includes("members competition charging"))) {
+    queries.unshift("competition purse charge members competition entry fee");
+    queries.unshift("competition purse members payment competition charges");
+  }
+  if ((lower.includes("competition") || contextLower.includes("competition")) && (hasVisitorAudience(lower) || contextLower.includes("visitors open competition"))) {
+    queries.unshift("open competition visitor green fee entry fee charge");
+    queries.unshift("add open competition visitors green fee");
   }
   if (lower.includes("refund") || lower.includes("refund button") || lower.includes("can't refund") || lower.includes("cannot refund")) {
     queries.push("refund online payment booking details refund button");
@@ -325,7 +382,7 @@ function getKeywordSearchQueries(message, topic, state = {}) {
     queries.push("buggy management availability");
   }
 
-  return uniqueValues(queries).slice(0, 10);
+  return uniqueValues(queries).slice(0, 14);
 }
 
 async function getExpandedSearchQueries(message, topic, state = {}) {
@@ -334,11 +391,11 @@ async function getExpandedSearchQueries(message, topic, state = {}) {
     const response = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        { role: "system", content: "You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, guide categories, menu names, and article keywords. Do not answer the question." },
+        { role: "system", content: "You create BRS Golf Help Center search queries from vague support questions. Return only a JSON array of 3 to 5 short search strings. Use likely BRS product terms, guide categories, menu names, and article keywords. Do not answer the question. Preserve audience context such as members, visitors, open competitions, purse, bill, booking, or admin user when present." },
         { role: "user", content: `Topic: ${topic}\nClarification context: ${state.clarificationContext || "None"}\nUser question: ${message}` },
       ],
     });
-    return uniqueValues([...baseQueries, ...parseJsonArray(response.output_text)]).slice(0, 12);
+    return uniqueValues([...baseQueries, ...parseJsonArray(response.output_text)]).slice(0, 16);
   } catch (error) {
     console.error("Help Center query expansion failed:", error);
     return baseQueries;
@@ -363,6 +420,20 @@ async function searchHelpCenter(query) {
   return articles;
 }
 
+function scoreArticle(article, message, state = {}) {
+  const haystack = `${article.title} ${article.text} ${article.url}`.toLowerCase();
+  const request = `${message} ${state.clarificationContext || ""}`.toLowerCase();
+  let score = 0;
+  if (request.includes("competition") && haystack.includes("competition")) score += 4;
+  if (request.includes("purse") && haystack.includes("purse")) score += 5;
+  if (hasMemberAudience(request) && haystack.includes("purse")) score += 4;
+  if (hasMemberAudience(request) && haystack.includes("member")) score += 2;
+  if (hasVisitorAudience(request) && haystack.includes("open competition")) score += 4;
+  if (hasVisitorAudience(request) && haystack.includes("green fee")) score += 3;
+  if (isChargeOrFeeRequest(request) && hasAny(haystack, ["fee", "charge", "payment", "purse"])) score += 2;
+  return score;
+}
+
 async function getHelpCenterArticles(message, topic, state = {}) {
   const searchMessage = buildSearchMessage(message, state);
   const queries = await getExpandedSearchQueries(searchMessage, topic, state);
@@ -371,7 +442,7 @@ async function getHelpCenterArticles(message, topic, state = {}) {
   for (const article of batches.flat()) {
     if (!byUrl.has(article.url)) byUrl.set(article.url, article);
   }
-  return [...byUrl.values()].slice(0, 5);
+  return [...byUrl.values()].sort((a, b) => scoreArticle(b, searchMessage, state) - scoreArticle(a, searchMessage, state)).slice(0, 6);
 }
 
 function formatHelpCenterContext(articles) {
@@ -456,7 +527,7 @@ function routeMatchesMessage(route, message) {
 
 function getApprovedAnswer(topic, answerId) {
   const knowledge = loadFile(`data/knowledge/${topic}.txt`);
-  const answerRegex = new RegExp(`## APPROVED ANSWER:\\s*${escapeRegExp(answerId)}\\s*\\r?\\n([\\s\\S]*?)\\r?\\n## END APPROVED ANSWER`, "i");
+  const answerRegex = new RegExp(`## APPROVED ANSWER:\\s*${escapeRegExp(answerId)}\\s*\\r?\n([\\s\\S]*?)\\r?\n## END APPROVED ANSWER`, "i");
   return knowledge.match(answerRegex)?.[1]?.trim() || null;
 }
 
@@ -467,12 +538,12 @@ function getDirectAnswerForMessage(topic, message) {
 }
 
 function detectTopic(message) {
-  const lower = message.toLowerCase();
+  const lower = normalise(message);
+  if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) return "teesheet";
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
   if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet")) return "memberships";
   if (lower.includes("admin user") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
   if (lower.includes("buggy") || lower.includes("buggies")) return "admin-setup";
-  if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) return "teesheet";
   if (lower.includes("booking") || lower.includes("tee") || lower.includes("timesheet") || lower.includes("player") || lower.includes("green fee") || lower.includes("society") || lower.includes("move")) return "teesheet";
   if (lower.includes("configure") || lower.includes("setup") || lower.includes("email template") || lower.includes("green fee rate")) return "admin-setup";
   return "general";
@@ -497,12 +568,13 @@ RESPONSE STYLE:
 - If Help Center article context is provided, use it as product documentation and include the most relevant source link at the end.
 - You may translate vague user wording into likely BRS product terms and combine related source facts into practical troubleshooting steps.
 - Do not invent product workflows, buttons, menu items, prices, policies, or rules that are not present in the provided sources.
+- For competition charging: members use competition purse guidance; visitors/open competition entrants use visitor/open competition fee setup. If the audience is not known, ask who is being charged before answering.
 
 PRIORITY ORDER:
-1. Direct approved answers from local knowledge
-2. Relevant BRS Help Center article context
-3. Approved local support guidance
-4. Ask a clarification question if the request is ambiguous
+1. Audience/object clarification when the answer changes by audience or object
+2. Direct approved answers from local knowledge
+3. Relevant BRS Help Center article context
+4. Approved local support guidance
 5. Safe escalation if unsure
 
 TOPIC:
@@ -523,17 +595,17 @@ ${knowledge}
 }
 
 function isConversationEnd(message) {
-  const lower = message.toLowerCase();
+  const lower = normalise(message);
   return lower.includes("all good") || lower.includes("thanks") || lower.includes("thank you") || lower.includes("sorted") || lower.includes("that worked") || lower.includes("resolved");
 }
 
 function isRefundRequest(text) {
-  const lower = text.toLowerCase();
+  const lower = normalise(text);
   return lower.includes("refund") && (lower.includes("booking") || lower.includes("payment") || lower.includes("golfer") || lower.includes("customer"));
 }
 
 function isAdminUserCreateRequest(text) {
-  const lower = text.toLowerCase();
+  const lower = normalise(text);
   return (lower.includes("admin user") || lower.includes("staff user") || lower.includes("new user") || lower.includes("create user") || lower.includes("add user")) && (lower.includes("create") || lower.includes("add") || lower.includes("setup") || lower.includes("set up"));
 }
 
@@ -561,11 +633,11 @@ To change the password later:
 4. Use Change Password, or use Reset Password if an email address is saved for the user.`;
 }
 
-function isBuggyBookingRequest(text) { const lower = text.toLowerCase(); return lower.includes("buggy") || lower.includes("buggies"); }
-function isFullRefundAnswer(text) { const lower = text.toLowerCase(); return lower.includes("full refund") || lower === "full" || lower.includes("full amount"); }
-function isPartialRefundAnswer(text) { const lower = text.toLowerCase(); return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund"); }
-function isBrsPaymentAnswer(text) { const lower = text.toLowerCase(); return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes"); }
-function isNonBrsPaymentAnswer(text) { const lower = text.toLowerCase(); return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no"; }
+function isBuggyBookingRequest(text) { const lower = normalise(text); return lower.includes("buggy") || lower.includes("buggies"); }
+function isFullRefundAnswer(text) { const lower = normalise(text); return lower.includes("full refund") || lower === "full" || lower.includes("full amount"); }
+function isPartialRefundAnswer(text) { const lower = normalise(text); return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund"); }
+function isBrsPaymentAnswer(text) { const lower = normalise(text); return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes"); }
+function isNonBrsPaymentAnswer(text) { const lower = normalise(text); return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no"; }
 
 function approvedRefundReply(type = "refund") {
   const partialLine = type === "partial" ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund." : "The system will automatically add the full refundable amount for you to refund.";
@@ -602,7 +674,7 @@ Do not tell the customer the money has been returned until the offline refund ha
 }
 
 function isPaymentMissingScenario(text) {
-  const lower = text.toLowerCase();
+  const lower = normalise(text);
   const paymentTerms = lower.includes("paid") || lower.includes("payment") || lower.includes("money") || lower.includes("bank statement") || lower.includes("receipt") || lower.includes("proof of payment");
   const missingBookingTerms = lower.includes("no booking") || lower.includes("not on the teesheet") || lower.includes("not on tee sheet") || lower.includes("turned up") || lower.includes("booking not showing");
   const noRecordTerms = lower.includes("no record") || lower.includes("not showing") || lower.includes("can't see") || lower.includes("cant see") || lower.includes("cannot see") || lower.includes("no payment") || lower.includes("no transaction") || lower.includes("not in brs") || lower.includes("not in the system") || lower.includes("nothing there");
@@ -610,12 +682,12 @@ function isPaymentMissingScenario(text) {
 }
 
 function userConfirmedNoRecord(message) {
-  const lower = message.toLowerCase();
+  const lower = normalise(message);
   return lower.includes("no") || lower.includes("nothing") || lower.includes("no record") || lower.includes("no transaction") || lower.includes("not there") || lower.includes("cannot find") || lower.includes("can't find") || lower.includes("cant find");
 }
 
 function userConfirmedRecordFound(message) {
-  const lower = message.toLowerCase();
+  const lower = normalise(message);
   return lower.includes("yes") || lower.includes("found") || lower.includes("transaction found") || lower.includes("can see") || lower.includes("there is a transaction");
 }
 
@@ -638,9 +710,9 @@ Kind regards` };
 }
 
 function isFreshAmbiguousRootQuestion(message) {
-  const lower = message.toLowerCase();
+  const lower = normalise(message);
   const startsLikeNewQuestion = /^(how|what|why|where|when|can|could|i need|help|please)\b/.test(lower);
-  const ambiguousRootTerms = ["account", "setup", "set up", "not working", "can't book", "cant book", "cannot book", "won't let", "wont let", "issue", "problem", "access"];
+  const ambiguousRootTerms = ["account", "setup", "set up", "not working", "can't book", "cant book", "cannot book", "won't let", "wont let", "issue", "problem", "access", "charge", "fee", "fees", "payment", "competition"];
   return startsLikeNewQuestion && ambiguousRootTerms.some((term) => lower.includes(term));
 }
 
@@ -653,17 +725,31 @@ function resetClarificationForNewRootQuestion(state) {
   }
 }
 
+function needsAudienceOrObjectClarification(message, topic, state) {
+  const lower = normalise(message);
+  if (state.clarificationContext && !isFreshAmbiguousRootQuestion(message)) return null;
+  if (isCompetitionChargeRequest(message) && !hasCompetitionChargeAudience(message)) return "competition-charge";
+  if (lower.includes("competition") && hasAny(lower, ["charge or fees", "charging or fees", "purse or payments"])) return "competition-charge";
+  if ((lower.includes("create") || lower.includes("add") || lower.includes("new")) && lower.includes("account") && !hasAny(lower, ["admin", "staff", "member"])) return "account-create";
+  if (isChargeOrFeeRequest(message) && !lower.includes("competition") && hasAny(lower, ["payment", "paid", "charge", "fee"]) && !hasAny(lower, ["booking", "bill", "membership", "subscription", "refund", "payout"]) && topic === "payments") return "payment-issue";
+  return null;
+}
+
 function isBroadOrAmbiguous(message, topic, state) {
+  if (needsAudienceOrObjectClarification(message, topic, state)) return true;
   if (state.clarificationContext && !isFreshAmbiguousRootQuestion(message)) return false;
-  const lower = message.toLowerCase();
+  const lower = normalise(message);
   const ambiguousTerms = ["account", "setup", "set up", "not working", "can't book", "cant book", "cannot book", "won't let", "wont let", "issue", "problem", "help", "access"];
   if (topic === "general") return true;
   return ambiguousTerms.some((term) => lower.includes(term)) && lower.split(/\s+/).length <= 10;
 }
 
-function heuristicClarificationProfile(message, topic) {
-  const lower = message.toLowerCase();
+function heuristicClarificationProfile(message, topic, state = {}) {
+  const lower = normalise(message);
+  const specificClarification = needsAudienceOrObjectClarification(message, topic, state);
+  if (specificClarification) return specificClarification;
   if ((lower.includes("create") || lower.includes("add") || lower.includes("new")) && lower.includes("account")) return "account-create";
+  if (isCompetitionChargeRequest(message)) return "competition-charge";
   if (lower.includes("competition")) return "competition-issue";
   if (lower.includes("can't book") || lower.includes("cant book") || lower.includes("cannot book") || lower.includes("won't let") || lower.includes("wont let") || lower.includes("not visible") || lower.includes("availability")) return "booking-access";
   if (lower.includes("refund") || lower.includes("payment") || lower.includes("paid") || lower.includes("payout") || lower.includes("transaction")) return "payment-issue";
@@ -680,7 +766,7 @@ function heuristicClarificationProfile(message, topic) {
 }
 
 async function classifyClarificationProfile(message, topic, state, reason) {
-  const heuristic = heuristicClarificationProfile(message, topic);
+  const heuristic = heuristicClarificationProfile(message, topic, state);
   if (heuristic !== "unsupported") return heuristic;
 
   try {
@@ -689,7 +775,7 @@ async function classifyClarificationProfile(message, topic, state, reason) {
       input: [
         { role: "system", content: `Choose one supported clarification profile for a BRS Golf support chatbot. Return only JSON: {"profile":"profile-id"}.
 
-You may only choose one of these IDs. Do not invent IDs, questions, or buttons. If none fit, choose unsupported.
+You may only choose one of these IDs. Do not invent IDs, questions, or buttons. If none fit, choose unsupported. Prefer a more specific audience/object clarification profile over a broad topic profile when the answer depends on who or what the request is about.
 
 ${PROFILE_DESCRIPTIONS}
 unsupported: no supported profile fits` },
@@ -717,7 +803,12 @@ function appendClarificationToMessage(message) {
 }
 
 function applyClarificationAnswerToState(state, message) {
-  state.clarificationContext = uniqueValues([state.clarificationContext || "", `User selected: ${message}`]).join(" | ");
+  const lower = normalise(message);
+  const extraContext = [];
+  if (lower.includes("members competition charging") || (lower.includes("competition") && lower.includes("members"))) extraContext.push("Audience: members. Route competition charging to competition purse guidance.");
+  if (lower.includes("visitors open competition") || (lower.includes("competition") && lower.includes("visitors"))) extraContext.push("Audience: visitors/open competition entrants. Route competition charging to visitor/open competition fee setup.");
+  if (lower.includes("both") && lower.includes("competition")) extraContext.push("Audience: both members and visitors. Explain member purse route separately from visitor/open competition fee setup.");
+  state.clarificationContext = uniqueValues([state.clarificationContext || "", `User selected: ${message}`, ...extraContext]).join(" | ");
 }
 
 app.get("/api/health", (req, res) => { res.json({ ok: true, version: APP_VERSION }); });
@@ -740,7 +831,7 @@ app.post("/api/chat", async (req, res) => {
 
     clearStaleStateForMessage(state, message);
 
-    const detectedTopic = detectTopic(message);
+    const detectedTopic = detectTopic(`${state.clarificationContext || ""} ${message}`);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
     const topic = detectedTopic !== "general" ? detectedTopic : (state.currentTopic || detectedTopic);
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
@@ -808,6 +899,14 @@ app.post("/api/chat", async (req, res) => {
       return res.json({ reply, escalationReady: false, topic: "payments", options: transactionOptions, version: APP_VERSION });
     }
 
+    if (!wasClarificationAnswer && isBroadOrAmbiguous(message, topic, state)) {
+      state.conversationHistory.push({ role: "user", content: message });
+      const clarification = await createSupportedClarification(message, topic, state, "The request uses broad wording or the answer depends on an audience/object that is not yet specified.");
+      state.conversationHistory.push({ role: "assistant", content: clarification.reply });
+      saveSessionState(sessionId, state);
+      return res.json(clarification);
+    }
+
     if (isRefundRequest(message)) {
       state.currentTopic = "payments";
       state.clarificationContext = uniqueValues([state.clarificationContext || "", "Booking refund"]).join(" | ");
@@ -835,14 +934,6 @@ app.post("/api/chat", async (req, res) => {
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "user-management", options: [], version: APP_VERSION });
-    }
-
-    if (isBroadOrAmbiguous(message, topic, state)) {
-      state.conversationHistory.push({ role: "user", content: message });
-      const clarification = await createSupportedClarification(message, topic, state, "The request uses broad or ambiguous wording.");
-      state.conversationHistory.push({ role: "assistant", content: clarification.reply });
-      saveSessionState(sessionId, state);
-      return res.json(clarification);
     }
 
     const directAnswer = getDirectAnswerForMessage(topic, buildSearchMessage(message, state));
