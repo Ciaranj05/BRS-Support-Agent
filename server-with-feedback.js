@@ -25,6 +25,9 @@ app.post("/api/resolved-interactions", async (req, res) => {
       conversationId: req.body?.conversationId,
       resolvedBy: req.body?.resolvedBy || "user",
       topic: req.body?.topic || null,
+      resolved: req.body?.resolved ?? true,
+      escalated: req.body?.escalated ?? false,
+      comment: req.body?.comment || "",
       conversationHistory: req.body?.conversationHistory || [],
     });
     res.status(201).json({ ok: true, resolvedInteraction });
