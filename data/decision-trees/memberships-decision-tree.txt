@@ -10,6 +10,19 @@ ANSWER ID: create-member-profile-account
 
 ---
 
+## CROSS-TOPIC OVERRIDE
+
+Treat the latest typed clarification as more important than earlier button context.
+
+If the latest message mentions employee, staff, colleague, worker, receptionist, office user, pro shop user, read-only, view-only, can see bookings, can view the tee sheet, or can see what bookings are there each day:
+-> Do not ask which membership area is closest.
+-> Route to user-management.
+-> If the user only needs to view bookings or the tee sheet and should not save changes, use StaffReadOnly.
+
+Only use this memberships tree when the latest message is actually about member profiles, bills, subscriptions, payment schemes, wallets/account balances, member access, or membership settings.
+
+---
+
 ## COMMON WORDING MAP
 
 Treat these user phrases as the matching supported membership route. Do not create new account/payment/setup types from the wording.
@@ -485,6 +498,7 @@ Always:
 - Confirm before changing subscriptions/status/settings
 - Use the cog/settings icon wording for Memberships settings
 - Translate common user wording to the supported membership route before asking another broad question
+- Hand off employee/staff access wording to user-management instead of showing membership-area buttons
 
 Never:
 - Assume missing payment before checking allocation
@@ -495,3 +509,4 @@ Never:
 - Say unpaid bills never automatically deactivate members
 - Send subscription cycle questions to subscription creation
 - Invent visitor or payment account routes for member profile/account questions
+- Route employee, staff, colleague, read-only, or view-bookings access questions to membership areas
