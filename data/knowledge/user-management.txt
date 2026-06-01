@@ -1,4 +1,4 @@
-# USER MANAGEMENT – SUPPORT KNOWLEDGE
+# USER MANAGEMENT - SUPPORT KNOWLEDGE
 
 Use this knowledge for users, admins, staff access, login issues, permissions, roles, and deactivating users.
 
@@ -10,23 +10,30 @@ Always confirm the user and the access level before advising changes.
 
 Do not remove or change user access without confirmation.
 
+Only guide users to role/access options that are documented here. Do not invent account types or payment/setup accounts.
+
 ---
 
-## USER ROLES
+## USER GROUPS
 
-Common role types:
+Supported BRS user groups:
 
-- Superuser
-- Admin
-- Staff
-- Read Only
+- Admin: overall control of the system. Cannot add other Admin users.
+- Staff: can complete most day-to-day tasks, but cannot access the Tools menu or Revenue Reports.
+- StaffReadOnly: can view but cannot save changes.
+- Member: can only log in through the Members Booking pages to view or book tee times.
 
-Role meaning:
+Treat these as the same StaffReadOnly intent:
 
-- Superuser: highest access level
-- Admin: management access
-- Staff: operational access
-- Read Only: viewing access only
+- staffreadonly
+- staff read only
+- staff read-only
+- read only staff
+- view only staff
+- can read or view the tee sheet but cannot change settings
+- can see the timesheet but cannot edit or save changes
+
+If the user asks for an account that can view the tee sheet/timesheet but not change settings, guide them to create an Admin or Staff user and select the StaffReadOnly user group.
 
 If unsure which role is needed, ask what the user needs to do in the system.
 
@@ -38,17 +45,17 @@ Before adding a user, confirm:
 
 - Name
 - Email address
-- Required access level
+- Required access level or user group
 - Club/location if relevant
 
 Steps:
 
-1. Go to user/admin settings
-2. Create new user
-3. Enter user details
-4. Assign role
-5. Save
-6. Ask user to check login email or password setup
+1. Go to Users >> Add New
+2. Click the dropdown beside User Group
+3. Choose the correct user group
+4. Complete the required fields: User Group, Username, Membership Type, First Name, and Last Name
+5. Complete Password and Re-type Password to set the user password
+6. Click Create New User
 
 Escalate if user cannot be created or email already exists.
 
@@ -59,17 +66,18 @@ Escalate if user cannot be created or email already exists.
 Before changing permissions, confirm:
 
 - User name/email
-- Current role
-- Required role
+- Current user group
+- Required user group
 - Reason for change
 
 Steps:
 
-1. Open user/admin settings
-2. Find the user
-3. Update role/permissions
-4. Save
-5. Ask user to log out and back in if needed
+1. Go to Users
+2. Click Find User
+3. Open the user from the list
+4. Update the user group or permissions
+5. Save
+6. Ask the user to log out and back in if needed
 
 Escalate if permissions do not apply after saving.
 
@@ -120,9 +128,10 @@ If user cannot be added due to limit:
 
 ---
 
-## COMMON CAUSE → EFFECT
+## COMMON CAUSE -> EFFECT
 
-- Incorrect role may hide features
+- Incorrect user group may hide features
+- StaffReadOnly users can view but cannot save changes
 - Inactive account prevents login
 - Wrong email prevents password reset
 - Browser/cache may affect session after permission changes
