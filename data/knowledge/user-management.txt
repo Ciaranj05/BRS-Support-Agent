@@ -1,6 +1,6 @@
 # USER MANAGEMENT - SUPPORT KNOWLEDGE
 
-Use this knowledge for users, admins, staff access, login issues, permissions, roles, and deactivating users.
+Use this knowledge for users, admins, staff access, employee access, login issues, permissions, roles, and deactivating users.
 
 ---
 
@@ -11,6 +11,8 @@ Always confirm the user and the access level before advising changes.
 Do not remove or change user access without confirmation.
 
 Only guide users to role/access options that are documented here. Do not invent account types or payment/setup accounts.
+
+If the latest user message clearly describes an employee, staff member, colleague, worker, receptionist, pro shop user, office user, or someone who needs access to see bookings or the tee sheet, treat it as user-management even if earlier clarification context mentioned members or member profiles.
 
 ---
 
@@ -30,10 +32,21 @@ Treat these as the same StaffReadOnly intent:
 - staff read-only
 - read only staff
 - view only staff
+- read-only employee
+- view-only employee
+- new employee can see bookings
+- employee can view bookings
+- employee can see the tee sheet
+- colleague can see bookings but cannot change anything
+- receptionist can view the diary or tee sheet only
+- pro shop user can view bookings only
 - can read or view the tee sheet but cannot change settings
 - can see the timesheet but cannot edit or save changes
+- can see what bookings are there each day
 
-If the user asks for an account that can view the tee sheet/timesheet but not change settings, guide them to create an Admin or Staff user and select the StaffReadOnly user group.
+If the user asks for an account that can view the tee sheet/timesheet/bookings but not change settings, guide them to create an Admin or Staff user and select the StaffReadOnly user group.
+
+If the user says the employee needs to change bookings or complete day-to-day work, use Staff instead of StaffReadOnly.
 
 If unsure which role is needed, ask what the user needs to do in the system.
 
