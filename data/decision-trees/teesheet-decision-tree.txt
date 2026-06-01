@@ -1,16 +1,83 @@
-# TEESHEET – DECISION TREE
+# TEESHEET - DECISION TREE
 
 Use this for tee sheet, booking, player, cancellation, moving booking, and booking visibility issues.
+
+---
+
+## COMMON WORDING MAP
+
+Treat these user phrases as the matching supported tee sheet route. Do not create new routes or ask extra follow-up questions if one of these clearly matches.
+
+Booking not found:
+- cannot find booking
+- booking disappeared
+- booking missing
+- booking is gone
+- not on the tee sheet
+- not on the timesheet
+- customer says they booked but I cannot see it
+
+Move booking:
+- move booking
+- transfer booking
+- reschedule booking
+- change booking time
+- change tee time
+- move to another day
+- move to another tee time
+- keep payment attached when moving
+
+Cancel booking:
+- cancel booking
+- remove booking
+- delete booking
+- booking no longer needed
+
+Change players:
+- add player
+- add golfer
+- remove player
+- remove golfer
+- change number of players
+- change golfers on booking
+
+Booking payment status:
+- red booking
+- blue booking
+- green booking
+- yellow booking
+- payment colour
+- payment icon
+- booking showing unpaid
+- booking showing overpaid
+- booking part paid
+
+Tee time / booking not visible online:
+- tee time not online
+- slot not online
+- no availability online
+- members cannot see tee time
+- visitors cannot see tee time
+- cannot book online
+- no slots showing
+- times not showing
+
+Competition booking availability:
+- people cannot book into competition
+- competition not available online
+- competition tee times not showing
+- entrants cannot enter competition
+- open competition not bookable
 
 ---
 
 ## 1. IDENTIFY BOOKING ISSUE
 
 IF user issue is clear:
-→ Go directly to matching section.
+-> Go directly to matching section.
 
 IF unclear, ask:
-“Is this about finding a booking, cancelling, moving a booking, changing players, or tee sheet visibility?”
+"Is this about finding a booking, cancelling, moving a booking, changing players, or tee sheet visibility?"
 
 ---
 
@@ -19,7 +86,7 @@ IF unclear, ask:
 IF booking cannot be found:
 
 Ask:
-“Can you confirm the booking date and tee time?”
+"Can you confirm the booking date and tee time?"
 
 Then check:
 1. Correct date
@@ -29,7 +96,7 @@ Then check:
 5. Whether booking was moved or cancelled
 
 IF still cannot be found:
-→ Escalate.
+-> Escalate.
 
 Important:
 - Confirm date/time before checking payments.
@@ -55,7 +122,7 @@ Then guide:
 4. Cancel booking
 
 IF payment exists:
-→ Use payments/refund decision tree.
+-> Use payments/refund decision tree.
 
 Escalate if cancellation fails or refund status is unclear.
 
@@ -64,10 +131,10 @@ Escalate if cancellation fails or refund status is unclear.
 ## 4. MOVE BOOKING
 
 IF user asks how to move, transfer, or reschedule a booking:
-→ Answer directly with the Cut and Paste process below.
-→ Do not ask whether it is for the same day or a different day.
-→ Do not ask whether the booking is for a member or visitor.
-→ Do not ask whether it is a single booking or group booking unless the user has already said the standard Cut and Paste process does not work for their case.
+-> Answer directly with the Cut and Paste process below.
+-> Do not ask whether it is for the same day or a different day.
+-> Do not ask whether the booking is for a member or visitor.
+-> Do not ask whether it is a single booking or group booking unless the user has already said the standard Cut and Paste process does not work for their case.
 
 The process is the same for member bookings, visitor bookings, same-day moves, and different-day moves.
 
@@ -93,7 +160,7 @@ Important:
 - Never tell users to click a slot to drop the booking.
 
 IF payment total changes:
-→ Use payments decision tree.
+-> Use payments decision tree.
 
 Escalate if booking cannot be moved or payment status becomes inconsistent.
 
@@ -131,7 +198,7 @@ Then guide:
 4. Check payment status
 
 IF overpayment is created:
-→ Use payments/refund decision tree.
+-> Use payments/refund decision tree.
 
 ---
 
@@ -152,7 +219,7 @@ Then guide:
 4. Check allocation
 
 IF payment exists but status looks wrong:
-→ Use payments decision tree.
+-> Use payments decision tree.
 
 ---
 
@@ -169,7 +236,7 @@ Check:
 6. Online booking settings
 
 IF it should be visible but is not:
-→ Escalate.
+-> Escalate.
 
 ---
 
@@ -185,7 +252,7 @@ Check:
 5. Booking notes
 
 IF payment involved:
-→ Use payments decision tree.
+-> Use payments decision tree.
 
 ---
 
@@ -209,6 +276,7 @@ Always:
 - Confirm before cancellation/removal
 - Check payment impact after changes
 - For moving bookings, give the Cut from inside Booking Details and Paste process directly
+- Treat tee sheet and timesheet as the same area
 
 Never:
 - Jump to payment checks before confirming booking date/time
