@@ -33,6 +33,9 @@ async function ensureDatabaseSchema() {
         conversation_id TEXT,
         topic TEXT,
         resolved_by TEXT NOT NULL DEFAULT 'user',
+        resolved BOOLEAN NOT NULL DEFAULT TRUE,
+        escalated BOOLEAN NOT NULL DEFAULT FALSE,
+        comment TEXT NOT NULL DEFAULT '',
         resolved_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         conversation_history JSONB NOT NULL DEFAULT '[]'::jsonb
       );
@@ -52,6 +55,11 @@ async function ensureDatabaseSchema() {
       CREATE INDEX IF NOT EXISTS idx_resolved_interactions_resolved_at ON resolved_interactions(resolved_at DESC);
       CREATE INDEX IF NOT EXISTS idx_survey_responses_score ON survey_responses(score);
     `);
+    schemaReady = schemaReady.then(() => db.query(`
+      ALTER TABLE resolved_interactions ADD COLUMN IF NOT EXISTS resolved BOOLEAN NOT NULL DEFAULT TRUE;
+      ALTER TABLE resolved_interactions ADD COLUMN IF NOT EXISTS escalated BOOLEAN NOT NULL DEFAULT FALSE;
+      ALTER TABLE resolved_interactions ADD COLUMN IF NOT EXISTS comment TEXT NOT NULL DEFAULT '';
+    `));
   }
   await schemaReady;
 }
@@ -156,6 +164,9 @@ function rowToResolvedInteraction(row) {
     conversationId: row.conversation_id,
     topic: row.topic,
     resolvedBy: row.resolved_by,
+    resolved: row.resolved ?? true,
+    escalated: row.escalated ?? false,
+    comment: row.comment || "",
     resolvedAt: row.resolved_at instanceof Date ? row.resolved_at.toISOString() : row.resolved_at,
     conversationHistory: row.conversation_history || [],
   };
@@ -174,16 +185,16 @@ function rowToSurveyResponse(row) {
   };
 }
 
-async function recordResolvedInteractionInDatabase({ sessionId, conversationId, resolvedBy = "user", topic = null, conversationHistory = [] }) {
+async function recordResolvedInteractionInDatabase({ sessionId, conversationId, resolvedBy = "user", topic = null, resolved = true, escalated = false, comment = "", conversationHistory = [] }) {
   await ensureDatabaseSchema();
   const db = getPool();
   const id = randomUUID();
   const history = serialiseHistory(conversationHistory);
   const result = await db.query(
-    `INSERT INTO resolved_interactions (id, session_id, conversation_id, topic, resolved_by, conversation_history)
-     VALUES ($1, $2, $3, $4, $5, $6::jsonb)
+    `INSERT INTO resolved_interactions (id, session_id, conversation_id, topic, resolved_by, resolved, escalated, comment, conversation_history)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb)
      RETURNING *`,
-    [id, sessionId || "unknown-session", conversationId || sessionId || null, topic, resolvedBy, JSON.stringify(history)]
+    [id, sessionId || "unknown-session", conversationId || sessionId || null, topic, resolvedBy, Boolean(resolved), Boolean(escalated), String(comment || "").trim(), JSON.stringify(history)]
   );
   return rowToResolvedInteraction(result.rows[0]);
 }
@@ -205,8 +216,8 @@ async function recordSurveyScoreInDatabase({ resolvedInteractionId, sessionId, c
 
     if (!resolvedInteraction) {
       const created = await client.query(
-        `INSERT INTO resolved_interactions (id, session_id, conversation_id, topic, resolved_by, conversation_history)
-         VALUES ($1, $2, $3, $4, 'user', $5::jsonb)
+        `INSERT INTO resolved_interactions (id, session_id, conversation_id, topic, resolved_by, resolved, escalated, conversation_history)
+         VALUES ($1, $2, $3, $4, 'user', TRUE, FALSE, $5::jsonb)
          RETURNING *`,
         [randomUUID(), sessionId || "unknown-session", conversationId || sessionId || null, topic, JSON.stringify(serialiseHistory(conversationHistory))]
       );
@@ -251,7 +262,10 @@ async function getSurveyMetricsFromDatabase(options = {}) {
   const [totals, scores, recent] = await Promise.all([
     db.query(`
       SELECT
-        COUNT(ri.id)::int AS total_resolved,
+        COUNT(ri.id)::int AS total_queries,
+        COUNT(*) FILTER (WHERE ri.resolved)::int AS total_resolved,
+        COUNT(*) FILTER (WHERE NOT ri.resolved)::int AS total_not_resolved,
+        COUNT(*) FILTER (WHERE ri.escalated)::int AS total_escalated,
         COUNT(sr.id)::int AS total_survey_responses,
         ROUND(AVG(sr.score)::numeric, 2)::float AS average_score
       FROM resolved_interactions ri
@@ -271,6 +285,9 @@ async function getSurveyMetricsFromDatabase(options = {}) {
         ri.session_id,
         ri.conversation_id,
         ri.topic,
+        ri.resolved,
+        ri.escalated,
+        ri.comment AS outcome_comment,
         ri.resolved_at,
         sr.score,
         sr.comment,
@@ -283,15 +300,22 @@ async function getSurveyMetricsFromDatabase(options = {}) {
     `, filter.values),
   ]);
 
+  const totalQueries = totals.rows[0]?.total_queries || 0;
   const totalResolved = totals.rows[0]?.total_resolved || 0;
+  const totalNotResolved = totals.rows[0]?.total_not_resolved || 0;
+  const totalEscalated = totals.rows[0]?.total_escalated || 0;
   const totalSurveyResponses = totals.rows[0]?.total_survey_responses || 0;
   const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, score) => [String(score), 0]));
   for (const row of scores.rows) scoreCounts[String(row.score)] = row.count;
 
   return {
+    totalQueries,
     totalResolved,
+    totalNotResolved,
+    totalEscalated,
     totalSurveyResponses,
     responseRate: totalResolved ? totalSurveyResponses / totalResolved : 0,
+    resolutionRate: totalQueries ? totalResolved / totalQueries : 0,
     averageScore: totals.rows[0]?.average_score ?? null,
     scoreCounts,
     recentResponses: recent.rows.map((row) => ({
@@ -299,6 +323,9 @@ async function getSurveyMetricsFromDatabase(options = {}) {
       sessionId: row.session_id,
       conversationId: row.conversation_id,
       topic: row.topic,
+      resolved: row.resolved ?? true,
+      escalated: row.escalated ?? false,
+      outcomeComment: row.outcome_comment || "",
       resolvedAt: row.resolved_at instanceof Date ? row.resolved_at.toISOString() : row.resolved_at,
       score: row.score ?? null,
       comment: row.comment || "",
@@ -317,6 +344,9 @@ export async function recordResolvedInteraction(payload) {
       conversationId: payload.conversationId || payload.sessionId || null,
       topic: payload.topic || null,
       resolvedBy: payload.resolvedBy || "user",
+      resolved: payload.resolved ?? true,
+      escalated: payload.escalated ?? false,
+      comment: String(payload.comment || "").trim(),
       resolvedAt: now,
       conversationHistory: serialiseHistory(payload.conversationHistory),
     };
@@ -341,6 +371,9 @@ export async function recordSurveyScore(payload) {
         conversationId: payload.conversationId || payload.sessionId || null,
         topic: payload.topic || null,
         resolvedBy: "user",
+        resolved: true,
+        escalated: false,
+        comment: "",
         resolvedAt: now,
         conversationHistory: serialiseHistory(payload.conversationHistory),
       };
@@ -374,7 +407,10 @@ export async function getSurveyMetrics(options = {}) {
   const filteredInteractions = store.resolvedInteractions.filter((interaction) => dateInRange(interaction.resolvedAt, range));
   const filteredInteractionIds = new Set(filteredInteractions.map((interaction) => interaction.id));
   const filteredResponses = store.surveyResponses.filter((response) => filteredInteractionIds.has(response.resolvedInteractionId));
-  const totalResolved = filteredInteractions.length;
+  const totalQueries = filteredInteractions.length;
+  const totalResolved = filteredInteractions.filter((interaction) => interaction.resolved !== false).length;
+  const totalNotResolved = filteredInteractions.filter((interaction) => interaction.resolved === false).length;
+  const totalEscalated = filteredInteractions.filter((interaction) => interaction.escalated === true).length;
   const totalSurveyResponses = filteredResponses.length;
   const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, score) => [String(score), 0]));
   let scoreTotal = 0;
@@ -398,6 +434,9 @@ export async function getSurveyMetrics(options = {}) {
         sessionId: interaction.sessionId,
         conversationId: interaction.conversationId,
         topic: interaction.topic,
+        resolved: interaction.resolved ?? true,
+        escalated: interaction.escalated ?? false,
+        outcomeComment: interaction.comment || "",
         resolvedAt: interaction.resolvedAt,
         score: response?.score ?? null,
         comment: response?.comment || "",
@@ -406,9 +445,13 @@ export async function getSurveyMetrics(options = {}) {
     });
 
   return {
+    totalQueries,
     totalResolved,
+    totalNotResolved,
+    totalEscalated,
     totalSurveyResponses,
     responseRate: totalResolved ? totalSurveyResponses / totalResolved : 0,
+    resolutionRate: totalQueries ? totalResolved / totalQueries : 0,
     averageScore: totalSurveyResponses ? Number((scoreTotal / totalSurveyResponses).toFixed(2)) : null,
     scoreCounts,
     recentResponses,
