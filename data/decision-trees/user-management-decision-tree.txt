@@ -1,4 +1,4 @@
-# USER MANAGEMENT – DECISION TREE
+# USER MANAGEMENT - DECISION TREE
 
 Use this for users, admins, staff access, login issues, permissions, roles, and deactivating users.
 
@@ -7,10 +7,12 @@ Use this for users, admins, staff access, login issues, permissions, roles, and 
 ## 1. IDENTIFY USER ISSUE
 
 IF issue is clear:
-→ Go directly to matching section.
+-> Go directly to matching section.
 
 IF unclear, ask:
-“Is this about adding a user, changing permissions, login access, deactivating a user, or user limits?”
+"Is this about adding a user, changing permissions, login access, deactivating a user, or user limits?"
+
+If the user mentions staffreadonly, staff read only, view only staff, read only staff, or an account that can view/read the tee sheet or timesheet but cannot change settings, treat this as an ADD USER or ROLE SELECTION question for the StaffReadOnly user group.
 
 ---
 
@@ -21,16 +23,22 @@ IF adding a user:
 Confirm:
 1. Name
 2. Email address
-3. Required role/access level
+3. Required user group/access level
 4. Club/location if relevant
 
 Then guide:
-1. Open user/admin settings
-2. Create new user
-3. Enter details
-4. Assign role
-5. Save
-6. Ask user to check login/password setup email
+1. Go to Users >> Add New
+2. Click the dropdown beside User Group
+3. Choose the correct user group
+4. Complete the required fields: User Group, Username, Membership Type, First Name, and Last Name
+5. Complete Password and Re-type Password
+6. Click Create New User
+
+Supported user groups:
+- Admin: overall control of the system. Cannot add other Admin users.
+- Staff: can complete most day-to-day tasks, but cannot access the Tools menu or Revenue Reports.
+- StaffReadOnly: can view but cannot save changes.
+- Member: can only log in through the Members Booking pages to view or book tee times.
 
 Escalate if:
 - User cannot be created
@@ -45,16 +53,17 @@ IF changing permissions:
 
 Confirm:
 1. User name/email
-2. Current role
-3. Required role
+2. Current user group
+3. Required user group
 4. Reason for change
 
 Then guide:
-1. Open user/admin settings
-2. Find user
-3. Update role/permissions
-4. Save
-5. Ask user to log out and back in
+1. Go to Users
+2. Click Find User
+3. Open the user from the list
+4. Update the user group/permissions
+5. Save
+6. Ask user to log out and back in
 
 Escalate if permissions do not apply after saving.
 
@@ -89,14 +98,14 @@ Check:
 1. Correct email address
 2. User account exists
 3. Account is active
-4. Correct role/access
+4. Correct user group/access
 5. Password reset if needed
 
 IF multiple users cannot log in:
-→ Escalate.
+-> Escalate.
 
 IF one user still cannot log in after checks:
-→ Escalate.
+-> Escalate.
 
 ---
 
@@ -118,14 +127,14 @@ Escalate if limit needs review.
 IF user asks what role to assign:
 
 Ask:
-“What does the user need to do in the system?”
+"What does the user need to do in the system?"
 
 Then map:
 
-- Full admin control → Superuser
-- Management tasks → Admin
-- Operational tasks → Staff
-- View only → Read Only
+- Overall control of the system -> Admin
+- Most day-to-day tasks without Tools menu or Revenue Reports -> Staff
+- View only / cannot save changes / read the tee sheet but not change settings -> StaffReadOnly
+- Members Booking pages only -> Member
 
 ---
 
@@ -148,8 +157,10 @@ Always:
 - Confirm user before making changes
 - Confirm role/access level
 - Treat access issues carefully
+- Use only documented user groups
 
 Never:
 - Remove/deactivate without confirmation
 - Guess required permissions
+- Invent unsupported account types
 - Ignore possible security impact
