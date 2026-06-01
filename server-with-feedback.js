@@ -55,7 +55,7 @@ app.post("/api/feedback", async (req, res) => {
 
 app.get("/api/admin/survey-metrics", async (req, res) => {
   try {
-    res.json(await getSurveyMetrics());
+    res.json(await getSurveyMetrics({ startDate: req.query?.startDate, endDate: req.query?.endDate }));
   } catch (error) {
     console.error("Survey metrics failed:", error);
     res.status(500).json({ ok: false, error: "Unable to load survey metrics." });
