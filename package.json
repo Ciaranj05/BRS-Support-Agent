@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "description": "",
-  "main": "server.js",
+  "main": "server-with-feedback.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "node --check server-with-feedback.js && node --check feedbackStore.js",
+    "start": "node server-with-feedback.js"
   },
   "keywords": [],
   "author": "",
