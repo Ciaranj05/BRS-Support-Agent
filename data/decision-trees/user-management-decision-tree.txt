@@ -1,6 +1,6 @@
 # USER MANAGEMENT - DECISION TREE
 
-Use this for users, admins, staff access, login issues, permissions, roles, and deactivating users.
+Use this for users, admins, staff access, employee access, login issues, permissions, roles, and deactivating users.
 
 ---
 
@@ -11,6 +11,8 @@ IF issue is clear:
 
 IF unclear, ask:
 "Is this about adding a user, changing permissions, login access, deactivating a user, or user limits?"
+
+Treat the latest user message as the strongest routing signal. If the latest message mentions employee, staff, colleague, worker, receptionist, office user, pro shop user, read-only, view-only, can see bookings, can view the tee sheet, or can see what bookings are there each day, route to this user-management tree even if earlier clarification text mentioned members or member profiles.
 
 If the user mentions staffreadonly, staff read only, view only staff, read only staff, or an account that can view/read the tee sheet or timesheet but cannot change settings, treat this as an ADD USER or ROLE SELECTION question for the StaffReadOnly user group.
 
@@ -126,15 +128,20 @@ Escalate if limit needs review.
 
 IF user asks what role to assign:
 
-Ask:
-"What does the user need to do in the system?"
+If the user only needs to view bookings, tee sheet, or daily bookings and should not save changes:
+-> Use StaffReadOnly.
 
-Then map:
+If the user needs to complete day-to-day booking/admin tasks but should not access Tools or Revenue Reports:
+-> Use Staff.
 
-- Overall control of the system -> Admin
-- Most day-to-day tasks without Tools menu or Revenue Reports -> Staff
-- View only / cannot save changes / read the tee sheet but not change settings -> StaffReadOnly
-- Members Booking pages only -> Member
+If the user needs overall system control:
+-> Use Admin.
+
+If the user only needs the Members Booking pages:
+-> Use Member.
+
+If the access level is still unclear, ask:
+"Does the user only need to view bookings, or do they also need to make changes?"
 
 ---
 
@@ -158,9 +165,11 @@ Always:
 - Confirm role/access level
 - Treat access issues carefully
 - Use only documented user groups
+- Let the latest typed clarification override stale wording from earlier button prompts
 
 Never:
 - Remove/deactivate without confirmation
 - Guess required permissions
 - Invent unsupported account types
 - Ignore possible security impact
+- Route employee/staff access questions to membership billing/profile areas
