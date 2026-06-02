@@ -88,11 +88,14 @@ function isBrsSupportContactRequest(text = "") {
   const supportIdentityTerms = [
     "brs support",
     "brs customer support",
+    "brs technical support",
+    "brs technical support team",
     "brs helpdesk",
     "brs help desk",
     "support team",
     "customer support",
     "technical support",
+    "technical support team",
     "helpdesk",
     "help desk",
     "support agent",
@@ -115,11 +118,16 @@ function isBrsSupportContactRequest(text = "") {
     "reach",
     "get in touch",
     "message",
+    "opening hours",
+    "hours",
+    "open",
+    "available",
+    "availability",
     "details",
     "info",
     "infor",
   ];
-  const hasSupportIdentity = hasAny(lower, supportIdentityTerms) || (mentionsBrs && hasAny(lower, ["support", "helpdesk", "help desk"]));
+  const hasSupportIdentity = hasAny(lower, supportIdentityTerms) || (mentionsBrs && hasAny(lower, ["support", "technical support", "helpdesk", "help desk"]));
   const hasContactIntent = hasAny(lower, contactIntentTerms);
   return hasSupportIdentity && hasContactIntent;
 }
