@@ -48,7 +48,7 @@
           <div class="sub">Resolved query volume and percentage feedback scores.</div>
         </div>
       </div>
-      <button onclick="loadMetrics()">Refresh</button>
+      <button id="refreshBtn" onclick="loadMetrics()">Refresh</button>
     </div>
 
     <section class="filter-panel">
@@ -69,7 +69,7 @@
       <div class="card"><div class="label">Responses</div><div id="totalResponses" class="value">-</div></div>
       <div class="card"><div class="label">Response Rate</div><div id="responseRate" class="value">-</div></div>
       <div class="card"><div class="label">Resolution Rate</div><div id="resolutionRate" class="value">-</div></div>
-      <div class="card"><div class="label">Average Score</div><div id="averageScore" class="value">-</div></div>
+      <div class="card"><div class="label">Recommend GolfNow</div><div id="averageScore" class="value">-</div></div>
     </section>
 
     <section class="panel">
@@ -147,25 +147,39 @@
     }
 
     async function loadMetrics() {
+      const refreshBtn = document.getElementById('refreshBtn');
+      if (refreshBtn) {
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = 'Refreshing';
+      }
       const params = getDateParams();
-      const response = await fetch(`/api/admin/survey-metrics${params.toString() ? `?${params}` : ''}`);
-      const data = await response.json();
-      setRangeLabel();
-      setText('totalQueries', data.totalQueries ?? data.totalResolved ?? 0);
-      setText('totalResolved', data.totalResolved ?? 0);
-      setText('totalNotResolved', data.totalNotResolved ?? 0);
-      setText('totalEscalated', data.totalEscalated ?? 0);
-      setText('totalResponses', data.totalSurveyResponses ?? 0);
-      setText('responseRate', `${Math.round((data.responseRate || 0) * 100)}%`);
-      setText('resolutionRate', `${Math.round((data.resolutionRate || 0) * 100)}%`);
-      setText('averageScore', data.averageScore === null || data.averageScore === undefined ? '-' : `${data.averageScore}%`);
-      renderScoreGrid(data.scoreCounts || {});
-      renderRecentTable(data.recentResponses || []);
+      params.set('_', Date.now().toString());
+      try {
+        const response = await fetch(`/api/admin/survey-metrics?${params}`, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Metrics request failed.');
+        const data = await response.json();
+        setRangeLabel();
+        setText('totalQueries', data.totalQueries ?? data.totalResolved ?? 0);
+        setText('totalResolved', data.totalResolved ?? 0);
+        setText('totalNotResolved', data.totalNotResolved ?? 0);
+        setText('totalEscalated', data.totalEscalated ?? 0);
+        setText('totalResponses', data.totalSurveyResponses ?? 0);
+        setText('responseRate', `${Math.round((data.responseRate || 0) * 100)}%`);
+        setText('resolutionRate', `${Math.round((data.resolutionRate || 0) * 100)}%`);
+        setText('averageScore', data.averageScore === null || data.averageScore === undefined ? '-' : `${data.averageScore}%`);
+        renderScoreGrid(data.scoreCounts || {});
+        renderRecentTable(data.recentResponses || []);
+      } catch (error) {
+        document.getElementById('recentTable').innerHTML = '<div class="empty">Unable to refresh survey metrics.</div>';
+      } finally {
+        if (refreshBtn) {
+          refreshBtn.disabled = false;
+          refreshBtn.textContent = 'Refresh';
+        }
+      }
     }
 
-    loadMetrics().catch(() => {
-      document.getElementById('recentTable').innerHTML = '<div class="empty">Unable to load survey metrics.</div>';
-    });
+    loadMetrics();
   </script>
 </body>
 </html>
