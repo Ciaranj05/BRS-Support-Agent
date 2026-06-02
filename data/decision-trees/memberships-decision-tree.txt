@@ -10,6 +10,13 @@ ANSWER ID: create-member-profile-account
 
 ---
 
+ROUTE: create-membership-bill
+MATCH ANY: create, add, new, generate, raise
+MATCH ANY: membership bill, member bill, bill, invoice
+ANSWER ID: create-membership-bill
+
+---
+
 ## CROSS-TOPIC OVERRIDE
 
 Treat the latest typed clarification as more important than earlier button context.
@@ -41,6 +48,11 @@ Bill:
 - statement
 - balance due
 - amount owed
+- create membership bill
+- create member bill
+- add a bill
+- generate a bill
+- raise an invoice
 - bill too high
 - charge looks wrong
 - member cannot see bill

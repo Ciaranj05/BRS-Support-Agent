@@ -9,11 +9,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const brsSupportContactFallbackReply = `Call us on UK 028 9568 0288 or IE 0353 1800 852 935.
-Opening hours are Monday to Friday, 8am through to 5:30pm.
-Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.
+Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.`;
 
-For Golf Now based questions, please contact Golf Now Customer Support.`;
-const golfNowSupportReply = "For Golf Now based questions, please contact Golf Now Customer Support.";
+const membershipBillCreationReply = `Membership bills are handled from the member profile Billing area.
+
+Before creating or changing a bill, confirm which billing route the club needs:
+
+1. Manual bill or one-off charge
+2. Subscription or renewal bill
+3. Payment scheme or scheduled payment
+
+Start by opening the correct member profile, then check Billing, subscriptions, and payment schemes before making changes.
+
+I do not have confirmed button-by-button bill creation steps in the approved guidance yet, so do not guess the final clicks. If the user needs the exact creation steps, escalate or add the approved workflow to the membership knowledge base.`;
 
 function loadFile(filePath) {
   const fullPath = path.join(__dirname, "..", filePath);
@@ -86,8 +94,26 @@ function hasAny(lower, terms) {
   return terms.some((term) => lower.includes(term));
 }
 
-function hasContactIntent(lower) {
-  return hasAny(lower, [
+function isBrsSupportContactRequest(text = "") {
+  const lower = text.toLowerCase();
+  const mentionsBrs = hasAny(lower, ["brs", "brs golf", "golfnow business", "golfnow"]);
+  const supportIdentityTerms = [
+    "brs support",
+    "brs customer support",
+    "brs technical support",
+    "brs technical support team",
+    "brs helpdesk",
+    "brs help desk",
+    "support team",
+    "customer support",
+    "technical support",
+    "technical support team",
+    "helpdesk",
+    "help desk",
+    "support agent",
+    "support department",
+  ];
+  const contactIntentTerms = [
     "contact",
     "contact details",
     "contact information",
@@ -112,34 +138,6 @@ function hasContactIntent(lower) {
     "details",
     "info",
     "infor",
-  ]);
-}
-
-function isGolfNowSupportContactRequest(text = "") {
-  const lower = text.toLowerCase();
-  const mentionsGolfNow = hasAny(lower, ["golf now", "golfnow", "golfnow business"]);
-  const mentionsBrs = hasAny(lower, ["brs", "brs golf"]);
-  return mentionsGolfNow && !mentionsBrs && hasContactIntent(lower);
-}
-
-function isBrsSupportContactRequest(text = "") {
-  const lower = text.toLowerCase();
-  const mentionsBrs = hasAny(lower, ["brs", "brs golf"]);
-  const supportIdentityTerms = [
-    "brs support",
-    "brs customer support",
-    "brs technical support",
-    "brs technical support team",
-    "brs helpdesk",
-    "brs help desk",
-    "support team",
-    "customer support",
-    "technical support",
-    "technical support team",
-    "helpdesk",
-    "help desk",
-    "support agent",
-    "support department",
   ];
   const brsContactTerms = [
     "contact",
@@ -157,7 +155,16 @@ function isBrsSupportContactRequest(text = "") {
     "availability",
   ];
   const hasSupportIdentity = hasAny(lower, supportIdentityTerms) || (mentionsBrs && hasAny(lower, ["support", "technical support", "helpdesk", "help desk"])) || (mentionsBrs && hasAny(lower, brsContactTerms));
-  return hasSupportIdentity && hasContactIntent(lower);
+  const hasContactIntent = hasAny(lower, contactIntentTerms);
+  return hasSupportIdentity && hasContactIntent;
+}
+
+function isMembershipBillCreationRequest(text = "") {
+  const lower = text.toLowerCase();
+  const hasCreateIntent = hasAny(lower, ["create", "add", "new", "generate", "raise"]);
+  const hasBillTarget = hasAny(lower, ["membership bill", "member bill", "bill", "invoice"]);
+  const hasMembershipContext = hasAny(lower, ["membership", "member", "members"]);
+  return hasCreateIntent && hasBillTarget && hasMembershipContext;
 }
 
 function isMoveBookingRequest(text = "") {
@@ -212,13 +219,13 @@ ${moveBookingReply}`,
 export default async function chatHandler(req, res) {
   const message = req.body?.message?.toString() || "";
 
-  if (req.method === "POST" && isGolfNowSupportContactRequest(message)) {
+  if (req.method === "POST" && isMembershipBillCreationRequest(message)) {
     return res.status(200).json({
-      reply: golfNowSupportReply,
+      reply: membershipBillCreationReply,
       escalationReady: false,
-      topic: "admin-setup",
+      topic: "memberships",
       options: [],
-      version: "approved-golf-now-support-contact-v1",
+      version: "approved-membership-bill-creation-v1",
     });
   }
 
@@ -228,7 +235,7 @@ export default async function chatHandler(req, res) {
       escalationReady: false,
       topic: "admin-setup",
       options: [],
-      version: "approved-brs-support-contact-details-v2",
+      version: "approved-brs-support-contact-details-v1",
     });
   }
 
