@@ -9,7 +9,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const brsSupportContactFallbackReply = `Call us on UK 028 9568 0288 or IE 0353 1800 852 935.
-Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.`;
+Opening hours are Monday to Friday, 8am through to 5:30pm.
+Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.
+
+For Golf Now based questions, please contact Golf Now Customer Support.`;
 
 function loadFile(filePath) {
   const fullPath = path.join(__dirname, "..", filePath);
