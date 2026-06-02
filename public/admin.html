@@ -45,7 +45,7 @@
         <div class="mark">B</div>
         <div>
           <h1>Survey Metrics</h1>
-          <div class="sub">Resolved query volume and 0-10 feedback scores.</div>
+          <div class="sub">Resolved query volume and percentage feedback scores.</div>
         </div>
       </div>
       <button onclick="loadMetrics()">Refresh</button>
@@ -119,11 +119,13 @@
     }
 
     function renderScoreGrid(scoreCounts) {
-      const counts = Array.from({ length: 11 }, (_, score) => Number(scoreCounts?.[String(score)] || 0));
+      const scores = Array.from({ length: 11 }, (_, index) => index * 10);
+      const counts = scores.map((score) => Number(scoreCounts?.[String(score)] || 0));
       const max = Math.max(...counts, 1);
-      document.getElementById('scoreGrid').innerHTML = counts.map((count, score) => {
+      document.getElementById('scoreGrid').innerHTML = counts.map((count, index) => {
+        const score = scores[index];
         const height = Math.max(2, Math.round((count / max) * 118));
-        return `<div class="bar-wrap"><div class="bar-track"><div class="bar" style="height:${height}px"></div></div><div>${count}</div><div>${score}</div></div>`;
+        return `<div class="bar-wrap"><div class="bar-track"><div class="bar" style="height:${height}px"></div></div><div>${count}</div><div>${score}%</div></div>`;
       }).join('');
     }
 
@@ -139,7 +141,7 @@
           <td>${row.resolved === false ? 'Not resolved' : 'Resolved'}${row.escalated ? ' / Escalated' : ''}</td>
           <td>${esc(row.sessionId)}</td>
           <td>${esc(row.topic || '-')}</td>
-          <td>${row.score ?? '-'}</td>
+          <td>${row.score === null || row.score === undefined ? '-' : `${row.score}%`}</td>
           <td>${esc(row.comment || row.outcomeComment || '')}</td>
         </tr>`).join('')}</tbody></table>`;
     }
@@ -156,7 +158,7 @@
       setText('totalResponses', data.totalSurveyResponses ?? 0);
       setText('responseRate', `${Math.round((data.responseRate || 0) * 100)}%`);
       setText('resolutionRate', `${Math.round((data.resolutionRate || 0) * 100)}%`);
-      setText('averageScore', data.averageScore ?? '-');
+      setText('averageScore', data.averageScore === null || data.averageScore === undefined ? '-' : `${data.averageScore}%`);
       renderScoreGrid(data.scoreCounts || {});
       renderRecentTable(data.recentResponses || []);
     }
