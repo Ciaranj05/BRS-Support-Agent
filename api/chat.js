@@ -34,6 +34,51 @@ function getBrsSupportContactReply() {
   return getApprovedAdminSetupAnswer("brs-support-contact-details") || brsSupportContactFallbackReply;
 }
 
+function parseDirectAnswerRoutes(decisionTree) {
+  const routes = [];
+  const routeRegex = /^ROUTE:[ \t]*(.+?)[ \t]*$([\s\S]*?)(?=^ROUTE:\s*|^---\s*$|(?![\s\S]))/gim;
+  let match;
+  while ((match = routeRegex.exec(decisionTree)) !== null) {
+    const [, id, body] = match;
+    const answerId = body.match(/^ANSWER ID:\s*(.+?)\s*$/im)?.[1]?.trim();
+    const matchAnyGroups = [...body.matchAll(/^MATCH ANY:\s*(.+?)\s*$/gim)].map((line) => line[1].split(",").map((term) => term.trim().toLowerCase()).filter(Boolean));
+    if (answerId && matchAnyGroups.length) routes.push({ id: id.trim(), answerId, matchAnyGroups });
+  }
+  return routes;
+}
+
+function routeMatchesMessage(route, message) {
+  const lower = message.toLowerCase();
+  return route.matchAnyGroups.every((group) => group.some((term) => lower.includes(term)));
+}
+
+function getApprovedAnswer(topic, answerId) {
+  const knowledge = loadFile(`data/knowledge/${topic}.txt`);
+  const answerRegex = new RegExp(`## APPROVED ANSWER:\\s*${escapeRegExp(answerId)}\\s*\\r?\\n([\\s\\S]*?)\\r?\\n## END APPROVED ANSWER`, "i");
+  return knowledge.match(answerRegex)?.[1]?.trim() || null;
+}
+
+function detectTopic(message) {
+  const lower = message.toLowerCase();
+  if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) return "teesheet";
+  if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
+  if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet")) return "memberships";
+  if (lower.includes("admin user") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
+  if (lower.includes("buggy") || lower.includes("buggies")) return "admin-setup";
+  if (lower.includes("booking") || lower.includes("tee") || lower.includes("timesheet") || lower.includes("player") || lower.includes("green fee") || lower.includes("society") || lower.includes("move")) return "teesheet";
+  if (lower.includes("configure") || lower.includes("setup") || lower.includes("email template") || lower.includes("green fee rate")) return "admin-setup";
+  return "general";
+}
+
+function getDirectAnswerForMessage(message) {
+  const topic = detectTopic(message);
+  if (topic === "general") return null;
+  const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
+  const route = parseDirectAnswerRoutes(decisionTree).find((candidate) => routeMatchesMessage(candidate, message));
+  const reply = route ? getApprovedAnswer(topic, route.answerId) : null;
+  return reply ? { reply, topic, routeId: route.id } : null;
+}
+
 const moveBookingReply = `To move a booking and keep payment information attached:
 
 1. Click the tee time to open the Booking Details page.
@@ -229,6 +274,17 @@ export default async function chatHandler(req, res) {
       topic: "admin-setup",
       options: [],
       version: "approved-brs-support-contact-details-v2",
+    });
+  }
+
+  const directAnswer = getDirectAnswerForMessage(message);
+  if (req.method === "POST" && directAnswer) {
+    return res.status(200).json({
+      reply: directAnswer.reply,
+      escalationReady: false,
+      topic: directAnswer.topic,
+      options: [],
+      version: `approved-direct-route-${directAnswer.routeId}-v1`,
     });
   }
 

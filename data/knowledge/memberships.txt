@@ -67,6 +67,20 @@ Use Billing to check:
 - Outstanding balance
 - Published/unpublished status
 
+## APPROVED ANSWER: create-membership-bill
+Membership bills are handled from the member profile Billing area.
+
+Before creating or changing a bill, confirm which billing route the club needs:
+
+1. Manual bill or one-off charge
+2. Subscription or renewal bill
+3. Payment scheme or scheduled payment
+
+Start by opening the correct member profile, then check Billing, subscriptions, and payment schemes before making changes.
+
+I do not have confirmed button-by-button bill creation steps in the approved guidance yet, so do not guess the final clicks. If the user needs the exact creation steps, escalate or add the approved workflow to the membership knowledge base.
+## END APPROVED ANSWER
+
 If a bill looks wrong, ask:
 
 “What looks incorrect — amount too high, missing payment, or extra charge?”
