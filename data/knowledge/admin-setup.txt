@@ -189,7 +189,12 @@ Preferred format:
 
 Use when the user requests contact details, phone numbers, email, opening-hours information, availability, or ways to contact the BRS Technical Support team, BRS Support team, helpdesk, or support team.
 
+If the user asks a Golf Now based question rather than a BRS based question, tell them to contact Golf Now Customer Support.
+
 ## APPROVED ANSWER: brs-support-contact-details
 Call us on UK 028 9568 0288 or IE 0353 1800 852 935.
+Opening hours are Monday to Friday, 8am through to 5:30pm.
 Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.
+
+For Golf Now based questions, please contact Golf Now Customer Support.
 ## END APPROVED ANSWER
