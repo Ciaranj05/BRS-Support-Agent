@@ -127,7 +127,22 @@ function isBrsSupportContactRequest(text = "") {
     "info",
     "infor",
   ];
-  const hasSupportIdentity = hasAny(lower, supportIdentityTerms) || (mentionsBrs && hasAny(lower, ["support", "technical support", "helpdesk", "help desk"]));
+  const brsContactTerms = [
+    "contact",
+    "contact details",
+    "contact information",
+    "phone",
+    "phone number",
+    "telephone",
+    "email",
+    "email address",
+    "call",
+    "opening hours",
+    "hours",
+    "available",
+    "availability",
+  ];
+  const hasSupportIdentity = hasAny(lower, supportIdentityTerms) || (mentionsBrs && hasAny(lower, ["support", "technical support", "helpdesk", "help desk"])) || (mentionsBrs && hasAny(lower, brsContactTerms));
   const hasContactIntent = hasAny(lower, contactIntentTerms);
   return hasSupportIdentity && hasContactIntent;
 }
