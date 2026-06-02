@@ -7,7 +7,12 @@ export default async function surveyMetricsHandler(req, res) {
   }
 
   try {
-    return res.status(200).json(await getSurveyMetrics({ startDate: req.query?.startDate, endDate: req.query?.endDate }));
+    return res.status(200).json(await getSurveyMetrics({
+      startDate: req.query?.startDate,
+      endDate: req.query?.endDate,
+      startAt: req.query?.startAt,
+      endAt: req.query?.endAt,
+    }));
   } catch (error) {
     console.error("Survey metrics failed:", error);
     return res.status(500).json({ ok: false, error: "Unable to load survey metrics." });
