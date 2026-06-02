@@ -162,8 +162,8 @@
       params.set('_', Date.now().toString());
       try {
         const response = await fetch(`/api/admin/survey-metrics?${params}`, { cache: 'no-store' });
-        if (!response.ok) throw new Error('Metrics request failed.');
         const data = await response.json();
+        if (data.ok === false) throw new Error(data.error || 'Metrics request failed.');
         setRangeLabel();
         setText('totalQueries', data.totalQueries ?? data.totalResolved ?? 0);
         setText('totalResolved', data.totalResolved ?? 0);

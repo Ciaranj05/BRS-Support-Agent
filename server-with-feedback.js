@@ -58,7 +58,7 @@ app.post("/api/feedback", async (req, res) => {
 
 app.get("/api/admin/survey-metrics", async (req, res) => {
   try {
-    res.json(await getSurveyMetrics({
+    res.status(200).json(await getSurveyMetrics({
       startDate: req.query?.startDate,
       endDate: req.query?.endDate,
       startAt: req.query?.startAt,
