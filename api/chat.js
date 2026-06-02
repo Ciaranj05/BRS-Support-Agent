@@ -61,6 +61,7 @@ function getApprovedAnswer(topic, answerId) {
 function detectTopic(message) {
   const lower = message.toLowerCase();
   if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) return "teesheet";
+  if (lower.includes("payment scheme") || lower.includes("payment plan") || lower.includes("instalment") || lower.includes("installment") || lower.includes("scheduled payment")) return "memberships";
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
   if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet")) return "memberships";
   if (lower.includes("admin user") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
