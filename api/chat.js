@@ -1,7 +1,34 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import OpenAI from "openai";
 import handler from "../server.js";
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const brsSupportContactFallbackReply = `Call us on UK 028 9568 0288 or IE 0353 1800 852 935.
+Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.`;
+
+function loadFile(filePath) {
+  const fullPath = path.join(__dirname, "..", filePath);
+  return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : "";
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function getApprovedAdminSetupAnswer(answerId) {
+  const knowledge = loadFile("data/knowledge/admin-setup.txt");
+  const answerRegex = new RegExp(`## APPROVED ANSWER:\\s*${escapeRegExp(answerId)}\\s*\\r?\\n([\\s\\S]*?)\\r?\\n## END APPROVED ANSWER`, "i");
+  return knowledge.match(answerRegex)?.[1]?.trim() || null;
+}
+
+function getBrsSupportContactReply() {
+  return getApprovedAdminSetupAnswer("brs-support-contact-details") || brsSupportContactFallbackReply;
+}
 
 const moveBookingReply = `To move a booking and keep payment information attached:
 
@@ -50,6 +77,52 @@ const forbiddenMoveBookingTerms = [
   "single booking",
   "group booking",
 ];
+
+function hasAny(lower, terms) {
+  return terms.some((term) => lower.includes(term));
+}
+
+function isBrsSupportContactRequest(text = "") {
+  const lower = text.toLowerCase();
+  const mentionsBrs = hasAny(lower, ["brs", "brs golf", "golfnow business", "golfnow"]);
+  const supportIdentityTerms = [
+    "brs support",
+    "brs customer support",
+    "brs helpdesk",
+    "brs help desk",
+    "support team",
+    "customer support",
+    "technical support",
+    "helpdesk",
+    "help desk",
+    "support agent",
+    "support department",
+  ];
+  const contactIntentTerms = [
+    "contact",
+    "contact details",
+    "contact information",
+    "phone",
+    "phone number",
+    "telephone",
+    "number",
+    "email",
+    "email address",
+    "call",
+    "ring",
+    "speak to",
+    "talk to",
+    "reach",
+    "get in touch",
+    "message",
+    "details",
+    "info",
+    "infor",
+  ];
+  const hasSupportIdentity = hasAny(lower, supportIdentityTerms) || (mentionsBrs && hasAny(lower, ["support", "helpdesk", "help desk"]));
+  const hasContactIntent = hasAny(lower, contactIntentTerms);
+  return hasSupportIdentity && hasContactIntent;
+}
 
 function isMoveBookingRequest(text = "") {
   const lower = text.toLowerCase();
@@ -102,6 +175,16 @@ ${moveBookingReply}`,
 
 export default async function chatHandler(req, res) {
   const message = req.body?.message?.toString() || "";
+
+  if (req.method === "POST" && isBrsSupportContactRequest(message)) {
+    return res.status(200).json({
+      reply: getBrsSupportContactReply(),
+      escalationReady: false,
+      topic: "admin-setup",
+      options: [],
+      version: "approved-brs-support-contact-details-v1",
+    });
+  }
 
   if (req.method === "POST" && isMoveBookingRequest(message)) {
     const reply = await createSafeMoveBookingReply(message);
