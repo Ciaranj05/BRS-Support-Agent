@@ -187,7 +187,9 @@ Preferred format:
 
 ## BRS SUPPORT CONTACT DETAILS
 
-If the user requests BRS Support contact details, provide the following:
+Use when the user requests contact details, phone numbers, email, opening-hours information, availability, or ways to contact the BRS Technical Support team, BRS Support team, helpdesk, or support team.
 
-Call us on UK 028 9568 0288 or IE 1800 852 935.
+## APPROVED ANSWER: brs-support-contact-details
+Call us on UK 028 9568 0288 or IE 0353 1800 852 935.
 Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.
+## END APPROVED ANSWER
