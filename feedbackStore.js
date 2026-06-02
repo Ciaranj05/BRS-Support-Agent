@@ -46,7 +46,7 @@ async function ensureDatabaseSchema() {
         session_id TEXT NOT NULL,
         conversation_id TEXT,
         type TEXT NOT NULL DEFAULT 'resolution-score',
-        score INTEGER NOT NULL CHECK (score >= 0 AND score <= 10),
+        score INTEGER NOT NULL,
         comment TEXT NOT NULL DEFAULT '',
         submitted_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         UNIQUE (resolved_interaction_id)
@@ -54,11 +54,26 @@ async function ensureDatabaseSchema() {
 
       CREATE INDEX IF NOT EXISTS idx_resolved_interactions_resolved_at ON resolved_interactions(resolved_at DESC);
       CREATE INDEX IF NOT EXISTS idx_survey_responses_score ON survey_responses(score);
+      CREATE TABLE IF NOT EXISTS app_schema_migrations (
+        id TEXT PRIMARY KEY,
+        applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
     `);
     schemaReady = schemaReady.then(() => db.query(`
       ALTER TABLE resolved_interactions ADD COLUMN IF NOT EXISTS resolved BOOLEAN NOT NULL DEFAULT TRUE;
       ALTER TABLE resolved_interactions ADD COLUMN IF NOT EXISTS escalated BOOLEAN NOT NULL DEFAULT FALSE;
       ALTER TABLE resolved_interactions ADD COLUMN IF NOT EXISTS comment TEXT NOT NULL DEFAULT '';
+      ALTER TABLE survey_responses DROP CONSTRAINT IF EXISTS survey_responses_score_check;
+      ALTER TABLE survey_responses ADD CONSTRAINT survey_responses_score_check CHECK (score >= 0 AND score <= 100);
+    `));
+    schemaReady = schemaReady.then(() => db.query(`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (SELECT 1 FROM app_schema_migrations WHERE id = 'survey_score_percent_v1') THEN
+          UPDATE survey_responses SET score = score * 10 WHERE score >= 0 AND score <= 10;
+          INSERT INTO app_schema_migrations (id) VALUES ('survey_score_percent_v1');
+        END IF;
+      END $$;
     `));
   }
   await schemaReady;
@@ -105,8 +120,8 @@ function withJsonStoreUpdate(updateFn) {
 
 function normaliseScore(score) {
   const value = Number(score);
-  if (!Number.isInteger(value) || value < 0 || value > 10) {
-    const error = new Error("Survey score must be an integer from 0 to 10.");
+  if (!Number.isInteger(value) || value < 0 || value > 100 || value % 10 !== 0) {
+    const error = new Error("Survey score must be 0%, 10%, 20%, up to 100%.");
     error.status = 400;
     throw error;
   }
@@ -305,7 +320,7 @@ async function getSurveyMetricsFromDatabase(options = {}) {
   const totalNotResolved = totals.rows[0]?.total_not_resolved || 0;
   const totalEscalated = totals.rows[0]?.total_escalated || 0;
   const totalSurveyResponses = totals.rows[0]?.total_survey_responses || 0;
-  const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, score) => [String(score), 0]));
+  const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, index) => [String(index * 10), 0]));
   for (const row of scores.rows) scoreCounts[String(row.score)] = row.count;
 
   return {
@@ -412,11 +427,11 @@ export async function getSurveyMetrics(options = {}) {
   const totalNotResolved = filteredInteractions.filter((interaction) => interaction.resolved === false).length;
   const totalEscalated = filteredInteractions.filter((interaction) => interaction.escalated === true).length;
   const totalSurveyResponses = filteredResponses.length;
-  const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, score) => [String(score), 0]));
+  const scoreCounts = Object.fromEntries(Array.from({ length: 11 }, (_, index) => [String(index * 10), 0]));
   let scoreTotal = 0;
 
   for (const response of filteredResponses) {
-    if (Number.isInteger(response.score) && response.score >= 0 && response.score <= 10) {
+    if (Number.isInteger(response.score) && Object.hasOwn(scoreCounts, String(response.score))) {
       scoreCounts[String(response.score)] += 1;
       scoreTotal += response.score;
     }
