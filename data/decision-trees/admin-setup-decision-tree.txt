@@ -9,8 +9,8 @@ Use this for setup/configuration questions.
 These routes return approved answers from the knowledge file without model rewriting.
 
 ROUTE: brs-support-contact-details
-MATCH ANY: brs support, brs customer support, brs helpdesk, brs help desk, support contact, contact support, support team, customer support, technical support, helpdesk, help desk, support agent, support department
-MATCH ANY: contact, contact details, contact information, phone, phone number, telephone, number, email, email address, call, ring, speak to, talk to, reach, get in touch, message, details, info, infor
+MATCH ANY: brs support, brs customer support, brs technical support, brs technical support team, brs helpdesk, brs help desk, support contact, contact support, support team, customer support, technical support, technical support team, helpdesk, help desk, support agent, support department
+MATCH ANY: contact, contact details, contact information, phone, phone number, telephone, number, email, email address, call, ring, speak to, talk to, reach, get in touch, message, opening hours, hours, open, available, availability, details, info, infor
 ANSWER ID: brs-support-contact-details
 
 ROUTE: buggy-booking-availability
@@ -86,11 +86,15 @@ Treat these user phrases as the matching supported setup route. Do not invent a 
 
 BRS Support contact details:
 - BRS Support contact details
+- BRS Technical Support contact details
+- BRS Technical Support opening hours
 - BRS Support phone number
 - BRS Support email
 - support contact information
 - contact support
 - support team contact details
+- support team opening hours
+- technical support team availability
 - helpdesk phone number
 - help desk email address
 - speak to BRS Support
@@ -163,7 +167,7 @@ Membership/billing setup:
 
 ## 1. IDENTIFY SETUP AREA
 
-IF user asks for BRS Support contact details, support phone numbers, support email, helpdesk details, or how to contact, call, email, speak to, or get in touch with the support team:
+IF user asks for BRS Technical Support/BRS Support contact details, support phone numbers, support email, opening-hours information, availability, helpdesk details, or how to contact, call, email, speak to, or get in touch with the support team:
 
 -> Use direct answer route brs-support-contact-details.
 
