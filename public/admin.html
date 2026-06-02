@@ -100,8 +100,14 @@
       const params = new URLSearchParams();
       const startDate = document.getElementById('startDate').value;
       const endDate = document.getElementById('endDate').value;
-      if (startDate) params.set('startDate', startDate);
-      if (endDate) params.set('endDate', endDate);
+      if (startDate) {
+        params.set('startDate', startDate);
+        params.set('startAt', new Date(`${startDate}T00:00:00`).toISOString());
+      }
+      if (endDate) {
+        params.set('endDate', endDate);
+        params.set('endAt', new Date(`${endDate}T23:59:59.999`).toISOString());
+      }
       return params;
     }
 

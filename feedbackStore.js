@@ -134,13 +134,19 @@ function serialiseHistory(history = []) {
     : [];
 }
 
-function normaliseDateRange({ startDate, endDate } = {}) {
+function normaliseDateRange({ startDate, endDate, startAt, endAt } = {}) {
   const range = {};
-  if (startDate) {
+  if (startAt) {
+    const start = new Date(startAt);
+    if (!Number.isNaN(start.getTime())) range.startDate = start;
+  } else if (startDate) {
     const start = new Date(`${startDate}T00:00:00.000Z`);
     if (!Number.isNaN(start.getTime())) range.startDate = start;
   }
-  if (endDate) {
+  if (endAt) {
+    const end = new Date(endAt);
+    if (!Number.isNaN(end.getTime())) range.endDate = end;
+  } else if (endDate) {
     const end = new Date(`${endDate}T00:00:00.000Z`);
     if (!Number.isNaN(end.getTime())) {
       end.setUTCDate(end.getUTCDate() + 1);
