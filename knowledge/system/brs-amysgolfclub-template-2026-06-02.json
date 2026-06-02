@@ -1,0 +1,309 @@
+{
+  "generatedAt": "2026-06-02T13:10:00.000Z",
+  "sourceType": "brs-system",
+  "sourceAccountRole": "admin",
+  "sourceClubRole": "example-club",
+  "entries": [
+    {
+      "id": "brs-system:multi-course-admin-navigation",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Multi-course admin navigation",
+      "area": "Navigation",
+      "navigationPath": "Dashboard / Timesheet / Reports",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/dashboard/",
+      "purpose": "BRS can operate as a multi-course system where staff move between course-specific and combined operational views.",
+      "content": "An example admin system showed course-aware navigation and reporting. Dashboard and timesheet pages can expose separate course labels, course-specific summary and four-week views, and combined views. Reports can include a Course selector so staff can report on both courses together or an individual course. Course names are club configuration values and should not be treated as product knowledge, but the multi-course pattern is reusable.",
+      "fields": [
+        { "label": "Course" },
+        { "label": "Course selector" },
+        { "label": "Combined course view" },
+        { "label": "Course-specific summary view" },
+        { "label": "Course-specific four-week view" }
+      ],
+      "actions": [
+        { "label": "View course-specific timesheet" },
+        { "label": "View both courses" },
+        { "label": "Filter reports by course" }
+      ],
+      "helpText": [],
+      "relatedAreas": ["Dashboard", "Timesheet", "Reports", "System Configuration"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["multi-course", "navigation", "reports", "timesheet"]
+    },
+    {
+      "id": "brs-system:system-configuration-admin-variation",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "System Configuration admin variation",
+      "area": "Tools",
+      "navigationPath": "Tools > System Configuration",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/system_conf.php",
+      "purpose": "Admin access exposes configuration categories and product warnings that are hidden or blocked from read-only roles.",
+      "content": "Admin-visible System Configuration can include feature switches and club setup categories such as course-name configuration for multi-course installations and green-fee printer module settings. The page can display product warnings when required configuration is incomplete, such as an SMS sender ID requirement when the SMS module is enabled. Specific enabled settings, club values, and warning state are instance-specific; support guidance should explain what the setting area controls and when staff should contact support for restricted or platform-level changes.",
+      "fields": [
+        { "label": "Course names" },
+        { "label": "Green fee printer module" },
+        { "label": "SMS module" },
+        { "label": "Sender ID" }
+      ],
+      "actions": [],
+      "helpText": [
+        "System Configuration contains club parameters and feature switches.",
+        "Some warnings indicate a module is enabled but required supporting configuration is missing."
+      ],
+      "relatedAreas": ["Tools", "SMS", "Green Fees", "Timesheet"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["system-configuration", "admin", "modules", "warnings"]
+    },
+    {
+      "id": "brs-system:configure-timesheet-multi-course",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Configure Timesheet for multi-course systems",
+      "area": "Tools",
+      "navigationPath": "Tools > Configure Timesheet",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/config_timesheet.php",
+      "purpose": "Configure Timesheet manages tee time patterns across years and can support multi-course calendars.",
+      "content": "Configure Timesheet exposes year-based setup and can display multiple configured years for editing. In a multi-course setup, the timesheet configuration supports course-aware calendar management. Support answers should describe this as the area used to set tee times and intervals for days, months, years, and course-specific schedules where applicable. Exact dates, intervals, and configured years are club setup values and should not be copied into reusable knowledge.",
+      "fields": [
+        { "label": "Year" },
+        { "label": "Course" },
+        { "label": "Tee time interval" },
+        { "label": "Day/month/year setup" }
+      ],
+      "actions": [
+        { "label": "Configure year" },
+        { "label": "Configure course schedule" }
+      ],
+      "helpText": ["Configure Timesheet is used to set up tee times and tee time intervals."],
+      "relatedAreas": ["Timesheet", "System Configuration", "Visitor Booking", "Member Booking"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["configure-timesheet", "multi-course", "schedule"]
+    },
+    {
+      "id": "brs-system:green-fee-rates-advanced-structure",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Green Fee Rates advanced structure",
+      "area": "Tools",
+      "navigationPath": "Tools > Green Fee Rates",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/green-fee-rates/",
+      "purpose": "Green Fee Rates define reusable rate categories and date/rule applicability for tee-time charging and booking flows.",
+      "content": "Admin access showed that Green Fee Rates can be organized by category and sub-category, holes, start date, end date, membership-type applicability, default status, and global status. Category families can include visitor, member guest, society, corporate, complimentary, competition, resident, hotel, tour operator, voucher, and other concepts, but individual categories and prices are club-specific. Support guidance should focus on how rate definitions connect to tee sheet bookings, online booking, reporting, and membership eligibility rather than recording exact rates.",
+      "fields": [
+        { "label": "Category" },
+        { "label": "Sub Category" },
+        { "label": "Holes" },
+        { "label": "Start Date" },
+        { "label": "End Date" },
+        { "label": "Rates" },
+        { "label": "Membership Types" },
+        { "label": "Default" },
+        { "label": "Global" }
+      ],
+      "actions": [
+        { "label": "Filter by month/year" },
+        { "label": "Copy rates" },
+        { "label": "Edit rate" }
+      ],
+      "helpText": [
+        "Green fee rates are used to define categories and rates for different booking/customer types.",
+        "Copy and edit actions are administrative and should be used only by authorized staff."
+      ],
+      "relatedAreas": ["Timesheet", "Reports", "Visitor Booking", "Member Booking", "Payments"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["green-fees", "rates", "pricing", "admin"]
+    },
+    {
+      "id": "brs-system:reservation-type-online-booking-control",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Reservation type online booking control",
+      "area": "Tools",
+      "navigationPath": "Tools > Reservation Types",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/reservationtype/",
+      "purpose": "Reservation Types can control classification, display, and whether partially booked tee times remain available to online booking channels.",
+      "content": "Admin help text showed an Allow Online Bookings control on reservation types. This setting determines whether partially booked tee times using that reservation type can continue to accept online bookings through connected online booking channels. Reservation types also affect timesheet display, filtering, reports, and booking workflows. Exact custom types and colours are club-specific; reusable guidance should explain the control and downstream effect.",
+      "fields": [
+        { "label": "Reservation Type" },
+        { "label": "Allow Online Bookings" },
+        { "label": "Colour/display settings" }
+      ],
+      "actions": [
+        { "label": "Edit reservation type" }
+      ],
+      "helpText": ["Allow Online Bookings controls whether partially booked tee times with the reservation type can continue accepting online bookings from connected booking channels."],
+      "relatedAreas": ["Timesheet", "Online Booking", "Reports", "Booking Details"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["reservation-types", "online-booking", "admin"]
+    },
+    {
+      "id": "brs-system:configured-facilities-workflow",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Configured Facilities workflow",
+      "area": "Facilities",
+      "navigationPath": "Facilities > Booking",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/fac_day.php",
+      "purpose": "Facilities can manage configured non-tee-sheet resources using booking, repeat, and resource controls.",
+      "content": "A configured Facilities module exposes bookable resources with fields for reservation name, guests, room or facility, start and end times, repeat days, and repeat weeks. Product help indicates that adding a new reservation requires all selected time slots to be free, modifying a reservation overwrites only fields entered by the user, cancelling clears reservation values, and cut/copy/paste tools can move or duplicate reservations. Resource names and actual bookings are club-specific and should be excluded from template knowledge.",
+      "fields": [
+        { "label": "Reservation Name" },
+        { "label": "Guests" },
+        { "label": "Room/Facility" },
+        { "label": "Start" },
+        { "label": "End" },
+        { "label": "Repeat Days" },
+        { "label": "Repeat Weeks" }
+      ],
+      "actions": [
+        { "label": "Add new reservation" },
+        { "label": "Modify reservation" },
+        { "label": "Cancel reservation" },
+        { "label": "Cut reservation" },
+        { "label": "Copy reservation" },
+        { "label": "Paste reservation" }
+      ],
+      "helpText": [
+        "Add new reservation requires the selected time slots to be free.",
+        "Modify reservation overwrites only the fields entered.",
+        "Cancel reservation clears reservation details.",
+        "Cut, copy, and paste tools can move or duplicate reservations."
+      ],
+      "relatedAreas": ["Facilities", "Golf Plus", "Reports", "Services"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["facilities", "resources", "bookings", "workflow"]
+    },
+    {
+      "id": "brs-system:reports-course-flex-points",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Reports course selector and Flex Points usage",
+      "area": "Reports",
+      "navigationPath": "Reports",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/reports.php",
+      "purpose": "Reports can be filtered by course and may include module-specific reports such as Full Flex Points Usage.",
+      "content": "In a multi-course admin account, Reports included the normal start date, end date, and report type controls plus a Course selector. The report type list can vary by enabled modules and included a Full Flex Points Usage report in the observed setup. Support answers should explain that available reports depend on modules and configuration, and that course selectors allow staff to isolate or combine report data. Exact report outputs and usage values are club data.",
+      "fields": [
+        { "label": "Start Date" },
+        { "label": "End Date" },
+        { "label": "Course" },
+        { "label": "Type of Report" }
+      ],
+      "actions": [],
+      "helpText": [],
+      "relatedAreas": ["Timesheet", "Green Fees", "Payments", "Memberships", "Flex Points"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["reports", "multi-course", "flex-points"]
+    },
+    {
+      "id": "brs-system:member-competition-charging",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Member competition charging and waiting list settings",
+      "area": "Competitions",
+      "navigationPath": "Tools > Member Competitions",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/admin_config.php?config_type=competitions",
+      "purpose": "Member competition setup controls booking eligibility, charging, guest charging, waiting lists, and refund behavior.",
+      "content": "Admin help text showed that member competitions can support waiting lists, competition charging, member fees, guest fees, rules for who is charged when one member books another member, refund criteria, and membership-type eligibility. These settings connect competition setup with member booking, purse/payment behavior, booking changes, and eligibility rules. Exact charges and eligibility selections are club-specific and should not be stored as template facts.",
+      "fields": [
+        { "label": "Waiting list" },
+        { "label": "Competition charging" },
+        { "label": "Member fee" },
+        { "label": "Guest fee" },
+        { "label": "Charge member booked by another member" },
+        { "label": "Refund criteria" },
+        { "label": "Membership type eligibility" }
+      ],
+      "actions": [],
+      "helpText": [
+        "Competition charging can charge members or guests depending on setup.",
+        "Membership type eligibility controls which members can book a competition.",
+        "Refund criteria affect when charges are returned after cancellation or changes."
+      ],
+      "relatedAreas": ["Member Booking", "Payments", "Purse", "Membership Types", "Reports"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["competitions", "charging", "waiting-list", "members"]
+    },
+    {
+      "id": "brs-system:open-competition-course-setup",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Open competition course setup",
+      "area": "Competitions",
+      "navigationPath": "Tools > Open Competitions",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/admin_config.php?config_type=open_comp",
+      "purpose": "Open competition setup defines course, dates, times, booking format, playing format, fees, mixed team rules, and online booking go-live controls.",
+      "content": "Admin access showed Open Competition fields including course, competition date, start and end time, competition name, booking format, playing format, competition type, number of holes, member and visitor green fees, mixed member/visitor team permission, and booking available date/time. Product help indicates that reservation name matching links configured competitions to tee times, that booking and playing formats affect the booking structure, and that the go-live date/time controls online availability. Competition names, dates, fees, and actual availability are club-specific.",
+      "fields": [
+        { "label": "Course" },
+        { "label": "Competition Date" },
+        { "label": "Start Time" },
+        { "label": "End Time" },
+        { "label": "Competition Name" },
+        { "label": "Booking Format" },
+        { "label": "Playing Format" },
+        { "label": "Competition Type" },
+        { "label": "Number of Holes" },
+        { "label": "Member Green Fee" },
+        { "label": "Visitor Green Fee" },
+        { "label": "Permit Mixed Member/Visitor Teams" },
+        { "label": "Booking Available Date/Time" }
+      ],
+      "actions": [],
+      "helpText": [
+        "Reservation name matching links an open competition setup to tee times.",
+        "Booking available date/time controls when online booking opens.",
+        "Mixed member/visitor team settings control team composition rules."
+      ],
+      "relatedAreas": ["Open Competitions", "Visitor Booking", "Timesheet", "Green Fees", "Reports"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["open-competitions", "online-booking", "multi-course"]
+    },
+    {
+      "id": "brs-system:text-messaging-options",
+      "sourceType": "brs-system",
+      "clubScope": "template",
+      "title": "Text messaging options",
+      "area": "Messaging",
+      "navigationPath": "Tools / Dashboard > Text Messages",
+      "sourceUrl": "https://brsgolf.com/amysgolfclub/smsmenu.php",
+      "purpose": "Text messaging mirrors several email audience patterns and depends on SMS module configuration and available credit.",
+      "content": "The SMS menu can include options for texting membership types, membership groups, selected members, timesheet contacts, and general contacts, plus purchase credit. It uses similar audience concepts to email messaging but depends on SMS module setup, sender ID configuration, recipient mobile numbers, and credit. Recent message history, recipient counts, and credit balances are operational data and should not be ingested as product facts.",
+      "fields": [],
+      "actions": [
+        { "label": "Text Membership Types" },
+        { "label": "Text Membership Groups" },
+        { "label": "Text Selected Members" },
+        { "label": "Text the Timesheet" },
+        { "label": "Text Contacts" },
+        { "label": "Purchase Credit" }
+      ],
+      "helpText": ["SMS messaging depends on SMS module setup, sender ID configuration, and available credit."],
+      "relatedAreas": ["Email Messages", "Members", "Contacts", "Timesheet", "System Configuration"],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "2026-06-02T13:10:00.000Z",
+      "tags": ["sms", "messaging", "members", "contacts"]
+    }
+  ]
+}
