@@ -8,6 +8,11 @@ Use this for setup/configuration questions.
 
 These routes return approved answers from the knowledge file without model rewriting.
 
+ROUTE: brs-support-contact-details
+MATCH ANY: brs support, brs customer support, brs helpdesk, brs help desk, support contact, contact support, support team, customer support, technical support, helpdesk, help desk, support agent, support department
+MATCH ANY: contact, contact details, contact information, phone, phone number, telephone, number, email, email address, call, ring, speak to, talk to, reach, get in touch, message, details, info, infor
+ANSWER ID: brs-support-contact-details
+
 ROUTE: buggy-booking-availability
 MATCH ANY: buggy, buggies
 MATCH ANY: buggy availability
@@ -79,6 +84,19 @@ ANSWER ID: email-templates
 
 Treat these user phrases as the matching supported setup route. Do not invent a new setup area if one of these maps cleanly.
 
+BRS Support contact details:
+- BRS Support contact details
+- BRS Support phone number
+- BRS Support email
+- support contact information
+- contact support
+- support team contact details
+- helpdesk phone number
+- help desk email address
+- speak to BRS Support
+- get in touch with support
+- call the support team
+
 Green fee rates:
 - price wrong
 - visitor price
@@ -144,6 +162,10 @@ Membership/billing setup:
 ---
 
 ## 1. IDENTIFY SETUP AREA
+
+IF user asks for BRS Support contact details, support phone numbers, support email, helpdesk details, or how to contact, call, email, speak to, or get in touch with the support team:
+
+-> Use direct answer route brs-support-contact-details.
 
 IF user asks generally about setup/configuration:
 
