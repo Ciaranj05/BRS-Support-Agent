@@ -9,8 +9,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const brsSupportContactFallbackReply = `Call us on UK 028 9568 0288 or IE 0353 1800 852 935.
-Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.`;
+Opening hours are Monday to Friday, 8am through to 5:30pm.
+Email the team on support.en@golfnowbusiness.com and we’ll get back to you as soon as possible.
 
+For Golf Now based questions, please contact Golf Now Customer Support.`;
+const golfNowSupportReply = "For Golf Now based questions, please contact Golf Now Customer Support.";
 const membershipBillCreationReply = `Membership bills are handled from the member profile Billing area.
 
 Before creating or changing a bill, confirm which billing route the club needs:
@@ -94,26 +97,8 @@ function hasAny(lower, terms) {
   return terms.some((term) => lower.includes(term));
 }
 
-function isBrsSupportContactRequest(text = "") {
-  const lower = text.toLowerCase();
-  const mentionsBrs = hasAny(lower, ["brs", "brs golf", "golfnow business", "golfnow"]);
-  const supportIdentityTerms = [
-    "brs support",
-    "brs customer support",
-    "brs technical support",
-    "brs technical support team",
-    "brs helpdesk",
-    "brs help desk",
-    "support team",
-    "customer support",
-    "technical support",
-    "technical support team",
-    "helpdesk",
-    "help desk",
-    "support agent",
-    "support department",
-  ];
-  const contactIntentTerms = [
+function hasContactIntent(lower) {
+  return hasAny(lower, [
     "contact",
     "contact details",
     "contact information",
@@ -138,6 +123,34 @@ function isBrsSupportContactRequest(text = "") {
     "details",
     "info",
     "infor",
+  ]);
+}
+
+function isGolfNowSupportContactRequest(text = "") {
+  const lower = text.toLowerCase();
+  const mentionsGolfNow = hasAny(lower, ["golf now", "golfnow", "golfnow business"]);
+  const mentionsBrs = hasAny(lower, ["brs", "brs golf"]);
+  return mentionsGolfNow && !mentionsBrs && hasContactIntent(lower);
+}
+
+function isBrsSupportContactRequest(text = "") {
+  const lower = text.toLowerCase();
+  const mentionsBrs = hasAny(lower, ["brs", "brs golf"]);
+  const supportIdentityTerms = [
+    "brs support",
+    "brs customer support",
+    "brs technical support",
+    "brs technical support team",
+    "brs helpdesk",
+    "brs help desk",
+    "support team",
+    "customer support",
+    "technical support",
+    "technical support team",
+    "helpdesk",
+    "help desk",
+    "support agent",
+    "support department",
   ];
   const brsContactTerms = [
     "contact",
@@ -155,8 +168,7 @@ function isBrsSupportContactRequest(text = "") {
     "availability",
   ];
   const hasSupportIdentity = hasAny(lower, supportIdentityTerms) || (mentionsBrs && hasAny(lower, ["support", "technical support", "helpdesk", "help desk"])) || (mentionsBrs && hasAny(lower, brsContactTerms));
-  const hasContactIntent = hasAny(lower, contactIntentTerms);
-  return hasSupportIdentity && hasContactIntent;
+  return hasSupportIdentity && hasContactIntent(lower);
 }
 
 function isMembershipBillCreationRequest(text = "") {
@@ -229,13 +241,23 @@ export default async function chatHandler(req, res) {
     });
   }
 
+  if (req.method === "POST" && isGolfNowSupportContactRequest(message)) {
+    return res.status(200).json({
+      reply: golfNowSupportReply,
+      escalationReady: false,
+      topic: "admin-setup",
+      options: [],
+      version: "approved-golf-now-support-contact-v1",
+    });
+  }
+
   if (req.method === "POST" && isBrsSupportContactRequest(message)) {
     return res.status(200).json({
       reply: getBrsSupportContactReply(),
       escalationReady: false,
       topic: "admin-setup",
       options: [],
-      version: "approved-brs-support-contact-details-v1",
+      version: "approved-brs-support-contact-details-v2",
     });
   }
 
