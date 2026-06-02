@@ -187,7 +187,7 @@ Preferred format:
 
 ## BRS SUPPORT CONTACT DETAILS
 
-Use when the user requests BRS Support contact details, support phone numbers, support email, or asks how to contact BRS Support.
+Use when the user requests contact details, phone numbers, email, opening-hours information, availability, or ways to contact the BRS Technical Support team, BRS Support team, helpdesk, or support team.
 
 ## APPROVED ANSWER: brs-support-contact-details
 Call us on UK 028 9568 0288 or IE 0353 1800 852 935.
