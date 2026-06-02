@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import baseHandler from "./server.js";
 import { getSurveyMetrics, recordResolvedInteraction, recordSurveyScore } from "./feedbackStore.js";
+import { answerFromKnowledge } from "./lib/knowledgeAnswer.js";
 
 dotenv.config();
 
@@ -17,6 +18,18 @@ app.use(express.json());
 function getSessionId(req) {
   return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
 }
+
+app.post("/api/chat", async (req, res, next) => {
+  try {
+    const message = String(req.body?.message || "").trim();
+    const reply = await answerFromKnowledge(message);
+    if (!reply) return baseHandler(req, res, next);
+    return res.json({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" });
+  } catch (error) {
+    console.error("Knowledge answer failed, falling back to base chatbot:", error);
+    return baseHandler(req, res, next);
+  }
+});
 
 app.post("/api/resolved-interactions", async (req, res) => {
   try {
