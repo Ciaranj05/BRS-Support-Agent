@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import baseHandler from "./server.js";
 import { getSurveyMetrics, recordResolvedInteraction, recordSurveyScore } from "./feedbackStore.js";
 import { answerFromKnowledge } from "./lib/knowledgeAnswer.js";
+import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 
 dotenv.config();
 
@@ -23,8 +24,12 @@ app.post("/api/chat", async (req, res, next) => {
   try {
     const message = String(req.body?.message || "").trim();
     const reply = await answerFromKnowledge(message);
-    if (!reply) return baseHandler(req, res, next);
-    return res.json({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" });
+    if (reply) return res.json({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" });
+
+    const objectFirstReply = answerFromObjectFirstRouting(message);
+    if (objectFirstReply) return res.json(objectFirstReply);
+
+    return baseHandler(req, res, next);
   } catch (error) {
     console.error("Knowledge answer failed, falling back to base chatbot:", error);
     return baseHandler(req, res, next);
