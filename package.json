@@ -5,7 +5,7 @@
   "description": "",
   "main": "server-with-feedback.js",
   "scripts": {
-    "test": "node --check server-with-feedback.js && node --check server.js && node --check feedbackStore.js && node --check scripts/crawl-brs-system.js && node --check scripts/build-knowledge-base.js && node --check lib/knowledgeAnswer.js && node --check lib/knowledgeSources.js && node --check lib/knowledgeRedaction.js && node --check lib/retrieval.js",
+    "test": "node --check server-with-feedback.js && node --check server.js && node --check feedbackStore.js && node --check scripts/crawl-brs-system.js && node --check scripts/build-knowledge-base.js && node --check lib/knowledgeAnswer.js && node --check lib/knowledgeSources.js && node --check lib/knowledgeRedaction.js && node --check lib/retrieval.js && node --test tests/*.test.js",
     "start": "node server-with-feedback.js",
     "crawl:brs-system": "node scripts/crawl-brs-system.js",
     "build:knowledge": "node scripts/build-knowledge-base.js"
