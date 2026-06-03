@@ -61,6 +61,7 @@ function getApprovedAnswer(topic, answerId) {
 function detectTopic(message) {
   const lower = message.toLowerCase();
   if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) return "teesheet";
+  if (lower.includes("payment scheme") || lower.includes("payment plan") || lower.includes("instalment") || lower.includes("installment") || lower.includes("scheduled payment")) return "memberships";
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
   if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet")) return "memberships";
   if (lower.includes("admin user") || lower.includes("staff") || lower.includes("login") || lower.includes("permission")) return "user-management";
@@ -256,8 +257,10 @@ ${moveBookingReply}`,
 
 export default async function chatHandler(req, res) {
   const message = req.body?.message?.toString() || "";
+  const contextHint = req.body?.contextHint?.toString() || "";
+  const routedMessage = contextHint ? `${contextHint}\n\nUser follow-up: ${message}` : message;
 
-  if (req.method === "POST" && isGolfNowSupportContactRequest(message)) {
+  if (req.method === "POST" && isGolfNowSupportContactRequest(routedMessage)) {
     return res.status(200).json({
       reply: golfNowSupportReply,
       escalationReady: false,
@@ -267,7 +270,7 @@ export default async function chatHandler(req, res) {
     });
   }
 
-  if (req.method === "POST" && isBrsSupportContactRequest(message)) {
+  if (req.method === "POST" && isBrsSupportContactRequest(routedMessage)) {
     return res.status(200).json({
       reply: getBrsSupportContactReply(),
       escalationReady: false,
@@ -277,8 +280,8 @@ export default async function chatHandler(req, res) {
     });
   }
 
-  const directAnswer = getDirectAnswerForMessage(message);
-  if (req.method === "POST" && directAnswer) {
+  const directAnswer = getDirectAnswerForMessage(routedMessage);
+  if (req.method === "POST" && directAnswer && !contextHint) {
     return res.status(200).json({
       reply: directAnswer.reply,
       escalationReady: false,
@@ -288,8 +291,8 @@ export default async function chatHandler(req, res) {
     });
   }
 
-  if (req.method === "POST" && isMoveBookingRequest(message)) {
-    const reply = await createSafeMoveBookingReply(message);
+  if (req.method === "POST" && isMoveBookingRequest(routedMessage)) {
+    const reply = await createSafeMoveBookingReply(routedMessage);
     return res.status(200).json({
       reply,
       escalationReady: false,
@@ -299,7 +302,7 @@ export default async function chatHandler(req, res) {
     });
   }
 
-  if (req.method === "POST" && isUnavailableTeeTimesRequest(message)) {
+  if (req.method === "POST" && isUnavailableTeeTimesRequest(routedMessage)) {
     return res.status(200).json({
       reply: unavailableTeeTimesReply,
       escalationReady: false,
@@ -309,5 +312,6 @@ export default async function chatHandler(req, res) {
     });
   }
 
+  if (contextHint) req.body.message = routedMessage;
   return handler(req, res);
 }

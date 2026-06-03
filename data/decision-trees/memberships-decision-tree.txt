@@ -17,6 +17,13 @@ ANSWER ID: create-membership-bill
 
 ---
 
+ROUTE: payment-scheme-setup
+MATCH ANY: payment scheme, payment plan, instalments, installments, scheduled payment, scheduled payments
+MATCH ANY: setup, set up, create, add, new, manage, scheduled
+ANSWER ID: payment-scheme-setup
+
+---
+
 ## CROSS-TOPIC OVERRIDE
 
 Treat the latest typed clarification as more important than earlier button context.
@@ -78,6 +85,9 @@ Subscription cycle:
 
 Payment scheme:
 - payment plan
+- setup payment scheme
+- set up payment scheme
+- create payment scheme
 - instalments
 - installments
 - direct debit style payments
