@@ -50,6 +50,13 @@ Payment allocation / bill issue:
 - payment mismatch
 - balance still due after payment
 
+Membership bill reports:
+- unpaid membership bills
+- unpaid member bills
+- members with unpaid bills
+- outstanding membership bill balances
+- report showing unpaid bills
+
 Payment failure:
 - card declined
 - payment failed
@@ -76,6 +83,14 @@ Payment request:
 - booking deposit link
 - general payment request
 - non-booking payment
+
+---
+
+ROUTE: membership-unpaid-bills-report
+MATCH ANY: unpaid bills, unpaid bill, outstanding bills, outstanding balance, bill balances
+MATCH ANY: report, reports, shows, show, find me, list
+MATCH ANY: member, members, membership
+ANSWER ID: membership-unpaid-bills-report
 
 ---
 
@@ -420,6 +435,7 @@ Always:
 - Refund against the correct payment only
 - Ask routing questions before detailed instructions when the correct path depends on the answer
 - Translate common customer/payment wording into the supported payment route before asking another broad question
+- Route reports about members with unpaid bills to Memberships reporting, not payment issue clarification
 
 Never:
 
