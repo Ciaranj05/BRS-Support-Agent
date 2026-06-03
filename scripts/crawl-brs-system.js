@@ -9,7 +9,7 @@ const BASE_URL = process.env.BRS_BASE_URL || "https://brsgolf.com";
 const USERNAME = process.env.BRS_USERNAME;
 const PASSWORD = process.env.BRS_PASSWORD;
 const OUTPUT_DIR = process.env.BRS_CRAWL_OUTPUT_DIR || path.join("knowledge", "system");
-const MAX_PAGES = Number(process.env.BRS_CRAWL_MAX_PAGES || 80);
+const MAX_PAGES = Number(process.env.BRS_CRAWL_MAX_PAGES || 140);
 const ALLOW_MUTATIONS = process.env.BRS_CRAWL_ALLOW_MUTATIONS === "true";
 
 const CLUB_IDS = (process.env.BRS_CLUB_IDS || process.env.BRS_CLUB_ID || "")
@@ -25,14 +25,23 @@ const ALLOWED_NAVIGATION_TEXT = [
   /payments/i,
   /reports/i,
   /competitions/i,
-  /members/i,
-  /subscriptions/i,
+  /members?/i,
+  /memberships?/i,
+  /subscriptions?/i,
+  /billing/i,
+  /bills?/i,
+  /invoices?/i,
+  /wallet/i,
+  /account balance/i,
+  /flexi|flexible/i,
+  /payment schemes?/i,
   /users/i,
   /permissions/i,
   /email/i,
   /templates/i,
   /gdpr/i,
   /buggy/i,
+  /help/i,
 ];
 
 const BLOCKED_URL_TEXT = [
@@ -67,6 +76,19 @@ function isAllowedLink(link, clubId) {
   if (!sameClubUrl(link.href, clubId)) return false;
   if (BLOCKED_URL_TEXT.some((pattern) => pattern.test(text))) return false;
   return ALLOWED_NAVIGATION_TEXT.some((pattern) => pattern.test(text));
+}
+
+function uniqueUsefulText(values = [], limit = 120) {
+  const seen = new Set();
+  const output = [];
+  for (const value of values) {
+    const text = keepReusableProductText(value);
+    if (!text || seen.has(text.toLowerCase())) continue;
+    seen.add(text.toLowerCase());
+    output.push(text);
+    if (output.length >= limit) break;
+  }
+  return output;
 }
 
 async function loadPlaywright() {
@@ -106,44 +128,67 @@ async function extractLinks(page, clubId) {
   return links.filter((link) => isAllowedLink(link, clubId));
 }
 
+async function readVisibleText(page, selector) {
+  return page.locator(selector).evaluateAll((nodes) => nodes
+    .map((node) => node.innerText || node.textContent || "")
+    .filter(Boolean)).catch(() => []);
+}
+
 async function extractHelpText(page) {
-  const helpCandidates = page.locator("[title], [aria-label], .help, .tooltip, a:has-text('?'), button:has-text('?')");
-  const count = Math.min(await helpCandidates.count().catch(() => 0), 60);
+  const selector = "[title], [aria-label], [data-original-title], [data-bs-original-title], [data-tooltip], [data-help], .help, .tooltip, .popover, [role='tooltip'], a:has-text('?'), button:has-text('?'), [class*='help'], [class*='tooltip'], [class*='popover']";
+  const helpCandidates = page.locator(selector);
+  const count = Math.min(await helpCandidates.count().catch(() => 0), 80);
   const helpText = [];
+
   for (let index = 0; index < count; index += 1) {
     const item = helpCandidates.nth(index);
-    const title = await item.getAttribute("title").catch(() => "");
-    const aria = await item.getAttribute("aria-label").catch(() => "");
-    const text = keepReusableProductText([title, aria, await item.textContent().catch(() => "")].filter(Boolean).join(" "));
-    if (text && !helpText.includes(text)) helpText.push(text);
+    const attributes = await Promise.all(["title", "aria-label", "data-original-title", "data-bs-original-title", "data-tooltip", "data-help"].map((attribute) => item.getAttribute(attribute).catch(() => "")));
+    helpText.push(...attributes);
+    helpText.push(await item.textContent().catch(() => ""));
+
+    try {
+      await item.hover({ timeout: 500 });
+      helpText.push(...await readVisibleText(page, ".tooltip, .popover, [role='tooltip']"));
+    } catch {}
+
+    try {
+      await item.click({ timeout: 500, trial: false });
+      helpText.push(...await readVisibleText(page, ".tooltip, .popover, [role='tooltip'], .modal, [role='dialog']"));
+      await page.keyboard.press("Escape").catch(() => {});
+    } catch {}
   }
-  return helpText;
+
+  return uniqueUsefulText(helpText, 100);
 }
 
 async function extractPageKnowledge(page, clubId, url) {
   const title = redactText(await page.title().catch(() => "BRS page"));
-  const headings = await page.locator("h1, h2, h3").evaluateAll((nodes) => nodes.map((node) => node.textContent || "")).catch(() => []);
-  const labels = await page.locator("label, th, legend").evaluateAll((nodes) => nodes.map((node) => node.textContent || "")).catch(() => []);
-  const buttons = await page.locator("button, input[type='submit'], input[type='button']").evaluateAll((nodes) => nodes.map((node) => node.textContent || node.value || "")).catch(() => []);
+  const headings = uniqueUsefulText(await page.locator("h1, h2, h3").evaluateAll((nodes) => nodes.map((node) => node.textContent || "")).catch(() => []), 12);
+  const labels = await page.locator("label, th, legend, dt").evaluateAll((nodes) => nodes.map((node) => node.textContent || "")).catch(() => []);
+  const buttons = await page.locator("button, input[type='submit'], input[type='button'], a.btn, [role='button']").evaluateAll((nodes) => nodes.map((node) => node.textContent || node.value || node.getAttribute("aria-label") || "")).catch(() => []);
   const breadcrumbs = await page.locator(".breadcrumb, .breadcrumbs, nav[aria-label*='breadcrumb' i]").textContent().catch(() => "");
   const helpText = await extractHelpText(page);
+  const pageText = uniqueUsefulText(await readVisibleText(page, "main, #content, .content, .container, body"), 12).join("\n");
 
-  const fields = labels.map(keepReusableProductText).filter(Boolean).slice(0, 120).map((label) => ({ label }));
-  const actions = buttons.map(keepReusableProductText).filter(Boolean).filter((label) => ALLOW_MUTATIONS || !/delete|remove|cancel|save|update|submit/i.test(label)).slice(0, 50).map((label) => ({ label }));
+  const fields = uniqueUsefulText(labels, 140).map((label) => ({ label }));
+  const actions = uniqueUsefulText(buttons, 70)
+    .filter((label) => ALLOW_MUTATIONS || !/delete|remove|cancel|save|update|submit/i.test(label))
+    .map((label) => ({ label }));
 
   return {
     id: `brs-system:${clubId}:${Buffer.from(url).toString("base64url").slice(0, 32)}`,
     sourceType: "brs-system",
     clubScope: "template",
     clubId,
-    title: keepReusableProductText(headings[0]) || title,
-    area: keepReusableProductText(headings[0] || title),
+    title: headings[0] || title,
+    area: headings[0] || title,
     navigationPath: keepReusableProductText(breadcrumbs) || null,
     sourceUrl: url,
-    purpose: headings.map(keepReusableProductText).filter(Boolean).slice(0, 8).join(" | "),
+    purpose: headings.slice(0, 8).join(" | "),
+    content: pageText,
     fields,
     actions,
-    helpText: helpText.slice(0, 80),
+    helpText,
     relatedAreas: [],
     containsClubSpecificData: false,
     confidence: "needs-review",
@@ -165,6 +210,7 @@ async function crawlClub(browser, clubId) {
     if (!next?.href || seen.has(next.href)) continue;
     seen.add(next.href);
     await page.goto(next.href, { waitUntil: "domcontentloaded" }).catch(() => null);
+    await page.waitForLoadState("networkidle", { timeout: 1500 }).catch(() => {});
     if (!sameClubUrl(page.url(), clubId)) continue;
     entries.push(await extractPageKnowledge(page, clubId, page.url()));
     for (const link of await extractLinks(page, clubId)) {
