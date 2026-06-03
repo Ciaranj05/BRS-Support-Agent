@@ -162,6 +162,23 @@ If subscription amount is wrong, check the subscription setup before editing the
 
 Use payment schemes to manage scheduled membership payments.
 
+## APPROVED ANSWER: payment-scheme-setup
+Payment schemes are used for scheduled membership payments.
+
+Before setting one up or changing one, confirm:
+
+1. Correct member
+2. Linked bill
+3. Scheme start date
+4. Payment frequency
+5. Amount
+6. Member status
+
+If a scheduled payment has not been taken, check whether the member was active before the scheduled payment date. Scheduled payments only continue for members with an Active status.
+
+I do not have confirmed button-by-button payment scheme setup steps in the approved guidance yet, so do not guess the final clicks. If the user needs the exact setup workflow, escalate or add the approved workflow to the membership knowledge base.
+## END APPROVED ANSWER
+
 Check:
 
 - Scheme start date
