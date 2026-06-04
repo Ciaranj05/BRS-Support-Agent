@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import OpenAI from "openai";
 import baseHandler from "./server.js";
 import { getSurveyMetrics, recordResolvedInteraction, recordSurveyScore } from "./feedbackStore.js";
 import { answerFromKnowledge } from "./lib/knowledgeAnswer.js";
@@ -12,6 +13,7 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const app = express();
+const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.use(cors());
 app.use(express.json());
@@ -28,27 +30,78 @@ function withDebug(payload, debug, enabled) {
   return enabled ? { ...payload, debug } : payload;
 }
 
+function shouldRewriteReply(reply) {
+  return typeof reply === "string" && reply.trim().length > 0;
+}
+
+async function rewriteReplyInOwnWords(reply, message) {
+  if (!shouldRewriteReply(reply)) return reply;
+
+  try {
+    const response = await client.responses.create({
+      model: "gpt-4.1-mini",
+      input: [
+        {
+          role: "system",
+          content: `Rewrite the support answer in your own words for a non-technical BRS Golf admin user.
+
+Rules:
+- Do not copy sentences or paragraphs from the supplied answer or knowledge source wording.
+- Digest the meaning, then explain it in low-level, easy language.
+- Keep the answer short, practical, and step-by-step when steps are useful.
+- Keep exact product names, phone numbers, email addresses, URLs, button labels, menu paths, and legally/safety-sensitive values unchanged when changing them would make the answer inaccurate.
+- Do not add any new product facts, UI paths, buttons, policies, prices, or promises.
+- Preserve any source link at the end.
+- If the answer is asking one clarification question, keep it as one simple question.`,
+        },
+        {
+          role: "user",
+          content: `User message:\n${message || "Unknown"}\n\nAnswer to rewrite:\n${reply}`,
+        },
+      ],
+    });
+
+    return response.output_text?.trim() || reply;
+  } catch (error) {
+    console.error("Reply rewrite failed, sending original supported answer:", error);
+    return reply;
+  }
+}
+
+async function prepareChatPayload(payload, message, debug, debugEnabled) {
+  const nextPayload = payload && typeof payload === "object" && !Array.isArray(payload) ? { ...payload } : payload;
+  if (nextPayload && shouldRewriteReply(nextPayload.reply)) {
+    nextPayload.reply = await rewriteReplyInOwnWords(nextPayload.reply, message);
+  }
+  return withDebug(nextPayload, debug, debugEnabled);
+}
+
+function wrapJsonForChat(res, message, debug, debugEnabled) {
+  const originalJson = res.json.bind(res);
+  res.json = async (payload) => originalJson(await prepareChatPayload(payload, message, debug, debugEnabled));
+}
+
 app.post("/api/chat", async (req, res, next) => {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
+  const message = String(req.body?.message || "").trim();
 
   try {
-    const message = String(req.body?.message || "").trim();
-
     const objectFirstReply = answerFromObjectFirstRouting(message);
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
-    if (objectFirstReply) return res.json(withDebug(objectFirstReply, debug, debugEnabled));
+    if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled));
 
     const reply = await answerFromKnowledge(message);
     debug.stages.push({ name: "knowledge-answer", matched: Boolean(reply) });
     if (reply) {
-      return res.json(withDebug({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" }, debug, debugEnabled));
+      return res.json(await prepareChatPayload({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" }, message, debug, debugEnabled));
     }
 
     debug.stages.push({ name: "legacy-server", matched: true });
     if (debugEnabled) {
       req.body = { ...req.body, chatDebug: debug };
     }
+    wrapJsonForChat(res, message, debug, debugEnabled);
     return baseHandler(req, res, next);
   } catch (error) {
     console.error("Enhanced chat routing failed, falling back to base chatbot:", error);
@@ -56,6 +109,7 @@ app.post("/api/chat", async (req, res, next) => {
     if (debugEnabled) {
       req.body = { ...req.body, chatDebug: debug };
     }
+    wrapJsonForChat(res, message, debug, debugEnabled);
     return baseHandler(req, res, next);
   }
 });
