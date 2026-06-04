@@ -20,18 +20,42 @@ function getSessionId(req) {
   return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
 }
 
+function wantsChatDebug(req) {
+  return req.body?.debug === true || req.query?.debug === "true" || process.env.BRS_CHAT_DEBUG === "true";
+}
+
+function withDebug(payload, debug, enabled) {
+  return enabled ? { ...payload, debug } : payload;
+}
+
 app.post("/api/chat", async (req, res, next) => {
+  const debugEnabled = wantsChatDebug(req);
+  const debug = { entrypoint: "server-with-feedback", stages: [] };
+
   try {
     const message = String(req.body?.message || "").trim();
-    const reply = await answerFromKnowledge(message);
-    if (reply) return res.json({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" });
 
     const objectFirstReply = answerFromObjectFirstRouting(message);
-    if (objectFirstReply) return res.json(objectFirstReply);
+    debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
+    if (objectFirstReply) return res.json(withDebug(objectFirstReply, debug, debugEnabled));
 
+    const reply = await answerFromKnowledge(message);
+    debug.stages.push({ name: "knowledge-answer", matched: Boolean(reply) });
+    if (reply) {
+      return res.json(withDebug({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" }, debug, debugEnabled));
+    }
+
+    debug.stages.push({ name: "legacy-server", matched: true });
+    if (debugEnabled) {
+      req.body = { ...req.body, chatDebug: debug };
+    }
     return baseHandler(req, res, next);
   } catch (error) {
-    console.error("Knowledge answer failed, falling back to base chatbot:", error);
+    console.error("Enhanced chat routing failed, falling back to base chatbot:", error);
+    debug.stages.push({ name: "enhanced-routing-error", matched: false, error: error.message || "Unknown error" });
+    if (debugEnabled) {
+      req.body = { ...req.body, chatDebug: debug };
+    }
     return baseHandler(req, res, next);
   }
 });
