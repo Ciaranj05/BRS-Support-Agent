@@ -1,7 +1,7 @@
 {
   "functions": {
     "server-with-feedback.js": {
-      "includeFiles": "{public/**,data/**}"
+      "includeFiles": "{public/**,data/**,knowledge/**}"
     }
   },
   "routes": [
