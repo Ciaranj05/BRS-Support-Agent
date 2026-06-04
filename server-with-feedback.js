@@ -81,7 +81,7 @@ function wrapJsonForChat(res, message, debug, debugEnabled) {
   res.json = async (payload) => originalJson(await prepareChatPayload(payload, message, debug, debugEnabled));
 }
 
-app.post("/api/chat", async (req, res, next) => {
+async function enhancedChatHandler(req, res, next) {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
   const message = String(req.body?.message || "").trim();
@@ -112,7 +112,10 @@ app.post("/api/chat", async (req, res, next) => {
     wrapJsonForChat(res, message, debug, debugEnabled);
     return baseHandler(req, res, next);
   }
-});
+}
+
+app.post("/api/chat", enhancedChatHandler);
+app.post("/chat", enhancedChatHandler);
 
 app.post("/api/resolved-interactions", async (req, res) => {
   try {
