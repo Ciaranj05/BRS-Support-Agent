@@ -9,6 +9,7 @@ const BASE_URL = process.env.BRS_BASE_URL || "https://brsgolf.com";
 const USERNAME = process.env.BRS_USERNAME;
 const PASSWORD = process.env.BRS_PASSWORD;
 const OUTPUT_DIR = process.env.BRS_CRAWL_OUTPUT_DIR || path.join("knowledge", "system");
+const WORKFLOW_OUTPUT_DIR = process.env.BRS_CRAWL_WORKFLOW_OUTPUT_DIR || path.join("knowledge", "workflows");
 const MAX_PAGES = Number(process.env.BRS_CRAWL_MAX_PAGES || 140);
 const ALLOW_MUTATIONS = process.env.BRS_CRAWL_ALLOW_MUTATIONS === "true";
 
@@ -91,6 +92,33 @@ function uniqueUsefulText(values = [], limit = 120) {
   return output;
 }
 
+function normaliseLabel(value = "") {
+  return keepReusableProductText(String(value || "").replace(/\s+/g, " ").trim());
+}
+
+function uniqueObjects(items = [], key = "label", limit = 120) {
+  const seen = new Set();
+  const output = [];
+  for (const item of items) {
+    const label = normaliseLabel(item?.[key]);
+    if (!label || seen.has(label.toLowerCase())) continue;
+    seen.add(label.toLowerCase());
+    output.push({ ...item, [key]: label });
+    if (output.length >= limit) break;
+  }
+  return output;
+}
+
+function inferActionPurpose(action = {}) {
+  const text = `${action.label || ""} ${action.ariaLabel || ""} ${action.title || ""} ${action.className || ""} ${action.href || ""}`.toLowerCase();
+  if (/download|export|csv|excel|cloud.*down|fa-download|icon-download|download/i.test(text)) return "download/export";
+  if (/filter|search|magnif|funnel|apply/i.test(text)) return "filter/search";
+  if (/print|printer/i.test(text)) return "print";
+  if (/reset|clear/i.test(text)) return "reset filters";
+  if (/view|open|details|report|run/i.test(text)) return "open/run";
+  return "action";
+}
+
 async function loadPlaywright() {
   try {
     return await import("playwright");
@@ -134,6 +162,62 @@ async function readVisibleText(page, selector) {
     .filter(Boolean)).catch(() => []);
 }
 
+async function extractInteractiveControls(page) {
+  const controls = await page.locator("button, input[type='submit'], input[type='button'], a.btn, a[role='button'], [role='button'], a[href]").evaluateAll((nodes) => nodes.map((node) => {
+    const element = node;
+    const text = element.innerText || element.textContent || element.value || "";
+    const imageAlt = [...element.querySelectorAll("img[alt]")].map((img) => img.getAttribute("alt")).filter(Boolean).join(" ");
+    const iconTitle = [...element.querySelectorAll("svg title, i, span[class*='icon'], span[class*='fa'], span[class*='glyphicon']")].map((item) => item.textContent || item.getAttribute("title") || item.getAttribute("aria-label") || item.className || "").filter(Boolean).join(" ");
+    const href = element.href || element.getAttribute("href") || "";
+    return {
+      label: text || element.getAttribute("aria-label") || element.getAttribute("title") || element.getAttribute("data-original-title") || imageAlt || iconTitle || element.className || href,
+      ariaLabel: element.getAttribute("aria-label") || "",
+      title: element.getAttribute("title") || element.getAttribute("data-original-title") || element.getAttribute("data-bs-original-title") || "",
+      className: typeof element.className === "string" ? element.className : "",
+      href,
+      iconText: imageAlt || iconTitle,
+      tagName: element.tagName,
+    };
+  })).catch(() => []);
+
+  return uniqueObjects(controls.map((control) => ({
+    ...control,
+    purpose: inferActionPurpose(control),
+  })).filter((control) => ALLOW_MUTATIONS || !/delete|remove|cancel|save|update|submit/i.test(`${control.label} ${control.title}`)), "label", 100);
+}
+
+async function extractFormControls(page) {
+  const controls = await page.locator("input, select, textarea").evaluateAll((nodes) => nodes.map((node) => {
+    const id = node.getAttribute("id");
+    const name = node.getAttribute("name") || "";
+    const label = id ? document.querySelector(`label[for="${CSS.escape(id)}"]`)?.textContent || "" : "";
+    const closestLabel = node.closest("label")?.textContent || "";
+    const placeholder = node.getAttribute("placeholder") || "";
+    const ariaLabel = node.getAttribute("aria-label") || "";
+    const title = node.getAttribute("title") || "";
+    const tagName = node.tagName.toLowerCase();
+    const type = node.getAttribute("type") || tagName;
+    const options = tagName === "select" ? [...node.querySelectorAll("option")].map((option) => option.textContent || option.value || "").filter(Boolean).slice(0, 80) : [];
+    return {
+      label: label || closestLabel || ariaLabel || placeholder || title || name || type,
+      name,
+      type,
+      options,
+    };
+  })).catch(() => []);
+
+  return uniqueObjects(controls.map((control) => ({
+    ...control,
+    options: uniqueUsefulText(control.options || [], 80),
+  })), "label", 140);
+}
+
+async function extractTableEvidence(page) {
+  const headers = uniqueUsefulText(await page.locator("table th, [role='columnheader']").evaluateAll((nodes) => nodes.map((node) => node.textContent || "")).catch(() => []), 80);
+  const captions = uniqueUsefulText(await page.locator("caption, table h1, table h2, table h3").evaluateAll((nodes) => nodes.map((node) => node.textContent || "")).catch(() => []), 20);
+  return { headers, captions };
+}
+
 async function extractHelpText(page) {
   const selector = "[title], [aria-label], [data-original-title], [data-bs-original-title], [data-tooltip], [data-help], .help, .tooltip, .popover, [role='tooltip'], a:has-text('?'), button:has-text('?'), [class*='help'], [class*='tooltip'], [class*='popover']";
   const helpCandidates = page.locator(selector);
@@ -165,35 +249,71 @@ async function extractPageKnowledge(page, clubId, url) {
   const title = redactText(await page.title().catch(() => "BRS page"));
   const headings = uniqueUsefulText(await page.locator("h1, h2, h3").evaluateAll((nodes) => nodes.map((node) => node.textContent || "")).catch(() => []), 12);
   const labels = await page.locator("label, th, legend, dt").evaluateAll((nodes) => nodes.map((node) => node.textContent || "")).catch(() => []);
-  const buttons = await page.locator("button, input[type='submit'], input[type='button'], a.btn, [role='button']").evaluateAll((nodes) => nodes.map((node) => node.textContent || node.value || node.getAttribute("aria-label") || "")).catch(() => []);
   const breadcrumbs = await page.locator(".breadcrumb, .breadcrumbs, nav[aria-label*='breadcrumb' i]").textContent().catch(() => "");
   const helpText = await extractHelpText(page);
   const pageText = uniqueUsefulText(await readVisibleText(page, "main, #content, .content, .container, body"), 12).join("\n");
+  const formControls = await extractFormControls(page);
+  const interactiveControls = await extractInteractiveControls(page);
+  const tableEvidence = await extractTableEvidence(page);
 
   const fields = uniqueUsefulText(labels, 140).map((label) => ({ label }));
-  const actions = uniqueUsefulText(buttons, 70)
-    .filter((label) => ALLOW_MUTATIONS || !/delete|remove|cancel|save|update|submit/i.test(label))
-    .map((label) => ({ label }));
+  const actions = interactiveControls.map((control) => ({ label: control.label, purpose: control.purpose, title: control.title, ariaLabel: control.ariaLabel, iconText: control.iconText }));
+  const navigationPath = keepReusableProductText(breadcrumbs) || headings.join(" > ") || null;
+  const baseId = `brs-system:${clubId}:${Buffer.from(url).toString("base64url").slice(0, 32)}`;
+  const titleText = headings[0] || title;
 
-  return {
-    id: `brs-system:${clubId}:${Buffer.from(url).toString("base64url").slice(0, 32)}`,
+  const pageEntry = {
+    id: baseId,
     sourceType: "brs-system",
     clubScope: "template",
     clubId,
-    title: headings[0] || title,
-    area: headings[0] || title,
-    navigationPath: keepReusableProductText(breadcrumbs) || null,
+    title: titleText,
+    area: titleText,
+    navigationPath,
     sourceUrl: url,
     purpose: headings.slice(0, 8).join(" | "),
     content: pageText,
-    fields,
+    fields: uniqueObjects([...fields, ...formControls], "label", 180),
     actions,
     helpText,
+    tableHeaders: tableEvidence.headers,
     relatedAreas: [],
     containsClubSpecificData: false,
     confidence: "needs-review",
     lastObservedAt: new Date().toISOString(),
   };
+
+  const hasWorkflowShape = navigationPath || formControls.length || actions.length || tableEvidence.headers.length;
+  const workflowEntry = hasWorkflowShape ? {
+    id: `${baseId}:workflow`,
+    sourceType: "brs-system-workflow",
+    clubScope: "template",
+    clubId,
+    title: `${titleText} workflow`,
+    area: titleText,
+    workflow: titleText,
+    navigationPath,
+    sourceUrl: url,
+    purpose: headings.slice(0, 8).join(" | ") || pageText.split("\n")[0] || titleText,
+    steps: [
+      navigationPath ? `Open ${navigationPath}` : `Open ${titleText}`,
+      formControls.length ? "Use the available fields, filters, or selectors to narrow the result." : null,
+      actions.length ? "Use the available page actions for the next step, such as run, filter, print, or download/export where shown." : null,
+    ].filter(Boolean),
+    controls: formControls,
+    actions,
+    tableHeaders: tableEvidence.headers,
+    pageEvidence: {
+      headings,
+      captions: tableEvidence.captions,
+      helpText,
+    },
+    containsClubSpecificData: false,
+    confidence: "needs-review",
+    lastObservedAt: new Date().toISOString(),
+  } : null;
+
+  return workflowEntry ? [pageEntry, workflowEntry] : [pageEntry];
 }
 
 async function crawlClub(browser, clubId) {
@@ -212,7 +332,7 @@ async function crawlClub(browser, clubId) {
     await page.goto(next.href, { waitUntil: "domcontentloaded" }).catch(() => null);
     await page.waitForLoadState("networkidle", { timeout: 1500 }).catch(() => {});
     if (!sameClubUrl(page.url(), clubId)) continue;
-    entries.push(await extractPageKnowledge(page, clubId, page.url()));
+    entries.push(...await extractPageKnowledge(page, clubId, page.url()));
     for (const link of await extractLinks(page, clubId)) {
       if (!seen.has(link.href)) queue.push(link);
     }
@@ -233,12 +353,20 @@ async function main() {
     await browser.close();
   }
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
+  await fs.mkdir(WORKFLOW_OUTPUT_DIR, { recursive: true });
   const outputPath = path.join(OUTPUT_DIR, `brs-system-${Date.now()}.json`);
+  const workflowOutputPath = path.join(WORKFLOW_OUTPUT_DIR, `brs-workflows-${Date.now()}.json`);
+  const workflowEntries = output.entries.filter((entry) => entry.sourceType === "brs-system-workflow");
+  output.entries = output.entries.filter((entry) => entry.sourceType !== "brs-system-workflow");
   await fs.writeFile(outputPath, JSON.stringify(output, null, 2));
+  await fs.writeFile(workflowOutputPath, JSON.stringify({ generatedAt: output.generatedAt, sourceType: "brs-system-workflow", entries: workflowEntries }, null, 2));
   console.log(`Wrote ${output.entries.length} BRS system knowledge entries to ${outputPath}`);
+  console.log(`Wrote ${workflowEntries.length} BRS workflow knowledge entries to ${workflowOutputPath}`);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (process.argv[1] && process.argv[1].endsWith("crawl-brs-system.js")) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}

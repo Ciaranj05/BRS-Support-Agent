@@ -7,7 +7,7 @@ const KNOWLEDGE_DIR = path.join(process.cwd(), "knowledge");
 const OUTPUT_PATH = path.join(KNOWLEDGE_DIR, "knowledge-index.json");
 
 function isSystemEntry(entry = {}) {
-  return ["system", "brs-system"].includes(entry.sourceType);
+  return ["system", "brs-system", "workflow", "brs-system-workflow"].includes(entry.sourceType);
 }
 
 function compactTextParts(parts = []) {
@@ -22,9 +22,13 @@ function entryTextForReview(entry = {}) {
     entry.summary,
     entry.purpose,
     entry.content,
+    entry.workflow,
+    entry.steps || [],
     entry.helpText || [],
+    entry.tableHeaders || [],
+    (entry.controls || []).map((control) => compactTextParts([control.label, control.type, control.options || []])),
     (entry.fields || []).map((field) => compactTextParts([field.label, field.helpText, field.type])),
-    (entry.actions || []).map((action) => typeof action === "string" ? action : action.label),
+    (entry.actions || []).map((action) => typeof action === "string" ? action : compactTextParts([action.label, action.purpose, action.title, action.ariaLabel, action.iconText])),
   ]);
 }
 
@@ -45,7 +49,8 @@ function hasEnoughReusableProductKnowledge(entry = {}) {
 }
 
 function prepareSystemEntry(entry = {}) {
-  const redacted = redactValue({ ...entry, sourceType: "system" });
+  const sourceType = ["workflow", "brs-system-workflow"].includes(entry.sourceType) ? "workflow" : "system";
+  const redacted = redactValue({ ...entry, sourceType });
   const reviewText = entryTextForReview(redacted);
   const tags = new Set([...(redacted.tags || []), "crawled-brs-system", "redacted-system-observation"]);
   const safeForChatbot = hasEnoughReusableProductKnowledge(redacted)
@@ -58,7 +63,7 @@ function prepareSystemEntry(entry = {}) {
     clubId: undefined,
     clubScope: "template",
     confidence: safeForChatbot ? "approved" : "needs-review",
-    tags: [...tags, safeForChatbot ? "auto-approved-after-redaction" : "requires-human-review"],
+    tags: [...tags, sourceType === "workflow" ? "workflow-knowledge" : null, safeForChatbot ? "auto-approved-after-redaction" : "requires-human-review"].filter(Boolean),
   };
 }
 
@@ -105,6 +110,7 @@ async function readManualMarkdown(dir) {
 export async function buildKnowledgeBase({ knowledgeDir = KNOWLEDGE_DIR, outputPath = OUTPUT_PATH } = {}) {
   const sources = [
     ...await readJsonFiles(path.join(knowledgeDir, "system")),
+    ...await readJsonFiles(path.join(knowledgeDir, "workflows")),
     ...await readJsonFiles(path.join(knowledgeDir, "help-center")),
     ...await readManualMarkdown(path.join(knowledgeDir, "manual")),
   ];
