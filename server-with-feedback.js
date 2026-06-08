@@ -72,17 +72,39 @@ Rules:
   }
 }
 
-async function prepareChatPayload(payload, message, debug, debugEnabled) {
+function buildResponseHistory(req, message, payload) {
+  const baseHistory = Array.isArray(req.body?.conversationHistory) ? req.body.conversationHistory : [];
+  const hasLatestUser = [...baseHistory].reverse().some((item) => item.role === "user" && item.content === message);
+  const history = hasLatestUser ? [...baseHistory] : [...baseHistory, { role: "user", content: message }];
+  if (!payload?.reply) return history;
+  return [
+    ...history,
+    {
+      role: "assistant",
+      content: payload.reply,
+      liveLookup: payload.liveLookup || null,
+      version: payload.version || null,
+      topic: payload.topic || null,
+      options: payload.options || [],
+      clarificationId: payload.clarificationId || null,
+    },
+  ];
+}
+
+async function prepareChatPayload(payload, message, debug, debugEnabled, req = null) {
   const nextPayload = payload && typeof payload === "object" && !Array.isArray(payload) ? { ...payload } : payload;
   if (nextPayload && shouldRewriteReply(nextPayload.reply)) {
     nextPayload.reply = await rewriteReplyInOwnWords(nextPayload.reply, message);
   }
+  if (nextPayload && req) {
+    nextPayload.conversationHistory = buildResponseHistory(req, message, nextPayload);
+  }
   return withDebug(nextPayload, debug, debugEnabled);
 }
 
-function wrapJsonForChat(res, message, debug, debugEnabled) {
+function wrapJsonForChat(res, message, debug, debugEnabled, req = null) {
   const originalJson = res.json.bind(res);
-  res.json = async (payload) => originalJson(await prepareChatPayload(payload, message, debug, debugEnabled));
+  res.json = async (payload) => originalJson(await prepareChatPayload(payload, message, debug, debugEnabled, req));
 }
 
 async function answerFromLiveEvidence(message, existingReply, liveEvidence) {
@@ -116,20 +138,6 @@ Rules:
   }
 }
 
-function appendLearningMetadata(history = [], assistantPayload = {}) {
-  if (!assistantPayload?.reply) return history;
-  return [
-    ...history,
-    {
-      role: "assistant",
-      content: assistantPayload.reply,
-      liveLookup: assistantPayload.liveLookup || null,
-      version: assistantPayload.version || null,
-      topic: assistantPayload.topic || null,
-    },
-  ];
-}
-
 async function enhancedChatHandler(req, res, next) {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
@@ -138,7 +146,7 @@ async function enhancedChatHandler(req, res, next) {
   try {
     const objectFirstReply = answerFromObjectFirstRouting(message);
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
-    if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled));
+    if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled, req));
 
     const reply = await answerFromKnowledge(message);
     debug.stages.push({ name: "knowledge-answer", matched: Boolean(reply) });
@@ -162,16 +170,16 @@ async function enhancedChatHandler(req, res, next) {
         version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",
         liveLookup: liveLookup?.successful ? liveLookup : null,
       };
-      return res.json(await prepareChatPayload(payload, message, debug, debugEnabled));
+      return res.json(await prepareChatPayload(payload, message, debug, debugEnabled, req));
     }
 
-    if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled));
+    if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled, req));
 
     debug.stages.push({ name: "legacy-server", matched: true });
     if (debugEnabled) {
       req.body = { ...req.body, chatDebug: debug };
     }
-    wrapJsonForChat(res, message, debug, debugEnabled);
+    wrapJsonForChat(res, message, debug, debugEnabled, req);
     return baseHandler(req, res, next);
   } catch (error) {
     console.error("Enhanced chat routing failed, falling back to base chatbot:", error);
@@ -179,7 +187,7 @@ async function enhancedChatHandler(req, res, next) {
     if (debugEnabled) {
       req.body = { ...req.body, chatDebug: debug };
     }
-    wrapJsonForChat(res, message, debug, debugEnabled);
+    wrapJsonForChat(res, message, debug, debugEnabled, req);
     return baseHandler(req, res, next);
   }
 }
