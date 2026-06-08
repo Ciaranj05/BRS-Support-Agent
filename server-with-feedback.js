@@ -8,6 +8,7 @@ import baseHandler from "./server.js";
 import { getSurveyMetrics, recordResolvedInteraction, recordSurveyScore } from "./feedbackStore.js";
 import { answerFromKnowledge } from "./lib/knowledgeAnswer.js";
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
+import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 
 dotenv.config();
 
@@ -61,7 +62,8 @@ Rules:
       ],
     });
 
-    return response.output_text?.trim() || reply;
+    const rewritten = response.output_text?.trim() || reply;
+    return rewriteAddsUnsupportedDetails(reply, rewritten) ? reply : rewritten;
   } catch (error) {
     console.error("Reply rewrite failed, sending original supported answer:", error);
     return reply;
@@ -89,13 +91,15 @@ async function enhancedChatHandler(req, res, next) {
   try {
     const objectFirstReply = answerFromObjectFirstRouting(message);
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
-    if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled));
+    if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled));
 
     const reply = await answerFromKnowledge(message);
     debug.stages.push({ name: "knowledge-answer", matched: Boolean(reply) });
     if (reply) {
       return res.json(await prepareChatPayload({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" }, message, debug, debugEnabled));
     }
+
+    if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled));
 
     debug.stages.push({ name: "legacy-server", matched: true });
     if (debugEnabled) {

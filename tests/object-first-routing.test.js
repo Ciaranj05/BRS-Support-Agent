@@ -13,6 +13,8 @@ test("routes unpaid member bill report variants to memberships", () => {
     const result = answerFromObjectFirstRouting(message);
     assert.equal(result.topic, "memberships");
     assert.match(result.reply, /Memberships >> Reports/);
+    assert.equal(result.routeStrength, "generic");
+    assert.doesNotMatch(result.reply, /BRS Payments|booking payments|competition purse/);
     assert.equal(result.options.length, 0);
   }
 });
@@ -75,13 +77,16 @@ test("routes competition payment variants by competition audience", () => {
   const broad = answerFromObjectFirstRouting("how do I charge people for a competition");
   assert.equal(broad.topic, "teesheet");
   assert.equal(broad.reply, "Who are you charging for the competition?");
+  assert.equal(broad.routeStrength, "guardrail");
   assert.ok(broad.options.some((option) => option.label === "Members"));
 
   const members = answerFromObjectFirstRouting("how do I charge members for a competition");
   assert.equal(members.topic, "teesheet");
+  assert.equal(members.routeStrength, "guardrail");
   assert.match(members.reply, /competition purse/);
 
   const visitors = answerFromObjectFirstRouting("how do visitors pay for an open competition");
   assert.equal(visitors.topic, "teesheet");
+  assert.equal(visitors.routeStrength, "guardrail");
   assert.match(visitors.reply, /visitor\/open competition fee setup/);
 });
