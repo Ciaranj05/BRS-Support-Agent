@@ -9,6 +9,8 @@ import { getSurveyMetrics, recordResolvedInteraction, recordSurveyScore } from "
 import { answerFromKnowledge } from "./lib/knowledgeAnswer.js";
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
+import { formatLiveEvidence, liveBrsLookup, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
+import { saveLearnedWorkflowFromResolution } from "./lib/workflowLearning.js";
 
 dotenv.config();
 
@@ -83,6 +85,51 @@ function wrapJsonForChat(res, message, debug, debugEnabled) {
   res.json = async (payload) => originalJson(await prepareChatPayload(payload, message, debug, debugEnabled));
 }
 
+async function answerFromLiveEvidence(message, existingReply, liveEvidence) {
+  if (!liveEvidence) return null;
+  try {
+    const response = await client.responses.create({
+      model: "gpt-4.1",
+      input: [
+        {
+          role: "system",
+          content: `You are a BRS Golf support agent. Answer from the supplied live read-only BRS evidence plus any existing approved answer.
+
+Rules:
+- Use live BRS evidence for exact menu names, page headings, filters, buttons, report names, table columns, and navigation hints.
+- Do not mention or expose member-specific, club-specific, payment-specific, personal, or financial data.
+- Do not claim you changed anything in BRS.
+- Do not tell the user to click dangerous actions such as Save, Submit, Create, Delete, Refund, Charge, Send, Update, Confirm, or Apply unless the exact task requires a final user-controlled action and the evidence supports it.
+- Generate a fresh answer for this user. Do not copy a stored answer word-for-word.
+- If the live evidence is not enough, say what area to check next rather than inventing a route.`,
+        },
+        {
+          role: "user",
+          content: `USER QUESTION:\n${message}\n\nEXISTING APPROVED ANSWER, IF ANY:\n${existingReply || "None"}\n\nLIVE READ-ONLY BRS EVIDENCE:\n${liveEvidence}`,
+        },
+      ],
+    });
+    return response.output_text?.trim() || null;
+  } catch (error) {
+    console.error("Live evidence answer generation failed:", error);
+    return null;
+  }
+}
+
+function appendLearningMetadata(history = [], assistantPayload = {}) {
+  if (!assistantPayload?.reply) return history;
+  return [
+    ...history,
+    {
+      role: "assistant",
+      content: assistantPayload.reply,
+      liveLookup: assistantPayload.liveLookup || null,
+      version: assistantPayload.version || null,
+      topic: assistantPayload.topic || null,
+    },
+  ];
+}
+
 async function enhancedChatHandler(req, res, next) {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
@@ -95,8 +142,27 @@ async function enhancedChatHandler(req, res, next) {
 
     const reply = await answerFromKnowledge(message);
     debug.stages.push({ name: "knowledge-answer", matched: Boolean(reply) });
-    if (reply) {
-      return res.json(await prepareChatPayload({ reply, escalationReady: false, topic: "knowledge", options: [], version: "knowledge-retrieval-v1" }, message, debug, debugEnabled));
+
+    let liveLookup = null;
+    let liveReply = null;
+    if (shouldAttemptLiveBrsLookup(message, reply || "")) {
+      liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
+      const liveEvidence = formatLiveEvidence(liveLookup);
+      debug.stages.push({ name: "live-brs-lookup", matched: Boolean(liveLookup?.successful), attempted: Boolean(liveLookup?.attempted), error: liveLookup?.error || null });
+      if (liveEvidence) liveReply = await answerFromLiveEvidence(message, reply, liveEvidence);
+      debug.stages.push({ name: "live-evidence-answer", matched: Boolean(liveReply) });
+    }
+
+    if (liveReply || reply) {
+      const payload = {
+        reply: liveReply || reply,
+        escalationReady: false,
+        topic: "knowledge",
+        options: [],
+        version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",
+        liveLookup: liveLookup?.successful ? liveLookup : null,
+      };
+      return res.json(await prepareChatPayload(payload, message, debug, debugEnabled));
     }
 
     if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled));
@@ -123,6 +189,7 @@ app.post("/chat", enhancedChatHandler);
 
 app.post("/api/resolved-interactions", async (req, res) => {
   try {
+    const conversationHistory = req.body?.conversationHistory || [];
     const resolvedInteraction = await recordResolvedInteraction({
       sessionId: getSessionId(req),
       conversationId: req.body?.conversationId,
@@ -131,9 +198,18 @@ app.post("/api/resolved-interactions", async (req, res) => {
       resolved: req.body?.resolved ?? true,
       escalated: req.body?.escalated ?? false,
       comment: req.body?.comment || "",
-      conversationHistory: req.body?.conversationHistory || [],
+      conversationHistory,
     });
-    res.status(201).json({ ok: true, resolvedInteraction });
+    const learnedWorkflow = await saveLearnedWorkflowFromResolution({
+      conversationHistory,
+      topic: req.body?.topic || null,
+      resolved: req.body?.resolved ?? true,
+      score: 100,
+    }).catch((error) => {
+      console.error("Workflow learning from resolved interaction failed:", error);
+      return null;
+    });
+    res.status(201).json({ ok: true, resolvedInteraction, learnedWorkflow: learnedWorkflow ? { filePath: learnedWorkflow.filePath, sourceId: learnedWorkflow.entry?.sourceId } : null });
   } catch (error) {
     console.error("Resolved interaction tracking failed:", error);
     res.status(error.status || 500).json({ ok: false, error: error.message || "Unable to record resolved interaction." });
@@ -142,6 +218,7 @@ app.post("/api/resolved-interactions", async (req, res) => {
 
 app.post("/api/feedback", async (req, res) => {
   try {
+    const conversationHistory = req.body?.conversationHistory || [];
     const result = await recordSurveyScore({
       resolvedInteractionId: req.body?.resolvedInteractionId,
       sessionId: getSessionId(req),
@@ -150,9 +227,18 @@ app.post("/api/feedback", async (req, res) => {
       type: req.body?.type || "resolution-score",
       comment: req.body?.comment || "",
       topic: req.body?.topic || null,
-      conversationHistory: req.body?.conversationHistory || [],
+      conversationHistory,
     });
-    res.status(201).json({ ok: true, ...result });
+    const learnedWorkflow = await saveLearnedWorkflowFromResolution({
+      conversationHistory,
+      topic: req.body?.topic || null,
+      resolved: Number(req.body?.score) >= 70,
+      score: req.body?.score,
+    }).catch((error) => {
+      console.error("Workflow learning from survey feedback failed:", error);
+      return null;
+    });
+    res.status(201).json({ ok: true, ...result, learnedWorkflow: learnedWorkflow ? { filePath: learnedWorkflow.filePath, sourceId: learnedWorkflow.entry?.sourceId } : null });
   } catch (error) {
     console.error("Survey feedback tracking failed:", error);
     res.status(error.status || 500).json({ ok: false, error: error.message || "Unable to record survey feedback." });
