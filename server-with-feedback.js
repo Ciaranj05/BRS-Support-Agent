@@ -61,6 +61,14 @@ function expandAffirmationMessage(message, history = []) {
   ].filter(Boolean).join("\n");
 }
 
+function isMemberBalanceLookup(message = "") {
+  const lower = String(message || "").toLowerCase();
+  const mentionsMembers = /\b(member|members|membership|memberships)\b/.test(lower);
+  const mentionsDebt = /\b(owe|owes|owed|owing|money|balance|balances|unpaid|outstanding|overdue|arrears|debt|debtor|debtors|bill|bills|invoice|invoices)\b/.test(lower);
+  const asksToFind = /\b(which|who|show|see|find|list|report|view|check|download|export)\b/.test(lower);
+  return mentionsMembers && mentionsDebt && asksToFind;
+}
+
 async function rewriteReplyInOwnWords(reply, message) {
   if (!shouldRewriteReply(reply)) return reply;
 
@@ -198,6 +206,35 @@ Rules:
   }
 }
 
+async function respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel = "knowledge" }) {
+  const reply = await answerFromKnowledge(message);
+  debug.stages.push({ name: routeLabel, matched: Boolean(reply), directIntent: isMemberBalanceLookup(message) });
+
+  let liveLookup = null;
+  let liveReply = null;
+  if (shouldAttemptLiveBrsLookup(message, reply || "")) {
+    liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
+    const liveEvidence = formatLiveEvidence(liveLookup);
+    debug.stages.push({ name: "live-brs-lookup", matched: Boolean(liveLookup?.successful), attempted: Boolean(liveLookup?.attempted), error: liveLookup?.error || null });
+    if (liveEvidence) liveReply = await answerFromLiveEvidence(message, reply, liveEvidence);
+    debug.stages.push({ name: "live-evidence-answer", matched: Boolean(liveReply) });
+  }
+
+  if (!(liveReply || reply)) return false;
+  const completeReply = await completeInitialAnswer(message, liveReply || reply);
+  debug.stages.push({ name: "complete-initial-answer", matched: completeReply !== (liveReply || reply) });
+  const payload = {
+    reply: completeReply,
+    escalationReady: false,
+    topic: "knowledge",
+    options: [],
+    version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",
+    liveLookup: liveLookup?.successful ? liveLookup : null,
+  };
+  res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
+  return true;
+}
+
 async function enhancedChatHandler(req, res, next) {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
@@ -206,36 +243,18 @@ async function enhancedChatHandler(req, res, next) {
   const message = expandAffirmationMessage(originalMessage, history);
 
   try {
+    if (isMemberBalanceLookup(message)) {
+      debug.stages.push({ name: "direct-member-balance-intent", matched: true });
+      const handled = await respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel: "knowledge-answer-direct" });
+      if (handled) return;
+    }
+
     const objectFirstReply = answerFromObjectFirstRouting(message);
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
     if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload(objectFirstReply, originalMessage, debug, debugEnabled, req));
 
-    const reply = await answerFromKnowledge(message);
-    debug.stages.push({ name: "knowledge-answer", matched: Boolean(reply), expandedAffirmation: message !== originalMessage });
-
-    let liveLookup = null;
-    let liveReply = null;
-    if (shouldAttemptLiveBrsLookup(message, reply || "")) {
-      liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
-      const liveEvidence = formatLiveEvidence(liveLookup);
-      debug.stages.push({ name: "live-brs-lookup", matched: Boolean(liveLookup?.successful), attempted: Boolean(liveLookup?.attempted), error: liveLookup?.error || null });
-      if (liveEvidence) liveReply = await answerFromLiveEvidence(message, reply, liveEvidence);
-      debug.stages.push({ name: "live-evidence-answer", matched: Boolean(liveReply) });
-    }
-
-    if (liveReply || reply) {
-      const completeReply = await completeInitialAnswer(message, liveReply || reply);
-      debug.stages.push({ name: "complete-initial-answer", matched: completeReply !== (liveReply || reply) });
-      const payload = {
-        reply: completeReply,
-        escalationReady: false,
-        topic: "knowledge",
-        options: [],
-        version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",
-        liveLookup: liveLookup?.successful ? liveLookup : null,
-      };
-      return res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
-    }
+    const handled = await respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled });
+    if (handled) return;
 
     if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, originalMessage, debug, debugEnabled, req));
 
