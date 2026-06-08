@@ -208,7 +208,18 @@ const topicSearchHints = {
 };
 
 function createDefaultState() {
-  return { conversationHistory: [], escalationState: "none", escalationDraft: null, currentTopic: null, clarificationContext: null, clarificationCount: 0, askedClarifications: [], answeredClarifications: [], updatedAt: Date.now() };
+  return {
+    conversationHistory: [],
+    escalationState: "none",
+    escalationDraft: null,
+    currentTopic: null,
+    clarificationContext: null,
+    pendingClarification: null,
+    clarificationCount: 0,
+    askedClarifications: [],
+    answeredClarifications: [],
+    updatedAt: Date.now(),
+  };
 }
 
 function cleanupSessions() {
@@ -721,6 +732,7 @@ function isFreshAmbiguousRootQuestion(message) {
 
 function resetClarificationForNewRootQuestion(state) {
   state.clarificationContext = null;
+  state.pendingClarification = null;
   state.clarificationCount = 0;
   state.currentTopic = null;
   state.askedClarifications = [];
@@ -768,6 +780,79 @@ function repeatedClarificationFallback(topic) {
     ],
     version: APP_VERSION,
   };
+}
+
+function rememberPendingClarification(state, { profileId, profile, message, topic, reason }) {
+  const existing = state.pendingClarification || {};
+  const originalQuestion = existing.originalQuestion || message;
+  state.pendingClarification = {
+    originalQuestion,
+    topic: existing.topic || topic,
+    profileId,
+    question: profile.question,
+    context: profile.context,
+    reason,
+    stage: (existing.stage || 0) + 1,
+    answers: existing.answers || [],
+  };
+}
+
+function lastConversationMessage(state, role) {
+  return [...(state.conversationHistory || [])].reverse().find((item) => item.role === role)?.content || "";
+}
+
+function extractLastQuestion(text = "") {
+  const compact = String(text || "").replace(/\s+/g, " ").trim();
+  const match = compact.match(/([^.!?]*\?)(?!.*\?)/);
+  return match?.[1]?.trim() || "";
+}
+
+function rememberPendingFollowUp(state, { originalQuestion, topic, question, context, reason }) {
+  if (!question) return;
+  const existing = state.pendingClarification || {};
+  state.pendingClarification = {
+    originalQuestion: existing.originalQuestion || originalQuestion,
+    topic: existing.topic || topic,
+    profileId: existing.profileId || "dynamic-follow-up",
+    question,
+    context: context || existing.context || "The assistant asked a follow-up question to narrow the original support issue.",
+    reason: reason || existing.reason || "Follow-up question from the previous assistant answer.",
+    stage: existing.stage || 1,
+    answers: existing.answers || [],
+  };
+}
+
+export function buildClarifiedSupportQuestion(pendingClarification, answer) {
+  if (!pendingClarification?.originalQuestion) return answer;
+  return [
+    `Original question: ${pendingClarification.originalQuestion}`,
+    pendingClarification.question ? `Clarification asked: ${pendingClarification.question}` : null,
+    `User clarification: ${answer}`,
+    pendingClarification.context ? `Relevant context: ${pendingClarification.context}` : null,
+    pendingClarification.answers?.length ? `Earlier clarifications: ${pendingClarification.answers.map((item) => `${item.question || "Question"} -> ${item.answer}`).join("; ")}` : null,
+  ].filter(Boolean).join("\n");
+}
+
+function getRoutingMessage(state, message, wasClarificationAnswer) {
+  return wasClarificationAnswer ? buildClarifiedSupportQuestion(state.pendingClarification, message) : message;
+}
+
+function shouldTreatAsFollowUpAnswer(state, message, wasClarificationAnswer, contextHint) {
+  if (wasClarificationAnswer) return true;
+  if (isFreshAmbiguousRootQuestion(message)) return false;
+  return Boolean(contextHint || state.pendingClarification?.originalQuestion);
+}
+
+function rememberFollowUpFromReply(state, reply, topic, originalQuestion) {
+  const question = extractLastQuestion(reply);
+  if (!question) return;
+  rememberPendingFollowUp(state, {
+    originalQuestion,
+    topic,
+    question,
+    context: "The assistant gave a limited answer and asked for one more detail.",
+    reason: "Limited answer follow-up.",
+  });
 }
 
 function needsAudienceOrObjectClarification(message, topic, state) {
@@ -846,6 +931,7 @@ async function createSupportedClarification(message, topic, state, reason = "The
     return fallback;
   }
   markAskedClarification(state, profileId);
+  rememberPendingClarification(state, { profileId, profile, message, topic, reason });
   state.clarificationContext = uniqueValues([state.clarificationContext || "", profile.context, `Clarification question: ${profile.question}`]).join(" | ");
   state.clarificationCount = (state.clarificationCount || 0) + 1;
   return { reply: profile.question, escalationReady: false, topic: profile.topic || topic, options: optionsWithClarificationId(profile.options, profileId), version: APP_VERSION, clarificationId: profileId };
@@ -858,10 +944,20 @@ function appendClarificationToMessage(message) {
 function applyClarificationAnswerToState(state, message) {
   const lower = normalise(message);
   const extraContext = [];
+  const pending = state.pendingClarification;
+  if (pending) {
+    pending.answers = [...(pending.answers || []), { question: pending.question, answer: message }];
+  }
   if (lower.includes("members competition charging") || (lower.includes("competition") && lower.includes("members"))) extraContext.push("Audience: members. Route competition charging to competition purse guidance.");
   if (lower.includes("visitors open competition") || (lower.includes("competition") && lower.includes("visitors"))) extraContext.push("Audience: visitors/open competition entrants. Route competition charging to visitor/open competition fee setup.");
   if (lower.includes("both") && lower.includes("competition")) extraContext.push("Audience: both members and visitors. Explain member purse route separately from visitor/open competition fee setup.");
-  state.clarificationContext = uniqueValues([state.clarificationContext || "", `User selected: ${message}`, ...extraContext]).join(" | ");
+  state.clarificationContext = uniqueValues([
+    state.clarificationContext || "",
+    pending?.originalQuestion ? `Original question: ${pending.originalQuestion}` : "",
+    pending?.question ? `Clarification asked: ${pending.question}` : "",
+    `User selected: ${message}`,
+    ...extraContext,
+  ]).join(" | ");
 }
 
 app.get("/api/health", (req, res) => { res.json({ ok: true, version: APP_VERSION }); });
@@ -874,35 +970,49 @@ app.post("/api/chat", async (req, res) => {
     const rawText = String(req.body?.message || "").trim();
     const wasClarificationAnswer = /^Clarification answer:\s*/i.test(rawText);
     const clarificationId = normaliseClarificationId(req.body?.clarificationId);
+    const contextHint = String(req.body?.contextHint || "").trim();
     const message = appendClarificationToMessage(rawText);
+    const displayMessage = message;
     if (!message) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
     if (!wasClarificationAnswer && isFreshAmbiguousRootQuestion(message)) resetClarificationForNewRootQuestion(state);
+    if (contextHint && !state.pendingClarification && !isFreshAmbiguousRootQuestion(message)) {
+      rememberPendingFollowUp(state, {
+        originalQuestion: lastConversationMessage(state, "user") || message,
+        topic: state.currentTopic || "general",
+        question: extractLastQuestion(lastConversationMessage(state, "assistant")) || contextHint,
+        context: contextHint,
+        reason: "Client marked the message as a follow-up to the previous assistant question.",
+      });
+    }
     if (wasClarificationAnswer) {
       markAnsweredClarification(state, clarificationId);
       applyClarificationAnswerToState(state, message);
     }
+    const isFollowUpAnswer = shouldTreatAsFollowUpAnswer(state, message, wasClarificationAnswer, contextHint);
+    if (isFollowUpAnswer && !wasClarificationAnswer) applyClarificationAnswerToState(state, message);
+    const routingMessage = getRoutingMessage(state, message, isFollowUpAnswer);
     if (isConversationEnd(message)) {
       resetSessionState(sessionId);
       return res.json({ reply: "Great - glad that is sorted. Starting fresh for the next issue.", escalationReady: false, options: [], version: APP_VERSION });
     }
 
-    clearStaleStateForMessage(state, message);
+    clearStaleStateForMessage(state, routingMessage);
 
-    const detectedTopic = detectTopic(`${state.clarificationContext || ""} ${message}`);
+    const detectedTopic = detectTopic(`${state.clarificationContext || ""} ${routingMessage}`);
     if (detectedTopic !== "general") state.currentTopic = detectedTopic;
     const topic = detectedTopic !== "general" ? detectedTopic : (state.currentTopic || detectedTopic);
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
-    const combinedText = `${historyText} ${message}`;
-    const searchMessage = buildSearchMessage(message, state);
+    const combinedText = `${historyText} ${routingMessage}`;
+    const searchMessage = buildSearchMessage(routingMessage, state);
     const directAnswer = getDirectAnswerForMessage(topic, searchMessage);
 
-    if (isBuggyBookingRequest(message)) {
+    if (isBuggyBookingRequest(routingMessage)) {
       state.currentTopic = "admin-setup";
       state.escalationState = "none";
       state.clarificationContext = uniqueValues([state.clarificationContext || "", "Buggy booking or buggy availability"]).join(" | ");
       const reply = getApprovedAnswer("admin-setup", "buggy-booking-availability");
       if (reply) {
-        state.conversationHistory.push({ role: "user", content: message });
+        state.conversationHistory.push({ role: "user", content: displayMessage });
         state.conversationHistory.push({ role: "assistant", content: reply });
         saveSessionState(sessionId, state);
         return res.json({ reply, escalationReady: false, topic: "admin-setup", options: [], version: APP_VERSION });
@@ -910,7 +1020,7 @@ app.post("/api/chat", async (req, res) => {
     }
 
     if (state.escalationState === "refund_type_asked") {
-      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "user", content: displayMessage });
       if (isFullRefundAnswer(message) || isPartialRefundAnswer(message)) {
         state.pendingRefundType = isPartialRefundAnswer(message) ? "partial" : "full";
         state.escalationState = "refund_source_asked";
@@ -926,7 +1036,7 @@ app.post("/api/chat", async (req, res) => {
     }
 
     if (state.escalationState === "refund_source_asked") {
-      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "user", content: displayMessage });
       const reply = isNonBrsPaymentAnswer(message) ? approvedOfflineRefundReply() : approvedRefundReply(state.pendingRefundType || "refund");
       state.escalationState = "none";
       state.pendingRefundType = null;
@@ -936,7 +1046,7 @@ app.post("/api/chat", async (req, res) => {
     }
 
     if (state.escalationState === "check_asked") {
-      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "user", content: displayMessage });
       if (userConfirmedRecordFound(message)) {
         state.escalationState = "none";
         const reply = "Thanks. If the transaction is visible in BRS Payments, check whether it is linked to a booking, bill, or failed/abandoned booking reference. What status does the transaction show?";
@@ -959,26 +1069,28 @@ app.post("/api/chat", async (req, res) => {
     }
 
     if (directAnswer) {
-      state.conversationHistory.push({ role: "user", content: message });
+      state.pendingClarification = null;
+      rememberFollowUpFromReply(state, directAnswer, topic, routingMessage);
+      state.conversationHistory.push({ role: "user", content: displayMessage });
       state.conversationHistory.push({ role: "assistant", content: directAnswer });
       saveSessionState(sessionId, state);
       return res.json({ reply: directAnswer, escalationReady: false, topic, options: [], version: APP_VERSION });
     }
 
-    if (!wasClarificationAnswer && isBroadOrAmbiguous(message, topic, state)) {
-      state.conversationHistory.push({ role: "user", content: message });
-      const clarification = await createSupportedClarification(message, topic, state, "The request uses broad wording or the answer depends on an audience/object that is not yet specified.");
+    if (!wasClarificationAnswer && isBroadOrAmbiguous(routingMessage, topic, state)) {
+      state.conversationHistory.push({ role: "user", content: displayMessage });
+      const clarification = await createSupportedClarification(routingMessage, topic, state, "The request uses broad wording or the answer depends on an audience/object that is not yet specified.");
       state.conversationHistory.push({ role: "assistant", content: clarification.reply });
       saveSessionState(sessionId, state);
       return res.json(clarification);
     }
 
-    if (isRefundRequest(message)) {
+    if (isRefundRequest(routingMessage)) {
       state.currentTopic = "payments";
       state.clarificationContext = uniqueValues([state.clarificationContext || "", "Booking refund"]).join(" | ");
       state.escalationState = "refund_type_asked";
       const reply = "Is this a full refund or partial refund?";
-      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "user", content: displayMessage });
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: APP_VERSION });
@@ -987,31 +1099,34 @@ app.post("/api/chat", async (req, res) => {
     if (topic === "payments" && isPaymentMissingScenario(combinedText)) {
       state.escalationState = "check_asked";
       const reply = "It sounds like the golfer may have paid, but the booking has not created on the tee sheet. First, check Tools >> BRS Payments >> Transactions. Can you see a matching transaction there?";
-      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "user", content: displayMessage });
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic, options: transactionOptions, version: APP_VERSION });
     }
 
-    if (isAdminUserCreateRequest(message) || (state.clarificationContext?.includes("Ambiguous create account request") && message.toLowerCase().includes("admin or staff user"))) {
+    if (isAdminUserCreateRequest(routingMessage) || (state.clarificationContext?.includes("Ambiguous create account request") && message.toLowerCase().includes("admin or staff user"))) {
       state.currentTopic = "user-management";
       const reply = approvedAdminUserReply();
-      state.conversationHistory.push({ role: "user", content: message });
+      state.pendingClarification = null;
+      state.conversationHistory.push({ role: "user", content: displayMessage });
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "user-management", options: [], version: APP_VERSION });
     }
 
-    state.conversationHistory.push({ role: "user", content: message });
-    const reply = await createGroundedReply(message, topic, state.conversationHistory, state);
+    state.conversationHistory.push({ role: "user", content: displayMessage });
+    const reply = await createGroundedReply(routingMessage, topic, state.conversationHistory, state);
 
     if (reply === UNKNOWN_REPLY && state.clarificationCount < 2) {
-      const clarification = await createSupportedClarification(message, topic, state, "The available sources did not support a confident answer.");
+      const clarification = await createSupportedClarification(routingMessage, topic, state, "The available sources did not support a confident answer.");
       state.conversationHistory.push({ role: "assistant", content: clarification.reply });
       saveSessionState(sessionId, state);
       return res.json(clarification);
     }
 
+    state.pendingClarification = null;
+    rememberFollowUpFromReply(state, reply, topic, routingMessage);
     state.conversationHistory.push({ role: "assistant", content: reply });
     saveSessionState(sessionId, state);
     res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
