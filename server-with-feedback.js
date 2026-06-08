@@ -55,7 +55,8 @@ Rules:
 - Keep exact product names, phone numbers, email addresses, URLs, button labels, menu paths, and legally/safety-sensitive values unchanged when changing them would make the answer inaccurate.
 - Do not add any new product facts, UI paths, buttons, policies, prices, or promises.
 - Preserve any source link at the end.
-- If the answer is asking one clarification question, keep it as one simple question.`,
+- Do not end with optional follow-up prompts like "Would you like me to..." when the source answer already contains useful next steps. Include those next steps directly instead.
+- Ask a follow-up question only when the answer cannot be safely given without one.`,
         },
         {
           role: "user",
@@ -118,12 +119,14 @@ async function answerFromLiveEvidence(message, existingReply, liveEvidence) {
           content: `You are a BRS Golf support agent. Answer from the supplied live read-only BRS evidence plus any existing approved answer.
 
 Rules:
+- Give the most complete useful first answer you can from the evidence. Do not hold back known steps behind "would you like me to..." prompts.
+- Include safe downstream steps such as filtering, narrowing date ranges/statuses, viewing results, exporting/downloading, and checking columns when the evidence supports them.
 - Use live BRS evidence for exact menu names, page headings, filters, buttons, report names, table columns, and navigation hints.
 - Do not mention or expose member-specific, club-specific, payment-specific, personal, or financial data.
 - Do not claim you changed anything in BRS.
 - Do not tell the user to click dangerous actions such as Save, Submit, Create, Delete, Refund, Charge, Send, Update, Confirm, or Apply unless the exact task requires a final user-controlled action and the evidence supports it.
 - Generate a fresh answer for this user. Do not copy a stored answer word-for-word.
-- If the live evidence is not enough, say what area to check next rather than inventing a route.`,
+- Ask a follow-up question only when the answer depends on missing information that cannot be inferred from the question or evidence.`,
         },
         {
           role: "user",
@@ -135,6 +138,35 @@ Rules:
   } catch (error) {
     console.error("Live evidence answer generation failed:", error);
     return null;
+  }
+}
+
+async function completeInitialAnswer(message, answer) {
+  if (!answer || /\b(can you please give me more information|please tell me which part|what (area|part) of brs|which part of brs)\b/i.test(answer)) return answer;
+  if (!/\b(would you like|do you want|should i|can i guide|want me to|would you want)\b/i.test(answer)) return answer;
+  try {
+    const response = await client.responses.create({
+      model: "gpt-4.1-mini",
+      input: [
+        {
+          role: "system",
+          content: `Improve this BRS Golf support answer so it is complete on the first response.
+
+Rules:
+- Remove optional follow-up prompts such as "Would you like me to...".
+- If the answer hints at a next safe step, include that safe step directly.
+- Add only generic safe continuation steps that are already implied by the answer, such as using filters, selecting a billing cycle/date range/status, reviewing the results table, or using Export/Download if available.
+- Do not invent exact report names, buttons, paths, prices, policies, member data, or club-specific settings.
+- Ask a follow-up only if the answer cannot be given without missing critical information.`,
+        },
+        { role: "user", content: `User question:\n${message}\n\nDraft answer:\n${answer}` },
+      ],
+    });
+    const improved = response.output_text?.trim() || answer;
+    return rewriteAddsUnsupportedDetails(answer, improved) ? answer : improved;
+  } catch (error) {
+    console.error("Initial answer completion failed:", error);
+    return answer;
   }
 }
 
@@ -162,8 +194,10 @@ async function enhancedChatHandler(req, res, next) {
     }
 
     if (liveReply || reply) {
+      const completeReply = await completeInitialAnswer(message, liveReply || reply);
+      debug.stages.push({ name: "complete-initial-answer", matched: completeReply !== (liveReply || reply) });
       const payload = {
-        reply: liveReply || reply,
+        reply: completeReply,
         escalationReady: false,
         topic: "knowledge",
         options: [],
