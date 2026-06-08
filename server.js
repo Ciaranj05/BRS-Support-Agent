@@ -80,28 +80,30 @@ const SUPPORTED_CLARIFICATION_PROFILES = {
   },
   "payment-issue": {
     topic: "payments",
-    question: "Which payment issue is closest?",
+    question: "What is happening with the payment?",
     context: "Supported payment issue routes.",
     options: [
-      { label: "Booking payment", value: "Clarification answer: Booking payment issue" },
-      { label: "Membership/bill payment", value: "Clarification answer: Membership or bill payment issue" },
-      { label: "Refund a booking", value: "Clarification answer: Refund a booking" },
       { label: "Customer says they paid", value: "Clarification answer: Customer says they paid but it is not showing" },
+      { label: "Refund someone", value: "Clarification answer: Refund a booking or payment" },
+      { label: "Take a new payment", value: "Clarification answer: Payment request" },
+      { label: "Payment on a booking", value: "Clarification answer: Booking payment issue" },
+      { label: "Payment on a member bill", value: "Clarification answer: Membership or bill payment issue" },
       { label: "Payout or report", value: "Clarification answer: Payment payout or reporting issue" },
-      { label: "Payment request", value: "Clarification answer: Payment request" },
+      { label: "I'm not sure", value: "Clarification answer: I am not sure what kind of payment issue this is" },
     ],
   },
   "membership-issue": {
     topic: "memberships",
-    question: "Which membership area is closest?",
+    question: "What are you trying to do for the member?",
     context: "Supported membership routes.",
     options: [
-      { label: "Member profile", value: "Clarification answer: Member profile" },
-      { label: "Bill", value: "Clarification answer: Member bill issue" },
-      { label: "Subscription", value: "Clarification answer: Membership subscription issue" },
-      { label: "Subscription cycle", value: "Clarification answer: Subscription cycle setup" },
-      { label: "Payment scheme", value: "Clarification answer: Membership payment scheme" },
-      { label: "Wallet/account balance", value: "Clarification answer: Wallet or account balance" },
+      { label: "Create or change a bill", value: "Clarification answer: Create or change a member bill" },
+      { label: "Check a bill problem", value: "Clarification answer: Member bill looks wrong, is unpaid, or is not visible" },
+      { label: "Recurring fee/renewal", value: "Clarification answer: Membership subscription issue" },
+      { label: "Instalments/payment plan", value: "Clarification answer: Membership payment scheme" },
+      { label: "Wallet or credit balance", value: "Clarification answer: Wallet or account balance" },
+      { label: "Member profile/login", value: "Clarification answer: Member profile or member login issue" },
+      { label: "I'm not sure", value: "Clarification answer: I am not sure which membership task this is" },
     ],
   },
   "user-access": {
@@ -158,14 +160,15 @@ const SUPPORTED_CLARIFICATION_PROFILES = {
   },
   unsupported: {
     topic: "general",
-    question: "I do not have a confirmed route for that yet. Can you add a bit more detail?",
+    question: "What is the customer trying to do?",
     context: "No supported clarification profile matched.",
     options: [
-      { label: "Type details instead", value: "Clarification answer: I need to type more details" },
-      { label: "Booking or tee sheet", value: "Clarification answer: Booking or tee sheet issue" },
-      { label: "Payment or refund", value: "Clarification answer: Payment or refund issue" },
-      { label: "Member or subscription", value: "Clarification answer: Member or subscription issue" },
-      { label: "User login or permissions", value: "Clarification answer: User login or permissions issue" },
+      { label: "Change a booking", value: "Clarification answer: Booking or tee sheet issue" },
+      { label: "Take/refund payment", value: "Clarification answer: Payment or refund issue" },
+      { label: "Help a member", value: "Clarification answer: Member, bill, subscription, or wallet issue" },
+      { label: "Fix login/access", value: "Clarification answer: User login or permissions issue" },
+      { label: "Find a report", value: "Clarification answer: Report or admin information issue" },
+      { label: "I'm not sure", value: "Clarification answer: I need to type more details" },
     ],
   },
 };
@@ -205,7 +208,7 @@ const topicSearchHints = {
 };
 
 function createDefaultState() {
-  return { conversationHistory: [], escalationState: "none", escalationDraft: null, currentTopic: null, clarificationContext: null, clarificationCount: 0, updatedAt: Date.now() };
+  return { conversationHistory: [], escalationState: "none", escalationDraft: null, currentTopic: null, clarificationContext: null, clarificationCount: 0, askedClarifications: [], answeredClarifications: [], updatedAt: Date.now() };
 }
 
 function cleanupSessions() {
@@ -720,9 +723,51 @@ function resetClarificationForNewRootQuestion(state) {
   state.clarificationContext = null;
   state.clarificationCount = 0;
   state.currentTopic = null;
+  state.askedClarifications = [];
+  state.answeredClarifications = [];
   if (!["refund_type_asked", "refund_source_asked", "check_asked"].includes(state.escalationState)) {
     state.escalationState = "none";
   }
+}
+
+function normaliseClarificationId(value = "") {
+  return String(value || "").trim().toLowerCase();
+}
+
+function hasAskedClarification(state, profileId) {
+  const id = normaliseClarificationId(profileId);
+  return Boolean(id && (state.askedClarifications || []).includes(id));
+}
+
+function markAskedClarification(state, profileId) {
+  const id = normaliseClarificationId(profileId);
+  if (!id) return;
+  state.askedClarifications = uniqueValues([...(state.askedClarifications || []), id]);
+}
+
+function markAnsweredClarification(state, profileId) {
+  const id = normaliseClarificationId(profileId);
+  if (!id) return;
+  state.answeredClarifications = uniqueValues([...(state.answeredClarifications || []), id]);
+}
+
+function optionsWithClarificationId(options = [], profileId) {
+  return options.map((option) => ({ ...option, clarificationId: profileId }));
+}
+
+function repeatedClarificationFallback(topic) {
+  return {
+    reply: "I may be missing the detail that matters. Can you type what the customer is trying to do in their own words?",
+    escalationReady: false,
+    topic,
+    options: [
+      { label: "Type more details", value: "Clarification answer: I need to type more details", clarificationId: "free-text-details" },
+      { label: "Booking/tee time", value: "Clarification answer: This is about a booking or tee time", clarificationId: "free-text-details" },
+      { label: "Payment/refund", value: "Clarification answer: This is about a payment or refund", clarificationId: "free-text-details" },
+      { label: "Member/bill", value: "Clarification answer: This is about a member, bill, or subscription", clarificationId: "free-text-details" },
+    ],
+    version: APP_VERSION,
+  };
 }
 
 function needsAudienceOrObjectClarification(message, topic, state) {
@@ -793,9 +838,17 @@ unsupported: no supported profile fits` },
 async function createSupportedClarification(message, topic, state, reason = "The request is ambiguous or not supported enough to answer safely.") {
   const profileId = await classifyClarificationProfile(message, topic, state, reason);
   const profile = SUPPORTED_CLARIFICATION_PROFILES[profileId] || SUPPORTED_CLARIFICATION_PROFILES.unsupported;
+  if (hasAskedClarification(state, profileId)) {
+    const fallback = repeatedClarificationFallback(profile.topic || topic);
+    markAskedClarification(state, "free-text-details");
+    state.clarificationCount = (state.clarificationCount || 0) + 1;
+    state.clarificationContext = uniqueValues([state.clarificationContext || "", "Repeated clarification avoided; asked for user wording instead."]).join(" | ");
+    return fallback;
+  }
+  markAskedClarification(state, profileId);
   state.clarificationContext = uniqueValues([state.clarificationContext || "", profile.context, `Clarification question: ${profile.question}`]).join(" | ");
   state.clarificationCount = (state.clarificationCount || 0) + 1;
-  return { reply: profile.question, escalationReady: false, topic: profile.topic || topic, options: profile.options, version: APP_VERSION };
+  return { reply: profile.question, escalationReady: false, topic: profile.topic || topic, options: optionsWithClarificationId(profile.options, profileId), version: APP_VERSION, clarificationId: profileId };
 }
 
 function appendClarificationToMessage(message) {
@@ -820,10 +873,14 @@ app.post("/api/chat", async (req, res) => {
   try {
     const rawText = String(req.body?.message || "").trim();
     const wasClarificationAnswer = /^Clarification answer:\s*/i.test(rawText);
+    const clarificationId = normaliseClarificationId(req.body?.clarificationId);
     const message = appendClarificationToMessage(rawText);
     if (!message) return res.json({ reply: "Please enter a question.", escalationReady: false, options: [], version: APP_VERSION });
     if (!wasClarificationAnswer && isFreshAmbiguousRootQuestion(message)) resetClarificationForNewRootQuestion(state);
-    if (wasClarificationAnswer) applyClarificationAnswerToState(state, message);
+    if (wasClarificationAnswer) {
+      markAnsweredClarification(state, clarificationId);
+      applyClarificationAnswerToState(state, message);
+    }
     if (isConversationEnd(message)) {
       resetSessionState(sessionId);
       return res.json({ reply: "Great - glad that is sorted. Starting fresh for the next issue.", escalationReady: false, options: [], version: APP_VERSION });
@@ -836,6 +893,8 @@ app.post("/api/chat", async (req, res) => {
     const topic = detectedTopic !== "general" ? detectedTopic : (state.currentTopic || detectedTopic);
     const historyText = state.conversationHistory.map((m) => m.content).join(" ");
     const combinedText = `${historyText} ${message}`;
+    const searchMessage = buildSearchMessage(message, state);
+    const directAnswer = getDirectAnswerForMessage(topic, searchMessage);
 
     if (isBuggyBookingRequest(message)) {
       state.currentTopic = "admin-setup";
@@ -899,6 +958,13 @@ app.post("/api/chat", async (req, res) => {
       return res.json({ reply, escalationReady: false, topic: "payments", options: transactionOptions, version: APP_VERSION });
     }
 
+    if (directAnswer) {
+      state.conversationHistory.push({ role: "user", content: message });
+      state.conversationHistory.push({ role: "assistant", content: directAnswer });
+      saveSessionState(sessionId, state);
+      return res.json({ reply: directAnswer, escalationReady: false, topic, options: [], version: APP_VERSION });
+    }
+
     if (!wasClarificationAnswer && isBroadOrAmbiguous(message, topic, state)) {
       state.conversationHistory.push({ role: "user", content: message });
       const clarification = await createSupportedClarification(message, topic, state, "The request uses broad wording or the answer depends on an audience/object that is not yet specified.");
@@ -934,14 +1000,6 @@ app.post("/api/chat", async (req, res) => {
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic: "user-management", options: [], version: APP_VERSION });
-    }
-
-    const directAnswer = getDirectAnswerForMessage(topic, buildSearchMessage(message, state));
-    if (directAnswer) {
-      state.conversationHistory.push({ role: "user", content: message });
-      state.conversationHistory.push({ role: "assistant", content: directAnswer });
-      saveSessionState(sessionId, state);
-      return res.json({ reply: directAnswer, escalationReady: false, topic, options: [], version: APP_VERSION });
     }
 
     state.conversationHistory.push({ role: "user", content: message });

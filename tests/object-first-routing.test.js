@@ -23,6 +23,37 @@ test("does not treat unpaid as a paid payment query", () => {
   assert.notEqual(result.reply, "Which payment issue is closest?");
 });
 
+test("lets clarification answers continue through stateful chat routing", () => {
+  const result = answerFromObjectFirstRouting("Clarification answer: Member bill issue");
+  assert.equal(result, null);
+});
+
+test("lets action-led membership questions use approved knowledge instead of category buttons", () => {
+  const variants = [
+    "how do I create a bill",
+    "how do I create a membership bill",
+    "add a bill for a member",
+    "how do I cancel a subscription",
+    "set up a payment scheme",
+    "change a member invoice",
+  ];
+
+  for (const message of variants) {
+    const result = answerFromObjectFirstRouting(message);
+    assert.equal(result, null);
+  }
+});
+
+test("uses user-task wording for unclear membership billing prompts", () => {
+  const result = answerFromObjectFirstRouting("membership billing issue");
+  assert.equal(result.topic, "memberships");
+  assert.equal(result.reply, "What are you trying to do for the member?");
+  assert.ok(result.options.some((option) => option.label === "Create or change a bill"));
+  assert.ok(result.options.some((option) => option.label === "I'm not sure"));
+  assert.ok(result.options.every((option) => option.clarificationId === "membership-issue"));
+  assert.ok(!result.options.some((option) => option.label === "Bill"));
+});
+
 test("routes membership bill refunds away from booking refunds", () => {
   const result = answerFromObjectFirstRouting("how do I reverse a payment on a member bill");
   assert.equal(result.topic, "memberships");
