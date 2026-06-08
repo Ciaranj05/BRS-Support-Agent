@@ -37,6 +37,30 @@ function shouldRewriteReply(reply) {
   return typeof reply === "string" && reply.trim().length > 0;
 }
 
+function getHistory(req) {
+  return Array.isArray(req.body?.conversationHistory) ? req.body.conversationHistory : [];
+}
+
+function isBareAffirmation(message = "") {
+  return /^(yes|yeah|yep|sure|ok|okay|please|go ahead|do it|guide me|yes please|yes guide me)$/i.test(String(message || "").trim());
+}
+
+function lastAssistantPrompt(history = []) {
+  return [...history].reverse().find((item) => item.role === "assistant" && /\?\s*$/.test(String(item.content || "").trim())) || null;
+}
+
+function expandAffirmationMessage(message, history = []) {
+  if (!isBareAffirmation(message)) return message;
+  const prompt = lastAssistantPrompt(history);
+  if (!prompt?.content) return message;
+  const priorUser = [...history].reverse().find((item) => item.role === "user" && item.content && !isBareAffirmation(item.content));
+  return [
+    priorUser?.content ? `Original question: ${priorUser.content}` : null,
+    `The user answered yes to this assistant prompt: ${prompt.content}`,
+    "Provide the detailed steps that were offered. Do not ask another broad clarification question.",
+  ].filter(Boolean).join("\n");
+}
+
 async function rewriteReplyInOwnWords(reply, message) {
   if (!shouldRewriteReply(reply)) return reply;
 
@@ -49,11 +73,11 @@ async function rewriteReplyInOwnWords(reply, message) {
           content: `Rewrite the support answer in your own words for a non-technical BRS Golf admin user.
 
 Rules:
+- Use a readable format with a short heading, numbered steps, and a short "Check/export" section when useful.
 - Do not copy sentences or paragraphs from the supplied answer or knowledge source wording.
 - Digest the meaning, then explain it in low-level, easy language.
-- Keep the answer short, practical, and step-by-step when steps are useful.
 - Keep exact product names, phone numbers, email addresses, URLs, button labels, menu paths, and legally/safety-sensitive values unchanged when changing them would make the answer inaccurate.
-- Do not add any new product facts, UI paths, buttons, policies, prices, or promises.
+- Do not add product facts, UI paths, buttons, policies, prices, or promises that are not supported.
 - Preserve any source link at the end.
 - Do not end with optional follow-up prompts like "Would you like me to..." when the source answer already contains useful next steps. Include those next steps directly instead.
 - Ask a follow-up question only when the answer cannot be safely given without one.`,
@@ -74,7 +98,7 @@ Rules:
 }
 
 function buildResponseHistory(req, message, payload) {
-  const baseHistory = Array.isArray(req.body?.conversationHistory) ? req.body.conversationHistory : [];
+  const baseHistory = getHistory(req);
   const hasLatestUser = [...baseHistory].reverse().some((item) => item.role === "user" && item.content === message);
   const history = hasLatestUser ? [...baseHistory] : [...baseHistory, { role: "user", content: message }];
   if (!payload?.reply) return history;
@@ -120,6 +144,7 @@ async function answerFromLiveEvidence(message, existingReply, liveEvidence) {
 
 Rules:
 - Give the most complete useful first answer you can from the evidence. Do not hold back known steps behind "would you like me to..." prompts.
+- Use a readable structure: short heading, numbered steps, then a short "Check/export" or "What to look for" section if relevant.
 - Include safe downstream steps such as filtering, narrowing date ranges/statuses, viewing results, exporting/downloading, and checking columns when the evidence supports them.
 - Use live BRS evidence for exact menu names, page headings, filters, buttons, report names, table columns, and navigation hints.
 - Do not mention or expose member-specific, club-specific, payment-specific, personal, or financial data.
@@ -143,19 +168,22 @@ Rules:
 
 async function completeInitialAnswer(message, answer) {
   if (!answer || /\b(can you please give me more information|please tell me which part|what (area|part) of brs|which part of brs)\b/i.test(answer)) return answer;
-  if (!/\b(would you like|do you want|should i|can i guide|want me to|would you want)\b/i.test(answer)) return answer;
   try {
     const response = await client.responses.create({
       model: "gpt-4.1-mini",
       input: [
         {
           role: "system",
-          content: `Improve this BRS Golf support answer so it is complete on the first response.
+          content: `Improve this BRS Golf support answer so it is specific, readable, and complete on the first response.
 
 Rules:
-- Remove optional follow-up prompts such as "Would you like me to...".
-- If the answer hints at a next safe step, include that safe step directly.
-- Add only generic safe continuation steps that are already implied by the answer, such as using filters, selecting a billing cycle/date range/status, reviewing the results table, or using Export/Download if available.
+- Use this format where possible:
+  1. One short title line.
+  2. Numbered steps.
+  3. A "Filter/check" section for statuses, dates, billing cycles, table rows, or balances.
+  4. An "Export/download" line if exporting is a safe implied next step.
+- Remove optional follow-up prompts such as "Would you like me to..." and include the safe next steps directly.
+- Be more specific than "look through the details"; explain what to filter/check, such as unpaid/outstanding status, billing cycle, date range, balance due, member name, and bill status, but do not invent exact field labels unless already present.
 - Do not invent exact report names, buttons, paths, prices, policies, member data, or club-specific settings.
 - Ask a follow-up only if the answer cannot be given without missing critical information.`,
         },
@@ -173,15 +201,17 @@ Rules:
 async function enhancedChatHandler(req, res, next) {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
-  const message = String(req.body?.message || "").trim();
+  const originalMessage = String(req.body?.message || "").trim();
+  const history = getHistory(req);
+  const message = expandAffirmationMessage(originalMessage, history);
 
   try {
     const objectFirstReply = answerFromObjectFirstRouting(message);
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
-    if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled, req));
+    if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload(objectFirstReply, originalMessage, debug, debugEnabled, req));
 
     const reply = await answerFromKnowledge(message);
-    debug.stages.push({ name: "knowledge-answer", matched: Boolean(reply) });
+    debug.stages.push({ name: "knowledge-answer", matched: Boolean(reply), expandedAffirmation: message !== originalMessage });
 
     let liveLookup = null;
     let liveReply = null;
@@ -204,24 +234,24 @@ async function enhancedChatHandler(req, res, next) {
         version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",
         liveLookup: liveLookup?.successful ? liveLookup : null,
       };
-      return res.json(await prepareChatPayload(payload, message, debug, debugEnabled, req));
+      return res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
     }
 
-    if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, message, debug, debugEnabled, req));
+    if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, originalMessage, debug, debugEnabled, req));
 
     debug.stages.push({ name: "legacy-server", matched: true });
     if (debugEnabled) {
-      req.body = { ...req.body, chatDebug: debug };
+      req.body = { ...req.body, message, chatDebug: debug };
     }
-    wrapJsonForChat(res, message, debug, debugEnabled, req);
+    wrapJsonForChat(res, originalMessage, debug, debugEnabled, req);
     return baseHandler(req, res, next);
   } catch (error) {
     console.error("Enhanced chat routing failed, falling back to base chatbot:", error);
     debug.stages.push({ name: "enhanced-routing-error", matched: false, error: error.message || "Unknown error" });
     if (debugEnabled) {
-      req.body = { ...req.body, chatDebug: debug };
+      req.body = { ...req.body, message, chatDebug: debug };
     }
-    wrapJsonForChat(res, message, debug, debugEnabled, req);
+    wrapJsonForChat(res, originalMessage, debug, debugEnabled, req);
     return baseHandler(req, res, next);
   }
 }
