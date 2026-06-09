@@ -11,6 +11,10 @@ import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 import { formatLiveEvidence, liveBrsLookup, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
 import { saveLearnedWorkflowFromResolution } from "./lib/workflowLearning.js";
+import { routeActionRequest } from "./lib/actionRouter.js";
+import { executeTimesheetPlan } from "./lib/timesheetExecutor.js";
+import { formatTimesheetConfirmation, planTimesheetRequest } from "./lib/timesheetPlanner.js";
+import { assertBotAccess, canRunBotAction, resolveAuthContext } from "./lib/security/authContext.js";
 
 dotenv.config();
 
@@ -31,6 +35,78 @@ function wantsChatDebug(req) {
 
 function withDebug(payload, debug, enabled) {
   return enabled ? { ...payload, debug } : payload;
+}
+
+function formatTimesheetClarification(missing = []) {
+  const labels = {
+    year: "the year",
+    "start and end time": "the first and last tee time",
+    "days of week": "which days to configure",
+    "tee time interval": "the tee time interval",
+    "both alternative interval values": "both alternative interval values",
+    "timesheet configuration details": "the timesheet details",
+  };
+  const details = missing.map((item) => labels[item] || item);
+  return `I can configure that for you. Please send ${details.join(", ")}.`;
+}
+
+async function runTimesheetActionRequest(message, authContext) {
+  if (!canRunBotAction(authContext, "timesheet.configure")) {
+    return {
+      ok: false,
+      action: "timesheet.configure",
+      status: "forbidden",
+      error: "You do not have permission to configure the timesheet for this BRS club.",
+    };
+  }
+  const plan = await planTimesheetRequest(client, message);
+  if (plan.unsupported.length) {
+    const intervalIssue = plan.unsupported.find((item) => item.includes("4 to 20"));
+    return {
+      ok: true,
+      action: "timesheet.configure",
+      status: "unsupported",
+      reply: intervalIssue
+        ? "BRS supports tee time intervals from 4 to 20 minutes for this action. Please choose interval values in that range."
+        : `I cannot run that safely yet: ${plan.unsupported.join(", ")}.`,
+      plan,
+    };
+  }
+
+  if (plan.missing.length) {
+    return {
+      ok: true,
+      action: "timesheet.configure",
+      status: "needs_clarification",
+      reply: formatTimesheetClarification(plan.missing),
+      plan,
+    };
+  }
+
+  if (process.env.BRS_TIMESHEET_AUTOMATION_ENABLED !== "true") {
+    return {
+      ok: false,
+      action: "timesheet.configure",
+      status: "disabled",
+      error: "Timesheet automation is disabled. Set BRS_TIMESHEET_AUTOMATION_ENABLED=true in .env to use it locally.",
+    };
+  }
+
+  const results = await executeTimesheetPlan(plan);
+
+  return {
+    ok: true,
+    action: "timesheet.configure",
+    status: "completed",
+    reply: formatTimesheetConfirmation(plan.actions),
+    plan,
+    results,
+  };
+}
+
+async function runActionRequest(route, message, authContext) {
+  if (route?.type === "timesheet.configure") return runTimesheetActionRequest(message, authContext);
+  return null;
 }
 
 function shouldRewriteReply(reply) {
@@ -243,6 +319,17 @@ async function enhancedChatHandler(req, res, next) {
   const message = expandAffirmationMessage(originalMessage, history);
 
   try {
+    const authContext = resolveAuthContext(req);
+    assertBotAccess(authContext);
+    debug.stages.push({ name: "auth-context", matched: true, clubId: authContext.clubId, source: authContext.source, authRequired: authContext.authRequired });
+
+    const actionRoute = routeActionRequest(message);
+    debug.stages.push({ name: "action-router", matched: Boolean(actionRoute), route: actionRoute?.type || null });
+    if (actionRoute) {
+      const actionPayload = await runActionRequest(actionRoute, message, authContext);
+      if (actionPayload) return res.json(withDebug(actionPayload, debug, debugEnabled));
+    }
+
     if (isMemberBalanceLookup(message)) {
       debug.stages.push({ name: "direct-member-balance-intent", matched: true });
       const handled = await respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel: "knowledge-answer-direct" });
@@ -265,6 +352,11 @@ async function enhancedChatHandler(req, res, next) {
     wrapJsonForChat(res, originalMessage, debug, debugEnabled, req);
     return baseHandler(req, res, next);
   } catch (error) {
+    if (error?.name === "AuthContextError") {
+      debug.stages.push({ name: "auth-context", matched: false, error: error.message });
+      return res.status(error.status || 403).json(withDebug({ ok: false, status: "forbidden", error: error.message }, debug, debugEnabled));
+    }
+
     console.error("Enhanced chat routing failed, falling back to base chatbot:", error);
     debug.stages.push({ name: "enhanced-routing-error", matched: false, error: error.message || "Unknown error" });
     if (debugEnabled) {
@@ -336,6 +428,24 @@ app.post("/api/feedback", async (req, res) => {
   }
 });
 
+app.post("/api/actions/timesheet-request", async (req, res) => {
+  try {
+    const message = String(req.body?.message || "").trim();
+    if (!message) return res.status(400).json({ ok: false, error: "Please enter a timesheet request." });
+
+    const authContext = resolveAuthContext(req);
+    assertBotAccess(authContext);
+    const payload = await runTimesheetActionRequest(message, authContext);
+    res.status(payload.ok === false ? 403 : 200).json(payload);
+  } catch (error) {
+    console.error("Timesheet request failed:", error);
+    res.status(error.status || 500).json({
+      ok: false,
+      error: error.message || "Unable to run the timesheet request.",
+    });
+  }
+});
+
 app.get("/api/admin/survey-metrics", async (req, res) => {
   try {
     res.status(200).json(await getSurveyMetrics({
@@ -348,6 +458,10 @@ app.get("/api/admin/survey-metrics", async (req, res) => {
     console.error("Survey metrics failed:", error);
     res.status(500).json({ ok: false, error: "Unable to load survey metrics." });
   }
+});
+
+app.use("/api", (req, res) => {
+  res.status(404).json({ ok: false, error: `API route not found: ${req.method} ${req.originalUrl}` });
 });
 
 app.use((req, res) => baseHandler(req, res));

@@ -85,14 +85,19 @@ After making changes, send a test email to confirm the template displays correct
 Use when the user asks about tee sheet configuration.
 
 ## APPROVED ANSWER: tee-sheet-setup
-When configuring the tee sheet, check:
-- Opening and closing times
-- Tee intervals
-- Number of holes
-- Booking slots
-- Visitor and member availability
-- Blocked times
-- Competition or society bookings
+For tee sheet or timesheet setup, use Tools >> Configure Timesheet when the user is configuring the actual tee time grid.
+
+Before changing the setup, confirm:
+- Year
+- Start and end date range
+- First and last tee time
+- Tee time interval, or both alternate interval values if using alternate intervals
+- Days of the week affected
+- Whether sunrise/sunset limits apply
+
+The Configure Timesheet page includes controls for Operation, Year, Start Month, Start Day of Month, End Month, End Day of Month, Tee Time Interval, Alternate Tee Time Intervals, First Tee Time Interval, Second Tee Time Interval, First Tee Time Hour/Minute, Last Tee Time Hour/Minute, sunrise/sunset limits, and weekday checkboxes.
+
+If the user is only asking how to do it, explain the path and fields. If they are asking the agent to do it, collect any missing required details before running the action.
 
 After updating the setup, verify the live tee sheet matches the configured availability and restrictions.
 ## END APPROVED ANSWER

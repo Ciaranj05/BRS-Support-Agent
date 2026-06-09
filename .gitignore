@@ -2,3 +2,4 @@ node_modules/
 .env
 data/feedback-store.json
 local-chatbot*.log
+.DS_Store

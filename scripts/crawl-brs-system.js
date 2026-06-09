@@ -19,12 +19,19 @@ const CLUB_IDS = (process.env.BRS_CLUB_IDS || process.env.BRS_CLUB_ID || "")
   .filter(Boolean);
 
 const ALLOWED_NAVIGATION_TEXT = [
+  /dashboard/i,
+  /timesheet/i,
+  /tools/i,
   /system configuration/i,
   /configure timesheet/i,
   /tee sheet/i,
+  /tee time/i,
   /booking details/i,
+  /facilities/i,
+  /contacts/i,
   /payments/i,
   /reports/i,
+  /search/i,
   /competitions/i,
   /members?/i,
   /memberships?/i,
@@ -145,10 +152,10 @@ async function login(page, clubId) {
   const filledUser = await fillFirstVisible(page, ["input[name='username']", "input[name='login']", "input[type='text']", "input[type='email']"], USERNAME);
   const filledPassword = await fillFirstVisible(page, ["input[name='password']", "input[type='password']"], PASSWORD);
   if (!filledUser || !filledPassword) throw new Error(`Could not find login fields for ${clubId}.`);
-  await Promise.all([
-    page.waitForLoadState("domcontentloaded").catch(() => {}),
-    page.locator("button[type='submit'], input[type='submit']").first().click(),
-  ]);
+  await page.locator("button[type='submit'], input[type='submit']").first().click();
+  await page.waitForLoadState("domcontentloaded").catch(() => {});
+  await page.waitForURL((url) => !/\/login\/?$/i.test(url.pathname), { timeout: 5000 }).catch(() => {});
+  await page.waitForLoadState("networkidle", { timeout: 2000 }).catch(() => {});
 }
 
 async function extractLinks(page, clubId) {

@@ -1,5 +1,9 @@
 # BRS Support Agent
 
+## Timesheet action prototype
+
+The timesheet action prototype uses a backend router, planner, executor, and current Playwright adapter. For handover notes and the future BRS API/MCP integration point, see `docs/timesheet-agent-handover.md`.
+
 ## Survey feedback storage
 
 The app records resolved-query survey scores through `POST /api/feedback` and shows results at `/admin.html`.
@@ -44,3 +48,4 @@ npm run crawl:brs-system
 npm run build:knowledge
 npm test
 ```
+- Code map and future update guide: `docs/code-map-and-update-guide.md`

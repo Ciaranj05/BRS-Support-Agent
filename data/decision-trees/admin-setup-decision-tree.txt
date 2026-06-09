@@ -241,6 +241,16 @@ IF user asks about tee sheet setup, timesheet setup, opening/closing times, tee 
 
 -> Use direct answer route tee-sheet-setup.
 
+IF user specifically asks to configure the timesheet or tee time grid, check for:
+1. Year
+2. Start and end date range
+3. First and last tee time
+4. Tee time interval, or both alternate interval values
+5. Days of the week affected
+6. Sunrise/sunset limits if mentioned
+
+Use Tools >> Configure Timesheet for the tee time grid setup. The observed page includes Operation, Year, Start/End Month, Start/End Day of Month, Tee Time Interval, Alternate Tee Time Intervals, First/Second Tee Time Interval, First/Last Tee Time Hour and Minute, sunrise/sunset limits, and weekday checkboxes.
+
 Escalate if live tee sheet does not match setup.
 
 ---
