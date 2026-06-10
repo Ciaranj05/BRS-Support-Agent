@@ -1,0 +1,196 @@
+BRS KNOWLEDGE FILE: REPORTS
+
+Use this file for Reports, report filters, revenue reports, payment reports, booking reports, user/member reports, contact reports, playing statistics, utilisation, exports, and printed reports.
+
+Source basis:
+- Public BRS Help Center: Reporting section and Payments reporting articles list.
+- Approved system crawl: Reports index and report category observations.
+- Dashboard and membership/report routing evidence from existing approved knowledge.
+
+Support style:
+- Ask what object the report is about: bookings, payments, memberships, contacts, users, revenue, utilisation, or playing statistics.
+- Do not quote report output, customer records, figures, rates, or revenue values.
+- If a report is permission-gated, check user group and revenue-report access.
+
+## Purpose
+
+Reports provide date-filtered operational, revenue, transaction, booking, user, contact, and playing-statistic outputs.
+
+The Reports page typically includes:
+
+- Start Date.
+- End Date.
+- Type of Report.
+- Course selector on multi-course systems.
+
+Reports are best when the user needs a date range, export, printed report, totals, breakdown, or historical view.
+
+## Report categories
+
+Observed report categories include:
+
+- Tee time usage.
+- Tee sheet utilisation.
+- Arrivals.
+- Booking details.
+- Booking/payment status.
+- Full booking details.
+- Booking, payment and staff notes.
+- Revenue summaries.
+- Revenue detail.
+- Outstanding balance.
+- Revenue/rounds by green fee category.
+- Revenue by service.
+- Catering revenue.
+- Revenue by tour operator or hotel.
+- Revenue by customer contact.
+- Visitor online booking revenue.
+- Payments by payment date.
+- Payments by transaction date/time and user.
+- Booking transactions by date booked or date playing.
+- Booking counts by user or date.
+- Cancelled bookings.
+- No Shows.
+- Shows.
+- Number of visitors by country.
+- Playing schedule, fixtures, and events.
+- Caddy master report.
+- Catering Report.
+- Buggy, Caddy and Club Hire Report.
+- Players, Payment, Buggies and Caddies.
+- Contact details.
+- Users/members details.
+- Member playing statistics.
+- Non-member playing statistics.
+- Contact email address reports.
+- Member email addresses for Outlook.
+- Email Message Summary Report.
+- Text Message Summary Report.
+- Text Message Account Transactions.
+- Club Message Summary Report.
+- Competition Purse Balance.
+- Competition Purse Transactions.
+- Competition Purse Summary.
+- Room/Facility Detail Report.
+- Room/Facility Summary Report.
+- Room/Facility Reservation Type Report.
+- Golf/Room/Facility Daily Activity Report.
+- Room/Facility Email Addresses for Outlook.
+
+## Reporting section Help Center topics
+
+The Help Center Reporting section includes:
+
+- Revenue / Rounds by Green Fee Category.
+- Reports on revenue from online bookings.
+- Exporting a list of members' email addresses.
+- Revenue from online merchant payments.
+- Playing Statistics.
+- Revenue comparison year over year.
+- Tee time utilisation.
+- Fixtures for a chosen time period.
+- Printing a Booking Report.
+
+Use these as article targets when a user asks for those specific outcomes.
+
+## Booking reports
+
+Use booking reports when the user needs:
+
+- Booking details for a period.
+- Booking counts by user/date.
+- Cancelled bookings.
+- Booking transactions.
+- Playing schedule or fixture output.
+- Printed booking report.
+
+If the request is about one booking, use Timesheet/Booking Details instead.
+
+## Revenue and green fee reports
+
+Use revenue reports for:
+
+- Revenue summaries.
+- Revenue detail.
+- Green fee category revenue/rounds.
+- Online booking revenue.
+- Revenue comparison year over year.
+- Revenue by service, catering, tour operator, hotel, or customer contact.
+
+Revenue reports are permission-gated in some user groups. Staff users can be restricted from revenue reports.
+
+## Payments reports
+
+BRS Payments reporting belongs with both Reports and Tools > BRS Payments depending on where the user starts.
+
+Use payment reports for:
+
+- Payments by payment date.
+- Payments by transaction date/time.
+- Online merchant payment revenue.
+- Transactions.
+- Refunds.
+- Payouts.
+- VAT reports where available.
+
+If the issue is a missing transaction or payout mismatch, use Payments/Tools knowledge and consider escalation.
+
+## Membership reports
+
+Membership-related report questions should stay under Memberships as the business object, even if payment words appear.
+
+Use Memberships/Billing reports for:
+
+- Unpaid member bills.
+- Outstanding member balances.
+- Billing status.
+- Subscription/payment-scheme reporting.
+- Wallet transactions.
+- Member email address exports.
+
+The Memberships embedded app also has its own Reports area with Bill History, Bill Projections, Bills Batch Preview, Bills Overview, Overdue Bills, Payments By Subscription Type, Wallet Balances, Wallet Transactions, Year on Year Comparison, Member Categories, Member Notes, Member Status, Membership Retention, and Members with/without Subscriptions.
+
+For one member, open the member profile instead of running an all-member report.
+
+## Contact and user reports
+
+Use contact reports for:
+
+- Contact details.
+- Contact email addresses.
+- Revenue by customer contact.
+- Revenue by tour operator or hotel.
+
+Use user/member reports for:
+
+- Users/members details.
+- Member playing statistics.
+- Non-member playing statistics.
+
+Do not conflate non-member Contacts with member Users/Memberships.
+
+## Utilisation and dashboard comparison
+
+Dashboard utilisation gives a quick visual overview. Reports provide more detailed date-range outputs, exports, and historical analysis.
+
+If a user asks "where can I see utilisation quickly", use Dashboard. If they ask for a report, export, date range, or historical comparison, use Reports.
+
+## Multi-course reporting
+
+Multi-course systems can include a Course selector. Use the selector for combined reports or course-specific reports where those options are visible. Course names are club data; describe the selector rather than hard-coding names.
+
+## Common troubleshooting
+
+If a user cannot see a report:
+
+- Check user group permissions.
+- Check whether the report requires revenue-report access.
+- Check whether the feature/module that produces the report is enabled.
+- Check whether the report is under Memberships/Tools rather than the main Reports page.
+
+If report data looks wrong:
+
+- Confirm date range.
+- Confirm course selector.
+- Confirm report type.
+- Confirm whether the report is using booking date, playing date, payment date, transaction date, bill due date, or membership billing period.

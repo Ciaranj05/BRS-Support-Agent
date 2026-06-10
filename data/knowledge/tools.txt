@@ -1,0 +1,431 @@
+BRS KNOWLEDGE FILE: TOOLS
+
+Use this file for Tools, System Configuration, Configure Timesheet, setup/configuration, green fee rates, reservation types, booking statuses, payment methods, contact categories, services, catering, no-show reasons, timesheet titles/messages, templates, uploads/imports, legal messages, course restrictions, member booking rules, competitions setup, clubhouse PC, visitor/agent/tour-operator rates, day tickets, golf events, competition charges, BRS Payments tools, printers/devices, and module configuration.
+
+Source basis:
+- Public BRS Help Center: Basic Set Up, Timesheet, Visitor Booking, Member Booking, Open Competitions, Clubhouse PC, Green Fee Printer, Payments, and Miscellaneous sections.
+- Approved system crawl: Tools index, system configuration, configure timesheet, reports, and dashboard observations.
+- Built-in Tools page descriptions observed in the live/demo system crawl.
+
+Support style:
+- Tools is the setup/configuration area. Use it for settings rather than day-to-day operational records.
+- Give exact navigation only when confirmed.
+- Warn users that Tools access is permission-controlled.
+- Do not hard-code club-specific values such as rates, intervals, course names, custom terms, or enabled feature states.
+
+## Tools index
+
+The Tools page is the setup and administration index. It groups setup functions into basic and additional requirements.
+
+Observed Tools entries include:
+
+- System Configuration.
+- Configure Timesheet.
+- Green Fee Rates.
+- Reservation Types.
+- Booking Statuses.
+- Payment Methods.
+- Contact Categories.
+- Catering / Refreshments.
+- No Show Reasons.
+- Services.
+- Copy services/catering/green fees between years.
+- Daily timesheet titles.
+- Timesheet messages.
+- Email and letter templates.
+- Uploads for timesheets and members/contacts.
+- Membership types.
+- Legal messages.
+- Course restrictions.
+- Messaging.
+- Membership Groups for Messaging.
+- Club News.
+- Club Messages.
+- Member casual booking rules.
+- Member competitions.
+- Open competitions.
+- Clubhouse PC setup.
+- Visitor/agent/tour-operator rates.
+- Day ticket rates.
+- Golf events.
+- Process competition charges.
+- BRS Payments/Payments administration where enabled.
+- Update Club Website.
+
+## System Configuration
+
+System Configuration controls broad club/system settings and feature switches.
+
+Known use cases:
+
+- Club address and email style parameters.
+- Enabling/disabling features.
+- Display Configuration.
+- Enable Daily Dashboard.
+- Calendar End Year.
+- Search options.
+- Nightly backup email.
+- Marketing consent display.
+- Playing time.
+- Course names for multi-course/36-hole setups.
+- Buggy booking settings.
+- Single booking report settings.
+- Revenue report settings.
+- Club website settings.
+- Members Booking module registration/login, casual golf, competition golf, general settings, and Club House PC/swipe-card settings.
+- Visitor Booking module display, general, and credit-card settings.
+- Online merchant/BRS Payments settings.
+- Competition purse, waiting list, tour operator, and green fee printer settings.
+
+Use System Configuration when the user asks about changing global behaviour, enabling dashboard display, setting up future years, or broad system parameters.
+
+Important confirmed paths:
+
+- Disable/enable Daily Dashboard: Tools > System Configuration > Display Configuration > Enable Daily Dashboard.
+- Prepare future timesheet year: Tools > System Configuration > Calendar End Year.
+
+Only admin users with Tools access should change System Configuration.
+
+The System Configuration page includes question-mark help icons beside many settings. The help text is setting-specific and should be treated as the safest source when explaining a particular parameter. Verified help examples include:
+
+- Club contact fields control details that appear on pages, reports, letters, and confirmation emails.
+- Latitude and longitude are used to calculate sunrise and sunset times.
+- Calendar start/end years control the years selectable across the system and affect many pages.
+- Display Green Fee Rates on Timesheet adds green-fee dropdowns to the booking form on the Timesheet page.
+- Display Handicap, Club and CDH fields affects Booking Detail and Visitor Booking Personal Details; CDH is only shown for online open competition bookings.
+- Display Arrived / Check-In buttons adds a quick arrived/check-in button beside each player on the timesheet.
+- Display message X hours before sunset shows a message on Admin, Member, and Visitor timesheets. It is display-only and does not change booking handling.
+- Login timeout delay controls automatic logout after inactivity; a blank value uses the system default shown on the page.
+- Confirm multiple bookings in a single email lets staff include other bookings by the same customer within a configured day range; blank disables it and 0 means same-day bookings only.
+- Treat x-style player names as valid controls whether placeholder-style player entries count as valid players for utilisation/reporting purposes.
+- Search Members when entering Player or Reservation Name shows matching members while typing in Timesheet and Booking Detail fields.
+- Search Competitions when entering Reservation Name shows matching competitions on the date being displayed.
+- Nightly backup email sends backup details for upcoming bookings.
+- In-grid editor default create-new-booking controls whether adding players to an occupied tee time creates a separate booking or appends to the existing booking.
+- Enable Squeeze Times shows the Squeeze Tee Time option and allows extra tee times before the first tee time, after the last tee time, or between existing tee times.
+- Postal, email, and text marketing consent settings show consent controls on member booking, visitor booking, and edit-contact pages.
+
+## Configure Timesheet
+
+Configure Timesheet sets tee times and tee time intervals for days, date ranges, months, years, and course-specific schedules where applicable.
+
+Use for:
+
+- Creating a year's tee times.
+- Changing intervals.
+- Adding tee times to start/end of day.
+- Squeezing additional tee times.
+- Multi-course schedule setup.
+
+Confirmed workflow:
+
+1. Check Calendar End Year in System Configuration for new years.
+2. Go to Tools > Configure Timesheet.
+3. Choose operation: same interval or alternative intervals.
+4. Select year/date range.
+5. Enter intervals.
+6. Select tee time range.
+7. Select sunrise/sunset stopping rules where needed.
+8. Select weekdays.
+9. Configure the timesheet.
+
+The live Configure Timesheet page also includes:
+
+- Calendar-style year overview per course.
+- Key for weekday, current day, weekend, and not-set-up days.
+- Course selector.
+- Delete selected tee times on one or multiple days.
+- Timesheet Templates link for setting up reusable timesheets that can be copied quickly from one date to another.
+
+## Green Fee Rates
+
+Green Fee Rates configure categories and rates for manual staff-created bookings such as visitors, societies, member guests, and similar groups.
+
+Distinguish:
+
+- Manual booking green fee rates: Tools > Green Fee Rates.
+- Online visitor/agent rates: Visitor Booking/online green fee setup.
+- Member guest rate: Member Booking/member guest rate setup.
+
+Never invent rate values. Rates are club-specific.
+
+## Reservation Types
+
+Reservation Types configure labels and colours/classification used on the timesheet and in reports.
+
+Use for setting up types such as member, visitor, society, competition, reserved, closed, or club-specific custom types.
+
+Reservation types influence:
+
+- Timesheet display.
+- Filters.
+- Reporting.
+- Booking workflows.
+
+## Booking Statuses
+
+Booking Statuses configure the statuses used to track booking state, such as provisional, confirmed, deposit received, outstanding balance, full payment received, closed, and other club/system statuses.
+
+Use booking statuses for tracking booking progress. Do not use statuses as a replacement for actual payment records.
+
+## Payment Methods
+
+Payment Methods configure non-processor payment labels/methods used in booking or member workflows.
+
+Use Payment Methods when the club needs to classify payment by method. Use Payments/BRS Payments for actual online card processor transactions, refunds, payouts, payment requests, or Stripe-backed payment processing.
+
+## Contact Categories
+
+Contact Categories classify non-member contact records such as visitor, society, tour operator, hotel, company, other, or custom categories.
+
+Use when the club needs better contact filtering, contact reporting, or messaging segmentation.
+
+## Catering / Refreshments
+
+Catering and Refreshments configure add-on items or options connected to bookings/events where enabled.
+
+Use for setup of catering options, not for reporting on catering revenue. Reporting belongs in Reports.
+
+## No Show Reasons
+
+No Show Reasons configure labels used when recording no-shows on the timesheet.
+
+Use when the club wants consistent reasons for no-show tracking and reporting.
+
+## Services
+
+Services configure bookable extras such as:
+
+- Buggies.
+- Caddies.
+- Club hire.
+- Room hire.
+- Trolleys.
+- Course setup services.
+
+Buggy Management and Buggy Booking Duration are covered in Basic Set Up Help Center topics. If a buggy is overbooked or linked to a tee time, use Timesheet/booking evidence as well.
+
+## Copy services, catering, or green fees
+
+The Tools index includes copying services, catering, or green fee setup between years. Use this when a club wants to reuse existing setup rather than manually recreate it.
+
+Confirm source year and target year before advising. Do not copy live values into knowledge.
+
+## Daily timesheet titles and timesheet messages
+
+Tools can manage daily titles and messages shown on the timesheet.
+
+Use for:
+
+- Playing schedule messages.
+- Day titles.
+- Operational notices on the tee sheet.
+- Adding/deleting timesheet messages.
+
+Use Messages if the user is sending communications to people. Use Tools if they are configuring text shown on the timesheet.
+
+## Email and letter templates
+
+Email and Letter Templates configure reusable communication wording.
+
+Use for:
+
+- Standardised emails.
+- Letter templates.
+- Communication templates reused by staff.
+
+Use Messages/email/text features for sending one-off or campaign messages.
+
+## Membership groups for messaging
+
+Membership Groups for Messaging lets staff set up membership groups and assign members to those groups for targeted communication.
+
+Use this when a user wants to send messages to a segment that is not simply a membership type. Use Membership Types when the group is a formal membership category.
+
+## Club News
+
+Club News lets staff create club news articles that can be viewed by members and the public.
+
+Use Club News for published news content. Use Club Messages for push/app messages and direct member communication.
+
+## Uploads and imports
+
+Tools can include upload/import functions for:
+
+- Timesheets.
+- Members/contacts.
+- Club Systems member data preview/import.
+- Member details import.
+- Membership type mapping.
+
+Treat imports as sensitive because they can change many records. Confirm source data, mapping, and test/preview steps before advising.
+
+## Membership types
+
+Membership type setup can be managed from Tools/User Management style areas depending on the system. Use for:
+
+- Add/edit/delete membership types.
+- Membership type mapping.
+- Colours on the timesheet.
+- Member guest rates.
+- Member online booking eligibility.
+
+For bills and subscriptions, use Memberships.
+
+## Legal messages and course restrictions
+
+Legal messages and course restrictions control customer-facing terms, restrictions, and booking rules.
+
+Use for:
+
+- Visitor/member booking terms.
+- Restrictions by course/date/time/member type.
+- Customer-facing notices.
+
+Club-specific legal text must not be stored in reusable knowledge.
+
+Course Restriction specifically restricts course bookings to limited group sizes at specified dates and times. Fields include start/end date, start/end time, player types, max group size, and message. Player type options include members and visitors, members only, or visitors only.
+
+## Member casual booking rules
+
+Member Casual Booking Rules control when members can view and book casual golf online.
+
+Use when:
+
+- Members cannot book a casual round.
+- The club wants to change how many days in advance members can book.
+- Guest booking needs enabling/disabling.
+- Casual Golf Release Time is involved.
+- Tee Time Locked behaviour is reported.
+
+Check member status, membership type, and online booking settings alongside these rules.
+
+The live rule page distinguishes View rules from Book rules. It explains that only tee times covered by configured rules are made available to members; all other times cannot be booked or viewed. Rule fields include course, start/end date, start/end time, rule type, days advance booking, guest booking allowed from, casual guests not allowed, number of players, players per tee time, guests, number of guests, days of week, and applies-to membership-type controls.
+
+## Competitions
+
+Tools can include member competition setup, open competition setup, and competition charge processing.
+
+Distinguish:
+
+- Member competitions: member booking, member draw, competition purse, member entry rules.
+- Open competitions: public/visitor-facing competition entry and visitor/open competition rates.
+- Golf Genius integration: competition management may involve third-party integration.
+- Process Competition Charges: charging member competition entries through the relevant competition/purse workflow.
+
+If charging details are ambiguous, ask whether the charge is for members, visitors, or both.
+
+Member Competition setup fields observed include course, competition type, single-player/multi-player draw, competition dates, competition name/reservation name, holes, number of players, guest settings, waiting list, competition close rules, competition charging method, member entry fee, guest entry fee, who is charged, refund/cancellation cut-off, and membership type applicability.
+
+## Clubhouse PC
+
+The Help Center includes Clubhouse PC setup and "What is the Club House PC?" topics. Use this for member-facing on-site booking/check-in PC setup where enabled.
+
+The live Tools page includes Set this PC as Club House PC, described as setting up or removing the current PC as the Club House PC and enabling certain clubhouse features.
+
+## Visitor, agent, tour-operator, and day ticket rates
+
+Visitor Booking setup includes:
+
+- Online Green Fee Rates.
+- Multi-Year Green Fee Rates.
+- Golf Packages.
+- Visitor/Agent rates.
+- Day Ticket Rates.
+
+Use these for online visitor/agent/tour-operator booking rates. Do not confuse them with manual Green Fee Rates for staff-created bookings.
+
+Online visitor/agent/tour-operator green fee setup supports filtering by channel, enabled/all rates, years, months, and days. Rate rows distinguish golf-only rates and package rates, with columns for type, channel, package name, start/end date, multi-year flag, time, holes, weekdays, per-player prices, advance booking, and actions. Do not store actual rates from a club.
+
+Day Ticket Rates are for visitors playing two rounds on the same day through the club website. The live page notes they are not supported for tour operators or third-party tee time agents. Fields include course 1, course 2, start/end date, green fee rate, type, days advance booking, and days of week.
+
+Open Competitions for Visitors are configured from Tools > Open Competitions for Visitors. Fields include course, competition date, start/end time, competition name/reservation name, booking/playing format, competition type, member green fee, visitor green fee, mixed member/visitor teams, booking available date, and booking available time.
+
+## Golf Events
+
+Golf Events setup belongs in Tools/Golf Plus where enabled. Use for event-style golf booking rather than normal tee times or competitions.
+
+The live Tools page describes Golf Events as setting up part of the timesheet for an event organiser to populate. This can be used for a member event, corporate day, or similar event.
+
+Golf Event admin fields include course, event date, event start/end time, event name/reservation name, and event username. Only tee times matching the event date, start time, end time, and reservation name are made available to the external event organiser.
+
+## BRS Payments
+
+BRS Payments is powered by Stripe and lets clubs accept and manage card payments through BRS.
+
+Use BRS Payments/Payments tools for:
+
+- Payouts / payout schedule.
+- FAQs / additional help.
+- Online card transactions.
+- Virtual terminal/manual card payments.
+- Payment request links.
+- Booking Payment Requests.
+- General Payment Requests.
+- Refunds.
+- Payouts.
+- Transaction lists.
+- VAT reports.
+- Payment reporting.
+- Setup.
+
+Confirmed BRS Payments tool paths in the live system:
+
+- Tools > BRS Payments > Payouts.
+- Tools > BRS Payments > Transactions.
+- Tools > BRS Payments > Refunds.
+- Tools > BRS Payments > Booking Payment Requests.
+- Tools > BRS Payments > General Payment Requests.
+- Tools > BRS Payments > VAT Reports.
+- Tools > BRS Payments > Setup.
+
+Observed BRS Payments page controls:
+
+- Payouts, Transactions, Refunds, Booking Payment Requests, and General Payment Requests use Start Date, End Date, and Apply filters.
+- Booking Payment Requests show date created, amount, booking ID, due date, description, status, and actions such as more, additional info, view email, delete, and resend.
+- General Payment Requests includes Create Payment Request.
+- VAT Reports use invoice period month/year and provide PDF and CSV downloads.
+- Setup can show whether account setup is complete and points users back to Transactions, Payouts, and Payments FAQ.
+
+Benefits described in Help Center include:
+
+- Integration with Visitor Booking.
+- Invoices/payment links.
+- Phone payments through virtual terminal.
+- Transactions in one place.
+- Refunds from BRS.
+- Payout tracking.
+
+Do not give processor-specific financial advice. If a transaction is missing from BRS or the issue needs platform investigation, escalate with transaction details supplied by the user.
+
+## Update Club Website
+
+Update Club Website can update fixture lists, club news, and competition reports on the club website. It can also collect and manage member and visitor feedback.
+
+Use this for website content/update questions. Use Reports for internal reporting and Messages/Club News for communication content.
+
+## Printers and devices
+
+The Help Center includes Green Fee Printer topics. Use these for printer installation and green fee printer setup.
+
+If the question is about browser/device bugs, check Miscellaneous/known issue guidance and avoid guessing.
+
+## Permissions
+
+Tools is permission-controlled. Staff users may not have Tools access. StaffReadOnly users may see some tools index pages but receive privilege warnings on configuration pages.
+
+If a user cannot access Tools:
+
+- Check their user group.
+- Check User Privileges.
+- Check whether the feature/module is enabled.
+- Ask an Admin user to make the configuration change where appropriate.
+
+## Related areas
+
+- Dashboard for shortcuts and Daily Dashboard behaviour.
+- Timesheet for day-to-day bookings.
+- Memberships for member billing and profile workflows.
+- Users for permissions and access.
+- Reports for outputs and exports.
+- Messages for sending communications.

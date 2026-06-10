@@ -1,0 +1,98 @@
+BRS KNOWLEDGE FILE: DASHBOARD
+
+Use this file for questions about the Daily Dashboard, dashboard widgets, dashboard shortcuts, course status panels, product information links, and returning to the dashboard from elsewhere in BRS.
+
+Source basis:
+- Public BRS Help Center: Daily Dashboard article and Basic Set Up section.
+- Approved system crawl: authenticated BRS admin shell and dashboard observations.
+- Built-in system help/product panels observed in the dashboard and Tools index where available.
+
+Support style:
+- Explain what the dashboard is for and what the visible areas mean.
+- Do not quote live figures, course names, booking counts, golfer counts, rates, or club-specific dashboard values.
+- If the user asks about a missing shortcut, mention that shortcuts depend on enabled modules and user permissions.
+
+## Purpose
+
+The Daily Dashboard is the home screen for administrative BRS users after login. It gives staff a quick operational summary of the tee sheet and provides shortcuts into common areas of the system.
+
+The dashboard replaces older home-screen shortcut layouts. Users can usually return to it by clicking the BRS Golf logo in the top-left of the admin area.
+
+## Main dashboard metrics
+
+The top dashboard cards summarise current booking activity:
+
+- Tee sheet utilisation as a percentage.
+- Number of bookings.
+- Number of golfers.
+- Split between member and visitor activity where the system has that data.
+
+These figures are operational state, not static product knowledge. The chatbot should describe what the figures represent but should not infer or repeat a club's current utilisation, booking count, golfer count, or member/visitor counts unless the user supplies them in the conversation.
+
+## Date controls and chart
+
+The dashboard includes date controls such as Today, Tomorrow, Select Date, and custom date ranges. The utilisation chart can be filtered by a specific date or viewed over a date range. Help Center guidance states that the chart range is limited to 365 days either side of the current date.
+
+The chart is useful when a user wants a quick visual view of utilisation, bookings, reservation types, or similar dashboard-level activity without running a detailed report.
+
+## Course status
+
+Where the club has course-level status controls, the dashboard can show Course Status panels. These are used to see or manage the visible operational status for each course.
+
+Course names and current statuses are club-specific. Describe the pattern only: course status is a dashboard shortcut/panel for course-level operational state.
+
+## Toolbox shortcuts
+
+The dashboard Toolbox contains shortcuts to commonly used parts of BRS. Typical shortcut groups include:
+
+- Green Fees.
+- Messaging.
+- Useful Links.
+- Member Competitions.
+- Online booking links.
+- Tee time availability.
+- Golf event booking.
+- Member booking.
+- Visitor booking.
+- Online tee times menu.
+- Clubhouse PC login.
+
+The exact shortcuts shown depend on enabled modules, club setup, and the user's permissions. If a user cannot see a shortcut, ask whether the module is enabled and whether their user group has permission.
+
+## Product and help links
+
+The dashboard can show system/product links such as What's New and Get Help. What's New points users towards release notes and product changes. Get Help opens the support/help experience for guidance.
+
+If the user asks for BRS support contact information, use the current approved support contact guidance elsewhere in the system rather than guessing.
+
+## Switching off the dashboard
+
+The Help Center confirms the Daily Dashboard is controlled from:
+
+Tools > System Configuration > Display Configuration > Enable Daily Dashboard
+
+To disable it, untick Enable Daily Dashboard and update the System Configuration page. Only suggest this to admin users with access to Tools and System Configuration. Staff or read-only users can be restricted from this area.
+
+## Permissions and missing dashboard items
+
+Dashboard links are permission-aware. The system can log out or block a user who tries to open an area their user group cannot access.
+
+Use this guidance:
+
+- If the user is StaffReadOnly, they can view many operational pages but cannot save changes.
+- Staff users can have day-to-day access while being restricted from Tools or revenue reports.
+- Admin users have broader control but still cannot necessarily add other Admin users.
+
+If a dashboard item is missing, check:
+
+- Whether the relevant module is enabled for the club.
+- Whether the user's group has permission for that area.
+- Whether the link is a dashboard shortcut or should be accessed from the left navigation instead.
+
+## Related areas
+
+- Timesheet for day-to-day tee time operations.
+- Reports for detailed date-range reporting.
+- Tools for configuration and module setup.
+- Messages for BRS announcements and system messages.
+- Users for permissions and account access.

@@ -1,0 +1,103 @@
+BRS KNOWLEDGE FILE: SEARCH
+
+Use this file for the Search page, searching bookings, finding booking references, locating player/contact details through booking search, and deciding when Search is better than Reports or Timesheet navigation.
+
+Source basis:
+- Approved system crawl: Search Bookings page and help text.
+- Timesheet/booking relationships from approved system crawl.
+- Public Help Center booking/contact topics where relevant.
+
+Support style:
+- Keep Search focused on locating records.
+- Do not reveal or store real booking references, customer names, emails, phone numbers, mobile numbers, postcodes, or search results.
+- If the user needs analysis/export, route to Reports.
+
+## Purpose
+
+The Search page is used to locate bookings using multiple booking, player, contact, and reference fields.
+
+It is useful when a user knows part of a name, reference, email, phone number, or postcode but does not know the booking date/time.
+
+## Searchable fields
+
+Approved system crawl observed that Search Bookings can search:
+
+- Reservation name.
+- Player 1.
+- Player 2.
+- Player 3.
+- Player 4.
+- Booking contact name.
+- Booking reference number.
+- Club reference number.
+- Email.
+- Telephone.
+- Mobile.
+- Postcode.
+
+The search is not case sensitive.
+
+## Search controls
+
+Observed controls include:
+
+- Search Text.
+- Year.
+- Search System, including Golf and Facility in the live demo system.
+- Search action.
+
+If the user cannot find a booking, check whether the correct year and search system are selected.
+
+## When to use Search
+
+Use Search when:
+
+- The user has a name, reference, email, phone, mobile, or postcode.
+- The user does not know the exact tee time/date.
+- The user needs to open an existing booking.
+- The user is looking for a booking contact.
+- The user needs to search either golf bookings or facility bookings by changing the search system.
+
+Use Timesheet when:
+
+- The user knows the date/time.
+- The task is to add, edit, move, or inspect tee-time rows.
+
+Use Reports when:
+
+- The user needs a list, export, date range, totals, revenue, utilisation, or historical analysis.
+
+Use Contacts when:
+
+- The user wants to maintain the reusable contact record rather than find a booking.
+
+## Search result handling
+
+Search results can contain customer data. The chatbot should not store, summarise, or repeat live search results. It can tell the user what fields to use and what to check after opening the result.
+
+Once a booking is found, open the booking details to:
+
+- Add or check contact details.
+- View transaction history.
+- Review payment/refund information.
+- Make booking changes using approved workflows.
+
+## Troubleshooting no results
+
+If Search returns no results:
+
+- Try a shorter search term.
+- Check spelling.
+- Check the Year filter.
+- Try reference number if available.
+- Try email or phone if name search fails.
+- Check whether the booking is in a different system, course, or module.
+- Switch between Golf and Facility when the booking belongs to the other booking module.
+- Use Reports if the user needs a wider date-range search.
+
+## Related areas
+
+- Timesheet for date/time navigation and booking details.
+- Contacts for non-member contact records.
+- Reports for exports and lists.
+- Payments for transactions/refunds after a booking is opened.

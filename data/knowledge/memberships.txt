@@ -1,244 +1,243 @@
-# MEMBERSHIPS – SUPPORT KNOWLEDGE
+BRS KNOWLEDGE FILE: MEMBERSHIPS
 
-Use this knowledge for members, bills, subscriptions, payment schemes, wallets, membership payments, member access, and billing queries.
+Use this file for Memberships, member profiles, membership types, member billing, bills, subscriptions, payment schemes, scheduled payments, flexible membership, wallets/account balances, member online booking access, member app topics, and member-facing booking rules.
 
----
+Source basis:
+- Public BRS Help Center: Flexible Membership, Member Booking, User Management membership articles, and Memberships create-bills overview.
+- Approved system crawl: user/member concepts, online member booking surfaces, messaging options, and reports relationships.
+- Existing approved support logic for membership object routing.
 
-## CORE RULE
+Support style:
+- Keep membership billing separate from booking payments unless a booking payment is explicitly involved.
+- For member bill/payment/refund questions, use the member profile or Memberships billing route first, not generic BRS Payments.
+- Do not repeat member names, balances, bill amounts, wallet balances, or subscription details from live data.
 
-For membership/billing issues, check the member profile and bill before assuming a payment or system issue.
+## Main purpose
 
-Primary checks:
+Memberships is the area for managing member records and membership-related financial/access workflows. It covers member profiles, membership types, subscriptions, bills, billing/payment views, wallets or account balances, and membership reports.
 
-1. Member profile
-2. Billing area
-3. Relevant bill
-4. Payments/allocation
-5. Subscription/payment scheme
+In the live demo system, Memberships opens an embedded memberships app. Its main navigation is:
 
----
+- Dashboard.
+- Members.
+- Membership Types.
+- Subscriptions.
+- Billing/Payments.
+- Reports.
+- Accounts.
 
-## MEMBER PROFILE
+Use Memberships when the user mentions:
 
-Use the member profile to check:
+- Member profile.
+- Membership type.
+- Subscription.
+- Bill or invoice.
+- Billing cycle.
+- Payment scheme/payment plan.
+- Scheduled membership payment.
+- Wallet/account balance.
+- Flexible/flexi membership.
+- Member access to online booking.
 
-- Member name
-- Membership status
-- Active/inactive status
-- Contact details
-- Billing records
-- Payment schemes
-- Wallet/balance
-- Subscriptions
+## Member profile
 
-If a member cannot be found, confirm:
+For one individual member, use Memberships > Members to find or create the member record. The live Members page exposes a member list/search surface and a Create Member action.
 
-- Name
-- Email
-- Membership number if available
+Use the visible member record/actions for the task the user describes. Do not name a specific member-profile tab unless the user can see it or another approved source confirms it.
 
-## APPROVED ANSWER: create-member-profile-account
-Member booking accounts are handled through member registration and the member profile, not through a visitor account route.
+If a staff member or employee needs admin access, use Users, not Memberships.
 
-Use this route when the user has clarified they mean a member profile/account:
+The Members page supports member lookup/listing and includes a Create Member action. Observed member table columns include title, first name, last name, email, membership card number, membership type, membership status, and actions. These columns are useful for explaining what staff can filter/check, but actual member details are customer data and must not be copied into answers.
 
-1. Give the member the club's BRS Members Tee Time Reservation URL, or add that URL to the club website.
-2. The member registers their details through the club website/member booking link.
-3. The club verifies the registration.
-4. Enable the member's profile once the registration has been verified.
-5. After the profile is enabled, the member can sign in and make bookings.
+## Membership types
 
-If the club uses a Club Systems website with Single Sign On, the member should log in through the Members area of the Club Systems website instead. Contact Club Systems if Single Sign On, Diary Integration, or BRS booking links need to be enabled.
+Membership types classify members and can affect:
 
-Source: [Member Registration](https://help.brsgolf.com/hc/en-us/articles/360005511873-Member-Registration)
-## END APPROVED ANSWER
+- Online booking access.
+- Booking rules.
+- Member guest rates.
+- Timesheet colour display where configured.
+- Billing/subscriptions.
+- Membership reports.
 
----
+Membership type setup is covered in User Management/Tools-related Help Center articles. Typical tasks include add, edit, delete, mapping/import, and adding colours to membership types on the timesheet.
 
-## BILLING
+The Membership Types page includes actions such as Create Membership Type and Membership Type Changes. Observed columns include name, flex flag, status, minimum age, maximum age, qualifying length of service, next chained membership type, default subscriptions, and actions.
 
-Use Billing to check:
+Use Membership Types when the user is changing membership categories or the rules/default subscriptions attached to a category. Use Members when changing one person. Use Subscriptions when changing the financial product/fee being assigned.
 
-- Bills
-- Charges
-- Payments
-- Discounts
-- Subscriptions
-- Outstanding balance
-- Published/unpublished status
+## Subscriptions
 
-## APPROVED ANSWER: create-membership-bill
-Membership bills are handled from the member profile Billing area.
+Subscriptions define membership charges/products that can be assigned to members or membership types.
 
-Before creating or changing a bill, confirm which billing route the club needs:
+The Subscriptions page includes actions such as:
 
-1. Manual bill or one-off charge
-2. Subscription or renewal bill
-3. Payment scheme or scheduled payment
+- Apply/Remove Subscription.
+- Create New Subscription.
+- Viewing cycles attached to subscriptions.
 
-Start by opening the correct member profile, then check Billing, subscriptions, and payment schemes before making changes.
+Observed subscription table columns include name, cost, tax rate, status, count members, cycles, count subscriptions, and actions.
 
-I do not have confirmed button-by-button bill creation steps in the approved guidance yet, so do not guess the final clicks. If the user needs the exact creation steps, escalate or add the approved workflow to the membership knowledge base.
-## END APPROVED ANSWER
+Use Subscriptions when the user asks about recurring membership fees, subscription setup, subscription cycles, or applying/removing a subscription from members. Use Billing/Payments when the bill has already been created or payment status is the issue.
 
-If a bill looks wrong, ask:
+## Create bills
 
-“What looks incorrect — amount too high, missing payment, or extra charge?”
+Approved Help Center overview for creating membership bills:
 
----
+1. Click Memberships.
+2. Click Billings/Payments.
+3. Click Create Bills.
+4. Step 1: enter billing details.
+5. Step 2: click Set Bill Filters.
+6. Fill out bill cycle information.
+7. For All Cycles, enter dates.
+8. For Selected Cycles, select the cycle, enter information, then click Add Cycle/Period.
+9. Click Next.
+10. Fill out Who to Bill.
+11. For selected members, check the members to bill.
+12. For selected membership types, check the membership types to bill.
+13. For custom filters, click Select Filter and choose the filter.
+14. Click Save.
+15. Step 3: select the desired subscriptions.
+16. Drag selected subscriptions into priority order for payment allocation.
+17. Add custom bill items if needed.
+18. Select payment schemes.
+19. Click Preview.
+20. Review and Confirm.
+21. Fill out Publish Bill information.
+22. Click Publish Bill.
 
-## BILL TOO HIGH
+Payment allocation priority matters when members pay through payment schemes or alternative arrangements. It determines how the payment is allocated across subscriptions in the bill. The Payments by Subscription Type report shows allocation.
 
-Check:
+The live Billing/Payments page includes View Payments and Create Bills. Observed bill list columns include reference, bill raised, bill due, payment status, publish status, count, expected revenue, received revenue, and actions.
 
-1. Subscriptions applied
-2. Custom charges
-3. Discounts
-4. Previous unpaid balance
-5. Payment allocation
+Use Billing/Payments for:
 
-If the total still does not match expectation, escalate.
+- Reviewing batches of bills.
+- Checking bill due dates and payment status.
+- Creating bills.
+- Viewing payments linked to membership billing.
+- Publishing or reviewing bill batches where available.
 
----
+## Unpaid or outstanding member bills
 
-## BILL NOT VISIBLE
+Use Memberships reports/billing views for unpaid or outstanding member bills.
 
-Check:
+Suggested support answer:
 
-1. Bill exists
-2. Bill is published
-3. Correct member profile is selected
-4. Member has access
+1. Open Memberships.
+2. Go to Billing/Payments or Memberships > Reports depending on the club's interface.
+3. Look for unpaid, outstanding, failed, or balance due filters.
+4. Narrow by billing cycle, period, date range, or membership type.
+5. Export/download the list if the view provides an export option.
 
-If published bill is still not visible, escalate.
+For one member, open the member profile and check Billing rather than using the all-member report.
 
----
+The Memberships Dashboard can surface panels for bills, overdue bills, failed scheduled payments, and flexible members. Those panels are useful shortcuts, but the actual names, dates, balances, and failures shown are live member/payment data.
 
-## PAYMENT NOT APPLIED TO BILL
+## Payment schemes and scheduled payments
 
-If payment exists but bill still shows unpaid:
+Payment schemes are used for scheduled membership payments or payment plans.
 
-1. Open member profile
-2. Go to Billing
-3. Open the bill
-4. Check payments
-5. Check allocation
-6. Confirm whether payment is applied to the correct bill
+When troubleshooting missed scheduled payments:
 
-Important:
+- Check whether the member was Active before the scheduled payment date.
+- Check the payment scheme attached to the bill.
+- Check failed payment status and retry behaviour from approved local guidance.
+- Check the bill/payment record before escalating to payments platform support.
 
-- Payment may exist but be unallocated
-- Do not assume payment is missing until allocation is checked
+If the issue is a card transaction, payout, refund record, or BRS Payments processor issue, use Payments/Tools > BRS Payments evidence as well.
 
-If payment is missing entirely, use payments knowledge.
+## Membership bill refunds or reversals
 
----
+For a refund on a membership bill, use Memberships billing/payment evidence rather than the tee sheet booking refund route.
 
-## SUBSCRIPTIONS
+Confirm the correct member, bill, payment, amount, and allocation before refunding or reversing. If the payment was taken through BRS Payments, review refund records under Tools > BRS Payments > Refunds.
 
-Use subscriptions to check recurring or membership charges.
+## Flexible membership
 
-Check:
+Flexible Membership is an optional feature. The Help Center says clubs should contact their account manager or sales/support to add it.
 
-- Subscription type
-- Amount
-- Start date
-- End date
-- Frequency
-- Member status
-- Applied discounts
+Flexible/flexi membership is handled from the Memberships/member profile area, not from booking payments.
 
-### SUBSCRIPTION CYCLE TYPES
+## Wallet/account balances
 
-If asked “What subscription cycle types are available?” respond:
+Flexible Membership wallets can be edited using top-ups and clawbacks.
 
-“There are subscription cycle options including Annual, Rolling, Monthly, and Custom.”
+Approved Help Center workflow:
 
-If subscription amount is wrong, check the subscription setup before editing the bill.
+1. Click Memberships.
+2. Use the Memberships Dashboard to locate the flexible member.
+3. Search for and select the member.
+4. Click Edit Balance.
+5. Choose Transaction Type: Topup or Clawback.
+6. Decide whether to Record Payment.
+7. Select Payment Type if recording payment.
+8. Enter the top-up amount in points.
+9. Add transaction notes.
 
----
+Topup adds points to the wallet. Clawback withdraws points from the wallet. The wallet workflow exposes a transaction-note field for member-visible notes where the system displays wallet transactions.
 
-## PAYMENT SCHEMES
+If transferring balances from another system, Help Center guidance says Record Payment should be unticked.
 
-Use payment schemes to manage scheduled membership payments.
+The Accounts page lists configured membership wallets/accounts. Observed account columns include account name, units, auto assign, active, and minimum balance. Use Accounts for wallet/account setup questions. Use a member profile or dashboard flexible-member panel for one member's balance/action.
 
-## APPROVED ANSWER: payment-scheme-setup
-Payment schemes are used for scheduled membership payments.
+## Membership reports
 
-Before setting one up or changing one, confirm:
+The live Memberships Reports page groups reports into Financial Reports and Member Reports.
 
-1. Correct member
-2. Linked bill
-3. Scheme start date
-4. Payment frequency
-5. Amount
-6. Member status
+Financial Reports observed:
 
-If a scheduled payment has not been taken, check whether the member was active before the scheduled payment date. Scheduled payments only continue for members with an Active status.
+- Bill History.
+- Bill Projections.
+- Bills Batch Preview.
+- Bills Overview.
+- Overdue Bills.
+- Payments By Subscription Type.
+- Wallet Balances.
+- Wallet Transactions.
+- Year on Year Comparison.
 
-I do not have confirmed button-by-button payment scheme setup steps in the approved guidance yet, so do not guess the final clicks. If the user needs the exact setup workflow, escalate or add the approved workflow to the membership knowledge base.
-## END APPROVED ANSWER
+Member Reports observed:
 
-Check:
+- Member Categories.
+- Member Notes.
+- Member Status.
+- Membership Retention.
+- Members with/without Subscriptions.
 
-- Scheme start date
-- Payment frequency
-- Amount
-- Member status
-- Failed payments
-- Linked bill
+Use these report names directly when helping users find membership billing, wallet, retention, or member-status information. Do not use the generic Reports page if the report is specifically a Memberships report.
 
-If asked “Scheduled payment has not been taken on the scheduled date” respond:
+## Member online booking
 
-“Check if the member status was active or inactive in advance of the scheduled payment. Scheduled payments will only continue to be taken against members with an Active status.
+Member Booking is the member-facing login surface. It supports:
 
-If the member is active, then the payment attempt may have failed. The Payment scheduler will try again for 5 consecutive nights, so check again tomorrow.
+- Member username/password login.
+- Registration.
+- Forgot username.
+- Forgot password.
+- Member booking through the BRS Members App or member website where enabled.
 
-If the payment is not taken, please contact support and provide them with information including the members name, bill name, and scheduled payment date.”
+If a member cannot book a casual round, check:
 
-If payment scheme fails:
+- Member status and profile.
+- Membership type.
+- Member online booking enabled.
+- Member Casual Booking Rules.
+- Casual Golf Release Time.
+- Tee Time Locked behaviour.
+- Guest booking restrictions.
 
-1. Check member status
-2. Check payment method
-3. Check failed payment reason
-4. Escalate if repeated or affecting multiple members
+## Member app and club messages
 
----
+Members Booking App topics include registration, app use, member account updates, and receiving Club Messages. Club Messages can target all members, selected members, members by membership type/group, or members on the tee sheet.
 
-## ONLINE PAYMENTS & PAYMENTS PLATFORM
+Use Messages for sending communications. Use Memberships/Users for fixing member access and profile setup.
 
-### WHAT IS THE BRS PAYMENTS PLATFORM?
+## Related areas
 
-If asked “What is the BRS Payments platform?” respond:
-
-“It is the integrated online payments solution used for membership bills, wallet top-ups, visitor fees, and other BRS payment services.”
-
-### HOW DO I SET UP ONLINE PAYMENTS FOR MY CLUB?
-
-If asked “How do I set up online payments for my club?” respond:
-
-“Contact BRS support or your onboarding contact to configure your Payments account.”
-
-### CAN MEMBERS PAY BILLS ONLINE?
-
-If asked “Can members pay bills online?” respond:
-
-“Yes, members can pay bills online through the member portal or BRS Members booking app.”
-
-### CAN ADMIN USERS TAKE PAYMENTS THROUGH THE SYSTEM?
-
-If asked “Can admin users take payments through the system?” respond:
-
-“Yes, admins can process manual and online payments on behalf of members.”
-
-### WHY ARE SCHEDULED PAYMENTS NOT RETRYING AFTER FAILURE?
-
-If asked “Why are scheduled payments not retrying after failure?” respond:
-
-“Scheduled payment retries only occur if the Scheduled Payments Grace Period is enabled.”
-
-### WHAT IS THE MINIMUM SCHEDULED PAYMENT GRACE PERIOD?
-
-If asked “What is the minimum scheduled payment grace period?” respond:
-
-“The minimum is 6 days because the system retries failed payments for 5 consecutive days.”
+- Users for creating/editing/deleting user accounts and passwords.
+- Tools for member casual booking rules, membership type setup, and configuration.
+- Reports for membership exports, billing reports, wallet transactions, and member playing statistics.
+- Payments for BRS Payments processor, transaction, refund, and payout issues.
+- Timesheet for member bookings on tee times.

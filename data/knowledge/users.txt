@@ -1,0 +1,127 @@
+BRS KNOWLEDGE FILE: USERS
+
+Use this file for user accounts, admin/staff/member login access, user groups, permissions, passwords, disabled users, deleted users, superuser changes, and user privilege questions.
+
+Source basis:
+- Public BRS Help Center: User Management section, especially Add a User and user group articles.
+- Approved system crawl: Users page and Staff Read Only access profile.
+- Built-in labels observed on Manage Users.
+
+Support style:
+- Treat "employee", "staff member", "receptionist", "pro shop user", "office user", and "colleague" as Users/admin access, not Memberships.
+- Do not expose or repeat real usernames, names, emails, passwords, or member records.
+- Never ask for or store passwords in chat.
+
+## Purpose
+
+The Users area manages login accounts and access to BRS. It includes staff/admin users and member users.
+
+Observed Manage Users actions include:
+
+- Add New.
+- Your Details.
+- User Privileges.
+- Purse Top Up.
+- Retrieve Users.
+
+Observed filters include:
+
+- User Group.
+- Member Type.
+- Search Text.
+- Registered Users Only.
+- Disabled Users Only.
+- Include Deleted Users.
+
+## User groups
+
+Help Center guidance identifies these user group concepts:
+
+- Admin: overall control of the system. Cannot add other Admin users.
+- Staff: can do most day-to-day things but cannot access Tools or Revenue Reports.
+- StaffReadOnly: cannot save changes.
+- Member: can only log in through Members Booking pages to view/book tee times.
+
+Approved system crawl also observed Member Registered, Member Unregistered, and Event-style group concepts. Treat exact group names as setup-dependent.
+
+## Add a user
+
+Approved Help Center workflow:
+
+1. Go to Users > Add New.
+2. Use User Group to choose the type of user.
+3. Complete required fields.
+4. Complete Password and Re-type Password if setting the password directly.
+5. Click Create New User.
+
+Required fields from Help Center guidance:
+
+- User Group.
+- Username.
+- Membership Type.
+- First Name.
+- Last Name.
+
+For password setup, an admin can either set a password directly or use Reset Password by email if an email address has been added.
+
+## Edit, disable, or delete a user
+
+Use the User Management area for:
+
+- Editing a user.
+- Deleting a user.
+- Enabling or disabling users.
+- Changing account details.
+- Changing a username.
+- Changing password.
+
+Before destructive changes, confirm the exact user and the intended outcome. Prefer disabling over deleting where the user may need audit/history retained, unless approved guidance says otherwise.
+
+## Password changes and reset
+
+An admin can open the user from the Users list and use Change Password from the Update User Details page. If an email address exists for the user, Reset Password can send an email so the user can set their own password.
+
+Do not ask users to share passwords in chat. If login fails, ask whether they need a password reset, username recovery, or account enablement check.
+
+## User privileges
+
+User Privileges controls what an account can access. Use it when:
+
+- A staff member cannot see a menu item.
+- A user is blocked from Tools, reports, or revenue reports.
+- A read-only user cannot save.
+- A member can log in but cannot perform an expected action.
+
+Remember:
+
+- Missing menu items can be caused by permissions or disabled modules.
+- Staff may not have Tools or revenue reports.
+- StaffReadOnly cannot save changes.
+- Member users use member booking pages, not the admin dashboard.
+
+## Staff read-only access
+
+Approved system knowledge says Staff Read Only users can view dashboard, timesheet, search, reports, users summary, contacts, facilities, messages, and tools index pages. They may hit privilege warnings on configuration pages such as System Configuration, Green Fee setup, competition setup, timesheet message setup, and text messaging.
+
+Use StaffReadOnly for users who need visibility without the ability to make changes.
+
+## Superuser
+
+The Help Center includes guidance for changing the Superuser. Treat this as a sensitive admin task. Confirm the request should be handled by an authorised admin and escalate if the exact workflow is not visible in approved guidance.
+
+## Member users versus member profiles
+
+Member user accounts support member login for online booking. Member profiles and billing details belong in Memberships.
+
+Use this split:
+
+- Login/password/username/access: Users.
+- Membership type, bill, subscription, wallet: Memberships.
+- Member cannot book a tee time: check Users login status and Memberships/member booking rules.
+
+## Related areas
+
+- Memberships for member records, bills, subscriptions, wallets, and member booking rules.
+- Dashboard and Tools for permission-gated shortcuts.
+- Reports for user/member details reports.
+- Messages for sending usernames or registration reminders.

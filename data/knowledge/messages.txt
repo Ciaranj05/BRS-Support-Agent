@@ -1,0 +1,168 @@
+BRS KNOWLEDGE FILE: MESSAGES
+
+Use this file for BRS admin Messages, system announcements, club messaging, email messaging, text/SMS messaging, timesheet messages, service reminder emails, and communication templates.
+
+Source basis:
+- Public BRS Help Center: Communication via Email and Text section and Club Messaging article.
+- Approved system crawl: Messages page, Email Messages menu, dashboard messaging shortcuts, and Tools index.
+- Built-in product text observed in the system crawl.
+
+Support style:
+- Distinguish BRS system Messages from club-to-member communication tools.
+- For message delivery problems, ask whether the issue is email, SMS, club app push notification, or timesheet message.
+- Do not quote sent message contents, recipients, or delivery history from a club account.
+
+## BRS admin Messages area
+
+The left navigation Messages area displays BRS announcements and operational system messages for the club.
+
+Observed message categories and filters include:
+
+- Favourites.
+- Announcements.
+- System Messages.
+- Title search.
+- Start Date.
+- End Date.
+- Reset filters.
+- Pagination.
+
+The page can contain information about:
+
+- New features.
+- General news applicable to the club.
+- Scheduled maintenance.
+- Downtime.
+- Critical error updates.
+
+Actual message contents, dates, read state, favourites, and club-specific notices are operational data.
+
+## Dashboard messaging shortcuts
+
+The dashboard Toolbox can include shortcuts for:
+
+- Email Messages.
+- Text Messages.
+- Timesheet Messages.
+- Club Messages.
+
+Shortcut visibility depends on enabled modules and user permissions.
+
+## Club Messages / app push messages
+
+Club Messages are found in the Tools area and can also appear from dashboard messaging shortcuts. They support member communication through the BRS Members Booking App or New Members Website.
+
+Club Messages can be used to:
+
+- Send push notifications to all members.
+- Send to selected members.
+- Send by membership group.
+- Send by membership type.
+- Send to members on the tee sheet on a specific day.
+- Send messages to members while they are on the course.
+- Send to all members.
+
+Examples of appropriate content include course closure notices, social event updates, competition results, and clubhouse messages. The chatbot should describe the feature, not draft or store club-specific message content unless the user asks for a draft in the current conversation.
+
+The live Club Messaging page names these options:
+
+- Message Membership Types.
+- Message Membership Groups.
+- Message Selected Members.
+- Message The Timesheet.
+- Message The Course.
+- Message All Members.
+
+It also shows recently sent club messages and a report link for previous club messages. Useful columns include message subject, message type, sent date/time, and count. Do not store live message subjects.
+
+## Email messaging
+
+Email messaging lets staff send targeted emails to member and contact audiences.
+
+Observed email options include:
+
+- Email Membership Types.
+- Email Membership Groups.
+- Email Selected Members.
+- Email the Timesheet.
+- Email Contacts.
+- Member App Reminder.
+- BRS Registration Reminder.
+- Golf Plus Reminder.
+
+Use these distinctions:
+
+- Email Membership Types targets members by membership type.
+- Email Membership Groups targets members assigned to groups.
+- Email Selected Members lets staff choose a specific list of members.
+- Email the Timesheet targets people linked to bookings on a date/time.
+- Email Contacts targets non-member contacts such as visitors, societies, hotels, companies, or tour operators.
+- Golf Plus Reminder sends a predefined email about Golf Plus.
+
+The live Email Messaging page shows recently sent messages and a report link for previous messages. Useful columns include username, date/time sent, email message, number of emails, attachments, and marketing flag. Do not copy message content, usernames, or attachment names from a live club.
+
+## Text/SMS messaging
+
+The Help Center communication section includes SMS guidance for:
+
+- Sending a text message to the timesheet.
+- Viewing sent text messages.
+- Sending text to membership categories.
+- Sending text to contacts/visitors.
+- Sending text to membership groups.
+- Sending text to selected members.
+- Topping up SMS credit.
+- SMS cost.
+- Enabling SMS.
+- Sender ID questions.
+
+When troubleshooting SMS:
+
+- Confirm the audience type.
+- Check SMS credit if messages are not sending.
+- Check whether SMS is enabled.
+- Check sender ID behaviour only from approved guidance or escalate.
+
+The live Text Messages page shows current SMS balance, setup options, Purchase Text Messaging Credit, recently sent messages, and a report link for previous messages. Useful columns include username, date/time sent, message, number of mobiles, and marketing flag. Do not copy sent message text, phone opt-out text, usernames, or current balance values into reusable knowledge.
+
+## Timesheet messages
+
+Timesheet messages are configured/managed from communication tools and can display messages on the timesheet for staff or customers, depending on setup.
+
+Use for:
+
+- Daily operational notes.
+- Playing schedule notes.
+- Titles for each day.
+- Adding or deleting a message on the timesheet.
+
+If the user asks about a message attached to a booking, clarify whether it is a booking note, customer communication, or a timesheet-wide message.
+
+## Email and letter templates
+
+Tools includes Email and Letter Templates. These are used to set reusable communication templates rather than one-off messages.
+
+Use templates when the user asks about standard wording used repeatedly. Use email/text messaging areas when the user asks about sending a current message to a specific audience.
+
+## Service reminders
+
+Service reminder emails are part of communication workflows for reminders such as member app reminders or BRS registration reminders. Use these when the club wants to prompt members to register, use the app, or complete an expected action.
+
+## Permissions and missing options
+
+Messaging options can depend on:
+
+- Enabled modules such as Members Booking App, SMS, or member booking.
+- User group permissions.
+- Club configuration.
+- Available contact/member data.
+
+If the user cannot see a messaging option, ask which user group they are logged in as and whether the relevant module is enabled.
+
+## Related areas
+
+- Dashboard for quick messaging shortcuts.
+- Tools for Club Messages, timesheet messages, templates, and SMS configuration.
+- Contacts for visitor/contact recipient lists.
+- Memberships/Users for member groups, membership types, and member records.
+- Reports for contact email address exports and sent-message analysis where available.

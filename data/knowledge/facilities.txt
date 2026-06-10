@@ -1,0 +1,100 @@
+BRS KNOWLEDGE FILE: FACILITIES
+
+Use this file for Facility Booking, room bookings, non-golf resource reservations, facility areas, facility calendar views, and questions about booking non-tee-sheet resources.
+
+Source basis:
+- Public BRS Help Center: Facility Booking section, What is the Facility / Room Booking feature, and Add a Room / Facility booking.
+- Approved system crawl: Facilities module observations and help text.
+- Built-in page labels observed in the BRS demo/system crawl.
+
+Support style:
+- Keep Facilities distinct from Timesheet. Facilities is for non-golf resources, not tee times.
+- Do not repeat actual room names, booking names, guest names, or facility reservations from a club account.
+- If facilities are not set up, explain that the module needs configured room/facility areas.
+
+## Purpose
+
+The Facility / Room Booking feature records and tracks non-golf bookings. Examples include dining room, function room, and lounge room bookings.
+
+The Facilities module is used when a club wants to manage bookable resources that are not tee times.
+
+## Module setup and availability
+
+If no facility areas exist, the Facilities page can explain that the module has not been set up. The setup route depends on the club's enabled modules and permissions.
+
+If a user cannot access Facilities, check:
+
+- Whether Facility Booking is enabled.
+- Whether rooms/areas have been configured.
+- Whether the user's group has permission.
+
+## Views
+
+Observed Facilities views include:
+
+- Booking view.
+- Month view.
+- Year view.
+
+Use Booking view for entering or inspecting individual reservations. Month and Year views are better for broader availability and planning.
+
+The live demo Facilities page includes Add, Modify, Cancel, Delete, Cut, Copy, and Paste controls. These controls apply to room/facility reservations. Do not assume the same exact controls exist on the Timesheet unless the tee-sheet page exposes them.
+
+## Fields
+
+Facility booking controls can include:
+
+- Date.
+- Reservation Name.
+- Number of guests.
+- Room/Facility.
+- Start time.
+- End time.
+- Repeat days.
+- Repeat weeks.
+- Facility/room area selector.
+- Key/legend for facility areas.
+
+Status concepts can include provisional, confirmed, and outstanding. Treat exact statuses as configuration-dependent unless confirmed.
+
+## Add a room/facility booking
+
+Approved Help Center workflow:
+
+1. Use the master row under calendar navigation.
+2. Enter reservation name.
+3. Enter number of guests.
+4. Select the room/facility.
+5. Enter start time and end time.
+6. Choose how many days and how many weeks to book.
+7. Click Add.
+8. Click the reservation name to add more information.
+
+If the selected slots are not free, direct the user to check availability in the facility view before saving.
+
+## Edit a booking
+
+The Help Center separates:
+
+- Edit details of a room/facility booking.
+- Edit start and/or end time.
+- Move a room/facility booking.
+- Copy a room/facility booking.
+- Delete a room/facility booking.
+
+Use this distinction when answering. If the user only needs to change descriptive information, direct them to edit details. If they need a different time, direct them to edit/move the time. If they need another similar booking and the page exposes copy controls, copying is the relevant facility action.
+
+## Cut/copy/paste style controls
+
+Approved system knowledge indicates that cut/copy/paste tools can move or duplicate facility reservations. Use this for Facilities only where the page exposes those controls. Do not assume the same behaviour for tee sheet bookings unless the Timesheet guidance confirms it.
+
+## Extending latest booking time
+
+The Facility Booking Help Center includes an article about extending the latest time to midnight. If a user asks why late-night slots are unavailable, check facility-area setup and latest-time configuration rather than treating it as a booking error.
+
+## Related areas
+
+- Tools contains service and room-hire setup where those options are enabled.
+- Reports contains service/resource outputs only where the club's setup exposes those reports.
+- Golf Plus/Golf Events are separate from room/facility booking.
+- Contacts can be used for non-member customers associated with facility reservations.

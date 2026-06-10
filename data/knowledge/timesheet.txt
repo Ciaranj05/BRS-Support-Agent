@@ -1,0 +1,214 @@
+BRS KNOWLEDGE FILE: TIMESHEET
+
+Use this file for questions about the Timesheet, tee sheet, tee times, bookings, booking details, reservation types, booking statuses, in-grid booking, printing/exporting the timesheet, competitions shown on the tee sheet, and online booking behaviour that affects tee times.
+
+Source basis:
+- Public BRS Help Center: Timesheet and Bookings sections, especially Configure the timesheet and Add a single tee time booking.
+- Approved system crawl: Timesheet day view, reservation statuses, online booking surfaces, and multi-course observations.
+- Built-in system help and field labels observed in the BRS demo/system crawl.
+
+Support style:
+- Use "timesheet" and "tee sheet" as equivalent BRS terms when helping users.
+- Give concrete navigation where known.
+- Do not invent a Move or Reschedule button for bookings. Approved local guidance says moving bookings should use the cut/paste workflow from Booking Details when applicable.
+- Do not quote live booking names, player names, prices, references, or customer details.
+
+## Main purpose
+
+The Timesheet is the main operational area for viewing and working with tee times. It shows the club's daily tee-time rows and supports creating, editing, viewing, printing, and reporting on bookings.
+
+Observed timesheet views include:
+
+- Day/Timesheet view.
+- Summary view.
+- 4 Week view.
+- Month view.
+- Year view.
+- Both/combined course view on multi-course systems.
+
+Multi-course systems can expose course-specific views and combined views. Course names are club configuration data, so only describe the multi-course pattern unless the user supplies their own course names.
+
+## Day view structure
+
+The day view typically includes:
+
+- Date navigation.
+- Tee-time rows.
+- Hole selection.
+- Reservation name.
+- Reservation type.
+- Player names.
+- Buggy/service fields.
+- Information columns.
+- Print daily booking sheet link.
+- Sunrise/sunset or timing markers where enabled.
+- Squeeze Tee Time link where enabled.
+- Add member to waiting list option where enabled.
+
+Booking rows, player details, names, prices, and counts are live club/customer data and should not be stored or repeated as product knowledge.
+
+## Configure the timesheet
+
+Use Tools > Configure Timesheet for creating or changing tee time patterns.
+
+Before setting up a new calendar year, check:
+
+Tools > System Configuration > Calendar End Year
+
+The Calendar End Year must extend far enough for the year the club wants to configure.
+
+Core configure-timesheet workflow:
+
+1. Go to Tools > Configure Timesheet.
+2. Use the form at the bottom of the page.
+3. Choose the Operation.
+4. Select the year and date range.
+5. Enter the tee time interval or alternating intervals.
+6. Select the tee time range.
+7. Choose sunrise/sunset stopping behaviour if needed.
+8. Select the days of the week the configuration applies to.
+9. Click Configure the Timesheet.
+
+Operation choices include:
+
+- Configure one or multiple days with the same tee time interval.
+- Configure one or multiple days with alternative tee time intervals.
+- Delete selected tee times on one or multiple days.
+
+Use same-interval configuration when the club uses one interval across the selected period. Use alternative intervals where the club alternates intervals, such as different gaps between tee times.
+
+Configure Timesheet also exposes Timesheet Templates. Use templates when the club wants reusable timesheets that can be copied quickly from one date to another.
+
+## Changing intervals and adding tee times
+
+Timesheet interval changes belong in Configure Timesheet. The Help Center has separate guidance for changing tee time intervals, adding tee times to the start of the day, adding tee times to the end of the timesheet, and squeezing in additional tee times.
+
+When answering:
+
+- Confirm whether the user wants to change future setup or alter one specific day.
+- For a new year, check Calendar End Year first.
+- For a small adjustment on a configured day, direct them to the relevant add/squeeze guidance rather than implying they must rebuild the whole year.
+
+## Single tee time booking
+
+Approved Help Center workflow for adding a single 18-hole tee time booking:
+
+1. Tick the box beside the tee time to book.
+2. In the master row at the top of the page, enter reservation name, reservation type, and player names.
+3. Click Add.
+4. To add more information, click the time of the tee time that was booked.
+5. The in-grid editor can also be used for a single tee time booking where available.
+
+Use this when the user asks how to add a standard single tee time booking. If they need contact details, payments, refunds, or transaction history, route to the more specific booking details or payments guidance.
+
+## Block bookings and repeated bookings
+
+The Bookings Help Center section includes block booking workflows and bookings over multiple weeks. Use the general rule:
+
+- A single tee time booking is one selected tee time.
+- A block booking is used for multiple tee times or repeated reservations.
+- Confirm date, time range, reservation type, and repetition before giving procedural advice.
+
+Do not store or repeat real booking names, group names, or customer details.
+
+## Booking details
+
+Clicking the booked tee time opens the booking details. Booking details is the safer place for:
+
+- Adding more information to a booking.
+- Adding contact details.
+- Viewing transaction history.
+- Handling payments/refunds where BRS Payments is involved.
+- Moving/cutting/pasting booking content where the approved process applies.
+
+If the user asks about payment on a booking, confirm whether it was taken through BRS Payments before advising on refunds.
+
+## Reservation types
+
+Reservation types classify tee-time rows and booking intent. Observed reservation type concepts include:
+
+- Member.
+- Men Members.
+- Lady Members.
+- Visitor.
+- Guest/Member.
+- Competition.
+- Open Competition.
+- Society.
+- Corporate.
+- Team.
+- Reserved.
+- Reserved for Members.
+- Reserved for Visitors.
+- Closed.
+- Course Maintenance.
+- Members Roll Up.
+- Local Resident.
+- Tour Operator.
+- Club-defined custom types.
+
+Reservation types affect filtering, reporting, colours, booking display, and workflows. Custom reservation types are club-specific and should not be treated as universal.
+
+Reservation types are configured from Tools > Reservation Types.
+
+## Booking statuses
+
+Booking statuses describe the state of a booking. Observed examples include:
+
+- Booking Taken.
+- Closed.
+- Confirmed.
+- Deposit Cleared.
+- Deposit Paid Bank.
+- Deposit Received.
+- Deposit Requested.
+- Full Payment Received.
+- Letter Sent.
+- Outstanding Balance.
+- Part Payment.
+- Provisional.
+- Visitor Request.
+
+Statuses can affect reporting, booking management, and follow-up. Booking statuses are configured from Tools > Booking Statuses.
+
+## Printing and exporting
+
+The Timesheet Help Center includes guidance for printing or exporting a timesheet. The day view can include a Print Daily Booking Sheet action.
+
+When a user asks for a print/export:
+
+- Confirm the date or range.
+- Confirm whether they need the day sheet, booking report, or a report export.
+- If the request is analytical or date-range based, use Reports rather than the day sheet.
+
+## Competitions on the timesheet
+
+Member competitions and open competitions interact with the timesheet, while setup belongs under Tools or competition-specific pages.
+
+Use this distinction:
+
+- Member competitions generally involve member booking, draws, competition purse, and member entry setup.
+- Open competitions are visitor/public-facing competitions with their own rates and entry flow.
+- For competition tee times not showing online, check competition setup, release rules, booking rules, and online availability configuration.
+
+If the question is about charging members, use competition purse guidance. If it is about visitor/open competition charges, use open competition/visitor fee setup.
+
+## Online booking surfaces
+
+BRS exposes separate online booking surfaces:
+
+- Member Booking for members signing in, registering, or recovering credentials.
+- Visitor Booking for public visitor tee times.
+- Tee Time Availability for availability views.
+- Tour operator login where enabled.
+- Open Competitions for visitor/public competition booking.
+
+Online booking content such as visitor terms, live rates, messages, phone numbers, availability, and competition lists is club-specific.
+
+## Common routing
+
+- Tee time creation, row display, booking details, reservation types: Timesheet.
+- Green fee rate setup: Tools or Visitor Booking depending on manual versus online rate.
+- Booking refund: Payments if BRS Payments is involved; otherwise follow non-BRS payment process or escalate.
+- Member unable to book online: Member Booking/Memberships plus Tools > Member Casual Booking Rules.
+- Staff cannot access the timesheet: Users/permissions.

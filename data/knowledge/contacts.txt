@@ -1,0 +1,101 @@
+BRS KNOWLEDGE FILE: CONTACTS
+
+Use this file for non-member contact records, visitor/contact databases, companies, hotels, societies, tour operators, contact categories, and communication/reporting involving contacts.
+
+Source basis:
+- Approved system crawl: Contacts page and contact category observations.
+- Public BRS Help Center: Communication via Email and Text, Visitor Booking, Reporting, and Basic Set Up section listings.
+- Tools index observations for Contact Categories.
+
+Support style:
+- Distinguish Contacts from Users and Members.
+- Do not store or repeat real contact names, emails, phone numbers, postcodes, or customer records.
+- For member records, use Memberships/Users depending on the task.
+
+## Purpose
+
+Contacts stores non-member contact records used for booking, reporting, and messaging workflows.
+
+Typical contact audiences include:
+
+- Visitors.
+- Societies.
+- Tour operators.
+- Hotels.
+- Companies.
+- Other non-member contacts.
+
+## Contacts page
+
+Observed Contacts actions include:
+
+- View Contacts.
+- Add New.
+- View All.
+- Filter by category.
+
+Observed fields include:
+
+- Search text.
+- Contact category.
+
+Category counts and actual contact records are club data and must not be treated as reusable product knowledge.
+
+## Contact categories
+
+Contact Categories are configured from Tools. They classify non-member contact records for searching, reporting, and messaging.
+
+Observed category concepts include:
+
+- Company.
+- Hotel.
+- Other.
+- Society.
+- Tour Operator.
+- Visitor.
+- Not set.
+
+Clubs may have their own contact categories. Ask the user what category they need if the answer depends on local setup.
+
+## Add or find a contact
+
+Use Contacts > Add New when a user wants to create a non-member contact record.
+
+Use Contacts search/filter controls when the user wants to find an existing non-member contact. Search can be paired with categories to narrow results.
+
+For a person who should be able to log in as a member, use Users or Memberships rather than Contacts.
+
+## Contacts and bookings
+
+Contacts can be linked to visitor, society, company, hotel, tour operator, or other non-member booking workflows.
+
+If the user asks about adding contact details to a booking:
+
+- Use the Booking Details route from the Timesheet/Bookings area.
+- Use Contacts if they want to manage the reusable contact record itself.
+
+## Contacts and messaging
+
+Email Contacts is used for contacting visitors, societies, and similar contact database records.
+
+SMS guidance also includes sending text messages to Contacts / Visitors where SMS is enabled.
+
+Before advising on bulk communication:
+
+- Confirm whether the audience is members or contacts.
+- Confirm whether they want email, SMS, or app/club message.
+- Confirm whether contact consent/communication preferences need to be respected.
+
+## Contacts and reports
+
+Reports can include contact details, contact email address reports, revenue by customer contact, and revenue by tour operator or hotel depending on setup.
+
+Use Reports for exporting or analysing contact data. Use Contacts for maintaining individual records.
+
+## Related areas
+
+- Timesheet/Booking Details for booking contact details.
+- Visitor Booking for visitor-facing bookings.
+- Messages for email/SMS to contacts.
+- Tools for contact category setup.
+- Reports for contact exports and contact revenue reporting.

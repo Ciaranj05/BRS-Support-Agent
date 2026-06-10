@@ -1,0 +1,89 @@
+BRS KNOWLEDGE FILE: GOLF PLUS
+
+Use this file for questions about Golf Plus as a navigation area, premium/additional modules, golf events, enhanced booking products, and when a feature appears as a separate module rather than core tee sheet setup.
+
+Source basis:
+- Approved system crawl: global navigation and online booking/golf event observations.
+- Public BRS Help Center: Golf Events, Visitor Booking, Member Booking, Open Competitions, Facility Booking, and Payments section listings.
+- Dashboard screenshot/context showing Golf Plus as a distinct left navigation item.
+
+Support style:
+- Treat Golf Plus as a module/feature area whose exact contents vary by club setup.
+- Do not invent exact screens inside Golf Plus unless confirmed by Help Center or system-crawl evidence.
+- If a user asks for a module-gated feature, explain that availability depends on enabled modules and permissions.
+
+## Purpose
+
+Golf Plus appears in the BRS admin navigation as a separate area for additional golf-related functionality beyond the core Timesheet. In the observed demo navigation it sits between Messages and Facilities and showed a "New" badge.
+
+In the live demo account, the Golf Plus left-nav page itself did not expose detailed reusable text in the main DOM, but the dashboard Useful Links included Golf Plus Booking as an external Golf Plus booking surface. Treat Golf Plus as a module entry point rather than assuming every club will see the same internal pages.
+
+Because Golf Plus content can vary by club configuration, answer carefully:
+
+- Ask which Golf Plus feature or page the user is trying to use if the visible page is not named.
+- State that exact availability depends on the club's enabled modules.
+- Route setup questions to Tools where configuration is normally managed.
+
+## Golf Events
+
+Golf Events are a separate BRS product area for event-style golf bookings. The Help Center contains articles for:
+
+- What Golf Events are.
+- Setting up a Golf Event.
+
+The Tools index also includes Golf Events and Golf Event Booking links. Use this guidance when the user asks about event bookings rather than standard tee times or competitions.
+
+Distinguish:
+
+- A normal tee time booking belongs to Timesheet.
+- A member competition belongs to member competition setup and timesheet competition flows.
+- An open competition belongs to Open Competitions.
+- A golf event belongs to Golf Events/Golf Plus where enabled.
+
+## Online booking extensions
+
+Confirmed related surfaces from the dashboard and Tools include:
+
+- Visitor booking.
+- Tour operator/agent rates.
+- Golf packages.
+- Day ticket rates.
+- Golf events.
+- Open competitions.
+
+If the user asks about visitor-facing products, check whether the question is about:
+
+- Manual green fee rates for staff-created bookings.
+- Online green fee rates for visitors/agents.
+- Golf package setup.
+- Day ticket rates.
+- Event setup.
+
+Route manual rates to Tools > Green Fee Rates. Route visitor/agent online rates to Tools > Green Fee Rates for Visitors / Agents.
+
+## Module visibility
+
+Golf Plus can be hidden, unavailable, or limited if:
+
+- The feature is not enabled for the club.
+- The user's group lacks permission.
+- The club has not purchased or configured the module.
+- The club uses a different product configuration.
+
+If the user reports that Golf Plus or a Golf Plus function is missing, ask:
+
+- Which feature they expect to see.
+- Which club/module is enabled.
+- Which user group they are logged in as.
+
+## Relationship to other areas
+
+- Timesheet: day-to-day tee-time operations.
+- Tools: setup and configuration for rates, competitions, golf events, and booking rules.
+- Reports: event, revenue, booking, or participation outputs where available.
+- Dashboard: shortcuts to Golf Event Booking or online booking surfaces appear only where enabled.
+- Facilities: non-golf room/resource bookings are separate from Golf Plus golf bookings.
+
+## Safe answer boundaries
+
+Do not provide button-by-button Golf Plus workflows unless the exact article/system evidence confirms them. For unconfirmed Golf Plus workflows, ask the user to confirm the visible page or escalate to support for module-specific setup.
