@@ -1,0 +1,29 @@
+# CONTACTS - DECISION TREE
+
+Use this for non-member contacts, visitor/contact database records, companies, hotels, societies, tour operators, contact categories, and communication/reporting involving contacts.
+
+## Routing
+
+IF the user asks about finding, creating, editing, categorising, or using a non-member contact:
+
+-> Use contacts.txt.
+
+IF the contact is part of a booking:
+
+-> Cross-check timesheet.txt for tee bookings or facilities.txt for facility bookings.
+
+IF the contact is part of email/SMS messaging:
+
+-> Cross-check messages.txt.
+
+IF the user asks about Contact Categories setup:
+
+-> Cross-check tools.txt.
+
+IF the person is a club member or has a member login/profile:
+
+-> Use memberships.txt or users.txt as appropriate.
+
+## Guardrails
+
+Do not store or repeat live contact names, emails, phone numbers, or company details from the system.

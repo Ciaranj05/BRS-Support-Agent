@@ -1,0 +1,34 @@
+# FACILITIES - DECISION TREE
+
+Use this for Facility Booking, room bookings, non-golf resource reservations, facility areas, facility calendars, and resource booking changes.
+
+## Routing
+
+IF the user asks about booking, modifying, cancelling, moving, copying, or pasting a room/facility/resource reservation:
+
+-> Use facilities.txt.
+
+IF the question is about facility setup, services, room hire options, or enabled resources:
+
+-> Cross-check tools.txt.
+
+IF the question involves a non-member customer attached to a facility booking:
+
+-> Cross-check contacts.txt.
+
+IF the question is about golf tee times or players on the tee sheet:
+
+-> Use timesheet.txt, not facilities.txt.
+
+## Checks
+
+For facility booking issues, check:
+1. Correct date.
+2. Correct room/facility/resource.
+3. Start/end time.
+4. Whether all selected slots are free.
+5. Repeat day/week setup if it is a repeating reservation.
+
+## Guardrails
+
+Do not apply tee-sheet player limits, tee-time payment colours, or tee-sheet cut/paste rules to Facilities unless the Facilities page exposes the same control.

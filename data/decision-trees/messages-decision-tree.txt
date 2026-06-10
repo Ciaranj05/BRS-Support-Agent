@@ -1,0 +1,29 @@
+# MESSAGES - DECISION TREE
+
+Use this for BRS admin Messages, system announcements, Club Messages, email messaging, SMS/text messaging, timesheet messages, service reminder emails, and communication templates.
+
+## Routing
+
+IF the user asks about BRS announcements/system messages in the Messages area:
+
+-> Use messages.txt.
+
+IF the user wants to send email/SMS/Club Messages, target members/contacts/timesheet players, check SMS balance/reporting, or view recently sent messages:
+
+-> Use messages.txt and cross-check contacts.txt or memberships.txt for audience source.
+
+IF the user wants to configure reusable email/letter wording:
+
+-> Cross-check tools.txt > Email and Letter Templates.
+
+IF the user wants text embedded on the timesheet rather than sent to people:
+
+-> Use tools.txt > Messages on the Timesheet and cross-check timesheet.txt.
+
+IF the user asks why a member did not receive a message:
+
+-> Check audience selection, membership type/group, member/contact details, opt-in/consent where relevant, and recent-message/reporting evidence.
+
+## Guardrails
+
+Do not invent delivery guarantees, SMS costs, email deliverability causes, recipient counts, or sent-message contents.

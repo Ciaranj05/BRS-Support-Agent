@@ -1,0 +1,34 @@
+# REPORTS - DECISION TREE
+
+Use this for Reports, report filters, revenue reports, payment reports, booking reports, playing statistics, utilisation, exports, and printed reports.
+
+## Routing
+
+IF the user asks for a report, list, export, date-range output, revenue output, utilisation output, payment/VAT output, or historical booking data:
+
+-> Use reports.txt.
+
+IF the requested report is specific to Memberships, such as overdue bills, wallet balances, wallet transactions, bill history, retention, or member status:
+
+-> Use memberships.txt > Membership reports.
+
+IF the requested report is about BRS Payments transactions, refunds, payouts, VAT reports, or payment requests:
+
+-> Cross-check tools.txt > BRS Payments.
+
+IF the user needs one booking or one day rather than a report:
+
+-> Use timesheet.txt or search.txt.
+
+## Checks
+
+Before giving report steps, identify:
+1. Report object: booking, member, payment, revenue, utilisation, contact, facility, or membership billing.
+2. Date range.
+3. Course selector where relevant.
+4. Export/download need.
+5. Permission level.
+
+## Guardrails
+
+Do not invent report names or columns. Use exact report names only when they are present in reports.txt, memberships.txt, or tools.txt.

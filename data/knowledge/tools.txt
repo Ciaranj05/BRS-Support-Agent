@@ -429,3 +429,73 @@ If a user cannot access Tools:
 - Users for permissions and access.
 - Reports for outputs and exports.
 - Messages for sending communications.
+
+## Decision-tree direct answers
+
+These blocks support legacy decision-tree direct routes. Keep them factual and short.
+
+## APPROVED ANSWER: brs-support-contact-details
+Call us on UK 028 9568 0288 or IE 0353 1800 852 935.
+Opening hours are Monday to Friday, 8am through to 5:30pm.
+Email the team on support.en@golfnowbusiness.com and we will get back to you as soon as possible.
+
+For Golf Now based questions, please contact Golf Now Customer Support.
+## END APPROVED ANSWER
+
+## APPROVED ANSWER: green-fee-rates
+When configuring green fee rates, confirm:
+1. The date range.
+2. Whether the rate is for manual staff-created bookings, online visitors/agents, member guests, tour operators, or day tickets.
+3. Weekday/weekend setup.
+4. Whether the rate applies to all times or specific tee times.
+5. Whether restrictions apply.
+
+After setup, verify the configured rate against the relevant booking route to confirm the correct price is displaying.
+## END APPROVED ANSWER
+
+## APPROVED ANSWER: booking-rules
+When configuring booking rules, check:
+- Who can book.
+- How far in advance bookings can be made.
+- Time restrictions.
+- Player limits.
+- Member or visitor access.
+- Online availability.
+
+Use the relevant rule area: Member Casual Booking Rules for member casual golf, Course Restriction for course/group-size restrictions, and visitor/open competition setup for visitor-facing availability.
+## END APPROVED ANSWER
+
+## APPROVED ANSWER: email-templates
+When updating email templates, confirm:
+1. Which template is being updated.
+2. Whether it applies to bookings, payments, memberships, or general communication.
+3. Whether merge fields are being used.
+4. Whether a test email has been sent.
+
+After making changes, send a test email or use the relevant preview/check route where available to confirm the template displays correctly.
+## END APPROVED ANSWER
+
+## APPROVED ANSWER: tee-sheet-setup
+For tee sheet or timesheet setup, use Tools > Configure Timesheet when configuring the actual tee time grid.
+
+Before changing the setup, confirm:
+- Year.
+- Start and end date range.
+- First and last tee time.
+- Tee time interval, or both alternate interval values if using alternate intervals.
+- Days of the week affected.
+- Course, where the club has more than one course.
+- Sunrise/sunset limits if they are part of the requested setup.
+## END APPROVED ANSWER
+
+## APPROVED ANSWER: buggy-booking-availability
+Buggy booking setup is controlled from System Configuration where the club's buggy settings are enabled.
+
+Check:
+1. Number of buggies available.
+2. How long each buggy is needed before and after a round.
+3. Whether visitors are allowed to book buggies online.
+4. Whether the club expects the buggy price to be added by staff after booking.
+
+After changing buggy settings, click Update on System Configuration and then check the timesheet to confirm buggy availability is appearing as expected.
+## END APPROVED ANSWER

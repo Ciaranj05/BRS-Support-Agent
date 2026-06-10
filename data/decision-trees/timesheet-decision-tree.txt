@@ -1,0 +1,47 @@
+# TIMESHEET - DECISION TREE
+
+Use this for the Timesheet, tee sheet, tee times, bookings, booking details, reservation types/statuses, in-grid booking, moving/cancelling bookings, player changes, printing/exporting the day sheet, and competition tee times.
+
+## Direct Routes
+
+ROUTE: tee-sheet-setup
+MATCH ANY: tee sheet, timesheet, time sheet, tee times, tee intervals, opening times, closing times, blocked times, configure timesheet, setup timesheet
+ANSWER ID: tee-sheet-setup
+
+## Routing
+
+IF the user asks about day-to-day tee time operations, bookings, players, reservation names, booking detail, booking status, payment colour on a booking, moving/cancelling/changing a booking, or printing/exporting the day sheet:
+
+-> Use timesheet.txt.
+
+IF the user asks about configuring tee times, intervals, years, templates, squeeze times, reservation types, booking statuses, member casual booking rules, course restrictions, competitions setup, or green fee setup:
+
+-> Cross-check tools.txt.
+
+IF the user asks about analytical reporting, utilisation over a date range, revenue, exports, or historical lists:
+
+-> Cross-check reports.txt.
+
+IF the user asks about a room/facility/resource booking rather than a golf tee time:
+
+-> Use facilities.txt. Do not apply Timesheet booking rules to Facilities unless the Facilities page exposes the same control.
+
+IF the user asks about a member's ability to book online:
+
+-> Cross-check memberships.txt for member profile/status/access and tools.txt for Member Casual Booking Rules.
+
+## Move Booking
+
+For moving tee-sheet bookings, use the verified Cut/Paste approach from the Booking Details page when available:
+1. Open the original booking.
+2. Use Cut from inside Booking Details.
+3. Return to the timesheet and go to the target date/time.
+4. Select the target tee time.
+5. Use Paste.
+6. Check payment status after moving.
+
+Do not suggest drag and drop, right-click, or an unverified Move/Reschedule button.
+
+## Escalate
+
+Escalate if booking data is inconsistent, payment status does not match the payment record, multiple bookings are affected, or live availability does not match confirmed setup.

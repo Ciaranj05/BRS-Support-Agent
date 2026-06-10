@@ -1,0 +1,29 @@
+# SEARCH - DECISION TREE
+
+Use this for the Search page, searching bookings, finding booking references, locating booking/customer details, and deciding when Search is better than Reports or Timesheet navigation.
+
+## Routing
+
+IF the user wants to find one booking, booking reference, customer/player, email, phone, postcode, or booking contact detail:
+
+-> Use search.txt.
+
+IF the user needs a day view or to edit the booking after finding it:
+
+-> Cross-check timesheet.txt.
+
+IF the user needs many records, date-range analysis, exports, or totals:
+
+-> Use reports.txt.
+
+IF the user needs to find a member profile:
+
+-> Use memberships.txt.
+
+IF the user needs to find a non-member contact:
+
+-> Use contacts.txt.
+
+## Guardrails
+
+Search results can contain customer data. Do not store, summarise, or repeat live search results.

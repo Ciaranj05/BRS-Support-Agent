@@ -1,0 +1,35 @@
+# DASHBOARD - DECISION TREE
+
+Use this for Daily Dashboard, dashboard widgets, course status, toolbox shortcuts, product/help links, and returning to the dashboard.
+
+## Routing
+
+IF the user asks about dashboard figures, cards, utilisation, booking/golfer counts, course status, toolbox shortcuts, What's New, Get Help, or why a dashboard shortcut is missing:
+
+-> Use dashboard.txt.
+
+IF the question is about the data behind a dashboard figure or a date-range output:
+
+-> Cross-check reports.txt.
+
+IF the question is about enabling/disabling the Daily Dashboard or global dashboard settings:
+
+-> Cross-check tools.txt > System Configuration.
+
+IF the shortcut opens another area, answer from that target area too:
+- Tee times/bookings: timesheet.txt.
+- Messages/email/SMS: messages.txt.
+- Member competitions or booking rules: tools.txt and timesheet.txt.
+- Membership reports/billing: memberships.txt.
+
+## Checks
+
+For missing dashboard items, check:
+1. Enabled module.
+2. User permissions.
+3. Whether the user is expecting a dashboard shortcut or a left-nav item.
+4. Whether the setting belongs in Tools > System Configuration.
+
+## Guardrails
+
+Do not quote live dashboard counts, course names, utilisation figures, booking counts, or golfer counts unless the user supplies them.

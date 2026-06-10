@@ -207,6 +207,24 @@ const topicSearchHints = {
   "admin-setup": ["system configuration setup", "tools system configuration", "reports emails GDPR device printer"],
 };
 
+const topicKnowledgeFiles = {
+  teesheet: ["timesheet", "tools", "reports", "messages", "facilities"],
+  payments: ["tools", "memberships", "timesheet", "reports"],
+  memberships: ["memberships", "users", "tools", "reports"],
+  "user-management": ["users", "memberships", "tools"],
+  "admin-setup": ["tools", "timesheet", "messages", "reports", "users", "contacts", "facilities", "memberships"],
+  general: ["dashboard", "tools", "timesheet", "memberships", "messages", "reports", "users", "contacts", "facilities", "search", "golf-plus"],
+};
+
+const topicDecisionTreeFiles = {
+  teesheet: ["timesheet", "tools", "reports", "facilities"],
+  payments: ["tools", "memberships", "timesheet", "reports"],
+  memberships: ["memberships", "users", "tools", "reports"],
+  "user-management": ["users", "memberships", "tools"],
+  "admin-setup": ["tools", "timesheet", "messages", "reports", "users", "contacts", "facilities", "memberships"],
+  general: ["dashboard", "tools", "timesheet", "memberships", "messages", "reports", "users", "contacts", "facilities", "search", "golf-plus"],
+};
+
 function createDefaultState() {
   return {
     conversationHistory: [],
@@ -246,6 +264,12 @@ function getSessionState(sessionId) {
 function saveSessionState(sessionId, state) { sessions.set(sessionId, { ...state, updatedAt: Date.now() }); }
 function resetSessionState(sessionId) { const freshState = createDefaultState(); sessions.set(sessionId, freshState); return freshState; }
 function loadFile(filePath) { const fullPath = path.join(__dirname, filePath); return fs.existsSync(fullPath) ? fs.readFileSync(fullPath, "utf-8") : ""; }
+function loadDecisionTreeForTopic(topic) {
+  return (topicDecisionTreeFiles[topic] || [topic])
+    .map((file) => loadFile(`data/decision-trees/${file}-decision-tree.txt`))
+    .filter(Boolean)
+    .join("\n\n---\n\n");
+}
 function escapeRegExp(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
 function uniqueValues(values) { return [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))]; }
 function hasAny(lower, terms) { return terms.some((term) => lower.includes(term)); }
@@ -465,8 +489,11 @@ function formatHelpCenterContext(articles) {
 }
 
 function getApprovedSupportContext(topic) {
-  const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
-  const knowledge = loadFile(`data/knowledge/${topic}.txt`);
+  const decisionTree = loadDecisionTreeForTopic(topic);
+  const knowledge = (topicKnowledgeFiles[topic] || [topic])
+    .map((file) => loadFile(`data/knowledge/${file}.txt`))
+    .filter(Boolean)
+    .join("\n\n---\n\n");
   return truncateText([decisionTree, knowledge].filter(Boolean).join("\n\n---\n\n"), 5000);
 }
 
@@ -540,13 +567,17 @@ function routeMatchesMessage(route, message) {
 }
 
 function getApprovedAnswer(topic, answerId) {
-  const knowledge = loadFile(`data/knowledge/${topic}.txt`);
   const answerRegex = new RegExp(`## APPROVED ANSWER:\\s*${escapeRegExp(answerId)}\\s*\\r?\n([\\s\\S]*?)\\r?\n## END APPROVED ANSWER`, "i");
-  return knowledge.match(answerRegex)?.[1]?.trim() || null;
+  for (const file of topicKnowledgeFiles[topic] || [topic]) {
+    const knowledge = loadFile(`data/knowledge/${file}.txt`);
+    const match = knowledge.match(answerRegex)?.[1]?.trim();
+    if (match) return match;
+  }
+  return null;
 }
 
 function getDirectAnswerForMessage(topic, message) {
-  const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
+  const decisionTree = loadDecisionTreeForTopic(topic);
   const route = parseDirectAnswerRoutes(decisionTree).find((candidate) => routeMatchesMessage(candidate, message));
   return route ? getApprovedAnswer(topic, route.answerId) : null;
 }
@@ -565,8 +596,11 @@ function detectTopic(message) {
 
 function getContextForTopic(topic, helpCenterContext = "", approvedSupportContext = "", state = {}) {
   const instructions = loadFile("data/instructions.txt");
-  const decisionTree = loadFile(`data/decision-trees/${topic}-decision-tree.txt`);
-  const knowledge = loadFile(`data/knowledge/${topic}.txt`);
+  const decisionTree = loadDecisionTreeForTopic(topic);
+  const knowledge = (topicKnowledgeFiles[topic] || [topic])
+    .map((file) => loadFile(`data/knowledge/${file}.txt`))
+    .filter(Boolean)
+    .join("\n\n---\n\n");
   return `
 ${instructions}
 

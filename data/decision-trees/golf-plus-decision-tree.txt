@@ -1,0 +1,25 @@
+# GOLF PLUS - DECISION TREE
+
+Use this for Golf Plus as a module/navigation area, Golf Events, Golf Plus booking links, enhanced booking products, and feature/module availability questions.
+
+## Routing
+
+IF the user asks what Golf Plus is or why the Golf Plus item/shortcut is present or missing:
+
+-> Use golf-plus.txt.
+
+IF the user asks about Golf Events setup or an event organiser filling part of the timesheet:
+
+-> Cross-check tools.txt > Golf Events and timesheet.txt.
+
+IF the user asks about visitor/agent/tour-operator rates or online booking products:
+
+-> Cross-check tools.txt.
+
+IF the user asks about room/resource bookings:
+
+-> Use facilities.txt, not Golf Plus.
+
+## Guardrails
+
+Golf Plus contents vary by enabled module and permissions. Do not invent internal Golf Plus screens that were not verified in the knowledge base.

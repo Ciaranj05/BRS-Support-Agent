@@ -1,534 +1,70 @@
 # MEMBERSHIPS - DECISION TREE
 
-Use this for member profiles, bills, subscriptions, subscription cycles, payment schemes, wallets/account balances, membership payments, member access, and membership settings.
+Use this for Memberships, member profiles, membership types, member billing, bills, subscriptions, payment schemes, scheduled payments, flexible membership, wallets/account balances, member online booking access, member app topics, and member-facing booking rules.
 
----
+## Direct Routes
 
 ROUTE: create-member-profile-account
 MATCH ANY: member profile, create member profile, member account, create account, new member account
 ANSWER ID: create-member-profile-account
-
----
 
 ROUTE: create-membership-bill
 MATCH ANY: create, add, new, generate, raise
 MATCH ANY: membership bill, member bill, bill, invoice
 ANSWER ID: create-membership-bill
 
----
-
 ROUTE: payment-scheme-setup
 MATCH ANY: payment scheme, payment plan, instalments, installments, scheduled payment, scheduled payments
 MATCH ANY: setup, set up, create, add, new, manage, scheduled
 ANSWER ID: payment-scheme-setup
 
----
-
-## CROSS-TOPIC OVERRIDE
-
-Treat the latest typed clarification as more important than earlier button context.
-
-If the latest message mentions employee, staff, colleague, worker, receptionist, office user, pro shop user, read-only, view-only, can see bookings, can view the tee sheet, or can see what bookings are there each day:
--> Do not ask which membership area is closest.
--> Route to user-management.
--> If the user only needs to view bookings or the tee sheet and should not save changes, use StaffReadOnly.
-
-Only use this memberships tree when the latest message is actually about member profiles, bills, subscriptions, payment schemes, wallets/account balances, member access, or membership settings.
-
----
-
-## COMMON WORDING MAP
-
-Treat these user phrases as the matching supported membership route. Do not create new account/payment/setup types from the wording.
-
-Member profile/account:
-- create member account
-- new member login
-- member registration
-- member cannot sign in to booking app
-- member cannot book online
-- member profile missing
-- add a member to BRS
-
-Bill:
-- invoice
-- statement
-- balance due
-- amount owed
-- create membership bill
-- create member bill
-- add a bill
-- generate a bill
-- raise an invoice
-- bill too high
-- charge looks wrong
-- member cannot see bill
-- bill not published
-
-Subscription:
-- recurring charge
-- annual fee
-- membership fee
-- renewal fee
-- add subscription to member
-- remove subscription from member
-- cancel subscription
-
-Subscription cycle:
-- renewal cycle
-- billing frequency
-- annual cycle
-- rolling cycle
-- monthly cycle
-- custom cycle
-- when subscriptions renew
-
-Payment scheme:
-- payment plan
-- setup payment scheme
-- set up payment scheme
-- create payment scheme
-- instalments
-- installments
-- direct debit style payments
-- scheduled payments
-- payment not taken on scheduled date
-- payment retry
-- grace period for scheduled payment
-
-Wallet/account balance:
-- wallet
-- account balance
-- credit balance
-- top up wallet
-- wallet top-up missing
-- member credit
-- purse balance
-- transaction history for wallet
-
-Membership settings:
-- membership cog
-- membership settings
-- make member inactive automatically
-- unpaid bill deactivation
-- minimum amount on bill
-- generate usernames for members
-- grace period
-
----
-
-## 1. IDENTIFY MEMBERSHIP ISSUE
-
-IF issue is clear:
--> Go directly to the matching section.
-
-IF unclear, ask:
-"Is this about a member profile, bill, subscription, subscription cycle, payment scheme, wallet/account balance, member access, online payments, or membership settings?"
+ROUTE: membership-unpaid-bills-report
+MATCH ANY: unpaid bills, unpaid bill, outstanding bills, outstanding balance, bill balances
+MATCH ANY: report, reports, shows, show, find me, list
+MATCH ANY: member, members, membership
+ANSWER ID: membership-unpaid-bills-report
 
-Use exact product wording:
-- Use "Account Balances" for admin wallet/balance areas.
-- Use "Menu >> Membership >> My Wallets" for member-facing wallet access.
-- Use "cog/settings icon" when referring to Memberships settings.
+## Routing
 
----
+IF the user asks about a member profile, membership type, member status, member billing, bills, subscriptions, payment schemes, flexible membership, wallets/account balances, member app access, or member-facing booking access:
 
-## 2. MEMBER CANNOT BE FOUND
+-> Use memberships.txt.
 
-IF member cannot be found:
+IF the user asks about admin/staff/employee/pro-shop access, permissions, StaffReadOnly, or someone who needs to view bookings:
 
-Ask for:
-- Name
-- Email
-- Membership number if available
+-> Use users.txt and users-decision-tree.txt, not Memberships.
 
-Then check:
-1. Correct member profile
-2. Active/inactive status
-3. Duplicate profiles
-4. Search filters
+IF the user asks about member casual booking rules, membership type setup, or global configuration:
 
-IF member should exist but cannot be found:
--> Escalate.
+-> Cross-check tools.txt.
 
----
+IF the user asks about actual tee time bookings made by members:
 
-## 3. BILL LOOKS WRONG
+-> Cross-check timesheet.txt.
 
-IF bill looks wrong:
+IF the user asks about membership-specific reports such as overdue bills, bill history, wallet balances, wallet transactions, retention, or member status:
 
-Ask:
-"What looks incorrect - amount too high, missing payment, or extra charge?"
+-> Use memberships.txt > Membership reports before using reports.txt.
 
-Then check:
-1. Bill details
-2. Subscriptions
-3. Custom charges
-4. Discounts
-5. Previous unpaid balance
-6. Payment allocation
+IF the user asks about BRS Payments processor transactions, payouts, refunds, or VAT reports:
 
-IF total still does not match:
--> Escalate.
+-> Cross-check tools.txt > BRS Payments.
 
----
+## Common Paths
 
-## 4. BILL TOO HIGH
+For one member:
+1. Open Memberships.
+2. Go to Members.
+3. Find/open the member profile.
+4. Use the relevant profile area: billing, subscriptions, account balances/wallets, access/status, or notes where visible.
 
-IF bill is too high:
+For all-member billing/reporting:
+1. Open Memberships.
+2. Use Reports or billing/report views.
+3. Choose the relevant financial report.
+4. Filter by date/status where available.
+5. Export/download only where the report view provides that control.
 
-Check:
-1. Subscriptions applied
-2. Custom charges
-3. Discounts
-4. Previous unpaid balance
-5. Payment allocation
+## Guardrails
 
-IF still incorrect:
--> Escalate.
-
----
-
-## 5. BILL NOT VISIBLE
-
-IF bill is not visible:
-
-Check:
-1. Bill exists
-2. Bill is published
-3. Correct member profile
-4. Member access/status
-
-IF published bill is still not visible:
--> Escalate.
-
----
-
-## 6. PAYMENT NOT APPLIED TO BILL
-
-IF payment exists but bill still shows unpaid:
-
-Check:
-1. Member profile
-2. Billing
-3. Relevant bill
-4. Payment allocation
-5. Correct bill/payment link
-
-IF payment exists but cannot be allocated:
--> Escalate.
-
-IF no payment exists:
--> Use payments decision tree.
-
----
-
-## 7. SUBSCRIPTIONS
-
-IF asked "How do I create a new subscription?":
-
-Ask one clarifying question first:
-"Are you creating a brand new subscription setup, or adding an existing subscription to a member?"
-
-IF creating a brand new subscription setup:
--> Guide to the subscription setup/admin area and ask what type of subscription they need to create.
-
-IF adding an existing subscription to a member:
--> Guide through the member profile subscription area.
-
-IF subscription amount/status is wrong:
-
-Check:
-1. Subscription type
-2. Amount
-3. Start date
-4. End date
-5. Frequency
-6. Discounts
-7. Member status
-
-Confirm before changing subscription.
-
-Escalate if subscription setup appears correct but bill is wrong.
-
----
-
-## 8. SUBSCRIPTION CYCLES
-
-IF asked "What subscription cycle types are available?" respond:
-
-"There are four subscription cycle types: Annual, Rolling, Monthly, and Custom."
-
-Do not include Semi-Annual or Quarterly unless the club's actual configuration explicitly shows them.
-
-IF asked "How do I set up a subscription cycle?":
-
-Use:
-Settings >> Subscription Cycles
-
-Do not direct the user to create a new subscription.
-
-Then ask:
-"Is this for an annual, rolling, monthly, or custom cycle?"
-
----
-
-## 9. PAYMENT SCHEMES & ONLINE PAYMENTS
-
-IF payment scheme issue:
-
-Check:
-1. Scheme start date
-2. Frequency
-3. Amount
-4. Linked bill
-5. Member status
-6. Failed payment reason
-
-IF asked "What is the BRS Payments platform?" respond:
-
-"It is the integrated online payments solution used for membership bills, wallet top-ups, visitor fees, and other BRS payment services."
-
-IF asked "How do I set up online payments for my club?" respond:
-
-"Contact BRS support or your onboarding contact to configure your Payments account."
-
-IF asked "Can members pay bills online?" respond:
-
-"Yes, members can pay bills online through the member portal or BRS Members booking app."
-
-IF asked "Can admin users take payments through the system?" respond:
-
-"Yes, admins can process manual and online payments on behalf of members."
-
-IF asked "Why are scheduled payments not retrying after failure?" respond:
-
-"Scheduled payment retries only occur if the Scheduled Payments Grace Period is enabled."
-
-IF asked whether payment schemes can include surcharges:
--> Confirm that payment schemes can include surcharges.
--> Do not mention percentage surcharges unless the product setup explicitly confirms that option.
-
-IF repeated failures or multiple members affected:
--> Escalate.
-
----
-
-## 10. WALLETS / ACCOUNT BALANCES
-
-IF asked "How does a member access their wallet?" respond:
-
-Menu >> Membership >> My Wallets
-
-IF asked "Can I create more than one wallet for a member?" respond:
-
-"Yes - members can have more than one wallet/account balance where configured."
-
-Do not state that BRS only supports a single wallet per member.
-
-IF asked "How do I check a wallet balance?":
-
-Use:
-Memberships >> Members >> Member profile >> Account Balances
-
-IF asked "How do I top up a member wallet?":
-
-Use:
-1. Memberships
-2. Members
-3. Open the member profile
-4. Account Balances
-5. Select the relevant wallet
-6. Edit Balance
-7. Transaction Type: Top Up
-8. Choose whether to record the top-up as a payment
-9. Select payment method
-10. Enter amount
-11. Update
-
-IF asked whether administrators can see wallet transaction history:
--> Use Account Balances and/or Memberships >> Reports >> Wallet Transactions.
-
-IF wallet is not appearing:
-
-Check:
-1. Wallet is assigned to the member
-2. Member is active
-3. Wallet is enabled/configured
-4. Wallet is permitted to show on ePOS, where relevant
-5. User is checking Account Balances
-
-IF wallet or balance does not match expectation:
-
-Check:
-1. Account Balances
-2. Wallet transactions
-3. Previous credits/debits
-4. Payments
-5. Outstanding balance
-
-IF mismatch remains:
--> Escalate.
-
----
-
-## 11. MISSING WALLET TOP-UP
-
-IF a member reports a missing top-up:
-
-Check:
-1. Tools >> BRS Payments >> Transactions
-2. Search by editing the date range and checking expected date/amount
-3. Memberships >> Reports >> Wallet Transactions
-4. Member profile >> Account Balances
-
-IF top-up cannot be found in BRS at all:
--> Submit ticket / escalate to support.
-
-Do not treat this only as a payment allocation issue.
-
----
-
-## 12. MEMBERSHIP SETTINGS
-
-IF asked "Where are Memberships settings located?" respond:
-
-"Go to Memberships, then select the cog/settings icon."
-
-Do not say only "Memberships >> Settings" because Settings may not be a clickable text label.
-
----
-
-## 13. GENERAL SETTINGS / GRACE PERIOD / AUTOMATIC DEACTIVATION
-
-Use Settings >> General Settings for:
-
-- Grace Period
-- Deactivate players / automatic inactive settings
-- Minimum amount that members can pay on a bill
-- Username generation for new members
-
-IF asked "How do I set up a grace period?":
-
-Use:
-Settings >> General Settings
-
-Then check Grace Period and the number of days configured against the bill due date.
-
-IF asked whether members can be automatically deactivated for unpaid bills:
-
-Ask/check whether Grace Period / deactivate players settings are enabled.
-
-IF enabled:
--> Explain members with unpaid bills can be disabled based on configured days and bill due date.
-
-IF not enabled:
--> Explain members can only be made inactive manually.
-
-Do not state that members are never automatically deactivated.
-
-IF asked "Can I set a minimum amount to be paid on a bill?":
-
-Use:
-Settings >> General Settings >> Minimum amount that members can pay on a bill
-
-Do not state this is unsupported.
-
-IF asked whether the system can create usernames for new members:
-
-Use:
-Settings >> General Settings
-
-Do not state that emails are generally used as default usernames. Member usernames may be generated as a numerical value depending on configuration.
-
-IF asked "How do I set the system to make members inactive if their bill is not paid?":
-
-Use:
-Settings >> General Settings
-
-Check Grace Period / deactivate players options.
-
----
-
-## 14. CHAINED MEMBERSHIP TYPES
-
-IF asked "What is a chained membership type?":
-
-Explain:
-- It helps manage movement from one membership type to another.
-- It is not fully automatic.
-- Admins need to review and confirm changes.
-
-Use:
-Memberships >> Membership Type Changes
-
----
-
-## 15. INACTIVE MEMBER
-
-IF issue involves inactive member:
-
-Check:
-1. Member status
-2. Subscription status
-3. Payment scheme status
-4. Outstanding bills
-5. Grace Period / deactivate players settings
-
-Confirm before changing member status.
-
----
-
-## 16. REMOVE / CANCEL SUBSCRIPTION
-
-Before changing:
-
-Confirm:
-1. Correct member
-2. Correct subscription
-3. Effective date
-4. Billing impact
-
-Then proceed only if confirmed.
-
-Escalate if change affects billing history or payment schedules.
-
----
-
-## 17. ESCALATION TRIGGERS
-
-Escalate if:
-
-- Bill total does not match after checks
-- Payment exists but cannot be allocated
-- Payment scheme repeatedly fails
-- Wallet/account balance mismatch remains
-- Missing wallet top-up cannot be found in BRS transactions or wallet transaction reports
-- Member dispute cannot be resolved
-- Billing history appears inconsistent
-- Multiple members affected
-- Settings appear correct but system behaviour does not match
-
----
-
-## KEY BEHAVIOUR
-
-Always:
-- Ask one question at a time
-- Check member profile and bill first
-- Check Account Balances for wallet queries
-- Check allocation before assuming payment is missing
-- Confirm before changing subscriptions/status/settings
-- Use the cog/settings icon wording for Memberships settings
-- Translate common user wording to the supported membership route before asking another broad question
-- Hand off employee/staff access wording to user-management instead of showing membership-area buttons
-
-Never:
-- Assume missing payment before checking allocation
-- Remove subscriptions without confirmation
-- Change member status without confirmation
-- Say members can only have one wallet
-- Use Wallet/Balance when Account Balances is the correct UI label
-- Say unpaid bills never automatically deactivate members
-- Send subscription cycle questions to subscription creation
-- Invent visitor or payment account routes for member profile/account questions
-- Route employee, staff, colleague, read-only, or view-bookings access questions to membership areas
+Do not invent profile tab names, bill actions, automatic deactivation rules, wallet limits, or report columns. Use exact names only when memberships.txt confirms them. Do not store or repeat live member names, balances, or transaction details.

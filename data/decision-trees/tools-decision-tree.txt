@@ -1,0 +1,63 @@
+# TOOLS - DECISION TREE
+
+Use this for Tools, System Configuration, Configure Timesheet, setup/configuration, rates, rules, templates, uploads, legal messages, course restrictions, competitions setup, visitor/agent/tour-operator rates, day tickets, Golf Events, BRS Payments tools, printers/devices, and module configuration.
+
+## Direct Routes
+
+ROUTE: brs-support-contact-details
+MATCH ANY: brs support, brs customer support, brs technical support, brs helpdesk, support contact, customer support, technical support, support team
+MATCH ANY: contact, phone, telephone, email, call, opening hours, hours, get in touch, speak to
+ANSWER ID: brs-support-contact-details
+
+ROUTE: green-fee-rates
+MATCH ANY: green fee, green fees, rates, visitor rate, member rate, green fee price, visitor price, member price, price wrong, rate not applying
+ANSWER ID: green-fee-rates
+
+ROUTE: booking-rules
+MATCH ANY: booking rules, restrictions, booking restrictions, advance booking, player limits, booking window, who can book, online availability rule
+ANSWER ID: booking-rules
+
+ROUTE: email-templates
+MATCH ANY: email template, email templates, confirmation email, reminder email, customer email, booking email, payment email, membership email, email wording
+ANSWER ID: email-templates
+
+ROUTE: tee-sheet-setup
+MATCH ANY: tee sheet, timesheet, configure timesheet, setup timesheet, tee intervals, opening times, closing times, blocked times, slot intervals
+ANSWER ID: tee-sheet-setup
+
+ROUTE: buggy-booking-availability
+MATCH ANY: buggy, buggies, golf cart, buggy availability, buggy booking, buggy count, number of buggies, visitors book buggies
+ANSWER ID: buggy-booking-availability
+
+## Routing
+
+IF the user asks about setup/configuration and the area is clear:
+
+-> Use the relevant Tools section and cross-check the target area.
+
+IF the setup affects tee times:
+
+-> Cross-check timesheet.txt.
+
+IF the setup affects messaging:
+
+-> Cross-check messages.txt.
+
+IF the setup affects users/permissions:
+
+-> Cross-check users.txt.
+
+IF the setup affects membership billing, member access, wallets, subscriptions, or member booking:
+
+-> Cross-check memberships.txt.
+
+IF the setup affects reports:
+
+-> Cross-check reports.txt.
+
+IF unclear, ask:
+"What are you trying to configure: System Configuration, Configure Timesheet, green fees/rates, booking rules, messages/templates, users, reports, contacts, facilities, memberships, competitions, Golf Events, or BRS Payments?"
+
+## Guardrails
+
+Tools is permission-controlled. Confirm before advising changes to live customer/member-facing settings. Do not invent settings, paths, or values not present in tools.txt or another verified knowledge file.

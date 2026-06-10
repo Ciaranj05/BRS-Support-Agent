@@ -241,3 +241,57 @@ Use Messages for sending communications. Use Memberships/Users for fixing member
 - Reports for membership exports, billing reports, wallet transactions, and member playing statistics.
 - Payments for BRS Payments processor, transaction, refund, and payout issues.
 - Timesheet for member bookings on tee times.
+
+## Decision-tree direct answers
+
+These blocks support legacy decision-tree direct routes. Keep them factual and short.
+
+## APPROVED ANSWER: create-member-profile-account
+Member booking accounts are handled through member registration and the member profile, not through a visitor account route.
+
+Use this route when the user means a member profile/account:
+
+1. Give the member the club's BRS Members Tee Time Reservation URL, or add that URL to the club website.
+2. The member registers their details through the club website/member booking link.
+3. The club verifies the registration.
+4. Enable the member's profile once the registration has been verified.
+## END APPROVED ANSWER
+
+## APPROVED ANSWER: create-membership-bill
+Membership bills are handled from the member profile Billing area and the Memberships billing tools.
+
+Before creating or changing a bill, confirm which billing route the club needs:
+
+1. Manual bill or one-off charge.
+2. Subscription or renewal bill.
+3. Payment scheme or scheduled payment.
+
+For all-member billing work, use Memberships billing/report views rather than a single member profile.
+## END APPROVED ANSWER
+
+## APPROVED ANSWER: payment-scheme-setup
+Payment schemes are used for scheduled membership payments.
+
+Before setting one up or changing one, confirm:
+
+1. Correct member.
+2. Linked bill.
+3. Scheme start date.
+4. Payment frequency.
+5. Amount.
+6. Member status.
+7. Failed payment reason, if the issue is about a failed scheduled payment.
+## END APPROVED ANSWER
+
+## APPROVED ANSWER: membership-unpaid-bills-report
+Use Memberships reports and billing views for unpaid or outstanding membership bills.
+
+Start with Memberships > Reports and check the financial reports, especially Overdue Bills and Bills Overview where available. For one member, open the member profile and check their Billing area instead.
+
+Filter/check:
+- Bill status or overdue/unpaid status where available.
+- Billing cycle or date range where relevant.
+- Member name, bill status, balance due, due date, and payment status.
+
+Use export/download controls from the report view where the page provides them.
+## END APPROVED ANSWER

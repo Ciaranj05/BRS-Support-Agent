@@ -415,11 +415,17 @@ npm run build:knowledge
 Change:
 
 ```text
-data/decision-trees/admin-setup-decision-tree.txt
+data/decision-trees/contacts-decision-tree.txt
+data/decision-trees/dashboard-decision-tree.txt
+data/decision-trees/facilities-decision-tree.txt
+data/decision-trees/golf-plus-decision-tree.txt
 data/decision-trees/memberships-decision-tree.txt
-data/decision-trees/payments-decision-tree.txt
-data/decision-trees/teesheet-decision-tree.txt
-data/decision-trees/user-management-decision-tree.txt
+data/decision-trees/messages-decision-tree.txt
+data/decision-trees/reports-decision-tree.txt
+data/decision-trees/search-decision-tree.txt
+data/decision-trees/timesheet-decision-tree.txt
+data/decision-trees/tools-decision-tree.txt
+data/decision-trees/users-decision-tree.txt
 ```
 
 Use these when the bot needs to choose a support route or ask a clarifying question.
@@ -433,12 +439,17 @@ Rule: keep route wording explicit. Add common customer/user phrases to the wordi
 Change:
 
 ```text
-data/knowledge/admin-setup.txt
+data/knowledge/contacts.txt
+data/knowledge/dashboard.txt
+data/knowledge/facilities.txt
+data/knowledge/golf-plus.txt
 data/knowledge/memberships.txt
-data/knowledge/payments.txt
-data/knowledge/teesheet.txt
-data/knowledge/user-management.txt
-data/knowledge/communication-layer.txt
+data/knowledge/messages.txt
+data/knowledge/reports.txt
+data/knowledge/search.txt
+data/knowledge/timesheet.txt
+data/knowledge/tools.txt
+data/knowledge/users.txt
 ```
 
 Use these for approved answers, exact support wording, and product guidance.

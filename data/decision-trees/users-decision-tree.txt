@@ -1,0 +1,32 @@
+# USERS - DECISION TREE
+
+Use this for BRS users, admin/staff/member login access, user groups, permissions, passwords, disabled/deleted users, user privileges, and role selection.
+
+## Routing
+
+IF the user asks about adding, editing, disabling, finding, or changing an admin/staff/member user account:
+
+-> Use users.txt.
+
+IF the user asks about member profile, member billing, or member booking profile data:
+
+-> Cross-check memberships.txt.
+
+IF the user asks why someone cannot access Tools, Reports, Timesheet, Dashboard, Contacts, Facilities, Messages, or Memberships:
+
+-> Use users.txt and cross-check the target area file.
+
+IF the user asks about User Privileges:
+
+-> Use users.txt and cross-check tools.txt for permission-controlled setup pages.
+
+## Role Selection
+
+Use StaffReadOnly when the user only needs view/read access and should not save changes.
+Use Staff when the user needs day-to-day operational access but not broad configuration/revenue control.
+Use Admin only when the user needs overall system control and the club has authority to grant it.
+Use Member only for member-facing booking access.
+
+## Guardrails
+
+Confirm the correct user and access level before changes. Do not invent user groups. Do not route employee/staff access questions to Memberships just because the word "member" appeared earlier in the conversation.
