@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import OpenAI from "openai";
 import baseHandler from "./server.js";
 import { getSurveyMetrics, recordResolvedInteraction, recordSurveyScore } from "./feedbackStore.js";
-import { answerFromKnowledge } from "./lib/knowledgeAnswer.js";
+import { answerFromKnowledge, isBRSWorkflowQuestion } from "./lib/knowledgeAnswer.js";
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 import { formatLiveEvidence, liveBrsLookup, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
@@ -157,11 +157,12 @@ async function rewriteReplyInOwnWords(reply, message) {
           content: `Rewrite the support answer in your own words for a non-technical BRS Golf admin user.
 
 Rules:
-- Use a readable format with a short heading, numbered steps, and a short "Check/export" section when useful.
+- Use a readable format with a short heading and one numbered list when the supplied answer is a workflow.
+- Do not mix bullet points inside numbered workflow steps.
 - Do not copy sentences or paragraphs from the supplied answer or knowledge source wording.
 - Digest the meaning, then explain it in low-level, easy language.
 - Keep exact product names, phone numbers, email addresses, URLs, button labels, menu paths, and legally/safety-sensitive values unchanged when changing them would make the answer inaccurate.
-- Do not add product facts, UI paths, buttons, policies, prices, or promises that are not supported.
+- Do not add product facts, UI paths, buttons, policies, prices, workflow steps, field names, filters, exports, or promises that are not present in the supplied answer.
 - Preserve any source link at the end.
 - Do not end with optional follow-up prompts like "Would you like me to..." when the source answer already contains useful next steps. Include those next steps directly instead.
 - Ask a follow-up question only when the answer cannot be safely given without one.`,
@@ -202,7 +203,7 @@ function buildResponseHistory(req, message, payload) {
 
 async function prepareChatPayload(payload, message, debug, debugEnabled, req = null) {
   const nextPayload = payload && typeof payload === "object" && !Array.isArray(payload) ? { ...payload } : payload;
-  if (nextPayload && shouldRewriteReply(nextPayload.reply)) {
+  if (nextPayload && nextPayload.version !== "strict-evidence-gap-v1" && shouldRewriteReply(nextPayload.reply)) {
     nextPayload.reply = await rewriteReplyInOwnWords(nextPayload.reply, message);
   }
   if (nextPayload && req) {
@@ -227,14 +228,16 @@ async function answerFromLiveEvidence(message, existingReply, liveEvidence) {
           content: `You are a BRS Golf support agent. Answer from the supplied live read-only BRS evidence plus any existing approved answer.
 
 Rules:
-- Give the most complete useful first answer you can from the evidence. Do not hold back known steps behind "would you like me to..." prompts.
-- Use a readable structure: short heading, numbered steps, then a short "Check/export" or "What to look for" section if relevant.
-- Include safe downstream steps such as filtering, narrowing date ranges/statuses, viewing results, exporting/downloading, and checking columns when the evidence supports them.
+- Give a complete answer only when the live evidence directly proves the workflow.
+- Use a readable structure: short heading, then one numbered list of directly observed steps.
+- Do not mix bullet points inside numbered workflow steps.
+- Include filtering, date ranges/statuses, viewing results, exporting/downloading, and checking columns only when the live evidence directly names those controls or columns.
 - Use live BRS evidence for exact menu names, page headings, filters, buttons, report names, table columns, and navigation hints.
 - Do not mention or expose member-specific, club-specific, payment-specific, personal, or financial data.
 - Do not claim you changed anything in BRS.
-- Do not tell the user to click dangerous actions such as Save, Submit, Create, Delete, Refund, Charge, Send, Update, Confirm, or Apply unless the exact task requires a final user-controlled action and the evidence supports it.
+- Do not tell the user to click dangerous actions such as Save, Submit, Create, Delete, Refund, Charge, Send, Update, Confirm, or Apply unless that exact visible control is present in the supplied evidence and the task requires a final user-controlled action.
 - Generate a fresh answer for this user. Do not copy a stored answer word-for-word.
+- If the live evidence is incomplete, say: "I do not have a complete directly observed workflow for that yet."
 - Ask a follow-up question only when the answer depends on missing information that cannot be inferred from the question or evidence.`,
         },
         {
@@ -263,11 +266,12 @@ async function completeInitialAnswer(message, answer) {
 Rules:
 - Use this format where possible:
   1. One short title line.
-  2. Numbered steps.
-  3. A "Filter/check" section for statuses, dates, billing cycles, table rows, or balances.
-  4. An "Export/download" line if exporting is a safe implied next step.
+  2. One numbered list of directly supported steps.
+  3. A "Check" section only when checks are already present in the draft answer.
+  4. An "Export/download" line only when export/download is already present in the draft answer.
+- Do not mix bullet points inside numbered workflow steps.
 - Remove optional follow-up prompts such as "Would you like me to..." and include the safe next steps directly.
-- Be more specific than "look through the details"; explain what to filter/check, such as unpaid/outstanding status, billing cycle, date range, balance due, member name, and bill status, but do not invent exact field labels unless already present.
+- Do not add filters/checks such as statuses, dates, billing cycles, table rows, balances, fields, buttons, paths, reports, or exports unless they are already present in the draft answer.
 - Do not invent exact report names, buttons, paths, prices, policies, member data, or club-specific settings.
 - Ask a follow-up only if the answer cannot be given without missing critical information.`,
         },
@@ -288,7 +292,8 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
 
   let liveLookup = null;
   let liveReply = null;
-  if (shouldAttemptLiveBrsLookup(message, reply || "")) {
+  const shouldUseLiveLookup = shouldAttemptLiveBrsLookup(message, reply || "") || (isBRSWorkflowQuestion(message) && !reply);
+  if (shouldUseLiveLookup) {
     liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
     const liveEvidence = formatLiveEvidence(liveLookup);
     debug.stages.push({ name: "live-brs-lookup", matched: Boolean(liveLookup?.successful), attempted: Boolean(liveLookup?.attempted), error: liveLookup?.error || null });
@@ -296,7 +301,23 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     debug.stages.push({ name: "live-evidence-answer", matched: Boolean(liveReply) });
   }
 
-  if (!(liveReply || reply)) return false;
+  if (!(liveReply || reply)) {
+    if (isBRSWorkflowQuestion(message)) {
+      const reason = liveLookup?.error
+        ? ` I tried the live BRS lookup path, but it could not complete: ${liveLookup.error}`
+        : " Live BRS lookup is not enabled for this environment.";
+      const payload = {
+        reply: `I do not have a complete directly proven BRS workflow for that yet.${reason}`,
+        escalationReady: false,
+        topic: "knowledge",
+        options: [],
+        version: "strict-evidence-gap-v1",
+      };
+      res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
+      return true;
+    }
+    return false;
+  }
   const completeReply = await completeInitialAnswer(message, liveReply || reply);
   debug.stages.push({ name: "complete-initial-answer", matched: completeReply !== (liveReply || reply) });
   const payload = {

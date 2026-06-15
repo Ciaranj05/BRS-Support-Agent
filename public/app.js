@@ -44,8 +44,18 @@ function formatBotMessage(text) {
   let html = "";
   let ol = false;
   let ul = false;
+  let nestedUl = false;
+  let openOlItem = false;
 
   function close() {
+    if (nestedUl) {
+      html += "</ul>";
+      nestedUl = false;
+    }
+    if (openOlItem) {
+      html += "</li>";
+      openOlItem = false;
+    }
     if (ol) {
       html += "</ol>";
       ol = false;
@@ -64,14 +74,31 @@ function formatBotMessage(text) {
         html += "</ul>";
         ul = false;
       }
+      if (nestedUl) {
+        html += "</ul>";
+        nestedUl = false;
+      }
+      if (openOlItem) {
+        html += "</li>";
+        openOlItem = false;
+      }
       if (!ol) {
         html += "<ol>";
         ol = true;
       }
-      html += `<li>${renderInlineMarkdown(x.replace(/^\d+\.\s+/, ""))}</li>`;
+      html += `<li>${renderInlineMarkdown(x.replace(/^\d+\.\s+/, ""))}`;
+      openOlItem = true;
       continue;
     }
     if (/^[-•]\s+/.test(x)) {
+      if (ol && openOlItem) {
+        if (!nestedUl) {
+          html += "<ul>";
+          nestedUl = true;
+        }
+        html += `<li>${renderInlineMarkdown(x.replace(/^[-â€¢]\s+/, ""))}</li>`;
+        continue;
+      }
       if (ol) {
         html += "</ol>";
         ol = false;
@@ -83,6 +110,84 @@ function formatBotMessage(text) {
       html += `<li>${renderInlineMarkdown(x.replace(/^[-•]\s+/, ""))}</li>`;
       continue;
     }
+    close();
+    html += `<p>${renderInlineMarkdown(x)}</p>`;
+  }
+  close();
+  return html || `<p>${renderInlineMarkdown(text || "")}</p>`;
+}
+
+function formatBotMessageSafe(text) {
+  const lines = String(text || "").split("\n");
+  let html = "";
+  let ol = false;
+  let ul = false;
+  let nestedUl = false;
+  let openOlItem = false;
+  const bulletPrefix = /^(?:[-*]|\u2022)\s+/;
+
+  function close() {
+    if (nestedUl) {
+      html += "</ul>";
+      nestedUl = false;
+    }
+    if (openOlItem) {
+      html += "</li>";
+      openOlItem = false;
+    }
+    if (ol) {
+      html += "</ol>";
+      ol = false;
+    }
+    if (ul) {
+      html += "</ul>";
+      ul = false;
+    }
+  }
+
+  for (const line of lines) {
+    const x = line.trim();
+    if (!x) continue;
+
+    if (/^\d+\.\s+/.test(x)) {
+      if (ul) {
+        html += "</ul>";
+        ul = false;
+      }
+      if (nestedUl) {
+        html += "</ul>";
+        nestedUl = false;
+      }
+      if (openOlItem) {
+        html += "</li>";
+        openOlItem = false;
+      }
+      if (!ol) {
+        html += "<ol>";
+        ol = true;
+      }
+      html += `<li>${renderInlineMarkdown(x.replace(/^\d+\.\s+/, ""))}`;
+      openOlItem = true;
+      continue;
+    }
+
+    if (bulletPrefix.test(x)) {
+      if (ol && openOlItem) {
+        if (!nestedUl) {
+          html += "<ul>";
+          nestedUl = true;
+        }
+        html += `<li>${renderInlineMarkdown(x.replace(bulletPrefix, ""))}</li>`;
+        continue;
+      }
+      if (!ul) {
+        html += "<ul>";
+        ul = true;
+      }
+      html += `<li>${renderInlineMarkdown(x.replace(bulletPrefix, ""))}</li>`;
+      continue;
+    }
+
     close();
     html += `<p>${renderInlineMarkdown(x)}</p>`;
   }
@@ -383,7 +488,7 @@ function addMessage(text, sender = "bot", opts = [], variant = "") {
   wrap.className = "msg-wrap";
   const div = document.createElement("div");
   div.className = `msg ${sender}${variant ? ` ${variant}` : ""}`;
-  div.innerHTML = sender === "bot" ? formatBotMessage(text) : esc(text);
+  div.innerHTML = sender === "bot" ? formatBotMessageSafe(text) : esc(text);
   let optionCount = 0;
   if (sender === "bot") {
     optionCount = addOptionButtons(div, getBotOptions(text, opts));
@@ -465,7 +570,7 @@ async function addMessageTyped(text, opts = []) {
     }
   }
   div.classList.remove("typing-text");
-  div.innerHTML = formatBotMessage(message);
+  div.innerHTML = formatBotMessageSafe(message);
   const optionCount = addOptionButtons(div, getBotOptions(message, opts));
   const hint = getFollowUpHint(message);
   if (hint) pendingFollowUpHint = hint;
