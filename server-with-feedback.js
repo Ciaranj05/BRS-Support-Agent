@@ -298,7 +298,15 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   if (shouldUseLiveLookup) {
     liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
     const liveEvidence = formatLiveEvidence(liveLookup);
-    debug.stages.push({ name: "live-brs-lookup", matched: Boolean(liveLookup?.successful), attempted: Boolean(liveLookup?.attempted), error: liveLookup?.error || null });
+    debug.stages.push({
+      name: "live-brs-lookup",
+      matched: Boolean(liveLookup?.successful),
+      attempted: Boolean(liveLookup?.attempted),
+      mode: liveLookup?.mode || null,
+      timings: liveLookup?.timings || [],
+      totalMs: liveLookup?.totalMs || null,
+      error: liveLookup?.error || null,
+    });
     if (liveEvidence) liveReply = await answerFromLiveEvidence(message, reply, liveEvidence);
     debug.stages.push({ name: "live-evidence-answer", matched: Boolean(liveReply) });
   }

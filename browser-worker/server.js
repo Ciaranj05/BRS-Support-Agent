@@ -148,15 +148,23 @@ function summariseError(error) {
   return message.split("\n").slice(0, 4).join("\n").trim();
 }
 
+function withTimeout(name, promise, timeoutMs = STAGE_TIMEOUT_MS) {
+  let timeout;
+  const timeoutPromise = new Promise((_, reject) => {
+    timeout = setTimeout(() => reject(new Error(`${name} timed out after ${timeoutMs}ms.`)), timeoutMs);
+  });
+  return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeout));
+}
+
 function createTimer() {
   const startedAt = Date.now();
   const stages = [];
   return {
     stages,
-    async step(name, fn) {
+    async step(name, fn, timeoutMs = STAGE_TIMEOUT_MS) {
       const stageStartedAt = Date.now();
       try {
-        const value = await fn();
+        const value = await withTimeout(name, fn(), timeoutMs);
         stages.push({ name, ok: true, ms: Date.now() - stageStartedAt });
         return value;
       } catch (error) {
@@ -229,7 +237,7 @@ async function runLookup(question, { staticEvidence = "", knowledgeHints = [] } 
   }
   let browser;
   try {
-    browser = await timer.step("launch-browser", () => chromium.launch({ headless: process.env.BRS_WORKER_HEADLESS !== "false" }));
+    browser = await timer.step("launch-browser", () => chromium.launch({ headless: process.env.BRS_WORKER_HEADLESS !== "false" }), Math.min(STAGE_TIMEOUT_MS, 8000));
     const context = await timer.step("new-context", () => browser.newContext());
     const page = await timer.step("new-page", () => context.newPage());
     await timer.step("login", () => tryLogin(page));
