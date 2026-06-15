@@ -426,7 +426,7 @@ app.post("/api/resolved-interactions", async (req, res) => {
       console.error("Workflow learning from resolved interaction failed:", error);
       return null;
     });
-    res.status(201).json({ ok: true, resolvedInteraction, learnedWorkflow: learnedWorkflow ? { filePath: learnedWorkflow.filePath, sourceId: learnedWorkflow.entry?.sourceId } : null });
+    res.status(201).json({ ok: true, resolvedInteraction, learnedWorkflow: learnedWorkflow ? { storage: learnedWorkflow.storage, filePath: learnedWorkflow.filePath, sourceId: learnedWorkflow.entry?.sourceId } : null });
   } catch (error) {
     console.error("Resolved interaction tracking failed:", error);
     res.status(error.status || 500).json({ ok: false, error: error.message || "Unable to record resolved interaction." });
@@ -455,7 +455,7 @@ app.post("/api/feedback", async (req, res) => {
       console.error("Workflow learning from survey feedback failed:", error);
       return null;
     });
-    res.status(201).json({ ok: true, ...result, learnedWorkflow: learnedWorkflow ? { filePath: learnedWorkflow.filePath, sourceId: learnedWorkflow.entry?.sourceId } : null });
+    res.status(201).json({ ok: true, ...result, learnedWorkflow: learnedWorkflow ? { storage: learnedWorkflow.storage, filePath: learnedWorkflow.filePath, sourceId: learnedWorkflow.entry?.sourceId } : null });
   } catch (error) {
     console.error("Survey feedback tracking failed:", error);
     res.status(error.status || 500).json({ ok: false, error: error.message || "Unable to record survey feedback." });

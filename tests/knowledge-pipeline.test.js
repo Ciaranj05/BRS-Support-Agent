@@ -5,6 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { buildKnowledgeBase } from "../scripts/build-knowledge-base.js";
 import { retrieveKnowledge } from "../lib/retrieval.js";
+import { buildReusableWorkflowEntry } from "../lib/liveBrsLookup.js";
 
 async function makeKnowledgeDir() {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brs-knowledge-"));
@@ -199,4 +200,26 @@ test("multi-route workflow knowledge is preserved and searchable", async () => {
   assert.equal(results[0].title, "Buggy booking routes");
   assert.match(results[0].content, /Route 1: Online member or visitor request route/);
   assert.match(results[0].content, /Route 2 step 3: Add the service charge/);
+});
+
+test("successful live workflows are reusable by the chatbot", () => {
+  const entry = buildReusableWorkflowEntry({
+    question: "How do I create a membership bill?",
+    answer: "Open Memberships, then Billing.",
+    intent: { topic: "memberships", task: "create", object: "membership bill" },
+    liveResult: {
+      successful: true,
+      pages: [{
+        title: "Create Bills",
+        headings: ["Create Bills"],
+        breadcrumbs: ["Memberships", "Billing"],
+        controls: [{ label: "Preview", type: "button", options: [] }],
+        tableHeaders: ["Member", "Bill Status"],
+      }],
+    },
+  });
+
+  assert.equal(entry.confidence, "approved");
+  assert.equal(entry.safeForChatbot, true);
+  assert.equal(entry.sourceType, "brs-system-workflow");
 });

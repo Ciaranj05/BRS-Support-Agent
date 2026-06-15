@@ -10,6 +10,7 @@ let pendingFreeTextClarification = false;
 let pendingRatingScore = null;
 let pendingFollowUpHint = "";
 let pendingTimesheetRequest = "";
+let conversationHistory = [];
 
 function esc(t) {
   return String(t || "")
@@ -225,6 +226,7 @@ function startFreshSessionForRootQuestion() {
   disableRows();
   sessionId = crypto.randomUUID();
   localStorage.setItem("brsSupportSessionId", sessionId);
+  conversationHistory = [];
   activeOptionRow = null;
   activeResolutionRow = null;
   activeRatingRow = null;
@@ -239,6 +241,7 @@ function startFreshPromptForNextQuestion(text) {
   addMessage(text, "user");
   sessionId = crypto.randomUUID();
   localStorage.setItem("brsSupportSessionId", sessionId);
+  conversationHistory = [];
   activeOptionRow = null;
   activeResolutionRow = null;
   activeRatingRow = null;
@@ -348,7 +351,7 @@ async function submitRating() {
     await fetch("/api/feedback", {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-session-id": sessionId },
-      body: JSON.stringify({ score: pendingRatingScore, type: "nps", comment }),
+      body: JSON.stringify({ score: pendingRatingScore, type: "nps", comment, conversationHistory }),
     }).catch(() => {});
   } finally {
     await fetch("/api/reset", { method: "POST", headers: { "x-session-id": sessionId } }).catch(() => {});
@@ -392,7 +395,7 @@ async function submitUnresolved() {
     await fetch("/api/resolved-interactions", {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-session-id": sessionId },
-      body: JSON.stringify({ resolved: false, escalated: true, comment }),
+      body: JSON.stringify({ resolved: false, escalated: true, comment, conversationHistory }),
     }).catch(() => {});
   } finally {
     await fetch("/api/reset", { method: "POST", headers: { "x-session-id": sessionId } }).catch(() => {});
@@ -645,10 +648,11 @@ async function send(m = null, d = null) {
     const r = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-session-id": sessionId },
-      body: JSON.stringify({ message, contextHint: followUpHint }),
+      body: JSON.stringify({ message, contextHint: followUpHint, conversationHistory }),
     });
     pendingFollowUpHint = "";
     const data = await readJsonResponse(r);
+    if (Array.isArray(data.conversationHistory)) conversationHistory = data.conversationHistory;
     removeTyping();
     if (data.action === "timesheet.configure") {
       if (data.status === "needs_clarification") pendingTimesheetRequest = message;
@@ -681,6 +685,7 @@ function resetChat() {
   pendingFollowUpHint = "";
   pendingTimesheetRequest = "";
   sessionId = crypto.randomUUID();
+  conversationHistory = [];
   localStorage.setItem("brsSupportSessionId", sessionId);
   addWelcome();
 }

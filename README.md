@@ -66,3 +66,17 @@ BRS_LIVE_WORKER_SECRET=the-same-secret-used-by-the-worker
 ```
 
 See `browser-worker/README.md` for the worker deployment steps.
+
+## Self-improving workflow knowledge
+
+When a chatbot answer uses successful live BRS evidence and the user marks the query as resolved with a recommendation score of at least 70%, the app stores that observed workflow in Postgres as reusable knowledge.
+
+Required production settings:
+
+```text
+DATABASE_URL=postgres://...
+BRS_LEARNING_AUTO_APPROVE=true
+BRS_LEARNING_MIN_SCORE=70
+```
+
+The next matching chatbot query can retrieve that learned workflow directly from Postgres. If `DATABASE_URL` is missing, learned workflows fall back to local JSON files, which is useful for development but not permanent on Vercel.
