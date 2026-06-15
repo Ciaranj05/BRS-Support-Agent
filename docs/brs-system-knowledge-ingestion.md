@@ -98,6 +98,6 @@ The support bot should normally answer from the reviewed knowledge index rather 
 
 ## Vercel live lookup browser runtime
 
-Live lookup uses Playwright. Vercel needs the Chromium browser binary available inside the deployed function bundle, not only the Playwright package. The repo runs `scripts/install-playwright-browsers.js` after install on Vercel, with `PLAYWRIGHT_BROWSERS_PATH=0`, so redeploy the project after enabling live lookup or changing Playwright versions.
+Live lookup uses Playwright. On Vercel, the runtime launches Playwright against `@sparticuz/chromium`, which is packaged for serverless deployments. Redeploy the project after enabling live lookup or changing browser/runtime dependencies.
 
-If debug output says the Chromium executable does not exist, redeploy the current `main` branch and check the Vercel build logs for the Playwright browser install step.
+If debug output says the Chromium executable does not exist, redeploy the current `main` branch and check the Vercel build logs for `@sparticuz/chromium` installation.

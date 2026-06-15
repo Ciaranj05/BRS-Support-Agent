@@ -293,7 +293,8 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
 
   let liveLookup = null;
   let liveReply = null;
-  const shouldUseLiveLookup = shouldAttemptLiveBrsLookup(message, reply || "") || (isBRSWorkflowQuestion(message) && !reply);
+  const isWorkflowQuestion = isBRSWorkflowQuestion(message);
+  const shouldUseLiveLookup = shouldAttemptLiveBrsLookup(message, reply || "") || isWorkflowQuestion;
   if (shouldUseLiveLookup) {
     liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
     const liveEvidence = formatLiveEvidence(liveLookup);
@@ -303,7 +304,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   }
 
   if (!(liveReply || reply)) {
-    if (isBRSWorkflowQuestion(message)) {
+    if (isWorkflowQuestion) {
       const reason = liveLookup?.error
         ? ` I tried the live BRS lookup path, but it could not complete: ${liveLookup.error}`
         : " Live BRS lookup is not enabled for this environment.";
@@ -318,6 +319,17 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
       return true;
     }
     return false;
+  }
+  if (isWorkflowQuestion && liveLookup?.attempted && !liveReply) {
+    const payload = {
+      reply: `I do not have a complete directly observed BRS workflow for that yet. I tried the live BRS lookup path, but it could not complete: ${liveLookup.error || "no complete live workflow evidence was returned."}`,
+      escalationReady: false,
+      topic: "knowledge",
+      options: [],
+      version: "strict-evidence-gap-v1",
+    };
+    res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
+    return true;
   }
   const completeReply = await completeInitialAnswer(message, liveReply || reply);
   debug.stages.push({ name: "complete-initial-answer", matched: completeReply !== (liveReply || reply) });
