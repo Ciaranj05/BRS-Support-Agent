@@ -28,6 +28,7 @@ BRS_USERNAME=your-rotated-brs-username
 BRS_PASSWORD=your-rotated-brs-password
 BRS_LIVE_WORKER_SECRET=a-long-random-shared-secret
 BRS_LIVE_LOOKUP_TIMEOUT_MS=45000
+BRS_LIVE_LOOKUP_STAGE_TIMEOUT_MS=12000
 ```
 
 6. Copy the Render service URL, then add these environment variables in Vercel:

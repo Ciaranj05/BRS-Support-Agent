@@ -6,6 +6,7 @@ import { chromium } from "playwright";
 const app = express();
 const PORT = Number(process.env.PORT || 3001);
 const LIVE_LOOKUP_TIMEOUT_MS = Number(process.env.BRS_LIVE_LOOKUP_TIMEOUT_MS || 45000);
+const STAGE_TIMEOUT_MS = Math.min(Number(process.env.BRS_LIVE_LOOKUP_STAGE_TIMEOUT_MS || 12000), LIVE_LOOKUP_TIMEOUT_MS);
 const BASE_URL = process.env.BRS_BASE_URL || "https://brsgolf.com";
 const USERNAME = process.env.BRS_USERNAME;
 const PASSWORD = process.env.BRS_PASSWORD;
@@ -142,8 +143,44 @@ async function collectPageEvidence(page) {
   };
 }
 
+function summariseError(error) {
+  const message = error?.message || String(error || "Unknown worker lookup error");
+  return message.split("\n").slice(0, 4).join("\n").trim();
+}
+
+function createTimer() {
+  const startedAt = Date.now();
+  const stages = [];
+  return {
+    stages,
+    async step(name, fn) {
+      const stageStartedAt = Date.now();
+      try {
+        const value = await fn();
+        stages.push({ name, ok: true, ms: Date.now() - stageStartedAt });
+        return value;
+      } catch (error) {
+        stages.push({ name, ok: false, ms: Date.now() - stageStartedAt, error: summariseError(error) });
+        throw error;
+      }
+    },
+    totalMs() {
+      return Date.now() - startedAt;
+    },
+  };
+}
+
+async function installReadOnlyGuard(page) {
+  await page.route("**/*", async (route) => {
+    const request = route.request();
+    const method = request.method().toUpperCase();
+    if (!["GET", "HEAD", "OPTIONS"].includes(method)) return route.abort();
+    return route.continue();
+  });
+}
+
 async function tryLogin(page) {
-  await page.goto(BASE_URL, { waitUntil: "domcontentloaded", timeout: LIVE_LOOKUP_TIMEOUT_MS });
+  await page.goto(BASE_URL, { waitUntil: "domcontentloaded", timeout: STAGE_TIMEOUT_MS });
   if (!USERNAME || !PASSWORD) return false;
   const username = page.locator("input[type='email'], input[name*='user' i], input[name*='email' i], input[id*='user' i], input[id*='email' i]").first();
   const password = page.locator("input[type='password']").first();
@@ -152,7 +189,7 @@ async function tryLogin(page) {
   await password.fill(PASSWORD);
   const submit = page.locator("button[type='submit'], input[type='submit'], button:has-text('Log in'), button:has-text('Login'), button:has-text('Sign in')").first();
   if (await submit.count().catch(() => 0)) await submit.click({ timeout: 5000 });
-  await page.waitForLoadState("domcontentloaded", { timeout: LIVE_LOOKUP_TIMEOUT_MS }).catch(() => null);
+  await page.waitForLoadState("domcontentloaded", { timeout: STAGE_TIMEOUT_MS }).catch(() => null);
   return true;
 }
 
@@ -170,7 +207,7 @@ async function followSafeNavigation(page, plan) {
     visited.push(normalise(next.label));
     const locator = page.locator("a, button, [role='button']").nth(next.index);
     await locator.click({ timeout: 5000 }).catch(() => null);
-    await page.waitForLoadState("domcontentloaded", { timeout: LIVE_LOOKUP_TIMEOUT_MS }).catch(() => null);
+    await page.waitForLoadState("domcontentloaded", { timeout: STAGE_TIMEOUT_MS }).catch(() => null);
   }
   return visited;
 }
@@ -186,28 +223,24 @@ async function runLookup(question, { staticEvidence = "", knowledgeHints = [] } 
     pages: [],
     error: null,
   };
+  const timer = createTimer();
   if (!USERNAME || !PASSWORD) {
-    return { ...baseResult, error: "BRS worker credentials are not configured. Set BRS_USERNAME and BRS_PASSWORD on the worker service." };
+    return { ...baseResult, timings: timer.stages, totalMs: timer.totalMs(), error: "BRS worker credentials are not configured. Set BRS_USERNAME and BRS_PASSWORD on the worker service." };
   }
   let browser;
   try {
-    browser = await chromium.launch({ headless: process.env.BRS_WORKER_HEADLESS !== "false" });
-    const context = await browser.newContext();
-    const page = await context.newPage();
-    await page.route("**/*", async (route) => {
-      const request = route.request();
-      const method = request.method().toUpperCase();
-      if (!["GET", "HEAD", "OPTIONS"].includes(method)) return route.abort();
-      return route.continue();
-    });
-    await tryLogin(page);
-    const firstEvidence = await collectPageEvidence(page);
-    const visited = await followSafeNavigation(page, plan);
-    const finalEvidence = await collectPageEvidence(page);
+    browser = await timer.step("launch-browser", () => chromium.launch({ headless: process.env.BRS_WORKER_HEADLESS !== "false" }));
+    const context = await timer.step("new-context", () => browser.newContext());
+    const page = await timer.step("new-page", () => context.newPage());
+    await timer.step("login", () => tryLogin(page));
+    await timer.step("install-read-only-guard", () => installReadOnlyGuard(page));
+    const firstEvidence = await timer.step("collect-initial-evidence", () => collectPageEvidence(page));
+    const visited = await timer.step("follow-safe-navigation", () => followSafeNavigation(page, plan));
+    const finalEvidence = await timer.step("collect-final-evidence", () => collectPageEvidence(page));
     const pages = [firstEvidence, finalEvidence].filter((pageEvidence, index, arr) => arr.findIndex((item) => item.url === pageEvidence.url) === index);
-    return { ...baseResult, successful: pages.length > 0, visited, pages };
+    return { ...baseResult, successful: pages.length > 0, visited, pages, timings: timer.stages, totalMs: timer.totalMs() };
   } catch (error) {
-    return { ...baseResult, error: error?.message || String(error || "Unknown worker lookup error") };
+    return { ...baseResult, timings: timer.stages, totalMs: timer.totalMs(), error: summariseError(error) };
   } finally {
     if (browser) await browser.close().catch(() => null);
   }
