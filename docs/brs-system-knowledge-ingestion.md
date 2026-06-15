@@ -98,6 +98,18 @@ The support bot should normally answer from the reviewed knowledge index rather 
 
 ## Vercel live lookup browser runtime
 
-Live lookup uses Playwright. On Vercel, the runtime launches Playwright against `@sparticuz/chromium`, which is packaged for serverless deployments. Redeploy the project after enabling live lookup or changing browser/runtime dependencies.
+Live lookup uses Playwright. On Vercel, the most reliable production setup is to use a managed browser service and set `BRS_LIVE_BROWSER_WS_ENDPOINT` to its WebSocket endpoint. This avoids native library failures such as missing `libnss3.so` in Vercel's serverless runtime.
 
-If debug output says the Chromium executable does not exist, redeploy the current `main` branch and check the Vercel build logs for `@sparticuz/chromium` installation.
+Required Vercel environment variables for live lookup:
+
+```text
+BRS_LIVE_LOOKUP_ENABLED=true
+BRS_BASE_URL=https://brsgolf.com
+BRS_CLUB_ID=amysgolfclub
+BRS_USERNAME=...
+BRS_PASSWORD=...
+BRS_LIVE_LOOKUP_TIMEOUT_MS=45000
+BRS_LIVE_BROWSER_WS_ENDPOINT=wss://...
+```
+
+The app still contains a local/serverless Chromium fallback, but if debug output mentions missing native libraries, configure `BRS_LIVE_BROWSER_WS_ENDPOINT` rather than trying to store browser binaries in the repo.
