@@ -34,6 +34,30 @@ npm run build:knowledge
 
 The crawler writes raw extracted system entries into `knowledge/system`. The builder combines system entries, Help Center entries, and manual notes into `knowledge/knowledge-index.json`, then writes unapproved entries into `knowledge/review-queue.json`.
 
+## Demo workflow exploration
+
+Some BRS tasks have more than one valid route. For example, a customer-facing booking path can create a request that appears on the timesheet, while an admin path may still be needed to add services or charges. Use the demo workflow explorer to capture those parallel routes from a dedicated demo club.
+
+```text
+BRS_DEMO_WORKFLOW_EXPLORATION_ENABLED=true
+BRS_DEMO_ALLOW_BOOKING_CREATION=true
+BRS_DEMO_CLUB_ID=...
+BRS_DEMO_USERNAME=...
+BRS_DEMO_PASSWORD=...
+BRS_DEMO_BOOKING_CREATION_MODE=draft
+```
+
+Then run:
+
+```text
+npm run explore:demo-workflows -- "how do I add a buggy booking"
+npm run build:knowledge
+```
+
+`draft` mode opens and fills safe demo booking surfaces for evidence without submitting. `commit` mode can submit a test booking only on the dedicated demo club. The explorer blocks setup/settings mutations such as System Configuration, Configure Timesheet, Green Fee setup, reservation types, payment methods, user permissions, and other admin setup areas.
+
+Demo workflow output is written to `knowledge/workflows/demo` with `confidence: needs-review` and `safeForChatbot: false`. A human must review the route evidence before it becomes approved answer material.
+
 ## What the crawler records
 
 For approved pages it records:

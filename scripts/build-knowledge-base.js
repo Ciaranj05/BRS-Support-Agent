@@ -24,6 +24,15 @@ function entryTextForReview(entry = {}) {
     entry.content,
     entry.workflow,
     entry.steps || [],
+    (entry.routes || []).flatMap((route) => [
+      route.name,
+      route.title,
+      route.actor,
+      route.preconditions || [],
+      route.steps || [],
+      route.outcome,
+      route.verification || [],
+    ]),
     entry.helpText || [],
     entry.tableHeaders || [],
     (entry.controls || []).map((control) => compactTextParts([control.label, control.type, control.options || []])),
@@ -44,7 +53,7 @@ function redactValue(value) {
 function hasEnoughReusableProductKnowledge(entry = {}) {
   const text = entryTextForReview(entry);
   const wordCount = text.split(/\s+/).filter(Boolean).length;
-  const hasUiShape = (entry.fields || []).length || (entry.actions || []).length || (entry.helpText || []).length;
+  const hasUiShape = (entry.fields || []).length || (entry.actions || []).length || (entry.helpText || []).length || (entry.routes || []).length;
   return wordCount >= 8 && (hasUiShape || Boolean(entry.purpose || entry.content));
 }
 

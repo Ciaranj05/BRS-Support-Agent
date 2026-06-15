@@ -231,6 +231,7 @@ Rules:
 - Give a complete answer only when the live evidence directly proves the workflow.
 - Use a readable structure: short heading, then one numbered list of directly observed steps.
 - Do not mix bullet points inside numbered workflow steps.
+- If the evidence contains multiple route names, route actors, or route preconditions, explain each proven route separately and state when that route applies.
 - Include filtering, date ranges/statuses, viewing results, exporting/downloading, and checking columns only when the live evidence directly names those controls or columns.
 - Use live BRS evidence for exact menu names, page headings, filters, buttons, report names, table columns, and navigation hints.
 - Do not mention or expose member-specific, club-specific, payment-specific, personal, or financial data.

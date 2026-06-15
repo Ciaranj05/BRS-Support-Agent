@@ -160,3 +160,43 @@ test("retrieval prefers matching workflow detail over generic page evidence", as
   assert.equal(results[0].sourceType, "workflow");
   assert.equal(results[0].title, "Member Report workflow");
 });
+
+test("multi-route workflow knowledge is preserved and searchable", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "workflow.json"), JSON.stringify({
+    entries: [{
+      sourceType: "brs-system-workflow",
+      title: "Buggy booking routes",
+      area: "Timesheet",
+      workflow: "Add buggies to a booking",
+      routes: [
+        {
+          name: "Online member or visitor request route",
+          actor: "Member or visitor",
+          preconditions: ["Online buggy booking is enabled for that audience."],
+          steps: ["Request a buggy during online booking.", "Admin verifies the request on the Timesheet."],
+          outcome: "The request is visible to admin staff.",
+        },
+        {
+          name: "Admin timesheet route",
+          actor: "Admin",
+          preconditions: ["Admin can open the tee time from the Timesheet."],
+          steps: ["Open the tee time.", "Enter the number of buggies.", "Add the service charge."],
+          outcome: "The booking is updated by admin staff.",
+        },
+      ],
+      confidence: "needs-review",
+      containsClubSpecificData: false,
+    }],
+  }));
+  await buildKnowledgeBase({ knowledgeDir, outputPath: path.join(knowledgeDir, "knowledge-index.json") });
+
+  const results = await retrieveKnowledge("admin add service charge for buggy booking from timesheet", {
+    indexPath: path.join(knowledgeDir, "knowledge-index.json"),
+    limit: 1,
+  });
+
+  assert.equal(results[0].title, "Buggy booking routes");
+  assert.match(results[0].content, /Route 1: Online member or visitor request route/);
+  assert.match(results[0].content, /Route 2 step 3: Add the service charge/);
+});
