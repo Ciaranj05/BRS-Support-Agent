@@ -1,4 +1,8 @@
 {
+  "env": {
+    "BRS_LIVE_LOOKUP_ENABLED": "true",
+    "BRS_LIVE_LOOKUP_TIMEOUT_MS": "45000"
+  },
   "functions": {
     "server-with-feedback.js": {
       "includeFiles": "{public/**,data/**,knowledge/**}"
