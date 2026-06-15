@@ -77,6 +77,7 @@ Required production settings:
 DATABASE_URL=postgres://...
 BRS_LEARNING_AUTO_APPROVE=true
 BRS_LEARNING_MIN_SCORE=70
+BRS_LEARNING_STORE_APPROVED_STATIC=true
 ```
 
-The next matching chatbot query can retrieve that learned workflow directly from Postgres. If `DATABASE_URL` is missing, learned workflows fall back to local JSON files, which is useful for development but not permanent on Vercel.
+The next matching chatbot query can retrieve that learned workflow directly from Postgres. If the answer used live BRS evidence, the stored row is tagged as live-evidence learned knowledge. If the answer came from existing approved knowledge, it is tagged as static-knowledge learned knowledge. If `DATABASE_URL` is missing, learned workflows fall back to local JSON files, which is useful for development but not permanent on Vercel.

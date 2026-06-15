@@ -6,6 +6,7 @@ import test from "node:test";
 import { buildKnowledgeBase } from "../scripts/build-knowledge-base.js";
 import { retrieveKnowledge } from "../lib/retrieval.js";
 import { buildReusableWorkflowEntry } from "../lib/liveBrsLookup.js";
+import { normaliseKnowledgeEntry } from "../lib/knowledgeSources.js";
 
 async function makeKnowledgeDir() {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brs-knowledge-"));
@@ -222,4 +223,18 @@ test("successful live workflows are reusable by the chatbot", () => {
   assert.equal(entry.confidence, "approved");
   assert.equal(entry.safeForChatbot, true);
   assert.equal(entry.sourceType, "brs-system-workflow");
+});
+
+test("learned workflow answers are included in searchable knowledge content", () => {
+  const entry = normaliseKnowledgeEntry({
+    sourceType: "brs-system-workflow",
+    title: "Learned workflow: membership bill",
+    workflow: "membership bill",
+    userNeed: "how do i create a membership bill",
+    answerPattern: "Open Memberships, choose Billing, then use Create Bills.",
+    confidence: "approved",
+  });
+
+  assert.match(entry.content, /User need: how do i create a membership bill/);
+  assert.match(entry.content, /Approved answer pattern: Open Memberships/);
 });
