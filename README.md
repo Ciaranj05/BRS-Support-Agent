@@ -49,3 +49,20 @@ npm run build:knowledge
 npm test
 ```
 - Code map and future update guide: `docs/code-map-and-update-guide.md`
+
+## Live BRS workflow lookup
+
+For questions where the stored knowledge is incomplete, the app can try a read-only live BRS lookup before answering. Set this in Vercel:
+
+```text
+BRS_LIVE_LOOKUP_ENABLED=true
+```
+
+Vercel serverless functions usually cannot launch Chromium directly. The free/low-cost route is to deploy the included browser worker to a service that can run Chrome, then point Vercel at it:
+
+```text
+BRS_LIVE_WORKER_URL=https://your-worker-service.onrender.com
+BRS_LIVE_WORKER_SECRET=the-same-secret-used-by-the-worker
+```
+
+See `browser-worker/README.md` for the worker deployment steps.

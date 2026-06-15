@@ -1,0 +1,16 @@
+{
+  "name": "brs-live-lookup-worker",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "npx playwright install --with-deps chromium"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "playwright": "1.52.0"
+  }
+}

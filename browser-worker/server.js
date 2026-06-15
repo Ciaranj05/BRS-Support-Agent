@@ -1,13 +1,15 @@
-import crypto from "crypto";
+import "dotenv/config";
+import cors from "cors";
+import express from "express";
+import { chromium } from "playwright";
 
-const LIVE_LOOKUP_ENABLED = process.env.BRS_LIVE_LOOKUP_ENABLED === "true";
+const app = express();
+const PORT = Number(process.env.PORT || 3001);
 const LIVE_LOOKUP_TIMEOUT_MS = Number(process.env.BRS_LIVE_LOOKUP_TIMEOUT_MS || 45000);
 const BASE_URL = process.env.BRS_BASE_URL || "https://brsgolf.com";
 const USERNAME = process.env.BRS_USERNAME;
 const PASSWORD = process.env.BRS_PASSWORD;
-const BROWSER_WS_ENDPOINT = process.env.BRS_LIVE_BROWSER_WS_ENDPOINT || process.env.BROWSERLESS_WS_ENDPOINT;
-const LIVE_WORKER_URL = process.env.BRS_LIVE_WORKER_URL || process.env.BRS_LIVE_LOOKUP_WORKER_URL;
-const LIVE_WORKER_SECRET = process.env.BRS_LIVE_WORKER_SECRET || process.env.BRS_LIVE_LOOKUP_WORKER_SECRET;
+const WORKER_SECRET = process.env.BRS_LIVE_WORKER_SECRET || process.env.BRS_LIVE_LOOKUP_WORKER_SECRET;
 
 const BLOCKED_ACTION_PATTERN = /\b(save|submit|create|delete|remove|cancel|refund|charge|send|update|confirm|apply|allocate|debit|credit|email|text|sms)\b/i;
 const SAFE_NAVIGATION_TERMS = [
@@ -29,6 +31,9 @@ const SAFE_NAVIGATION_TERMS = [
   "users",
   "admin",
 ];
+
+app.use(cors());
+app.use(express.json({ limit: "1mb" }));
 
 function compact(value = "") {
   return String(value || "").replace(/\s+/g, " ").trim();
@@ -85,87 +90,10 @@ function scoreLabel(label = "", plan = []) {
   return score;
 }
 
-async function loadPlaywright() {
-  try {
-    return await import("playwright-core");
-  } catch (error) {
-    return null;
-  }
-}
-
-async function getChromiumLaunchOptions() {
-  if (process.env.VERCEL !== "1") return { headless: true };
-  try {
-    const chromium = await import("@sparticuz/chromium");
-    return {
-      args: chromium.default.args,
-      executablePath: await chromium.default.executablePath(),
-      headless: true,
-    };
-  } catch (error) {
-    return { headless: true };
-  }
-}
-
-function sanitizeLookupError(error) {
-  const message = error?.message || String(error || "Unknown live lookup error");
-  if (/libnss3\.so/i.test(message)) {
-    return "Chromium could not start in this serverless runtime because the native library libnss3.so is missing. Configure BRS_LIVE_WORKER_URL to use the free browser worker, configure BRS_LIVE_BROWSER_WS_ENDPOINT to use a managed browser service, or run the bot in a Docker/VM environment with Chrome dependencies installed.";
-  }
-  if (/Executable doesn't exist|playwright install/i.test(message)) {
-    return "Chromium is not installed in this runtime. Configure BRS_LIVE_WORKER_URL to use the free browser worker, redeploy with browser dependencies installed, or configure BRS_LIVE_BROWSER_WS_ENDPOINT to use a managed browser service.";
-  }
-  if (/headless: expected boolean/i.test(message)) {
-    return "Chromium launch configuration is invalid for this runtime.";
-  }
-  return message.split("\n").slice(0, 6).join("\n").trim();
-}
-
-async function lookupViaWorker(question, { staticEvidence = "", knowledgeHints = [] } = {}, baseResult) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), LIVE_LOOKUP_TIMEOUT_MS);
-  const endpoint = `${LIVE_WORKER_URL.replace(/\/+$/, "")}/lookup`;
-  try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      signal: controller.signal,
-      headers: {
-        "content-type": "application/json",
-        ...(LIVE_WORKER_SECRET ? { "x-brs-live-worker-secret": LIVE_WORKER_SECRET } : {}),
-      },
-      body: JSON.stringify({ question, staticEvidence, knowledgeHints }),
-    });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      return {
-        ...baseResult,
-        attempted: true,
-        mode: "read-only-worker",
-        error: payload.error || `BRS live worker returned HTTP ${response.status}.`,
-      };
-    }
-    return {
-      ...baseResult,
-      ...payload,
-      enabled: true,
-      attempted: true,
-      mode: payload.mode || "read-only-worker",
-      plan: payload.plan?.length ? payload.plan : baseResult.plan,
-      pages: Array.isArray(payload.pages) ? payload.pages : [],
-      error: payload.error || null,
-    };
-  } catch (error) {
-    return {
-      ...baseResult,
-      attempted: true,
-      mode: "read-only-worker",
-      error: error?.name === "AbortError"
-        ? `BRS live worker timed out after ${LIVE_LOOKUP_TIMEOUT_MS}ms.`
-        : sanitizeLookupError(error),
-    };
-  } finally {
-    clearTimeout(timeout);
-  }
+function checkSecret(req, res, next) {
+  if (!WORKER_SECRET) return next();
+  if (req.get("x-brs-live-worker-secret") === WORKER_SECRET) return next();
+  return res.status(401).json({ error: "Unauthorized live lookup worker request." });
 }
 
 async function collectPageEvidence(page) {
@@ -247,36 +175,23 @@ async function followSafeNavigation(page, plan) {
   return visited;
 }
 
-export function shouldAttemptLiveBrsLookup(question = "", staticEvidence = "") {
-  if (!LIVE_LOOKUP_ENABLED) return false;
-  const lower = normalise(question);
-  const asksWorkflow = /\b(how|where|which|what|show|see|find|list|report|filter|export|download|add|change|edit|configure|set up|setup|refund|reverse|run|open)\b/.test(lower);
-  const productArea = /\b(member|membership|bill|payment|refund|booking|tee|timesheet|teesheet|competition|report|user|admin|setting|configuration|service|buggy|buggies|caddie|caddy|club hire|trolley|facility|contact|message)\b/.test(lower);
-  const weakStatic = !staticEvidence || staticEvidence.length < 1200;
-  return asksWorkflow && productArea && (weakStatic || /\b(exact|specific|where|which|see which|all members)\b/.test(lower));
-}
-
-export async function liveBrsLookup(question, { staticEvidence = "", knowledgeHints = [] } = {}) {
+async function runLookup(question, { staticEvidence = "", knowledgeHints = [] } = {}) {
   const plan = inferSearchPlan(question, [staticEvidence, ...knowledgeHints]);
   const baseResult = {
-    enabled: LIVE_LOOKUP_ENABLED,
-    attempted: false,
+    enabled: true,
+    attempted: true,
     successful: false,
-    mode: "read-only",
+    mode: "read-only-worker",
     plan,
     pages: [],
     error: null,
   };
-  if (!LIVE_LOOKUP_ENABLED) return { ...baseResult, error: "Live lookup disabled. Set BRS_LIVE_LOOKUP_ENABLED=true to enable read-only BRS investigation." };
-  if (LIVE_WORKER_URL) return lookupViaWorker(question, { staticEvidence, knowledgeHints }, baseResult);
-  const playwright = await loadPlaywright();
-  if (!playwright) return { ...baseResult, attempted: true, error: "Playwright is not installed in this runtime." };
-
+  if (!USERNAME || !PASSWORD) {
+    return { ...baseResult, error: "BRS worker credentials are not configured. Set BRS_USERNAME and BRS_PASSWORD on the worker service." };
+  }
   let browser;
   try {
-    browser = BROWSER_WS_ENDPOINT
-      ? await playwright.chromium.connectOverCDP(BROWSER_WS_ENDPOINT)
-      : await playwright.chromium.launch(await getChromiumLaunchOptions());
+    browser = await chromium.launch({ headless: process.env.BRS_WORKER_HEADLESS !== "false" });
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.route("**/*", async (route) => {
@@ -290,47 +205,33 @@ export async function liveBrsLookup(question, { staticEvidence = "", knowledgeHi
     const visited = await followSafeNavigation(page, plan);
     const finalEvidence = await collectPageEvidence(page);
     const pages = [firstEvidence, finalEvidence].filter((pageEvidence, index, arr) => arr.findIndex((item) => item.url === pageEvidence.url) === index);
-    return { ...baseResult, attempted: true, successful: pages.length > 0, visited, pages };
+    return { ...baseResult, successful: pages.length > 0, visited, pages };
   } catch (error) {
-    return { ...baseResult, attempted: true, error: sanitizeLookupError(error) };
+    return { ...baseResult, error: error?.message || String(error || "Unknown worker lookup error") };
   } finally {
     if (browser) await browser.close().catch(() => null);
   }
 }
 
-export function formatLiveEvidence(result = {}) {
-  if (!result?.successful) return "";
-  return result.pages.map((page, index) => [
-    `LIVE BRS PAGE ${index + 1}: ${page.title || "Untitled"}`,
-    `URL: ${page.url}`,
-    page.headings?.length ? `Headings: ${page.headings.join(" | ")}` : null,
-    page.breadcrumbs?.length ? `Breadcrumbs: ${page.breadcrumbs.join(" | ")}` : null,
-    page.tableHeaders?.length ? `Table columns: ${page.tableHeaders.join(" | ")}` : null,
-    page.captions?.length ? `Captions: ${page.captions.join(" | ")}` : null,
-    page.controls?.length ? `Controls: ${page.controls.slice(0, 60).map((control) => `${control.label}${control.unsafeAction ? " [visible action control; do not click during lookup]" : ""}${control.options?.length ? ` (${control.options.join(" / ")})` : ""}`).join(" | ")}` : null,
-  ].filter(Boolean).join("\n")).join("\n\n---\n\n");
-}
+app.get("/health", (req, res) => {
+  res.json({
+    ok: true,
+    worker: "brs-live-lookup-worker",
+    liveBaseUrlConfigured: Boolean(BASE_URL),
+    credentialsConfigured: Boolean(USERNAME && PASSWORD),
+  });
+});
 
-export function buildReusableWorkflowEntry({ question, answer, intent = {}, liveResult = {}, staticEvidenceUsed = false } = {}) {
-  const page = liveResult.pages?.at(-1) || {};
-  const sourceId = crypto.createHash("sha256").update(`${normalise(question)}:${normalise(page.title)}:${normalise(page.headings?.join("|"))}`).digest("hex").slice(0, 16);
-  return {
-    sourceType: "brs-system-workflow",
-    title: `Learned workflow: ${intent.object || intent.topic || "BRS support question"}`,
-    area: intent.topic || null,
-    workflow: intent.object || normalise(question).slice(0, 120),
-    summary: "Reusable workflow learned from a successfully resolved support conversation and live read-only BRS evidence. Generate a fresh answer from this evidence rather than reusing the original wording.",
-    userNeed: normalise(question).replace(/\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b/g, "[email]"),
-    answerPattern: redactSensitive(answer).slice(0, 1600),
-    navigationPath: unique([...(page.breadcrumbs || []), ...(page.headings || [])], 12).join(" >> ") || null,
-    controls: (page.controls || []).slice(0, 80).map((control) => ({ label: control.label, type: control.type, options: control.options || [] })),
-    tableHeaders: page.tableHeaders || [],
-    pageEvidence: { headings: page.headings || [], captions: page.captions || [] },
-    tags: unique(["learned-workflow", "successful-resolution", intent.topic, intent.task, intent.object].filter(Boolean), 20),
-    confidence: liveResult.successful ? "needs-review" : "draft",
-    safeForChatbot: false,
-    sourceId,
-    learnedAt: new Date().toISOString(),
-    staticEvidenceUsed: Boolean(staticEvidenceUsed),
-  };
-}
+app.post("/lookup", checkSecret, async (req, res) => {
+  const question = compact(req.body?.question);
+  if (!question) return res.status(400).json({ error: "Missing question." });
+  const result = await runLookup(question, {
+    staticEvidence: req.body?.staticEvidence || "",
+    knowledgeHints: Array.isArray(req.body?.knowledgeHints) ? req.body.knowledgeHints : [],
+  });
+  return res.status(result.error ? 502 : 200).json(result);
+});
+
+app.listen(PORT, () => {
+  console.log(`BRS live lookup worker listening on ${PORT}`);
+});
