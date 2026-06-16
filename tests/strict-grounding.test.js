@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "../lib/bookingWorkflowAnswers.js";
+import { isMemberBalanceReportQuestion } from "../lib/membershipWorkflowAnswers.js";
 import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/relatedGuides.js";
 
 test("classifies operational BRS questions as workflow questions", () => {
@@ -37,6 +38,18 @@ test("related guides use workflow family first and variants only when relevant",
   assert.equal(generalGuides.some((guide) => guide.title === "Buggy Management"), false);
   assert.equal(serviceGuides[0].title, "Move part of a booking to another tee time");
   assert.equal(serviceGuides.some((guide) => guide.title === "Buggy Management"), true);
+});
+
+test("member balance lookup uses protected membership workflow and does not leak contacts routing notes", async () => {
+  const typoReply = await answerFromKnowledge("how do I see what menebrs owe me money");
+  const regularReply = await answerFromKnowledge("how do I see what members owe me money");
+
+  assert.equal(isMemberBalanceReportQuestion("how do I see what menebrs owe me money"), true);
+  assert.match(typoReply, /Open the Memberships area/);
+  assert.match(typoReply, /For one individual member/);
+  assert.doesNotMatch(typoReply, /Contacts section|non-member records|avoid using the Contacts/i);
+  assert.match(regularReply, /Billing\/Payments or Memberships > Reports/);
+  assert.doesNotMatch(regularReply, /Contacts section|non-member records|avoid using the Contacts/i);
 });
 
 test("help center article urls can display as guide titles", () => {

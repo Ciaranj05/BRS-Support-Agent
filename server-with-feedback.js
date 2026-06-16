@@ -13,6 +13,7 @@ import { formatLiveEvidence, liveBrsLookup, shouldAttemptLiveBrsLookup } from ".
 import { saveLearnedWorkflowFromResolution } from "./lib/workflowLearning.js";
 import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
 import { isMoveBookingQuestion } from "./lib/bookingWorkflowAnswers.js";
+import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
 import { executeTimesheetPlan } from "./lib/timesheetExecutor.js";
 import { formatTimesheetConfirmation, planTimesheetRequest } from "./lib/timesheetPlanner.js";
@@ -140,11 +141,7 @@ function expandAffirmationMessage(message, history = []) {
 }
 
 function isMemberBalanceLookup(message = "") {
-  const lower = String(message || "").toLowerCase();
-  const mentionsMembers = /\b(member|members|membership|memberships)\b/.test(lower);
-  const mentionsDebt = /\b(owe|owes|owed|owing|money|balance|balances|unpaid|outstanding|overdue|arrears|debt|debtor|debtors|bill|bills|invoice|invoices)\b/.test(lower);
-  const asksToFind = /\b(which|who|show|see|find|list|report|view|check|download|export)\b/.test(lower);
-  return mentionsMembers && mentionsDebt && asksToFind;
+  return isMemberBalanceReportQuestion(message);
 }
 
 async function rewriteReplyInOwnWords(reply, message) {
@@ -296,7 +293,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   let liveLookup = null;
   let liveReply = null;
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
-  const hasProtectedApprovedWorkflow = isMoveBookingQuestion(message) && Boolean(reply);
+  const hasProtectedApprovedWorkflow = (isMoveBookingQuestion(message) || isMemberBalanceReportQuestion(message)) && Boolean(reply);
   const shouldUseLiveLookup = !hasProtectedApprovedWorkflow && (shouldAttemptLiveBrsLookup(message, reply || "") || isWorkflowQuestion);
   if (shouldUseLiveLookup) {
     liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
