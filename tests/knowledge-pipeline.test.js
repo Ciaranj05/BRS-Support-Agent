@@ -7,6 +7,8 @@ import { buildKnowledgeBase } from "../scripts/build-knowledge-base.js";
 import { retrieveKnowledge } from "../lib/retrieval.js";
 import { buildReusableWorkflowEntry } from "../lib/liveBrsLookup.js";
 import { normaliseKnowledgeEntry } from "../lib/knowledgeSources.js";
+import { buildWorkflowFamilyEntry } from "../lib/workflowFamily.js";
+import { buildWorkflowExplorationTask } from "../lib/workflowExplorationQueue.js";
 
 async function makeKnowledgeDir() {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brs-knowledge-"));
@@ -237,4 +239,52 @@ test("learned workflow answers are included in searchable knowledge content", ()
 
   assert.match(entry.content, /User need: how do i create a membership bill/);
   assert.match(entry.content, /Approved answer pattern: Open Memberships/);
+});
+
+test("workflow family aliases and variants are searchable knowledge", () => {
+  const entry = normaliseKnowledgeEntry({
+    sourceType: "brs-workflow-family",
+    title: "Workflow family: Move a tee sheet booking",
+    workflowFamily: "Move a tee sheet booking",
+    aliases: ["move a buggy booking", "reschedule a paid booking"],
+    variants: [{
+      name: "Booking with attached service or hire item",
+      appliesWhen: "The wording includes a buggy, trolley, caddie, club hire, or another service.",
+      answerImpact: "Use the core booking workflow unless evidence proves the service changes the route.",
+    }],
+    routes: [{
+      name: "Booking Details cut and paste route",
+      steps: ["Open Booking Details", "Click Cut", "Paste into the target tee time"],
+    }],
+    confidence: "approved",
+  });
+
+  assert.equal(entry.sourceType, "workflow");
+  assert.match(entry.content, /Aliases: move a buggy booking/);
+  assert.match(entry.content, /Variant 1: Booking with attached service or hire item/);
+  assert.match(entry.content, /Route 1 step 2: Click Cut/);
+});
+
+test("resolved wording variants can build workflow-family entries", () => {
+  const entry = buildWorkflowFamilyEntry({
+    question: "How do I move a buggy booking?",
+    answer: "Open Booking Details, click Cut, then Paste.",
+    intent: { topic: "teesheet", task: "support-answer", object: "booking" },
+  });
+
+  assert.equal(entry.sourceType, "brs-workflow-family");
+  assert.equal(entry.workflowFamily, "Move a tee sheet booking");
+  assert.match(entry.aliases.join(" "), /move a booking/);
+  assert.equal(entry.variants[0].sameAsWorkflow, "Move a tee sheet booking");
+});
+
+test("workflow exploration queue assigns safe automation tiers", () => {
+  const bookingTask = buildWorkflowExplorationTask({ question: "How do I add a booking with a buggy?" });
+  const settingsTask = buildWorkflowExplorationTask({ question: "How do I change the timesheet interval setting?" });
+  const paymentTask = buildWorkflowExplorationTask({ question: "How do I refund a payment provider transaction?" });
+
+  assert.equal(bookingTask.allowedTier, "safe-test-record-with-rollback");
+  assert.equal(settingsTask.allowedTier, "read-and-draft-only");
+  assert.equal(paymentTask.allowedTier, "auto-restricted");
+  assert.equal(bookingTask.automationPolicy.requireRollbackVerification, true);
 });

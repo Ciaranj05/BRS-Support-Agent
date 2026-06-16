@@ -1,5 +1,6 @@
 node_modules/
 .env
 data/feedback-store.json
+data/workflow-exploration-queue.jsonl
 local-chatbot*.log
 .DS_Store

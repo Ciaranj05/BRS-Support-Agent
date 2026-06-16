@@ -15,7 +15,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+let openAiClient = null;
+
+function getOpenAiClient() {
+  if (!process.env.OPENAI_API_KEY) return null;
+  if (!openAiClient) openAiClient = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return openAiClient;
+}
 
 const APP_VERSION = "audience-aware-clarification-routing-v3";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
@@ -425,6 +431,8 @@ function getKeywordSearchQueries(message, topic, state = {}) {
 
 async function getExpandedSearchQueries(message, topic, state = {}) {
   const baseQueries = getKeywordSearchQueries(message, topic, state);
+  const client = getOpenAiClient();
+  if (!client) return baseQueries;
   try {
     const response = await client.responses.create({
       model: "gpt-4.1",
@@ -503,6 +511,8 @@ function appendSourceIfMissing(reply, articles) { return hasHelpCenterSource(rep
 async function isReplyGrounded(reply, helpCenterContext, approvedSupportContext, sourceRequired) {
   if (!reply || reply === UNKNOWN_REPLY) return false;
   if (sourceRequired && !hasHelpCenterSource(reply)) return false;
+  const client = getOpenAiClient();
+  if (!client) return false;
   try {
     const verification = await client.responses.create({
       model: "gpt-4.1",
@@ -539,6 +549,8 @@ async function createGroundedReply(message, topic, conversationHistory, state = 
   const approvedSupportContext = getApprovedSupportContext(topic);
   if (!helpCenterContext && !approvedSupportContext) return UNKNOWN_REPLY;
 
+  const client = getOpenAiClient();
+  if (!client) return UNKNOWN_REPLY;
   const response = await client.responses.create({
     model: "gpt-4.1",
     input: [{ role: "system", content: getContextForTopic(topic, helpCenterContext, approvedSupportContext, state) }, ...conversationHistory.slice(-12)],
@@ -933,6 +945,8 @@ async function classifyClarificationProfile(message, topic, state, reason) {
   const heuristic = heuristicClarificationProfile(message, topic, state);
   if (heuristic !== "unsupported") return heuristic;
 
+  const client = getOpenAiClient();
+  if (!client) return "unsupported";
   try {
     const response = await client.responses.create({
       model: "gpt-4.1",

@@ -45,10 +45,23 @@ Useful commands:
 
 ```text
 npm run crawl:brs-system
+npm run seed:workflow-families
 npm run build:knowledge
 npm test
 ```
 - Code map and future update guide: `docs/code-map-and-update-guide.md`
+
+## Workflow-family knowledge
+
+The chatbot now treats operational guidance as workflow families rather than one-off examples. A family can include aliases, variants, multiple routes, preconditions, write-action safety tiers, and rollback policy. This prevents wording such as "move a buggy booking" from becoming a separate answer when the proven BRS workflow is really the broader "move a tee sheet booking" route.
+
+To populate a stronger starting point from approved local guidance, run:
+
+```text
+npm run seed:workflow-families
+```
+
+This writes `knowledge/workflows/starter-workflow-families.json` and rebuilds `knowledge/knowledge-index.json`.
 
 ## Live BRS workflow lookup
 
@@ -81,3 +94,18 @@ BRS_LEARNING_STORE_APPROVED_STATIC=true
 ```
 
 The next matching chatbot query can retrieve that learned workflow directly from Postgres. If the answer used live BRS evidence, the stored row is tagged as live-evidence learned knowledge. If the answer came from existing approved knowledge, it is tagged as static-knowledge learned knowledge. If `DATABASE_URL` is missing, learned workflows fall back to local JSON files, which is useful for development but not permanent on Vercel.
+
+When a workflow question cannot be answered from approved evidence, the chatbot queues an automatic workflow exploration task instead of exposing browser-worker timeout details to the user. Set:
+
+```text
+BRS_AUTO_WORKFLOW_EXPLORATION=true
+```
+
+Queued tasks include the test club, route-collection intent, and a safety tier:
+
+- `read-only` for pure navigation/report exploration.
+- `safe-test-record-with-rollback` for reversible test records such as temporary test bookings.
+- `read-and-draft-only` for settings screens where the bot may inspect and fill drafts but must not submit changes without a setting-specific rollback helper.
+- `auto-restricted` for payments, messaging, permissions, integrations, and other sensitive actions.
+
+Production should use `DATABASE_URL` so the queue persists in Postgres. Without it, local development falls back to `data/workflow-exploration-queue.jsonl`.

@@ -7,7 +7,7 @@ const KNOWLEDGE_DIR = path.join(process.cwd(), "knowledge");
 const OUTPUT_PATH = path.join(KNOWLEDGE_DIR, "knowledge-index.json");
 
 function isSystemEntry(entry = {}) {
-  return ["system", "brs-system", "workflow", "brs-system-workflow"].includes(entry.sourceType);
+  return ["system", "brs-system", "workflow", "brs-system-workflow", "brs-workflow-family"].includes(entry.sourceType);
 }
 
 function compactTextParts(parts = []) {
@@ -23,7 +23,18 @@ function entryTextForReview(entry = {}) {
     entry.purpose,
     entry.content,
     entry.workflow,
+    entry.workflowFamily,
+    entry.aliases || [],
     entry.steps || [],
+    (entry.variants || []).flatMap((variant) => [
+      variant.name,
+      variant.title,
+      variant.object,
+      variant.appliesWhen,
+      variant.answerImpact,
+      variant.sameAsWorkflow,
+      variant.notes || [],
+    ]),
     (entry.routes || []).flatMap((route) => [
       route.name,
       route.title,
@@ -32,6 +43,14 @@ function entryTextForReview(entry = {}) {
       route.steps || [],
       route.outcome,
       route.verification || [],
+    ]),
+    (entry.writeActions || []).flatMap((action) => [
+      action.name,
+      action.label,
+      action.type,
+      action.riskTier,
+      action.rollbackPlan,
+      action.rollbackVerified ? "rollback verified" : null,
     ]),
     entry.helpText || [],
     entry.tableHeaders || [],
@@ -58,7 +77,7 @@ function hasEnoughReusableProductKnowledge(entry = {}) {
 }
 
 function prepareSystemEntry(entry = {}) {
-  const sourceType = ["workflow", "brs-system-workflow"].includes(entry.sourceType) ? "workflow" : "system";
+  const sourceType = ["workflow", "brs-system-workflow", "brs-workflow-family"].includes(entry.sourceType) ? "workflow" : "system";
   const redacted = redactValue({ ...entry, sourceType });
   const reviewText = entryTextForReview(redacted);
   const tags = new Set([...(redacted.tags || []), "crawled-brs-system", "redacted-system-observation"]);

@@ -58,6 +58,25 @@ npm run build:knowledge
 
 Demo workflow output is written to `knowledge/workflows/demo` with `confidence: needs-review` and `safeForChatbot: false`. A human must review the route evidence before it becomes approved answer material.
 
+## Automatic workflow exploration queue
+
+When the live chatbot cannot answer a workflow question from approved evidence, it queues the question for automatic workflow exploration. The task is stored in Postgres when `DATABASE_URL` is configured, otherwise local development writes to `data/workflow-exploration-queue.jsonl`.
+
+Each queued task carries a safety tier:
+
+- `read-only`: navigate and collect page evidence only.
+- `safe-test-record-with-rollback`: create or edit only temporary test records on the dedicated test system, then revert and verify the original state.
+- `read-and-draft-only`: inspect settings and fill draft forms, but do not submit settings changes.
+- `auto-restricted`: payments, messaging, permissions, integrations, and other sensitive actions. These are not automatically mutated.
+
+Automatic write exploration should only promote evidence to approved workflow knowledge when rollback is verified. For settings, create a setting-specific helper that reads the original state, applies a limited test change, restores the original value, and verifies the restore before marking the workflow safe for chatbot reuse.
+
+To create the starter workflow-family base from already approved local guidance, run:
+
+```text
+npm run seed:workflow-families
+```
+
 ## What the crawler records
 
 For approved pages it records:

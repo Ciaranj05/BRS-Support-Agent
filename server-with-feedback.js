@@ -11,6 +11,7 @@ import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 import { formatLiveEvidence, liveBrsLookup, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
 import { saveLearnedWorkflowFromResolution } from "./lib/workflowLearning.js";
+import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
 import { executeTimesheetPlan } from "./lib/timesheetExecutor.js";
 import { formatTimesheetConfirmation, planTimesheetRequest } from "./lib/timesheetPlanner.js";
@@ -313,11 +314,21 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
 
   if (!(liveReply || reply)) {
     if (isWorkflowQuestion) {
-      const reason = liveLookup?.error
-        ? ` I tried the live BRS lookup path, but it could not complete: ${liveLookup.error}`
-        : " Live BRS lookup is not enabled for this environment.";
+      const queued = await enqueueWorkflowExploration({
+        question: message,
+        reason: "chat-workflow-knowledge-gap",
+        topic: "knowledge",
+        staticEvidence: reply || "",
+        liveLookup,
+      }).catch((error) => {
+        console.error("Workflow exploration queueing failed:", error);
+        return null;
+      });
+      debug.stages.push({ name: "workflow-exploration-queue", matched: Boolean(queued), storage: queued?.storage || null, allowedTier: queued?.item?.allowedTier || null });
       const payload = {
-        reply: `I do not have a complete directly proven BRS workflow for that yet.${reason}`,
+        reply: queued?.item?.status === "queued"
+          ? "I do not have a complete proven BRS workflow for that yet. I have queued this for automatic exploration against the BRS test system so the workflow family, variants, and routes can be captured safely."
+          : "I do not have a complete proven BRS workflow for that yet. This needs workflow exploration before I can give reliable steps.",
         escalationReady: false,
         topic: "knowledge",
         options: [],
@@ -329,15 +340,29 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     return false;
   }
   if (isWorkflowQuestion && liveLookup?.attempted && !liveReply) {
-    const payload = {
-      reply: `I do not have a complete directly observed BRS workflow for that yet. I tried the live BRS lookup path, but it could not complete: ${liveLookup.error || "no complete live workflow evidence was returned."}`,
-      escalationReady: false,
+    await enqueueWorkflowExploration({
+      question: message,
+      reason: reply ? "live-lookup-incomplete-static-answer-used" : "live-lookup-incomplete",
       topic: "knowledge",
-      options: [],
-      version: "strict-evidence-gap-v1",
-    };
-    res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
-    return true;
+      staticEvidence: reply || "",
+      liveLookup,
+    }).then((queued) => {
+      debug.stages.push({ name: "workflow-exploration-queue", matched: Boolean(queued), storage: queued?.storage || null, allowedTier: queued?.item?.allowedTier || null });
+    }).catch((error) => {
+      console.error("Workflow exploration queueing failed:", error);
+      debug.stages.push({ name: "workflow-exploration-queue", matched: false, error: error.message || "Unknown queue error" });
+    });
+    if (!reply) {
+      const payload = {
+        reply: "I do not have a complete directly observed BRS workflow for that yet. I have queued this for automatic exploration against the BRS test system.",
+        escalationReady: false,
+        topic: "knowledge",
+        options: [],
+        version: "strict-evidence-gap-v1",
+      };
+      res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
+      return true;
+    }
   }
   const completeReply = await completeInitialAnswer(message, liveReply || reply);
   debug.stages.push({ name: "complete-initial-answer", matched: completeReply !== (liveReply || reply) });

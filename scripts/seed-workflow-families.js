@@ -1,0 +1,254 @@
+import fs from "fs/promises";
+import path from "path";
+import { buildKnowledgeBase } from "./build-knowledge-base.js";
+
+const OUTPUT_DIR = path.join(process.cwd(), "knowledge", "workflows");
+const OUTPUT_PATH = path.join(OUTPUT_DIR, "starter-workflow-families.json");
+
+const starterFamilies = [
+  {
+    id: "brs-workflow-family:move-tee-sheet-booking",
+    sourceType: "brs-workflow-family",
+    title: "Workflow family: Move a tee sheet booking",
+    area: "Timesheet",
+    workflow: "Move a tee sheet booking",
+    workflowFamily: "Move a tee sheet booking",
+    aliases: ["move a booking", "reschedule a booking", "transfer a booking", "move a visitor booking", "move a member booking", "move a booking with services attached"],
+    summary: "Use this family when the user wording is about moving, transferring, or rescheduling a tee sheet booking. Service wording such as buggy, trolley, caddie, or club hire is a variant unless observed evidence proves a separate service-specific route.",
+    routes: [
+      {
+        name: "Booking Details cut and paste route",
+        actor: "Admin or staff user",
+        preconditions: ["The booking exists on the tee sheet.", "The user can open Booking Details."],
+        steps: [
+          "Click the tee time to open the Booking Details page.",
+          "Click Cut from inside the Booking Details page.",
+          "Return to the tee sheet.",
+          "Go to the new date if the booking is being moved to a different day.",
+          "Tick the checkbox beside the target tee time.",
+          "Click Paste.",
+          "Check the payment status after moving the booking.",
+        ],
+        outcome: "The booking is moved while keeping payment information attached.",
+        verification: ["Check the moved booking on the target tee time.", "Check payment status after the move."],
+      },
+    ],
+    variants: [
+      {
+        name: "Booking with attached service or hire item",
+        appliesWhen: "The wording includes a buggy, trolley, caddie, club hire, or another service attached to the booking.",
+        sameAsWorkflow: "Move a tee sheet booking",
+        answerImpact: "Use the same move-booking route unless test-system evidence proves the service has a separate move workflow.",
+      },
+      {
+        name: "Paid booking",
+        appliesWhen: "The booking has BRS payment information attached.",
+        answerImpact: "Use Cut from inside Booking Details so payment information remains attached, then check payment status after moving.",
+      },
+    ],
+    rollbackPolicy: "No write action is required to answer from this approved workflow. Future automatic write exploration must create only test records and verify rollback.",
+    explorationStatus: "starter-approved-local-guidance",
+    confidence: "approved",
+    safeForChatbot: true,
+    containsClubSpecificData: false,
+    tags: ["workflow-family", "timesheet", "booking", "move-booking", "multi-route-ready"],
+  },
+  {
+    id: "brs-workflow-family:create-tee-sheet-booking",
+    sourceType: "brs-workflow-family",
+    title: "Workflow family: Create a tee sheet booking",
+    area: "Timesheet",
+    workflow: "Create a tee sheet booking",
+    workflowFamily: "Create a tee sheet booking",
+    aliases: ["add a booking", "create a booking", "book a tee time", "add a single tee time booking", "add services to a booking"],
+    summary: "Use this family for creating a standard tee sheet booking and for variants where the user mentions services attached to the booking.",
+    routes: [
+      {
+        name: "Single tee time booking route",
+        actor: "Admin or staff user",
+        preconditions: ["A target tee time is available on the Timesheet."],
+        steps: [
+          "Tick the box beside the tee time to book.",
+          "In the master row, enter reservation name, reservation type, and player names.",
+          "Click Add.",
+          "Click the booked tee time if more booking information needs to be added.",
+        ],
+        outcome: "The tee time is booked on the Timesheet.",
+        verification: ["Check the tee time row after adding the booking."],
+      },
+    ],
+    variants: [
+      {
+        name: "Service or hire item attached",
+        appliesWhen: "The user mentions a buggy, trolley, caddie, club hire, or another service.",
+        answerImpact: "Treat the service as a booking-detail variant until automatic exploration proves the exact service route.",
+      },
+      {
+        name: "Block or repeated booking",
+        appliesWhen: "The user asks for multiple tee times or a repeated booking.",
+        answerImpact: "Do not reuse the single-booking route as the full answer; ask for date, time range, reservation type, and repetition if missing.",
+      },
+    ],
+    rollbackPolicy: "Automatic write exploration may create a temporary test booking only on the dedicated test system, then delete or cancel it and verify the tee time is clear.",
+    writeActions: [
+      {
+        name: "Create temporary test booking",
+        riskTier: "safe-test-record-with-rollback",
+        allowedAutomatically: true,
+        rollbackPlan: "Delete or cancel the temporary test booking created by the explorer and verify the tee time returns to the original state.",
+      },
+    ],
+    explorationStatus: "starter-approved-local-guidance",
+    confidence: "approved",
+    safeForChatbot: true,
+    containsClubSpecificData: false,
+    tags: ["workflow-family", "timesheet", "booking", "create-booking", "write-with-rollback-ready"],
+  },
+  {
+    id: "brs-workflow-family:configure-timesheet",
+    sourceType: "brs-workflow-family",
+    title: "Workflow family: Configure the timesheet",
+    area: "Tools",
+    workflow: "Configure the timesheet",
+    workflowFamily: "Configure the timesheet",
+    aliases: ["configure tee sheet", "set up timesheet", "change tee time intervals", "add tee times", "delete tee times"],
+    summary: "Use this family for year/date-range tee time setup, interval changes, and timesheet templates.",
+    routes: [
+      {
+        name: "Configure Timesheet route",
+        actor: "Admin or staff user with configuration access",
+        preconditions: ["The user has permission for Tools > Configure Timesheet.", "Calendar End Year covers the target year when configuring a new year."],
+        steps: [
+          "Go to Tools > Configure Timesheet.",
+          "Use the form at the bottom of the page.",
+          "Choose the operation.",
+          "Select the year and date range.",
+          "Enter the tee time interval or alternating intervals.",
+          "Select the tee time range.",
+          "Choose sunrise or sunset stopping behaviour if needed.",
+          "Select the days of the week.",
+          "Click Configure the Timesheet.",
+        ],
+        outcome: "The selected timesheet operation is applied to the chosen date range and days.",
+        verification: ["Check the affected dates on the Timesheet after configuration."],
+      },
+    ],
+    variants: [
+      {
+        name: "Settings mutation",
+        appliesWhen: "The workflow changes live timesheet setup, intervals, dates, or days.",
+        answerImpact: "Automatic exploration may read and draft the route, but should not change settings unless a specific rollback helper exists.",
+      },
+    ],
+    rollbackPolicy: "Settings changes are auto-restricted. Automatic exploration can read fields and fill draft forms, but changing settings requires a setting-specific restore-and-verify rollback helper.",
+    writeActions: [
+      {
+        name: "Change timesheet configuration",
+        riskTier: "auto-restricted",
+        allowedAutomatically: false,
+        rollbackPlan: "Read original settings, apply only to a test range, restore original settings, and verify affected dates.",
+      },
+    ],
+    explorationStatus: "starter-approved-local-guidance",
+    confidence: "approved",
+    safeForChatbot: true,
+    containsClubSpecificData: false,
+    tags: ["workflow-family", "timesheet", "configuration", "settings-auto-restricted"],
+  },
+  {
+    id: "brs-workflow-family:facility-booking",
+    sourceType: "brs-workflow-family",
+    title: "Workflow family: Facility or room booking",
+    area: "Facilities",
+    workflow: "Facility or room booking",
+    workflowFamily: "Facility or room booking",
+    aliases: ["room booking", "facility booking", "resource reservation", "move facility booking", "copy facility booking"],
+    summary: "Use this family for non-tee-sheet resources. Keep Facilities separate from Timesheet unless evidence proves the same control applies.",
+    routes: [
+      {
+        name: "Add room or facility booking route",
+        actor: "Admin or staff user",
+        preconditions: ["Facility Booking is enabled.", "Rooms or facility areas have been configured.", "The selected slots are free."],
+        steps: [
+          "Use the master row under calendar navigation.",
+          "Enter reservation name.",
+          "Enter number of guests.",
+          "Select the room or facility.",
+          "Enter start time and end time.",
+          "Choose repeat days and repeat weeks if needed.",
+          "Click Add.",
+          "Click the reservation name to add more information.",
+        ],
+        outcome: "The facility or room reservation is added.",
+        verification: ["Check the reservation in the facility view.", "Check availability if the selected slots were not free."],
+      },
+    ],
+    variants: [
+      {
+        name: "Move or copy facility reservation",
+        appliesWhen: "The user asks to move, copy, cut, or paste a room/facility/resource reservation.",
+        answerImpact: "Use Facilities guidance only. Do not apply tee sheet booking rules unless the Facilities page exposes the same controls.",
+      },
+    ],
+    rollbackPolicy: "Automatic write exploration may create a temporary test facility reservation only when the test system exposes a reversible reservation record and rollback can be verified.",
+    explorationStatus: "starter-approved-local-guidance",
+    confidence: "approved",
+    safeForChatbot: true,
+    containsClubSpecificData: false,
+    tags: ["workflow-family", "facilities", "resource-booking", "room-booking"],
+  },
+  {
+    id: "brs-workflow-family:membership-billing-balances",
+    sourceType: "brs-workflow-family",
+    title: "Workflow family: Find membership billing balances",
+    area: "Memberships",
+    workflow: "Find membership billing balances",
+    workflowFamily: "Find membership billing balances",
+    aliases: ["find unpaid members", "members with unpaid bills", "outstanding member balances", "membership bill report", "export member balances"],
+    summary: "Use this family for finding members with unpaid bills, arrears, outstanding balances, or membership billing status.",
+    routes: [
+      {
+        name: "Membership billing/report route",
+        actor: "Admin or staff user",
+        preconditions: ["The user has access to Memberships and billing/report views."],
+        steps: [
+          "Open the Memberships area.",
+          "Go to Billing/Payments or the relevant membership billing report.",
+          "Filter for unpaid, outstanding, failed, or balance-due status where the view exposes those filters.",
+          "Check member name, bill or invoice status, amount or balance due, due date, and payment status where shown.",
+          "Use the available export or download action if the user needs a list.",
+        ],
+        outcome: "The user can identify members with outstanding membership billing balances.",
+        verification: ["Check an individual member profile and Billing tab when the question is about one member rather than all members."],
+      },
+    ],
+    rollbackPolicy: "Read-only/report workflow. Automatic exploration should not alter member bills or balances.",
+    explorationStatus: "starter-approved-local-guidance",
+    confidence: "approved",
+    safeForChatbot: true,
+    containsClubSpecificData: false,
+    tags: ["workflow-family", "memberships", "billing", "reports", "read-only"],
+  },
+];
+
+async function main() {
+  await fs.mkdir(OUTPUT_DIR, { recursive: true });
+  await fs.writeFile(OUTPUT_PATH, JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    sourceType: "brs-workflow-family",
+    entries: starterFamilies,
+  }, null, 2));
+
+  console.log(`Wrote ${starterFamilies.length} starter workflow families to ${OUTPUT_PATH}`);
+  if (process.argv.includes("--build")) {
+    const { entries, reviewQueue } = await buildKnowledgeBase();
+    console.log(`Built knowledge index with ${entries.length} entries. ${reviewQueue.length} entries need review.`);
+  }
+}
+
+if (process.argv[1] && process.argv[1].endsWith("seed-workflow-families.js")) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
