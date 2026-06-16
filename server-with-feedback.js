@@ -113,7 +113,7 @@ async function runActionRequest(route, message, authContext) {
 }
 
 function shouldRewriteReply(reply) {
-  return typeof reply === "string" && reply.trim().length > 0;
+  return process.env.BRS_ENABLE_REPLY_REWRITE === "true" && typeof reply === "string" && reply.trim().length > 0;
 }
 
 function blockingLiveLookupEnabled() {
