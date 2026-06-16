@@ -104,3 +104,30 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   assert.doesNotMatch(passwordReply, /ask the user to share/i);
   assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);
 });
+
+test("approved static workflows cover dashboard, search, and contact variants", () => {
+  const dashboardReply = approvedStaticWorkflowReply("How do I see today's bookings on the dashboard?");
+  const searchReply = approvedStaticWorkflowReply("How do I find a booking by booking reference?");
+  const contactReply = approvedStaticWorkflowReply("How do I filter contacts by category?");
+  const emailReply = approvedStaticWorkflowReply("How do I email contacts?");
+
+  assert.match(dashboardReply, /Dashboard/i);
+  assert.match(dashboardReply, /bookings/i);
+  assert.match(searchReply, /Search/i);
+  assert.match(searchReply, /booking reference/i);
+  assert.match(contactReply, /Contacts/i);
+  assert.match(contactReply, /category/i);
+  assert.match(emailReply, /Email Contacts/i);
+});
+
+test("approved static workflows cover common booking and payment lookup variants", () => {
+  const bookingReply = approvedStaticWorkflowReply("How do I add a single tee time booking?");
+  const detailsReply = approvedStaticWorkflowReply("How do I open booking details from the tee sheet?");
+  const vatReply = approvedStaticWorkflowReply("Where do I download a VAT report for payments?");
+  const uploadReply = approvedStaticWorkflowReply("Where do I upload members or contacts?");
+
+  assert.match(bookingReply, /Single Tee Time Booking/i);
+  assert.match(detailsReply, /Booking Details/i);
+  assert.match(vatReply, /BRS Payments VAT Report/i);
+  assert.match(uploadReply, /Upload Members or Contacts/i);
+});
