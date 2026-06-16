@@ -3,6 +3,7 @@ import test from "node:test";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "../lib/bookingWorkflowAnswers.js";
 import { isMemberBalanceReportQuestion } from "../lib/membershipWorkflowAnswers.js";
+import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
 import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/relatedGuides.js";
 
 test("classifies operational BRS questions as workflow questions", () => {
@@ -57,4 +58,31 @@ test("help center article urls can display as guide titles", () => {
     titleFromHelpCenterUrl("https://help.brsgolf.com/hc/en-us/articles/360001644554-Move-part-of-a-booking-to-another-tee-time"),
     "Move Part Of A Booking To Another Tee Time"
   );
+});
+
+test("approved static workflows cover crawled BRS admin areas without live lookup", async () => {
+  const monthReply = await answerFromKnowledge("How do I view the timesheet by month?");
+  const emailReply = await answerFromKnowledge("How do I email all members in a membership type?");
+  const userReply = await answerFromKnowledge("How do I add a new staff user?");
+  const paymentReply = await answerFromKnowledge("How do I create a general payment request?");
+  const copyReply = await answerFromKnowledge("How do I copy services or green fees from one year to another?");
+
+  assert.match(monthReply, /Timesheet by Month/i);
+  assert.match(monthReply, /Month view/i);
+  assert.match(emailReply, /Email Membership Types/i);
+  assert.match(userReply, /Users/i);
+  assert.match(userReply, /Add New/i);
+  assert.match(paymentReply, /Tools > BRS Payments > General Payment Requests/i);
+  assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);
+  assert.doesNotMatch(copyReply, /\bdelete\b/i);
+});
+
+test("approved static workflow matcher is general rather than example-specific", () => {
+  const facilityReply = approvedStaticWorkflowReply("How do I make a room booking?");
+  const contactReply = approvedStaticWorkflowReply("How do I add a society contact?");
+  const smsReply = approvedStaticWorkflowReply("How do I text selected members?");
+
+  assert.match(facilityReply, /Make a Facility Booking/i);
+  assert.match(contactReply, /Add a New Contact/i);
+  assert.match(smsReply, /Text Selected Members/i);
 });
