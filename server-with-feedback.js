@@ -116,6 +116,10 @@ function shouldRewriteReply(reply) {
   return typeof reply === "string" && reply.trim().length > 0;
 }
 
+function blockingLiveLookupEnabled() {
+  return process.env.BRS_BLOCKING_LIVE_LOOKUP_ENABLED === "true";
+}
+
 function getHistory(req) {
   return Array.isArray(req.body?.conversationHistory) ? req.body.conversationHistory : [];
 }
@@ -294,7 +298,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   let liveReply = null;
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
   const hasStaticAnswer = Boolean(reply);
-  const shouldUseLiveLookup = !hasStaticAnswer && shouldAttemptLiveBrsLookup(message, "");
+  const shouldUseLiveLookup = blockingLiveLookupEnabled() && !hasStaticAnswer && shouldAttemptLiveBrsLookup(message, "");
   if (hasStaticAnswer && isWorkflowQuestion) {
     debug.stages.push({
       name: "live-brs-lookup",
@@ -304,6 +308,16 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
       reason: (isMoveBookingQuestion(message) || isMemberBalanceReportQuestion(message))
         ? "protected-approved-static-answer"
         : "approved-static-answer-returned-without-blocking-live-lookup",
+    });
+  } else if (!hasStaticAnswer && isWorkflowQuestion && !shouldUseLiveLookup) {
+    debug.stages.push({
+      name: "live-brs-lookup",
+      matched: false,
+      attempted: false,
+      skipped: true,
+      reason: blockingLiveLookupEnabled()
+        ? "live-lookup-not-selected-for-this-question"
+        : "blocking-live-lookup-disabled",
     });
   }
   if (shouldUseLiveLookup) {
