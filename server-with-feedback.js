@@ -388,8 +388,14 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
       return true;
     }
   }
-  const completeReply = await completeInitialAnswer(message, liveReply || reply);
-  debug.stages.push({ name: "complete-initial-answer", matched: completeReply !== (liveReply || reply) });
+  const rawReply = liveReply || reply;
+  let completeReply = rawReply;
+  if (process.env.BRS_ENABLE_ANSWER_COMPLETION === "true") {
+    completeReply = await completeInitialAnswer(message, rawReply);
+    debug.stages.push({ name: "complete-initial-answer", matched: completeReply !== rawReply });
+  } else {
+    debug.stages.push({ name: "complete-initial-answer", matched: false, skipped: true, reason: "answer-completion-disabled" });
+  }
   const payload = {
     reply: completeReply,
     escalationReady: false,
