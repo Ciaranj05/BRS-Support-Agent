@@ -81,8 +81,26 @@ test("approved static workflow matcher is general rather than example-specific",
   const facilityReply = approvedStaticWorkflowReply("How do I make a room booking?");
   const contactReply = approvedStaticWorkflowReply("How do I add a society contact?");
   const smsReply = approvedStaticWorkflowReply("How do I text selected members?");
+  const reportReply = approvedStaticWorkflowReply("Where do I run a revenue report?");
+  const paymentsReply = approvedStaticWorkflowReply("Where do I see BRS Payments transactions?");
+  const toolsReply = approvedStaticWorkflowReply("Where do I configure member booking rules?");
 
   assert.match(facilityReply, /Make a Facility Booking/i);
   assert.match(contactReply, /Add a New Contact/i);
   assert.match(smsReply, /Text Selected Members/i);
+  assert.match(reportReply, /Reports/i);
+  assert.match(paymentsReply, /BRS Payments/i);
+  assert.match(toolsReply, /Member Booking Rules/i);
+});
+
+test("approved static workflows avoid misleading safety and routing wording", () => {
+  const refundReply = approvedStaticWorkflowReply("How do I refund a booking payment?");
+  const contactReply = approvedStaticWorkflowReply("How do I add a new visitor contact?");
+  const passwordReply = approvedStaticWorkflowReply("How do I change a user's password?");
+  const copyReply = approvedStaticWorkflowReply("How do I copy services or green fees from one year to another?");
+
+  assert.doesNotMatch(refundReply, /escalate/i);
+  assert.doesNotMatch(contactReply, /\bMemberships\b/);
+  assert.doesNotMatch(passwordReply, /ask the user to share/i);
+  assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);
 });
