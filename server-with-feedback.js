@@ -293,8 +293,19 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   let liveLookup = null;
   let liveReply = null;
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
-  const hasProtectedApprovedWorkflow = (isMoveBookingQuestion(message) || isMemberBalanceReportQuestion(message)) && Boolean(reply);
-  const shouldUseLiveLookup = !hasProtectedApprovedWorkflow && (shouldAttemptLiveBrsLookup(message, reply || "") || isWorkflowQuestion);
+  const hasStaticAnswer = Boolean(reply);
+  const shouldUseLiveLookup = !hasStaticAnswer && shouldAttemptLiveBrsLookup(message, "");
+  if (hasStaticAnswer && isWorkflowQuestion) {
+    debug.stages.push({
+      name: "live-brs-lookup",
+      matched: false,
+      attempted: false,
+      skipped: true,
+      reason: (isMoveBookingQuestion(message) || isMemberBalanceReportQuestion(message))
+        ? "protected-approved-static-answer"
+        : "approved-static-answer-returned-without-blocking-live-lookup",
+    });
+  }
   if (shouldUseLiveLookup) {
     liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
     const liveEvidence = formatLiveEvidence(liveLookup);
