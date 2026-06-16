@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
+import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "./lib/bookingWorkflowAnswers.js";
 
 dotenv.config();
 
@@ -508,6 +509,15 @@ function getApprovedSupportContext(topic) {
 function hasHelpCenterSource(reply = "") { return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply); }
 function appendSourceIfMissing(reply, articles) { return hasHelpCenterSource(reply) || !articles.length ? reply : `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`; }
 
+function appendSourceLinks(reply, articles = []) {
+  const links = articles
+    .filter((article) => article.title && article.url)
+    .slice(0, 3)
+    .map((article) => `- [${article.title}](${article.url})`);
+  if (!links.length) return reply;
+  return `${reply.trim()}\n\nRelated guides:\n${links.join("\n")}`;
+}
+
 async function isReplyGrounded(reply, helpCenterContext, approvedSupportContext, sourceRequired) {
   if (!reply || reply === UNKNOWN_REPLY) return false;
   if (sourceRequired && !hasHelpCenterSource(reply)) return false;
@@ -544,6 +554,7 @@ Do not reject an answer just because it translates vague wording into likely BRS
 }
 
 async function createGroundedReply(message, topic, conversationHistory, state = {}) {
+  if (isMoveBookingQuestion(message)) return approvedMoveBookingReply();
   const articles = await getHelpCenterArticles(message, topic, state);
   const helpCenterContext = formatHelpCenterContext(articles);
   const approvedSupportContext = getApprovedSupportContext(topic);
@@ -556,7 +567,9 @@ async function createGroundedReply(message, topic, conversationHistory, state = 
     input: [{ role: "system", content: getContextForTopic(topic, helpCenterContext, approvedSupportContext, state) }, ...conversationHistory.slice(-12)],
   });
 
-  const reply = appendSourceIfMissing(response.output_text?.trim() || "", articles);
+  const draftReply = response.output_text?.trim() || "";
+  if (isMoveBookingQuestion(message) && hasForbiddenMoveBookingAdvice(draftReply)) return approvedMoveBookingReply();
+  const reply = hasHelpCenterSource(draftReply) ? draftReply : appendSourceLinks(draftReply, articles);
   return await isReplyGrounded(reply, helpCenterContext, approvedSupportContext, Boolean(articles.length)) ? reply : UNKNOWN_REPLY;
 }
 
@@ -596,6 +609,7 @@ function getDirectAnswerForMessage(topic, message) {
 
 function detectTopic(message) {
   const lower = normalise(message);
+  if (isMoveBookingQuestion(message)) return "teesheet";
   if (lower.includes("competition") || lower.includes("draw") || lower.includes("entry sheet")) return "teesheet";
   if (lower.includes("payment") || lower.includes("paid") || lower.includes("refund") || lower.includes("transaction") || lower.includes("payout") || lower.includes("vat") || lower.includes("bank statement")) return "payments";
   if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet")) return "memberships";
@@ -1117,12 +1131,13 @@ app.post("/api/chat", async (req, res) => {
     }
 
     if (directAnswer) {
+      const safeDirectAnswer = isMoveBookingQuestion(routingMessage) ? approvedMoveBookingReply() : directAnswer;
       state.pendingClarification = null;
-      rememberFollowUpFromReply(state, directAnswer, topic, routingMessage);
+      rememberFollowUpFromReply(state, safeDirectAnswer, topic, routingMessage);
       state.conversationHistory.push({ role: "user", content: displayMessage });
-      state.conversationHistory.push({ role: "assistant", content: directAnswer });
+      state.conversationHistory.push({ role: "assistant", content: safeDirectAnswer });
       saveSessionState(sessionId, state);
-      return res.json({ reply: directAnswer, escalationReady: false, topic, options: [], version: APP_VERSION });
+      return res.json({ reply: safeDirectAnswer, escalationReady: false, topic, options: [], version: APP_VERSION });
     }
 
     if (!wasClarificationAnswer && isBroadOrAmbiguous(routingMessage, topic, state)) {

@@ -12,6 +12,7 @@ import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 import { formatLiveEvidence, liveBrsLookup, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
 import { saveLearnedWorkflowFromResolution } from "./lib/workflowLearning.js";
 import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
+import { isMoveBookingQuestion } from "./lib/bookingWorkflowAnswers.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
 import { executeTimesheetPlan } from "./lib/timesheetExecutor.js";
 import { formatTimesheetConfirmation, planTimesheetRequest } from "./lib/timesheetPlanner.js";
@@ -295,7 +296,8 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   let liveLookup = null;
   let liveReply = null;
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
-  const shouldUseLiveLookup = shouldAttemptLiveBrsLookup(message, reply || "") || isWorkflowQuestion;
+  const hasProtectedApprovedWorkflow = isMoveBookingQuestion(message) && Boolean(reply);
+  const shouldUseLiveLookup = !hasProtectedApprovedWorkflow && (shouldAttemptLiveBrsLookup(message, reply || "") || isWorkflowQuestion);
   if (shouldUseLiveLookup) {
     liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
     const liveEvidence = formatLiveEvidence(liveLookup);
