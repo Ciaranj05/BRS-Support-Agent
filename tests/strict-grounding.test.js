@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "../lib/bookingWorkflowAnswers.js";
+import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/relatedGuides.js";
 
 test("classifies operational BRS questions as workflow questions", () => {
   assert.equal(isBRSWorkflowQuestion("how do I add a buggy to a booking"), true);
@@ -26,4 +27,21 @@ test("move booking wording uses protected approved workflow", async () => {
 test("forbidden move-booking generated actions are detected", () => {
   assert.equal(hasForbiddenMoveBookingAdvice("Drag the booking to a new tee time."), true);
   assert.equal(hasForbiddenMoveBookingAdvice(approvedMoveBookingReply()), false);
+});
+
+test("related guides use workflow family first and variants only when relevant", () => {
+  const generalGuides = relatedGuidesForQuestion("how do I move a booking?");
+  const serviceGuides = relatedGuidesForQuestion("how do I move a buggy booking?");
+
+  assert.equal(generalGuides[0].title, "Move part of a booking to another tee time");
+  assert.equal(generalGuides.some((guide) => guide.title === "Buggy Management"), false);
+  assert.equal(serviceGuides[0].title, "Move part of a booking to another tee time");
+  assert.equal(serviceGuides.some((guide) => guide.title === "Buggy Management"), true);
+});
+
+test("help center article urls can display as guide titles", () => {
+  assert.equal(
+    titleFromHelpCenterUrl("https://help.brsgolf.com/hc/en-us/articles/360001644554-Move-part-of-a-booking-to-another-tee-time"),
+    "Move Part Of A Booking To Another Tee Time"
+  );
 });

@@ -24,6 +24,15 @@ function esc(t) {
 function renderInlineMarkdown(t) {
   let safe = esc(t);
   const links = [];
+  const helpCenterTitle = (url) => {
+    const match = String(url || "").match(/\/articles\/\d+-([^?#]+)/i);
+    if (!match) return url;
+    return decodeURIComponent(match[1])
+      .replace(/[-_]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  };
   safe = safe.replace(/Source:\s*\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, (m, label, url) => {
     const i = links.push(`<div class="source-link"><a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a></div>`) - 1;
     return `__BRS_LINK_${i}__`;
@@ -33,7 +42,7 @@ function renderInlineMarkdown(t) {
     return `__BRS_LINK_${i}__`;
   });
   safe = safe.replace(/\b(https?:\/\/[^\s<]+)\b/g, (url) => {
-    const i = links.push(`<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`) - 1;
+    const i = links.push(`<a href="${url}" target="_blank" rel="noopener noreferrer">${helpCenterTitle(url)}</a>`) - 1;
     return `__BRS_LINK_${i}__`;
   });
   safe = safe.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");

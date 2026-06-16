@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "./lib/bookingWorkflowAnswers.js";
+import { appendRelatedGuides, relatedGuidesForQuestion } from "./lib/relatedGuides.js";
 
 dotenv.config();
 
@@ -509,13 +510,8 @@ function getApprovedSupportContext(topic) {
 function hasHelpCenterSource(reply = "") { return /https:\/\/help\.brsgolf\.com\/hc\/en-us\/articles\//i.test(reply); }
 function appendSourceIfMissing(reply, articles) { return hasHelpCenterSource(reply) || !articles.length ? reply : `${reply.trim()}\n\nSource: [${articles[0].title}](${articles[0].url})`; }
 
-function appendSourceLinks(reply, articles = []) {
-  const links = articles
-    .filter((article) => article.title && article.url)
-    .slice(0, 3)
-    .map((article) => `- [${article.title}](${article.url})`);
-  if (!links.length) return reply;
-  return `${reply.trim()}\n\nRelated guides:\n${links.join("\n")}`;
+function appendSourceLinks(reply, articles = [], message = "") {
+  return appendRelatedGuides(reply, relatedGuidesForQuestion(message, articles));
 }
 
 async function isReplyGrounded(reply, helpCenterContext, approvedSupportContext, sourceRequired) {
@@ -554,7 +550,7 @@ Do not reject an answer just because it translates vague wording into likely BRS
 }
 
 async function createGroundedReply(message, topic, conversationHistory, state = {}) {
-  if (isMoveBookingQuestion(message)) return approvedMoveBookingReply();
+  if (isMoveBookingQuestion(message)) return approvedMoveBookingReply(message);
   const articles = await getHelpCenterArticles(message, topic, state);
   const helpCenterContext = formatHelpCenterContext(articles);
   const approvedSupportContext = getApprovedSupportContext(topic);
@@ -568,8 +564,8 @@ async function createGroundedReply(message, topic, conversationHistory, state = 
   });
 
   const draftReply = response.output_text?.trim() || "";
-  if (isMoveBookingQuestion(message) && hasForbiddenMoveBookingAdvice(draftReply)) return approvedMoveBookingReply();
-  const reply = hasHelpCenterSource(draftReply) ? draftReply : appendSourceLinks(draftReply, articles);
+  if (isMoveBookingQuestion(message) && hasForbiddenMoveBookingAdvice(draftReply)) return approvedMoveBookingReply(message);
+  const reply = hasHelpCenterSource(draftReply) ? draftReply : appendSourceLinks(draftReply, articles, message);
   return await isReplyGrounded(reply, helpCenterContext, approvedSupportContext, Boolean(articles.length)) ? reply : UNKNOWN_REPLY;
 }
 
@@ -1131,7 +1127,7 @@ app.post("/api/chat", async (req, res) => {
     }
 
     if (directAnswer) {
-      const safeDirectAnswer = isMoveBookingQuestion(routingMessage) ? approvedMoveBookingReply() : directAnswer;
+      const safeDirectAnswer = isMoveBookingQuestion(routingMessage) ? approvedMoveBookingReply(routingMessage) : directAnswer;
       state.pendingClarification = null;
       rememberFollowUpFromReply(state, safeDirectAnswer, topic, routingMessage);
       state.conversationHistory.push({ role: "user", content: displayMessage });
