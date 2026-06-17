@@ -24,6 +24,16 @@ test("production chat route does not invoke live lookup", () => {
   assert.doesNotMatch(serverSource, /liveBrsLookup|formatLiveEvidence|shouldAttemptLiveBrsLookup/);
 });
 
+test("production chat route returns specific object-first answers before model fallback", () => {
+  const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
+
+  assert.match(serverSource, /objectFirstReply\?\.routeStrength === "specific"/);
+  assert.ok(
+    serverSource.search(/objectFirstReply\?\.routeStrength === "specific"/) <
+    serverSource.search(/const handled = await respondFromKnowledge\(\{ req, res, message, originalMessage, debug, debugEnabled \}/)
+  );
+});
+
 test("move booking wording uses protected approved workflow", async () => {
   const reply = await answerFromKnowledge("how do I move a buggy booking?");
 

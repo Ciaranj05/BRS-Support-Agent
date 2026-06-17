@@ -183,6 +183,7 @@ async function enhancedChatHandler(req, res, next) {
     const objectFirstReply = answerFromObjectFirstRouting(message);
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
     if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
+    if (objectFirstReply?.routeStrength === "specific") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
     const handled = await respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled });
     if (handled) return;
