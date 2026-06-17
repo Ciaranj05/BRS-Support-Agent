@@ -163,3 +163,17 @@ test("hard-mode precedence keeps specific workflows ahead of generic routes", ()
   assert.match(openCompReply, /charges/i);
   assert.equal(routeActionRequest("add warning note on tee sheet"), null);
 });
+
+test("uploads and ambiguous grace periods do not fall through to model fallback", async () => {
+  const uploadMembersReply = await answerFromKnowledge("upload members");
+  const uploadContactsReply = await answerFromKnowledge("import contacts");
+  const graceReply = await answerFromKnowledge("how do I extend a grace period");
+
+  assert.match(uploadMembersReply, /Upload Members and Contacts/i);
+  assert.match(uploadMembersReply, /Members/i);
+  assert.match(uploadMembersReply, /CSV/i);
+  assert.match(uploadContactsReply, /Upload Members and Contacts/i);
+  assert.match(uploadContactsReply, /Contacts/i);
+  assert.match(graceReply, /Clarify the Grace Period Area/i);
+  assert.match(graceReply, /Member Booking Rules|Memberships/i);
+});
