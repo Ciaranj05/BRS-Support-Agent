@@ -212,6 +212,7 @@ test("broad live-failure regressions keep specific routes ahead of generic ones"
   const vatReply = approvedStaticWorkflowReply("export vat reports");
 
   assert.equal(routeActionRequest("change time intervals on tee sheet"), null);
+  assert.equal(isMoveBookingQuestion("change time intervals on tee sheet"), false);
   assert.match(timeIntervalsReply, /Configure the Timesheet/i);
   assert.match(sheetMessageReply, /Messages on the Timesheet/i);
   assert.doesNotMatch(sheetMessageReply, /Email the Timesheet/i);
