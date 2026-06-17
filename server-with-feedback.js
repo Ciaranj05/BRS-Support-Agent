@@ -9,10 +9,8 @@ import { getSurveyMetrics, recordResolvedInteraction, recordSurveyScore } from "
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "./lib/knowledgeAnswer.js";
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
-import { formatLiveEvidence, liveBrsLookup, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
 import { saveLearnedWorkflowFromResolution } from "./lib/workflowLearning.js";
 import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
-import { isMoveBookingQuestion } from "./lib/bookingWorkflowAnswers.js";
 import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
 import { executeTimesheetPlan } from "./lib/timesheetExecutor.js";
@@ -116,10 +114,6 @@ function shouldRewriteReply(reply) {
   return process.env.BRS_ENABLE_REPLY_REWRITE === "true" && typeof reply === "string" && reply.trim().length > 0;
 }
 
-function blockingLiveLookupEnabled() {
-  return process.env.BRS_BLOCKING_LIVE_LOOKUP_ENABLED === "true";
-}
-
 function getHistory(req) {
   return Array.isArray(req.body?.conversationHistory) ? req.body.conversationHistory : [];
 }
@@ -220,43 +214,6 @@ function wrapJsonForChat(res, message, debug, debugEnabled, req = null) {
   res.json = async (payload) => originalJson(await prepareChatPayload(payload, message, debug, debugEnabled, req));
 }
 
-async function answerFromLiveEvidence(message, existingReply, liveEvidence) {
-  if (!liveEvidence) return null;
-  try {
-    const response = await client.responses.create({
-      model: "gpt-4.1",
-      input: [
-        {
-          role: "system",
-          content: `You are a BRS Golf support agent. Answer from the supplied live read-only BRS evidence plus any existing approved answer.
-
-Rules:
-- Give a complete answer only when the live evidence directly proves the workflow.
-- Use a readable structure: short heading, then one numbered list of directly observed steps.
-- Do not mix bullet points inside numbered workflow steps.
-- If the evidence contains multiple route names, route actors, or route preconditions, explain each proven route separately and state when that route applies.
-- Include filtering, date ranges/statuses, viewing results, exporting/downloading, and checking columns only when the live evidence directly names those controls or columns.
-- Use live BRS evidence for exact menu names, page headings, filters, buttons, report names, table columns, and navigation hints.
-- Do not mention or expose member-specific, club-specific, payment-specific, personal, or financial data.
-- Do not claim you changed anything in BRS.
-- Do not tell the user to click dangerous actions such as Save, Submit, Create, Delete, Refund, Charge, Send, Update, Confirm, or Apply unless that exact visible control is present in the supplied evidence and the task requires a final user-controlled action.
-- Generate a fresh answer for this user. Do not copy a stored answer word-for-word.
-- If the live evidence is incomplete, say: "I do not have a complete directly observed workflow for that yet."
-- Ask a follow-up question only when the answer depends on missing information that cannot be inferred from the question or evidence.`,
-        },
-        {
-          role: "user",
-          content: `USER QUESTION:\n${message}\n\nEXISTING APPROVED ANSWER, IF ANY:\n${existingReply || "None"}\n\nLIVE READ-ONLY BRS EVIDENCE:\n${liveEvidence}`,
-        },
-      ],
-    });
-    return response.output_text?.trim() || null;
-  } catch (error) {
-    console.error("Live evidence answer generation failed:", error);
-    return null;
-  }
-}
-
 async function completeInitialAnswer(message, answer) {
   if (!answer || /\b(can you please give me more information|please tell me which part|what (area|part) of brs|which part of brs)\b/i.test(answer)) return answer;
   try {
@@ -294,46 +251,20 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   const reply = await answerFromKnowledge(message);
   debug.stages.push({ name: routeLabel, matched: Boolean(reply), directIntent: isMemberBalanceLookup(message) });
 
-  let liveLookup = null;
-  let liveReply = null;
+  const liveLookup = null;
+  const liveReply = null;
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
   const hasStaticAnswer = Boolean(reply);
-  const shouldUseLiveLookup = blockingLiveLookupEnabled() && !hasStaticAnswer && shouldAttemptLiveBrsLookup(message, "");
-  if (hasStaticAnswer && isWorkflowQuestion) {
+  if (isWorkflowQuestion) {
     debug.stages.push({
       name: "live-brs-lookup",
       matched: false,
       attempted: false,
       skipped: true,
-      reason: (isMoveBookingQuestion(message) || isMemberBalanceReportQuestion(message))
-        ? "protected-approved-static-answer"
-        : "approved-static-answer-returned-without-blocking-live-lookup",
+      reason: hasStaticAnswer
+        ? "approved-knowledge-returned-live-lookup-disabled"
+        : "live-lookup-disabled-demo-crawler-primary",
     });
-  } else if (!hasStaticAnswer && isWorkflowQuestion && !shouldUseLiveLookup) {
-    debug.stages.push({
-      name: "live-brs-lookup",
-      matched: false,
-      attempted: false,
-      skipped: true,
-      reason: blockingLiveLookupEnabled()
-        ? "live-lookup-not-selected-for-this-question"
-        : "blocking-live-lookup-disabled",
-    });
-  }
-  if (shouldUseLiveLookup) {
-    liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "" });
-    const liveEvidence = formatLiveEvidence(liveLookup);
-    debug.stages.push({
-      name: "live-brs-lookup",
-      matched: Boolean(liveLookup?.successful),
-      attempted: Boolean(liveLookup?.attempted),
-      mode: liveLookup?.mode || null,
-      timings: liveLookup?.timings || [],
-      totalMs: liveLookup?.totalMs || null,
-      error: liveLookup?.error || null,
-    });
-    if (liveEvidence) liveReply = await answerFromLiveEvidence(message, reply, liveEvidence);
-    debug.stages.push({ name: "live-evidence-answer", matched: Boolean(liveReply) });
   }
 
   if (!(liveReply || reply)) {

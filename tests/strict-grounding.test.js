@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import test from "node:test";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
 import { routeActionRequest } from "../lib/actionRouter.js";
@@ -15,6 +16,12 @@ test("classifies operational BRS questions as workflow questions", () => {
 
 test("does not classify generic thanks as a workflow question", () => {
   assert.equal(isBRSWorkflowQuestion("thanks that worked"), false);
+});
+
+test("production chat route does not invoke live lookup", () => {
+  const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
+
+  assert.doesNotMatch(serverSource, /liveBrsLookup|formatLiveEvidence|shouldAttemptLiveBrsLookup/);
 });
 
 test("move booking wording uses protected approved workflow", async () => {
@@ -73,7 +80,7 @@ test("approved static workflows cover crawled BRS admin areas without live looku
   assert.match(emailReply, /Email Membership Types/i);
   assert.match(userReply, /Users/i);
   assert.match(userReply, /Add New/i);
-  assert.match(paymentReply, /Tools > BRS Payments > General Payment Requests/i);
+  assert.match(paymentReply, /"Tools" > "BRS Payments" > "General Payment Requests"/i);
   assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);
   assert.doesNotMatch(copyReply, /\bdelete\b/i);
 });
@@ -174,16 +181,20 @@ test("uploads and ambiguous grace periods do not fall through to model fallback"
   assert.match(uploadMembersReply, /CSV/i);
   assert.match(uploadContactsReply, /Upload Members and Contacts/i);
   assert.match(uploadContactsReply, /Contacts/i);
-  assert.match(graceReply, /Clarify the Grace Period Area/i);
-  assert.match(graceReply, /Member Booking Rules|Memberships/i);
+  assert.match(graceReply, /Change the Membership Grace Period/i);
+  assert.match(graceReply, /"Memberships"/i);
+  assert.match(graceReply, /"Settings"/i);
+  assert.match(graceReply, /"General"/i);
 });
 
 test("broad admin setup wording maps to deterministic workflow families", () => {
   const clubEmailReply = approvedStaticWorkflowReply("where do i change club email address");
 
   assert.match(clubEmailReply, /Change the Club Email Address/i);
-  assert.match(clubEmailReply, /Club Contact Details/i);
-  assert.match(clubEmailReply, /Main club email address \(mandatory\)/i);
+  assert.match(clubEmailReply, /"Club Contact Details"/i);
+  assert.match(clubEmailReply, /"Main club email address \(mandatory\)"/i);
+  assert.match(clubEmailReply, /"Email and Letter Templates"/i);
+  assert.doesNotMatch(clubEmailReply, /Check:/i);
   assert.doesNotMatch(clubEmailReply, /core club settings/i);
   assert.match(approvedStaticWorkflowReply("set tee times for next year"), /Configure the Timesheet/i);
   assert.match(approvedStaticWorkflowReply("paste a list of fourballs into brs"), /Upload a Timesheet/i);
@@ -233,9 +244,9 @@ test("static workflow answers use customer-facing wording and demo labels", () =
     approvedStaticWorkflowReply("change cancellation time limit"),
   ].join("\n\n");
 
-  assert.match(replies, /Main club email address \(mandatory\)/i);
-  assert.match(replies, /Tee Time Interval|Alternate Tee Time Intervals/i);
-  assert.match(replies, /Message on the Timesheet/i);
-  assert.match(replies, /Days Advance Booking/i);
+  assert.match(replies, /"Main club email address \(mandatory\)"/i);
+  assert.match(replies, /"Tee Time Interval"|"Alternate Tee Time Intervals"/i);
+  assert.match(replies, /"Message on the Timesheet"/i);
+  assert.match(replies, /"Days Advance Booking"/i);
   assert.doesNotMatch(replies, /support task|advising staff|another support agent|club wants|club needs|club is asking/i);
 });
