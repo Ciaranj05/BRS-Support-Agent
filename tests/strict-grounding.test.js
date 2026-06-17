@@ -131,3 +131,20 @@ test("approved static workflows cover common booking and payment lookup variants
   assert.match(vatReply, /BRS Payments VAT Report/i);
   assert.match(uploadReply, /Upload Members or Contacts/i);
 });
+
+test("hard-mode wording variants map to general workflow families", async () => {
+  const dashboardReply = approvedStaticWorkflowReply("wer do i see todays bookins");
+  const bookingReply = await answerFromKnowledge("how do i shift a player to another time");
+  const subsReply = approvedStaticWorkflowReply("who still owes subs money");
+  const smsReply = approvedStaticWorkflowReply("where do i top up sms");
+  const compReply = approvedStaticWorkflowReply("open comp entry fee setup");
+
+  assert.match(dashboardReply, /Dashboard/i);
+  assert.match(dashboardReply, /bookings/i);
+  assert.match(bookingReply, /Click Cut from inside the Booking Details page/i);
+  assert.doesNotMatch(bookingReply, /drag|right-click/i);
+  assert.match(subsReply, /Memberships/i);
+  assert.match(subsReply, /billing/i);
+  assert.match(smsReply, /Text Messaging Credit/i);
+  assert.match(compReply, /Competition Charges/i);
+});
