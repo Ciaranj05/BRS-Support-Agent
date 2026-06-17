@@ -5,17 +5,17 @@ import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import baseHandler from "./server.js";
-import { getSurveyMetrics, recordResolvedInteraction, recordSurveyScore } from "./feedbackStore.js";
+import { getSurveyMetrics } from "./feedbackStore.js";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "./lib/knowledgeAnswer.js";
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
-import { saveLearnedWorkflowFromResolution } from "./lib/workflowLearning.js";
 import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
 import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
-import { executeTimesheetPlan } from "./lib/timesheetExecutor.js";
-import { formatTimesheetConfirmation, planTimesheetRequest } from "./lib/timesheetPlanner.js";
-import { assertBotAccess, canRunBotAction, resolveAuthContext } from "./lib/security/authContext.js";
+import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
+import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
+import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
+import { runActionRequest, runTimesheetActionRequest } from "./services/timesheet/timesheetActionService.js";
 
 dotenv.config();
 
@@ -26,192 +26,8 @@ const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 app.use(cors());
 app.use(express.json());
 
-function getSessionId(req) {
-  return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
-}
-
-function wantsChatDebug(req) {
-  return req.body?.debug === true || req.query?.debug === "true" || process.env.BRS_CHAT_DEBUG === "true";
-}
-
-function withDebug(payload, debug, enabled) {
-  return enabled ? { ...payload, debug } : payload;
-}
-
-function formatTimesheetClarification(missing = []) {
-  const labels = {
-    year: "the year",
-    "start and end time": "the first and last tee time",
-    "days of week": "which days to configure",
-    "tee time interval": "the tee time interval",
-    "both alternative interval values": "both alternative interval values",
-    "timesheet configuration details": "the timesheet details",
-  };
-  const details = missing.map((item) => labels[item] || item);
-  return `I can configure that for you. Please send ${details.join(", ")}.`;
-}
-
-async function runTimesheetActionRequest(message, authContext) {
-  if (!canRunBotAction(authContext, "timesheet.configure")) {
-    return {
-      ok: false,
-      action: "timesheet.configure",
-      status: "forbidden",
-      error: "You do not have permission to configure the timesheet for this BRS club.",
-    };
-  }
-  const plan = await planTimesheetRequest(client, message);
-  if (plan.unsupported.length) {
-    const intervalIssue = plan.unsupported.find((item) => item.includes("4 to 20"));
-    return {
-      ok: true,
-      action: "timesheet.configure",
-      status: "unsupported",
-      reply: intervalIssue
-        ? "BRS supports tee time intervals from 4 to 20 minutes for this action. Please choose interval values in that range."
-        : `I cannot run that safely yet: ${plan.unsupported.join(", ")}.`,
-      plan,
-    };
-  }
-
-  if (plan.missing.length) {
-    return {
-      ok: true,
-      action: "timesheet.configure",
-      status: "needs_clarification",
-      reply: formatTimesheetClarification(plan.missing),
-      plan,
-    };
-  }
-
-  if (process.env.BRS_TIMESHEET_AUTOMATION_ENABLED !== "true") {
-    return {
-      ok: false,
-      action: "timesheet.configure",
-      status: "disabled",
-      error: "Timesheet automation is disabled. Set BRS_TIMESHEET_AUTOMATION_ENABLED=true in .env to use it locally.",
-    };
-  }
-
-  const results = await executeTimesheetPlan(plan);
-
-  return {
-    ok: true,
-    action: "timesheet.configure",
-    status: "completed",
-    reply: formatTimesheetConfirmation(plan.actions),
-    plan,
-    results,
-  };
-}
-
-async function runActionRequest(route, message, authContext) {
-  if (route?.type === "timesheet.configure") return runTimesheetActionRequest(message, authContext);
-  return null;
-}
-
-function shouldRewriteReply(reply) {
-  return process.env.BRS_ENABLE_REPLY_REWRITE === "true" && typeof reply === "string" && reply.trim().length > 0;
-}
-
-function getHistory(req) {
-  return Array.isArray(req.body?.conversationHistory) ? req.body.conversationHistory : [];
-}
-
-function isBareAffirmation(message = "") {
-  return /^(yes|yeah|yep|sure|ok|okay|please|go ahead|do it|guide me|yes please|yes guide me)$/i.test(String(message || "").trim());
-}
-
-function lastAssistantPrompt(history = []) {
-  return [...history].reverse().find((item) => item.role === "assistant" && /\?\s*$/.test(String(item.content || "").trim())) || null;
-}
-
-function expandAffirmationMessage(message, history = []) {
-  if (!isBareAffirmation(message)) return message;
-  const prompt = lastAssistantPrompt(history);
-  if (!prompt?.content) return message;
-  const priorUser = [...history].reverse().find((item) => item.role === "user" && item.content && !isBareAffirmation(item.content));
-  return [
-    priorUser?.content ? `Original question: ${priorUser.content}` : null,
-    `The user answered yes to this assistant prompt: ${prompt.content}`,
-    "Provide the detailed steps that were offered. Do not ask another broad clarification question.",
-  ].filter(Boolean).join("\n");
-}
-
 function isMemberBalanceLookup(message = "") {
   return isMemberBalanceReportQuestion(message);
-}
-
-async function rewriteReplyInOwnWords(reply, message) {
-  if (!shouldRewriteReply(reply)) return reply;
-
-  try {
-    const response = await client.responses.create({
-      model: "gpt-4.1-mini",
-      input: [
-        {
-          role: "system",
-          content: `Rewrite the support answer in your own words for a non-technical BRS Golf admin user.
-
-Rules:
-- Use a readable format with a short heading and one numbered list when the supplied answer is a workflow.
-- Do not mix bullet points inside numbered workflow steps.
-- Do not copy sentences or paragraphs from the supplied answer or knowledge source wording.
-- Digest the meaning, then explain it in low-level, easy language.
-- Keep exact product names, phone numbers, email addresses, URLs, button labels, menu paths, and legally/safety-sensitive values unchanged when changing them would make the answer inaccurate.
-- Do not add product facts, UI paths, buttons, policies, prices, workflow steps, field names, filters, exports, or promises that are not present in the supplied answer.
-- Preserve any source link at the end.
-- Do not end with optional follow-up prompts like "Would you like me to..." when the source answer already contains useful next steps. Include those next steps directly instead.
-- Ask a follow-up question only when the answer cannot be safely given without one.`,
-        },
-        {
-          role: "user",
-          content: `User message:\n${message || "Unknown"}\n\nAnswer to rewrite:\n${reply}`,
-        },
-      ],
-    });
-
-    const rewritten = response.output_text?.trim() || reply;
-    return rewriteAddsUnsupportedDetails(reply, rewritten) ? reply : rewritten;
-  } catch (error) {
-    console.error("Reply rewrite failed, sending original supported answer:", error);
-    return reply;
-  }
-}
-
-function buildResponseHistory(req, message, payload) {
-  const baseHistory = getHistory(req);
-  const hasLatestUser = [...baseHistory].reverse().some((item) => item.role === "user" && item.content === message);
-  const history = hasLatestUser ? [...baseHistory] : [...baseHistory, { role: "user", content: message }];
-  if (!payload?.reply) return history;
-  return [
-    ...history,
-    {
-      role: "assistant",
-      content: payload.reply,
-      liveLookup: payload.liveLookup || null,
-      version: payload.version || null,
-      topic: payload.topic || null,
-      options: payload.options || [],
-      clarificationId: payload.clarificationId || null,
-    },
-  ];
-}
-
-async function prepareChatPayload(payload, message, debug, debugEnabled, req = null) {
-  const nextPayload = payload && typeof payload === "object" && !Array.isArray(payload) ? { ...payload } : payload;
-  if (nextPayload && nextPayload.version !== "strict-evidence-gap-v1" && shouldRewriteReply(nextPayload.reply)) {
-    nextPayload.reply = await rewriteReplyInOwnWords(nextPayload.reply, message);
-  }
-  if (nextPayload && req) {
-    nextPayload.conversationHistory = buildResponseHistory(req, message, nextPayload);
-  }
-  return withDebug(nextPayload, debug, debugEnabled);
-}
-
-function wrapJsonForChat(res, message, debug, debugEnabled, req = null) {
-  const originalJson = res.json.bind(res);
-  res.json = async (payload) => originalJson(await prepareChatPayload(payload, message, debug, debugEnabled, req));
 }
 
 async function completeInitialAnswer(message, answer) {
@@ -289,7 +105,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
         options: [],
         version: "strict-evidence-gap-v1",
       };
-      res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
+      res.json(await prepareChatPayload({ client, payload, message: originalMessage, debug, debugEnabled, req }));
       return true;
     }
     return false;
@@ -315,7 +131,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
         options: [],
         version: "strict-evidence-gap-v1",
       };
-      res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
+      res.json(await prepareChatPayload({ client, payload, message: originalMessage, debug, debugEnabled, req }));
       return true;
     }
   }
@@ -335,7 +151,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",
     liveLookup: liveLookup?.successful ? liveLookup : null,
   };
-  res.json(await prepareChatPayload(payload, originalMessage, debug, debugEnabled, req));
+  res.json(await prepareChatPayload({ client, payload, message: originalMessage, debug, debugEnabled, req }));
   return true;
 }
 
@@ -343,7 +159,7 @@ async function enhancedChatHandler(req, res, next) {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
   const originalMessage = String(req.body?.message || "").trim();
-  const history = getHistory(req);
+  const history = getConversationHistory(req);
   const message = expandAffirmationMessage(originalMessage, history);
 
   try {
@@ -354,7 +170,7 @@ async function enhancedChatHandler(req, res, next) {
     const actionRoute = routeActionRequest(message);
     debug.stages.push({ name: "action-router", matched: Boolean(actionRoute), route: actionRoute?.type || null });
     if (actionRoute) {
-      const actionPayload = await runActionRequest(actionRoute, message, authContext);
+      const actionPayload = await runActionRequest({ client, route: actionRoute, message, authContext });
       if (actionPayload) return res.json(withDebug(actionPayload, debug, debugEnabled));
     }
 
@@ -366,18 +182,18 @@ async function enhancedChatHandler(req, res, next) {
 
     const objectFirstReply = answerFromObjectFirstRouting(message);
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
-    if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload(objectFirstReply, originalMessage, debug, debugEnabled, req));
+    if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
     const handled = await respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled });
     if (handled) return;
 
-    if (objectFirstReply) return res.json(await prepareChatPayload(objectFirstReply, originalMessage, debug, debugEnabled, req));
+    if (objectFirstReply) return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
     debug.stages.push({ name: "legacy-server", matched: true });
     if (debugEnabled) {
       req.body = { ...req.body, message, chatDebug: debug };
     }
-    wrapJsonForChat(res, originalMessage, debug, debugEnabled, req);
+    wrapJsonForChat({ client, res, message: originalMessage, debug, debugEnabled, req });
     return baseHandler(req, res, next);
   } catch (error) {
     if (error?.name === "AuthContextError") {
@@ -390,7 +206,7 @@ async function enhancedChatHandler(req, res, next) {
     if (debugEnabled) {
       req.body = { ...req.body, message, chatDebug: debug };
     }
-    wrapJsonForChat(res, originalMessage, debug, debugEnabled, req);
+    wrapJsonForChat({ client, res, message: originalMessage, debug, debugEnabled, req });
     return baseHandler(req, res, next);
   }
 }
@@ -400,27 +216,8 @@ app.post("/chat", enhancedChatHandler);
 
 app.post("/api/resolved-interactions", async (req, res) => {
   try {
-    const conversationHistory = req.body?.conversationHistory || [];
-    const resolvedInteraction = await recordResolvedInteraction({
-      sessionId: getSessionId(req),
-      conversationId: req.body?.conversationId,
-      resolvedBy: req.body?.resolvedBy || "user",
-      topic: req.body?.topic || null,
-      resolved: req.body?.resolved ?? true,
-      escalated: req.body?.escalated ?? false,
-      comment: req.body?.comment || "",
-      conversationHistory,
-    });
-    const learnedWorkflow = await saveLearnedWorkflowFromResolution({
-      conversationHistory,
-      topic: req.body?.topic || null,
-      resolved: req.body?.resolved ?? true,
-      score: 100,
-    }).catch((error) => {
-      console.error("Workflow learning from resolved interaction failed:", error);
-      return null;
-    });
-    res.status(201).json({ ok: true, resolvedInteraction, learnedWorkflow: learnedWorkflow ? { storage: learnedWorkflow.storage, filePath: learnedWorkflow.filePath, sourceId: learnedWorkflow.entry?.sourceId } : null });
+    const result = await recordResolvedInteractionWithLearning({ sessionId: getSessionId(req), payload: req.body });
+    res.status(201).json({ ok: true, ...result });
   } catch (error) {
     console.error("Resolved interaction tracking failed:", error);
     res.status(error.status || 500).json({ ok: false, error: error.message || "Unable to record resolved interaction." });
@@ -429,27 +226,8 @@ app.post("/api/resolved-interactions", async (req, res) => {
 
 app.post("/api/feedback", async (req, res) => {
   try {
-    const conversationHistory = req.body?.conversationHistory || [];
-    const result = await recordSurveyScore({
-      resolvedInteractionId: req.body?.resolvedInteractionId,
-      sessionId: getSessionId(req),
-      conversationId: req.body?.conversationId,
-      score: req.body?.score,
-      type: req.body?.type || "resolution-score",
-      comment: req.body?.comment || "",
-      topic: req.body?.topic || null,
-      conversationHistory,
-    });
-    const learnedWorkflow = await saveLearnedWorkflowFromResolution({
-      conversationHistory,
-      topic: req.body?.topic || null,
-      resolved: Number(req.body?.score) >= 70,
-      score: req.body?.score,
-    }).catch((error) => {
-      console.error("Workflow learning from survey feedback failed:", error);
-      return null;
-    });
-    res.status(201).json({ ok: true, ...result, learnedWorkflow: learnedWorkflow ? { storage: learnedWorkflow.storage, filePath: learnedWorkflow.filePath, sourceId: learnedWorkflow.entry?.sourceId } : null });
+    const result = await recordSurveyScoreWithLearning({ sessionId: getSessionId(req), payload: req.body });
+    res.status(201).json({ ok: true, ...result });
   } catch (error) {
     console.error("Survey feedback tracking failed:", error);
     res.status(error.status || 500).json({ ok: false, error: error.message || "Unable to record survey feedback." });
@@ -463,7 +241,7 @@ app.post("/api/actions/timesheet-request", async (req, res) => {
 
     const authContext = resolveAuthContext(req);
     assertBotAccess(authContext);
-    const payload = await runTimesheetActionRequest(message, authContext);
+    const payload = await runTimesheetActionRequest({ client, message, authContext });
     res.status(payload.ok === false ? 403 : 200).json(payload);
   } catch (error) {
     console.error("Timesheet request failed:", error);

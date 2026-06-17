@@ -50,6 +50,7 @@ npm run build:knowledge
 npm test
 ```
 - Code map and future update guide: `docs/code-map-and-update-guide.md`
+- Repo-specific coding standards: `docs/coding-standards.md`
 
 ## Workflow-family knowledge
 
