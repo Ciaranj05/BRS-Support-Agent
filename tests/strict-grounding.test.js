@@ -205,3 +205,15 @@ test("broad competitions users club systems and ambiguous booking rules are cove
   assert.match(approvedStaticWorkflowReply("change staff group permissions"), /User Privileges/i);
   assert.match(approvedStaticWorkflowReply("change cancellation time limit"), /Member Booking Rules/i);
 });
+
+test("broad live-failure regressions keep specific routes ahead of generic ones", () => {
+  const timeIntervalsReply = approvedStaticWorkflowReply("change time intervals on tee sheet");
+  const sheetMessageReply = approvedStaticWorkflowReply("change the message at top of the tee sheet");
+  const vatReply = approvedStaticWorkflowReply("export vat reports");
+
+  assert.equal(routeActionRequest("change time intervals on tee sheet"), null);
+  assert.match(timeIntervalsReply, /Configure the Timesheet/i);
+  assert.match(sheetMessageReply, /Messages on the Timesheet/i);
+  assert.doesNotMatch(sheetMessageReply, /Email the Timesheet/i);
+  assert.match(vatReply, /BRS Payments VAT Report/i);
+});

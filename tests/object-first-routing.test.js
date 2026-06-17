@@ -84,6 +84,7 @@ test("routes competition payment variants by competition audience", () => {
   assert.equal(members.topic, "teesheet");
   assert.equal(members.routeStrength, "guardrail");
   assert.match(members.reply, /competition purse/);
+  assert.match(members.reply, /charges/i);
 
   const visitors = answerFromObjectFirstRouting("how do visitors pay for an open competition");
   assert.equal(visitors.topic, "teesheet");
