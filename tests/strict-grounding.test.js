@@ -179,7 +179,12 @@ test("uploads and ambiguous grace periods do not fall through to model fallback"
 });
 
 test("broad admin setup wording maps to deterministic workflow families", () => {
-  assert.match(approvedStaticWorkflowReply("where do i change club email address"), /System Configuration/i);
+  const clubEmailReply = approvedStaticWorkflowReply("where do i change club email address");
+
+  assert.match(clubEmailReply, /Change the Club Email Address/i);
+  assert.match(clubEmailReply, /club address and email settings/i);
+  assert.match(clubEmailReply, /club email address field/i);
+  assert.doesNotMatch(clubEmailReply, /core club settings/i);
   assert.match(approvedStaticWorkflowReply("set tee times for next year"), /Configure the Timesheet/i);
   assert.match(approvedStaticWorkflowReply("paste a list of fourballs into brs"), /Upload a Timesheet/i);
   assert.match(approvedStaticWorkflowReply("set day ticket price for 2 rounds"), /Day Ticket Rates/i);
