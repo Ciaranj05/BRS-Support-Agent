@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
+import { routeActionRequest } from "../lib/actionRouter.js";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "../lib/bookingWorkflowAnswers.js";
 import { isMemberBalanceReportQuestion } from "../lib/membershipWorkflowAnswers.js";
 import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
@@ -147,4 +148,18 @@ test("hard-mode wording variants map to general workflow families", async () => 
   assert.match(subsReply, /billing/i);
   assert.match(smsReply, /Text Messaging Credit/i);
   assert.match(compReply, /Competition Charges/i);
+});
+
+test("hard-mode precedence keeps specific workflows ahead of generic routes", () => {
+  const roomReply = approvedStaticWorkflowReply("find a room booking i made");
+  const contactTypeReply = approvedStaticWorkflowReply("how do i make a new contact type");
+  const openCompReply = approvedStaticWorkflowReply("visitor price for open comp");
+
+  assert.match(roomReply, /Facilities/i);
+  assert.match(roomReply, /reservation/i);
+  assert.match(contactTypeReply, /Contact Categories/i);
+  assert.match(contactTypeReply, /Tools/i);
+  assert.match(openCompReply, /competition/i);
+  assert.match(openCompReply, /charges/i);
+  assert.equal(routeActionRequest("add warning note on tee sheet"), null);
 });
