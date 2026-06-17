@@ -91,7 +91,7 @@ test("approved static workflow matcher is general rather than example-specific",
   assert.match(smsReply, /Text Selected Members/i);
   assert.match(reportReply, /Reports/i);
   assert.match(paymentsReply, /BRS Payments/i);
-  assert.match(toolsReply, /Member Booking Rules/i);
+  assert.match(toolsReply, /Member Casual Booking Rules/i);
 });
 
 test("approved static workflows avoid misleading safety and routing wording", () => {
@@ -182,8 +182,8 @@ test("broad admin setup wording maps to deterministic workflow families", () => 
   const clubEmailReply = approvedStaticWorkflowReply("where do i change club email address");
 
   assert.match(clubEmailReply, /Change the Club Email Address/i);
-  assert.match(clubEmailReply, /club address and email settings/i);
-  assert.match(clubEmailReply, /club email address field/i);
+  assert.match(clubEmailReply, /Club Contact Details/i);
+  assert.match(clubEmailReply, /Main club email address \(mandatory\)/i);
   assert.doesNotMatch(clubEmailReply, /core club settings/i);
   assert.match(approvedStaticWorkflowReply("set tee times for next year"), /Configure the Timesheet/i);
   assert.match(approvedStaticWorkflowReply("paste a list of fourballs into brs"), /Upload a Timesheet/i);
@@ -208,7 +208,7 @@ test("broad competitions users club systems and ambiguous booking rules are cove
   assert.match(approvedStaticWorkflowReply("preview club systems members before sync"), /Club Systems Member Preview/i);
   assert.match(approvedStaticWorkflowReply("make a read only staff account"), /Add a User/i);
   assert.match(approvedStaticWorkflowReply("change staff group permissions"), /User Privileges/i);
-  assert.match(approvedStaticWorkflowReply("change cancellation time limit"), /Member Booking Rules/i);
+  assert.match(approvedStaticWorkflowReply("change cancellation time limit"), /Member Casual Booking Rules/i);
 });
 
 test("broad live-failure regressions keep specific routes ahead of generic ones", () => {
@@ -222,4 +222,20 @@ test("broad live-failure regressions keep specific routes ahead of generic ones"
   assert.match(sheetMessageReply, /Messages on the Timesheet/i);
   assert.doesNotMatch(sheetMessageReply, /Email the Timesheet/i);
   assert.match(vatReply, /BRS Payments VAT Report/i);
+});
+
+test("static workflow answers use customer-facing wording and demo labels", () => {
+  const replies = [
+    approvedStaticWorkflowReply("where do i change club email address"),
+    approvedStaticWorkflowReply("turn a feature on or off for the club"),
+    approvedStaticWorkflowReply("change time intervals on tee sheet"),
+    approvedStaticWorkflowReply("change the message at top of the tee sheet"),
+    approvedStaticWorkflowReply("change cancellation time limit"),
+  ].join("\n\n");
+
+  assert.match(replies, /Main club email address \(mandatory\)/i);
+  assert.match(replies, /Tee Time Interval|Alternate Tee Time Intervals/i);
+  assert.match(replies, /Message on the Timesheet/i);
+  assert.match(replies, /Days Advance Booking/i);
+  assert.doesNotMatch(replies, /support task|advising staff|another support agent|club wants|club needs|club is asking/i);
 });
