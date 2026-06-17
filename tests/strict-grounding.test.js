@@ -177,3 +177,31 @@ test("uploads and ambiguous grace periods do not fall through to model fallback"
   assert.match(graceReply, /Clarify the Grace Period Area/i);
   assert.match(graceReply, /Member Booking Rules|Memberships/i);
 });
+
+test("broad admin setup wording maps to deterministic workflow families", () => {
+  assert.match(approvedStaticWorkflowReply("where do i change club email address"), /System Configuration/i);
+  assert.match(approvedStaticWorkflowReply("set tee times for next year"), /Configure the Timesheet/i);
+  assert.match(approvedStaticWorkflowReply("paste a list of fourballs into brs"), /Upload a Timesheet/i);
+  assert.match(approvedStaticWorkflowReply("set day ticket price for 2 rounds"), /Day Ticket Rates/i);
+  assert.match(approvedStaticWorkflowReply("setup confirmation email template"), /Email and Letter Templates/i);
+  assert.match(approvedStaticWorkflowReply("edit privacy policy text"), /Legal Messages/i);
+});
+
+test("broad messaging, reports, and tool wording avoids live fallback", () => {
+  assert.match(approvedStaticWorkflowReply("sms a membership group"), /Text Members in a Membership Type or Group/i);
+  assert.match(approvedStaticWorkflowReply("set up member groups for messaging"), /Member Groups for Messaging/i);
+  assert.match(approvedStaticWorkflowReply("send club message to a course"), /Club Message to a Course/i);
+  assert.match(approvedStaticWorkflowReply("report for no shows"), /No Show Report/i);
+  assert.match(approvedStaticWorkflowReply("wallet transaction report"), /Wallet Transaction Report/i);
+  assert.match(approvedStaticWorkflowReply("payment faq in brs payments"), /BRS Payments FAQs/i);
+});
+
+test("broad competitions users club systems and ambiguous booking rules are covered generally", () => {
+  assert.match(approvedStaticWorkflowReply("setup members competition online"), /Members Competition/i);
+  assert.match(approvedStaticWorkflowReply("competition entry sheet draw where is it"), /Competition Entry Sheet or Draw/i);
+  assert.match(approvedStaticWorkflowReply("map club systems members to brs members"), /Club Systems Member Maps/i);
+  assert.match(approvedStaticWorkflowReply("preview club systems members before sync"), /Club Systems Member Preview/i);
+  assert.match(approvedStaticWorkflowReply("make a read only staff account"), /Add a User/i);
+  assert.match(approvedStaticWorkflowReply("change staff group permissions"), /User Privileges/i);
+  assert.match(approvedStaticWorkflowReply("change cancellation time limit"), /Member Booking Rules/i);
+});
