@@ -20,6 +20,15 @@ function shouldRewriteReply(reply) {
   return process.env.BRS_ENABLE_REPLY_REWRITE === "true" && typeof reply === "string" && reply.trim().length > 0;
 }
 
+function shouldSkipReplyRewrite(payload = {}) {
+  return [
+    "audience-aware-clarification-routing-v3",
+    "knowledge-retrieval-v1",
+    "object-first-routing-v1",
+    "live-brs-knowledge-v1",
+  ].includes(payload?.version);
+}
+
 function isBareAffirmation(message = "") {
   return /^(yes|yeah|yep|sure|ok|okay|please|go ahead|do it|guide me|yes please|yes guide me)$/i.test(String(message || "").trim());
 }
@@ -98,7 +107,7 @@ function buildResponseHistory(req, message, payload) {
 
 export async function prepareChatPayload({ client, payload, message, debug, debugEnabled, req = null }) {
   const nextPayload = payload && typeof payload === "object" && !Array.isArray(payload) ? { ...payload } : payload;
-  if (nextPayload && nextPayload.version !== "strict-evidence-gap-v1" && shouldRewriteReply(nextPayload.reply)) {
+  if (nextPayload && nextPayload.version !== "strict-evidence-gap-v1" && !shouldSkipReplyRewrite(nextPayload) && shouldRewriteReply(nextPayload.reply)) {
     nextPayload.reply = await rewriteReplyInOwnWords(client, nextPayload.reply, message);
   }
   if (nextPayload && req) {
