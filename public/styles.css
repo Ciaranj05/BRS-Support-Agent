@@ -445,19 +445,57 @@ body {
 .typing {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: #475569;
-  font-weight: 850;
-  min-width: 122px;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 54px;
+  gap: 0;
+}
+
+.typing span:not(.work-icon) {
+  display: none;
 }
 
 .work-icon {
-  width: 18px;
-  height: 18px;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 0;
+  color: #2563eb;
+  filter: drop-shadow(0 8px 18px rgba(37, 99, 235, .24));
+  animation: ai-sparkle-pulse 1.6s ease-in-out infinite;
+}
+
+.work-icon::before {
+  content: "\2726";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.work-icon::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
   border-radius: 999px;
-  border: 3px solid #dbeafe;
-  border-top-color: #2563eb;
-  animation: spin .8s linear infinite;
+  background: radial-gradient(circle, rgba(37, 99, 235, .18), transparent 62%);
+  opacity: .72;
+  transform: scale(.78);
+  animation: ai-sparkle-glow 1.6s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes ai-sparkle-pulse {
+  0%, 100% { opacity: .72; transform: scale(.92) rotate(-4deg); }
+  50% { opacity: 1; transform: scale(1.08) rotate(4deg); }
+}
+
+@keyframes ai-sparkle-glow {
+  0%, 100% { opacity: .34; transform: scale(.76); }
+  50% { opacity: .86; transform: scale(1); }
 }
 
 @keyframes spin {
