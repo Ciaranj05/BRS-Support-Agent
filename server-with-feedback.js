@@ -38,11 +38,19 @@ function hasAny(lower, terms) {
   return terms.some((term) => lower.includes(term));
 }
 
-function shouldPreferStatefulClarification(message = "") {
+function historyHasRefundPrompt(history = []) {
+  return [...history].reverse().slice(0, 4).some((item) => (
+    item?.role === "assistant"
+    && /is this a full refund or partial refund|was the payment taken through brs payments/i.test(String(item.content || ""))
+  ));
+}
+
+function shouldPreferStatefulClarification(message = "", history = []) {
   const lower = normaliseMessage(message);
   if (!lower) return false;
   if (/^clarification answer:/i.test(message)) return true;
   const wordCount = lower.split(/\s+/).filter(Boolean).length;
+  const refundClarificationAnswer = historyHasRefundPrompt(history) && hasAny(lower, ["full refund", "partial refund", "yes, brs payments", "brs payments", "no, other payment method", "other payment method"]);
   const broadRefund = lower.includes("refund") && !hasAny(lower, ["booking", "tee time", "member bill", "membership bill", "invoice", "general payment request", "payment link"]);
   const broadCreate = hasAny(lower, ["create an account", "add an account", "new account"]) && !hasAny(lower, ["admin", "staff", "member"]);
   const broadBookingAccess = hasAny(lower, ["cannot book", "can't book", "cant book", "won't let", "wont let", "not visible online"]);
@@ -50,7 +58,7 @@ function shouldPreferStatefulClarification(message = "") {
   const broadUserAccess = hasAny(lower, ["deactivate user", "deactivate a user", "disable user", "read-only", "read only"]) && wordCount <= 12;
   const broadAdminReport = hasAny(lower, ["facility summary report", "room summary report", "member email addresses", "playing statistics"]);
   const broadCompetition = lower.includes("competition") && hasAny(lower, ["change or cancel", "cannot book", "can't book", "cant book", "people cannot book", "not book"]);
-  return broadRefund || broadCreate || broadBookingAccess || riskyBulkDelete || broadUserAccess || broadAdminReport || broadCompetition;
+  return refundClarificationAnswer || broadRefund || broadCreate || broadBookingAccess || riskyBulkDelete || broadUserAccess || broadAdminReport || broadCompetition;
 }
 
 async function completeInitialAnswer(message, answer) {
@@ -210,7 +218,7 @@ async function enhancedChatHandler(req, res, next) {
     if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
     if (objectFirstReply?.routeStrength === "specific") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
-    const preferStatefulClarification = shouldPreferStatefulClarification(message);
+    const preferStatefulClarification = shouldPreferStatefulClarification(message, history);
     debug.stages.push({ name: "stateful-clarification-precheck", matched: preferStatefulClarification });
     const handled = await respondFromKnowledge({
       req,

@@ -30,6 +30,8 @@ test("production chat route can skip dynamic knowledge before stateful clarifica
   const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
 
   assert.match(serverSource, /shouldPreferStatefulClarification/);
+  assert.match(serverSource, /historyHasRefundPrompt/);
+  assert.match(serverSource, /refundClarificationAnswer/);
   assert.match(serverSource, /allowDynamicKnowledge: !preferStatefulClarification/);
   assert.match(serverSource, /queueKnowledgeGaps: !preferStatefulClarification/);
 });
@@ -39,8 +41,8 @@ test("production chat route returns specific object-first answers before model f
 
   assert.match(serverSource, /objectFirstReply\?\.routeStrength === "specific"/);
   assert.ok(
-    serverSource.search(/objectFirstReply\?\.routeStrength === "specific"/) <
-    serverSource.search(/const preferStatefulClarification = shouldPreferStatefulClarification\(message\)/)
+    serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(message\)/) <
+    serverSource.search(/const preferStatefulClarification = shouldPreferStatefulClarification\(message, history\)/)
   );
 });
 
