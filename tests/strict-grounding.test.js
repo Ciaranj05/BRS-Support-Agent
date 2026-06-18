@@ -8,6 +8,7 @@ import { BRS_SCREEN_LOCATION_RECORD } from "../lib/brsScreenLocations.js";
 import { isMemberBalanceReportQuestion } from "../lib/membershipWorkflowAnswers.js";
 import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
 import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/relatedGuides.js";
+import { approvedRefundReply, approvedOfflineRefundReply } from "../server.js";
 
 test("classifies operational BRS questions as workflow questions", () => {
   assert.equal(isBRSWorkflowQuestion("how do I add a buggy to a booking"), true);
@@ -25,13 +26,21 @@ test("production chat route does not invoke live lookup", () => {
   assert.doesNotMatch(serverSource, /liveBrsLookup|formatLiveEvidence|shouldAttemptLiveBrsLookup/);
 });
 
+test("production chat route can skip dynamic knowledge before stateful clarification", () => {
+  const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
+
+  assert.match(serverSource, /shouldPreferStatefulClarification/);
+  assert.match(serverSource, /allowDynamicKnowledge: !preferStatefulClarification/);
+  assert.match(serverSource, /queueKnowledgeGaps: !preferStatefulClarification/);
+});
+
 test("production chat route returns specific object-first answers before model fallback", () => {
   const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
 
   assert.match(serverSource, /objectFirstReply\?\.routeStrength === "specific"/);
   assert.ok(
     serverSource.search(/objectFirstReply\?\.routeStrength === "specific"/) <
-    serverSource.search(/const handled = await respondFromKnowledge\(\{ req, res, message, originalMessage, debug, debugEnabled \}/)
+    serverSource.search(/const preferStatefulClarification = shouldPreferStatefulClarification\(message\)/)
   );
 });
 
@@ -144,11 +153,31 @@ test("approved static workflows cover common booking and payment lookup variants
   const detailsReply = approvedStaticWorkflowReply("How do I open booking details from the tee sheet?");
   const vatReply = approvedStaticWorkflowReply("Where do I download a VAT report for payments?");
   const uploadReply = approvedStaticWorkflowReply("Where do I upload members or contacts?");
+  const refundRecordsReply = approvedStaticWorkflowReply("Where can I see refund records after a refund has been made?");
 
   assert.match(bookingReply, /Single Tee Time Booking/i);
   assert.match(detailsReply, /Booking Details/i);
   assert.match(vatReply, /BRS Payments VAT Report/i);
   assert.match(uploadReply, /Upload Members or Contacts/i);
+  assert.match(refundRecordsReply, /BRS Payments Refunds/i);
+});
+
+test("approved static workflows cover slow clarification regressions deterministically", () => {
+  const emailMembersReply = approvedStaticWorkflowReply("How do I send an email message to members?");
+  const membershipTypesReply = approvedStaticWorkflowReply("How do I set up membership types like senior and junior?");
+  const playingStatsReply = approvedStaticWorkflowReply("How do I run playing statistics for members?");
+  const memberEmailsReply = approvedStaticWorkflowReply("How do I get member email addresses for Outlook?");
+  const competitionBookingReply = approvedStaticWorkflowReply("People cannot book into a competition online. What should I check?");
+  const competitionEntryReply = approvedStaticWorkflowReply("How do I change or cancel a competition entry?");
+  const typoTimesheetReply = approvedStaticWorkflowReply("How do I conifgure the tee shet intervals?");
+
+  assert.match(emailMembersReply, /Email Members/i);
+  assert.match(membershipTypesReply, /Membership Types/i);
+  assert.match(playingStatsReply, /Playing Statistics Report/i);
+  assert.match(memberEmailsReply, /Member Email Addresses/i);
+  assert.match(competitionBookingReply, /Competition Online Booking/i);
+  assert.match(competitionEntryReply, /Competition Entry/i);
+  assert.match(typoTimesheetReply, /Configure the Timesheet/i);
 });
 
 test("hard-mode wording variants map to general workflow families", async () => {
@@ -253,13 +282,17 @@ test("static workflow answers use customer-facing wording and demo labels", () =
     approvedStaticWorkflowReply("change time intervals on tee sheet"),
     approvedStaticWorkflowReply("change the message at top of the tee sheet"),
     approvedStaticWorkflowReply("change cancellation time limit"),
+    approvedStaticWorkflowReply("How do I send an email message to members?"),
+    approvedStaticWorkflowReply("How do I set up membership types like senior and junior?"),
+    approvedRefundReply("full"),
+    approvedOfflineRefundReply(),
   ].join("\n\n");
 
   assert.match(replies, /"Main club email address \(mandatory\)"/i);
   assert.match(replies, /"Tee Time Interval"|"Alternate Tee Time Intervals"/i);
   assert.match(replies, /"Message on the Timesheet"/i);
   assert.match(replies, /"Days Advance Booking"/i);
-  assert.doesNotMatch(replies, /support task|advising staff|another support agent|club wants|club needs|club is asking/i);
+  assert.doesNotMatch(replies, /support task|advising staff|another support agent|club wants|club needs|club is asking|BRS customers using/i);
 });
 
 test("static workflow answers include proven screen locations for controls generally", () => {

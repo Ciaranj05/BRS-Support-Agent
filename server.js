@@ -709,11 +709,9 @@ function isPartialRefundAnswer(text) { const lower = normalise(text); return low
 function isBrsPaymentAnswer(text) { const lower = normalise(text); return lower.includes("brs payments") || lower.includes("through brs") || lower.includes("yes"); }
 function isNonBrsPaymentAnswer(text) { const lower = normalise(text); return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no"; }
 
-function approvedRefundReply(type = "refund") {
+export function approvedRefundReply(type = "refund") {
   const partialLine = type === "partial" ? "For the partial refund, type the amount to be refunded into the Amount field before clicking Refund." : "The system will automatically add the full refundable amount for you to refund.";
-  return `BRS customers using the BRS Payments processor can refund online payments from the Booking Details screen. If the club does not use BRS Payments, use the non-BRS Payments refund process instead.
-
-Go to:
+  return `Go to:
 Tee Sheet >> Tee Time >> Booking Details >> Payments tab
 
 Then:
@@ -728,11 +726,11 @@ Then:
 Please allow 5-10 days for refunds to return to the customer account.
 
 To retrieve a record of refunds, go to:
-Tools >> Payments >> Refunds`;
+Tools >> BRS Payments >> Refunds`;
 }
 
-function approvedOfflineRefundReply() {
-  return `If the payment was not taken through BRS Payments, the money needs to be returned outside BRS using the club's offline process, for example cash, PDQ, or cheque.
+export function approvedOfflineRefundReply() {
+  return `Because the payment was not taken through BRS Payments, return the money outside BRS using your club's offline process, for example cash, PDQ, or cheque.
 
 Important:
 1. Confirm the correct booking and customer first.

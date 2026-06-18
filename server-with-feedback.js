@@ -30,6 +30,29 @@ function isMemberBalanceLookup(message = "") {
   return isMemberBalanceReportQuestion(message);
 }
 
+function normaliseMessage(message = "") {
+  return String(message || "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function hasAny(lower, terms) {
+  return terms.some((term) => lower.includes(term));
+}
+
+function shouldPreferStatefulClarification(message = "") {
+  const lower = normaliseMessage(message);
+  if (!lower) return false;
+  if (/^clarification answer:/i.test(message)) return true;
+  const wordCount = lower.split(/\s+/).filter(Boolean).length;
+  const broadRefund = lower.includes("refund") && !hasAny(lower, ["booking", "tee time", "member bill", "membership bill", "invoice", "general payment request", "payment link"]);
+  const broadCreate = hasAny(lower, ["create an account", "add an account", "new account"]) && !hasAny(lower, ["admin", "staff", "member"]);
+  const broadBookingAccess = hasAny(lower, ["cannot book", "can't book", "cant book", "won't let", "wont let", "not visible online"]);
+  const riskyBulkDelete = /\bdelete\b/.test(lower) && hasAny(lower, ["all bookings", "all tee times", "next month"]);
+  const broadUserAccess = hasAny(lower, ["deactivate user", "deactivate a user", "disable user", "read-only", "read only"]) && wordCount <= 12;
+  const broadAdminReport = hasAny(lower, ["facility summary report", "room summary report", "member email addresses", "playing statistics"]);
+  const broadCompetition = lower.includes("competition") && hasAny(lower, ["change or cancel", "cannot book", "can't book", "cant book", "people cannot book", "not book"]);
+  return broadRefund || broadCreate || broadBookingAccess || riskyBulkDelete || broadUserAccess || broadAdminReport || broadCompetition;
+}
+
 async function completeInitialAnswer(message, answer) {
   if (!answer || /\b(can you please give me more information|please tell me which part|what (area|part) of brs|which part of brs)\b/i.test(answer)) return answer;
   try {
@@ -64,8 +87,8 @@ Rules:
   }
 }
 
-async function respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel = "knowledge" }) {
-  const reply = await answerFromKnowledge(message);
+async function respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel = "knowledge", allowDynamicKnowledge = true, queueKnowledgeGaps = true }) {
+  const reply = await answerFromKnowledge(message, { allowDynamic: allowDynamicKnowledge });
   debug.stages.push({ name: routeLabel, matched: Boolean(reply), directIntent: isMemberBalanceLookup(message) });
 
   const liveLookup = null;
@@ -85,6 +108,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   }
 
   if (!(liveReply || reply)) {
+    if (!queueKnowledgeGaps) return false;
     if (isWorkflowQuestion) {
       const queued = await enqueueWorkflowExploration({
         question: message,
@@ -186,7 +210,18 @@ async function enhancedChatHandler(req, res, next) {
     if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
     if (objectFirstReply?.routeStrength === "specific") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
-    const handled = await respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled });
+    const preferStatefulClarification = shouldPreferStatefulClarification(message);
+    debug.stages.push({ name: "stateful-clarification-precheck", matched: preferStatefulClarification });
+    const handled = await respondFromKnowledge({
+      req,
+      res,
+      message,
+      originalMessage,
+      debug,
+      debugEnabled,
+      allowDynamicKnowledge: !preferStatefulClarification,
+      queueKnowledgeGaps: !preferStatefulClarification,
+    });
     if (handled) return;
 
     if (objectFirstReply) return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
