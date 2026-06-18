@@ -48,6 +48,7 @@ Rules:
   4. An "Export/download" line only when export/download is already present in the draft answer.
 - Do not mix bullet points inside numbered workflow steps.
 - Remove optional follow-up prompts such as "Would you like me to..." and include the safe next steps directly.
+- When the draft already names a BRS page, section, button, setting, label, dropdown, filter, export, print, or save control, keep that label and add the draft-supported screen location in the same step where possible, such as the main navigation menu, the Tools page section, the Timesheet grid/action toolbar, Booking Details, or the Reports Type of Report dropdown.
 - Do not add filters/checks such as statuses, dates, billing cycles, table rows, balances, fields, buttons, paths, reports, or exports unless they are already present in the draft answer.
 - Do not invent exact report names, buttons, paths, prices, policies, member data, or club-specific settings.
 - Ask a follow-up only if the answer cannot be given without missing critical information.`,

@@ -4,6 +4,7 @@ import test from "node:test";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
 import { routeActionRequest } from "../lib/actionRouter.js";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "../lib/bookingWorkflowAnswers.js";
+import { BRS_SCREEN_LOCATION_RECORD } from "../lib/brsScreenLocations.js";
 import { isMemberBalanceReportQuestion } from "../lib/membershipWorkflowAnswers.js";
 import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
 import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/relatedGuides.js";
@@ -64,10 +65,10 @@ test("member balance lookup uses protected membership workflow and does not leak
   const regularReply = await answerFromKnowledge("how do I see what members owe me money");
 
   assert.equal(isMemberBalanceReportQuestion("how do I see what menebrs owe me money"), true);
-  assert.match(typoReply, /Open the Memberships area/);
+  assert.match(typoReply, /Open Memberships from the main navigation menu/);
   assert.match(typoReply, /For one individual member/);
   assert.doesNotMatch(typoReply, /Contacts section|non-member records|avoid using the Contacts/i);
-  assert.match(regularReply, /Billing\/Payments or Memberships > Reports/);
+  assert.match(regularReply, /billing\/report area/i);
   assert.doesNotMatch(regularReply, /Contacts section|non-member records|avoid using the Contacts/i);
 });
 
@@ -86,7 +87,7 @@ test("approved static workflows cover crawled BRS admin areas without live looku
   const copyReply = await answerFromKnowledge("How do I copy services or green fees from one year to another?");
 
   assert.match(monthReply, /Timesheet by Month/i);
-  assert.match(monthReply, /Month view/i);
+  assert.match(monthReply, /Month link/i);
   assert.match(emailReply, /Email Membership Types/i);
   assert.match(userReply, /Users/i);
   assert.match(userReply, /Add New/i);
@@ -259,4 +260,35 @@ test("static workflow answers use customer-facing wording and demo labels", () =
   assert.match(replies, /"Message on the Timesheet"/i);
   assert.match(replies, /"Days Advance Booking"/i);
   assert.doesNotMatch(replies, /support task|advising staff|another support agent|club wants|club needs|club is asking/i);
+});
+
+test("static workflow answers include proven screen locations for controls generally", () => {
+  const printReply = approvedStaticWorkflowReply("How do I print the timesheet?");
+  const greenFeeReply = approvedStaticWorkflowReply("How do I set up green fee rates for visitors?");
+  const reportReply = approvedStaticWorkflowReply("How do I run a visitor report?");
+  const bookingReply = approvedStaticWorkflowReply("How do I add a single tee time booking?");
+
+  assert.match(printReply, /action toolbar above the tee-time grid/i);
+  assert.match(printReply, /Add, Modify, Delete, Clear, Block, Cut, Copy, and Paste/i);
+  assert.match(greenFeeReply, /"Tools" page/i);
+  assert.match(greenFeeReply, /Basic Set Up Requirements/i);
+  assert.match(reportReply, /"Type of Report" dropdown/i);
+  assert.match(bookingReply, /tee-time grid/i);
+});
+
+test("screen location record keeps reusable observed BRS locations", () => {
+  assert.match(BRS_SCREEN_LOCATION_RECORD.mainNavigation.Timesheet, /main navigation/i);
+  assert.equal(BRS_SCREEN_LOCATION_RECORD.toolsIndex["Green Fee Rates"].section, "Basic Set Up Requirements");
+  assert.match(BRS_SCREEN_LOCATION_RECORD.controls.timesheetPrint, /action toolbar above the tee-time grid/i);
+  assert.match(BRS_SCREEN_LOCATION_RECORD.controls.reportsType, /Reports page/i);
+  assert.ok(BRS_SCREEN_LOCATION_RECORD.sourceSummary.some((source) => /system crawl|browser sampling/i.test(source)));
+});
+
+test("protected move booking answer includes screen locations without adding forbidden actions", () => {
+  const reply = approvedMoveBookingReply("How do I move a paid booking?");
+
+  assert.match(reply, /Timesheet from the main navigation menu/i);
+  assert.match(reply, /tee-time grid/i);
+  assert.match(reply, /Timesheet action toolbar above the tee-time grid/i);
+  assert.doesNotMatch(reply, /drag|right-click|move button/i);
 });
