@@ -30,6 +30,8 @@ test("production chat route can skip dynamic knowledge before stateful clarifica
   const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
 
   assert.match(serverSource, /shouldPreferStatefulClarification/);
+  assert.match(serverSource, /handleRefundClarificationFlow/);
+  assert.match(serverSource, /refund-clarification-flow/);
   assert.match(serverSource, /historyHasRefundPrompt/);
   assert.match(serverSource, /refundClarificationAnswer/);
   assert.match(serverSource, /allowDynamicKnowledge: !preferStatefulClarification/);

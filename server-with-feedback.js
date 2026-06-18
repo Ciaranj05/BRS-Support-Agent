@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
-import baseHandler from "./server.js";
+import baseHandler, { approvedRefundReply, approvedOfflineRefundReply } from "./server.js";
 import { getSurveyMetrics } from "./feedbackStore.js";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "./lib/knowledgeAnswer.js";
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
@@ -38,6 +38,16 @@ function hasAny(lower, terms) {
   return terms.some((term) => lower.includes(term));
 }
 
+const brsPaymentOptions = [
+  { label: "Yes, BRS Payments", value: "The payment was taken through BRS Payments" },
+  { label: "No, other payment method", value: "The payment was not taken through BRS Payments" },
+];
+
+const fullPartialRefundOptions = [
+  { label: "Full Refund", value: "This is a full refund" },
+  { label: "Partial Refund", value: "This is a partial refund" },
+];
+
 function historyHasRefundPrompt(history = []) {
   return [...history].reverse().slice(0, 4).some((item) => (
     item?.role === "assistant"
@@ -59,6 +69,51 @@ function shouldPreferStatefulClarification(message = "", history = []) {
   const broadAdminReport = hasAny(lower, ["facility summary report", "room summary report", "member email addresses", "playing statistics"]);
   const broadCompetition = lower.includes("competition") && hasAny(lower, ["change or cancel", "cannot book", "can't book", "cant book", "people cannot book", "not book"]);
   return refundClarificationAnswer || broadRefund || broadCreate || broadBookingAccess || riskyBulkDelete || broadUserAccess || broadAdminReport || broadCompetition;
+}
+
+function isFullRefundAnswer(message = "") {
+  const lower = normaliseMessage(message);
+  return lower.includes("full refund") || lower === "full" || lower.includes("full amount");
+}
+
+function isPartialRefundAnswer(message = "") {
+  const lower = normaliseMessage(message);
+  return lower.includes("partial refund") || lower === "partial" || lower.includes("part refund");
+}
+
+function isBrsPaymentAnswer(message = "") {
+  const lower = normaliseMessage(message);
+  return lower.includes("brs payments") || lower.includes("through brs") || lower === "yes";
+}
+
+function isNonBrsPaymentAnswer(message = "") {
+  const lower = normaliseMessage(message);
+  return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no";
+}
+
+function latestRefundType(history = []) {
+  const latest = [...history].reverse().find((item) => item.role === "user" && (isFullRefundAnswer(item.content) || isPartialRefundAnswer(item.content)));
+  return latest && isPartialRefundAnswer(latest.content) ? "partial" : "full";
+}
+
+function handleRefundClarificationFlow(message = "", history = []) {
+  const lower = normaliseMessage(message);
+  const lastAssistant = [...history].reverse().find((item) => item.role === "assistant")?.content || "";
+  if (/is this a full refund or partial refund/i.test(lastAssistant)) {
+    if (isFullRefundAnswer(message) || isPartialRefundAnswer(message)) {
+      return { reply: "Was the payment taken through BRS Payments?", escalationReady: false, topic: "payments", options: brsPaymentOptions, version: "audience-aware-clarification-routing-v3" };
+    }
+    return { reply: "Please choose whether this is a full refund or partial refund.", escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: "audience-aware-clarification-routing-v3" };
+  }
+  if (/was the payment taken through brs payments/i.test(lastAssistant)) {
+    const reply = isNonBrsPaymentAnswer(message) ? approvedOfflineRefundReply() : approvedRefundReply(latestRefundType(history));
+    return { reply, escalationReady: false, topic: "payments", options: [], version: "audience-aware-clarification-routing-v3" };
+  }
+  const broadRefund = lower.includes("refund") && !hasAny(lower, ["booking", "tee time", "member bill", "membership bill", "invoice", "general payment request", "payment link"]);
+  if (broadRefund) {
+    return { reply: "Is this a full refund or partial refund?", escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: "audience-aware-clarification-routing-v3" };
+  }
+  return null;
 }
 
 async function completeInitialAnswer(message, answer) {
@@ -199,6 +254,10 @@ async function enhancedChatHandler(req, res, next) {
     const authContext = resolveAuthContext(req);
     assertBotAccess(authContext);
     debug.stages.push({ name: "auth-context", matched: true, clubId: authContext.clubId, source: authContext.source, authRequired: authContext.authRequired });
+
+    const refundFlowPayload = handleRefundClarificationFlow(message, history);
+    debug.stages.push({ name: "refund-clarification-flow", matched: Boolean(refundFlowPayload) });
+    if (refundFlowPayload) return res.json(await prepareChatPayload({ client, payload: refundFlowPayload, message: originalMessage, debug, debugEnabled, req }));
 
     const actionRoute = routeActionRequest(message);
     debug.stages.push({ name: "action-router", matched: Boolean(actionRoute), route: actionRoute?.type || null });
