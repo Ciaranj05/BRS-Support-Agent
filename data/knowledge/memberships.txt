@@ -139,6 +139,10 @@ The Memberships Dashboard can surface panels for bills, overdue bills, failed sc
 
 Payment schemes are used for scheduled membership payments or payment plans.
 
+To create or manage the payment scheme itself, use Memberships > Settings > Payment Schemes.
+
+When the user asks how to create, add, set up, edit, or manage a payment scheme, answer with the Memberships > Settings > Payment Schemes route. Do not send them to a member profile or bill unless the question asks how to apply, attach, link, select, or use an existing payment scheme on a specific membership bill.
+
 When troubleshooting missed scheduled payments:
 
 - Check whether the member was Active before the scheduled payment date.

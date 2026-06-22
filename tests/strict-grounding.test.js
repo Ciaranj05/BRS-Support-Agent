@@ -149,6 +149,7 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   const memberBillRefundReply = approvedStaticWorkflowReply("How do I refund a member bill?");
   const membershipBillRefundReply = approvedStaticWorkflowReply("How do I refund a payment on a membership bill?");
   const paymentSchemeReply = approvedStaticWorkflowReply("How do I create a payment scheme?");
+  const applyPaymentSchemeReply = approvedStaticWorkflowReply("How do I apply a payment scheme to a bill?");
   const contactReply = approvedStaticWorkflowReply("How do I add a new visitor contact?");
   const passwordReply = approvedStaticWorkflowReply("How do I change a user's password?");
   const copyReply = approvedStaticWorkflowReply("How do I copy services or green fees from one year to another?");
@@ -166,7 +167,12 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   assert.match(membershipBillRefundReply, /Refund a Payment on a Membership Bill/i);
   assert.match(membershipBillRefundReply, /taken through "?BRS Payments"?/i);
   assert.match(paymentSchemeReply, /Membership Payment Scheme/i);
-  assert.match(paymentSchemeReply, /member profile/i);
+  assert.match(paymentSchemeReply, /Settings/i);
+  assert.match(paymentSchemeReply, /Payment Schemes/i);
+  assert.doesNotMatch(paymentSchemeReply, /member profile/i);
+  assert.match(applyPaymentSchemeReply, /Apply a Payment Scheme to a Membership Bill/i);
+  assert.match(applyPaymentSchemeReply, /member profile/i);
+  assert.match(applyPaymentSchemeReply, /bill/i);
   assert.doesNotMatch(paymentSchemeReply, /What is happening with the payment/i);
   assert.doesNotMatch(contactReply, /\bMemberships\b/);
   assert.doesNotMatch(passwordReply, /ask the user to share/i);

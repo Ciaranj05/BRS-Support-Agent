@@ -13,10 +13,16 @@ MATCH ANY: create, add, new, generate, raise
 MATCH ANY: membership bill, member bill, bill, invoice
 ANSWER ID: create-membership-bill
 
-ROUTE: payment-scheme-setup
+ROUTE: payment-scheme-apply-to-bill
+MATCH ANY: payment scheme, payment plan, instalments, installments, scheduled payment, scheduled payments
+MATCH ANY: apply, attach, link, select, assign, use
+MATCH ANY: bill, billing, invoice
+ANSWER ID: payment-scheme-apply-to-bill
+
+ROUTE: payment-scheme-create-or-manage
 MATCH ANY: payment scheme, payment plan, instalments, installments, scheduled payment, scheduled payments
 MATCH ANY: setup, set up, create, add, new, manage, scheduled
-ANSWER ID: payment-scheme-setup
+ANSWER ID: payment-scheme-create-or-manage
 
 ROUTE: membership-unpaid-bills-report
 MATCH ANY: unpaid bills, unpaid bill, outstanding bills, outstanding balance, bill balances

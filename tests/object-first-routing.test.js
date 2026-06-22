@@ -28,6 +28,7 @@ test("does not treat unpaid as a paid payment query", () => {
 test("recognises membership-owned payment phrases before generic payments", () => {
   const variants = [
     "how do I create a payment scheme",
+    "how do I apply a payment scheme to a bill",
     "set up a payment plan",
     "manage instalments",
     "scheduled payments for subscriptions",
