@@ -480,7 +480,7 @@ function addOptionButtons(div, options) {
 
 function getBotOptions(text, opts = []) {
   const provided = Array.isArray(opts) ? opts : [];
-  return provided.length ? provided : inferClarificationOptions(text);
+  return provided;
 }
 
 function getFollowUpHint(text) {

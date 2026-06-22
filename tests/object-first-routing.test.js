@@ -66,8 +66,12 @@ test("routes membership bill refunds away from booking refunds", () => {
   for (const message of variants) {
     const result = answerFromObjectFirstRouting(message);
     assert.equal(result.topic, "memberships");
-    assert.match(result.reply, /member billing\/payment record/);
+    assert.match(result.reply, /Refund a Payment on a Membership Bill/);
+    assert.match(result.reply, /taken through BRS Payments/);
+    assert.match(result.reply, /cannot be refunded through BRS/);
+    assert.doesNotMatch(result.reply, /rather than|do not use/i);
     assert.doesNotMatch(result.reply, /Tee Sheet >> Tee Time/);
+    assert.doesNotMatch(result.reply, /BRS Payments >> Refunds/);
     assert.equal(result.options.length, 0);
   }
 });

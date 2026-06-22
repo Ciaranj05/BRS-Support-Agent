@@ -53,6 +53,14 @@ test("production chat route returns specific object-first answers before model f
   assert.match(serverSource, /includeInitialPrompt: false/);
 });
 
+test("browser only renders server-provided clarification options", () => {
+  const appSource = fs.readFileSync(new URL("../public/app.js", import.meta.url), "utf8");
+
+  assert.match(appSource, /function getBotOptions\(text, opts = \[\]\)/);
+  assert.match(appSource, /return provided;/);
+  assert.doesNotMatch(appSource, /return provided\.length \? provided : inferClarificationOptions\(text\)/);
+});
+
 test("move booking wording uses protected approved workflow", async () => {
   const reply = await answerFromKnowledge("how do I move a buggy booking?");
 
@@ -132,11 +140,15 @@ test("approved static workflow matcher is general rather than example-specific",
 
 test("approved static workflows avoid misleading safety and routing wording", () => {
   const refundReply = approvedStaticWorkflowReply("How do I refund a booking payment?");
+  const memberBillRefundReply = approvedStaticWorkflowReply("How do I refund a member bill?");
   const contactReply = approvedStaticWorkflowReply("How do I add a new visitor contact?");
   const passwordReply = approvedStaticWorkflowReply("How do I change a user's password?");
   const copyReply = approvedStaticWorkflowReply("How do I copy services or green fees from one year to another?");
 
   assert.doesNotMatch(refundReply, /escalate/i);
+  assert.match(memberBillRefundReply, /taken through "?BRS Payments"?/i);
+  assert.match(memberBillRefundReply, /non-BRS method/i);
+  assert.doesNotMatch(memberBillRefundReply, /rather than|do not use/i);
   assert.doesNotMatch(contactReply, /\bMemberships\b/);
   assert.doesNotMatch(passwordReply, /ask the user to share/i);
   assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);
