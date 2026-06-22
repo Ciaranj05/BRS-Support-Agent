@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import OpenAI from "openai";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "./lib/bookingWorkflowAnswers.js";
 import { appendRelatedGuides, relatedGuidesForQuestion } from "./lib/relatedGuides.js";
+import { hasMembershipOwnedObject } from "./lib/objectFirstRouting.js";
 
 dotenv.config();
 
@@ -924,6 +925,7 @@ function rememberFollowUpFromReply(state, reply, topic, originalQuestion) {
 function needsAudienceOrObjectClarification(message, topic, state) {
   const lower = normalise(message);
   if (state.clarificationContext && !isFreshAmbiguousRootQuestion(message)) return null;
+  if (hasMembershipOwnedObject(lower)) return null;
   if (isCompetitionChargeRequest(message) && !hasCompetitionChargeAudience(message)) return "competition-charge";
   if (lower.includes("competition") && hasAny(lower, ["charge or fees", "charging or fees", "purse or payments"])) return "competition-charge";
   if ((lower.includes("create") || lower.includes("add") || lower.includes("new")) && lower.includes("account") && !hasAny(lower, ["admin", "staff", "member"])) return "account-create";
@@ -948,8 +950,8 @@ function heuristicClarificationProfile(message, topic, state = {}) {
   if (isCompetitionChargeRequest(message)) return "competition-charge";
   if (lower.includes("competition")) return "competition-issue";
   if (lower.includes("can't book") || lower.includes("cant book") || lower.includes("cannot book") || lower.includes("won't let") || lower.includes("wont let") || lower.includes("not visible") || lower.includes("availability")) return "booking-access";
+  if (hasMembershipOwnedObject(lower)) return "membership-issue";
   if (lower.includes("refund") || lower.includes("payment") || lower.includes("paid") || lower.includes("payout") || lower.includes("transaction")) return "payment-issue";
-  if (lower.includes("member") || lower.includes("membership") || lower.includes("subscription") || lower.includes("bill") || lower.includes("wallet")) return "membership-issue";
   if (lower.includes("user") || lower.includes("staff") || lower.includes("admin") || lower.includes("login") || lower.includes("permission")) return "user-access";
   if (lower.includes("report") || lower.includes("email") || lower.includes("text") || lower.includes("gdpr") || lower.includes("printer") || lower.includes("device") || lower.includes("clubhouse pc")) return "admin-comms-reports";
   if (lower.includes("setup") || lower.includes("set up") || lower.includes("configure") || lower.includes("green fee") || lower.includes("booking rule") || lower.includes("buggy")) return "setup-issue";

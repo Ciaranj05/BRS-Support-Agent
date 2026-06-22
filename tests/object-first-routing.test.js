@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { answerFromObjectFirstRouting } from "../lib/objectFirstRouting.js";
+import { answerFromObjectFirstRouting, hasMembershipOwnedObject } from "../lib/objectFirstRouting.js";
 
 test("routes unpaid member bill report variants to memberships", () => {
   const variants = [
@@ -23,6 +23,20 @@ test("does not treat unpaid as a paid payment query", () => {
   const result = answerFromObjectFirstRouting("which members have unpaid bills");
   assert.equal(result.topic, "memberships");
   assert.notEqual(result.reply, "Which payment issue is closest?");
+});
+
+test("recognises membership-owned payment phrases before generic payments", () => {
+  const variants = [
+    "how do I create a payment scheme",
+    "set up a payment plan",
+    "manage instalments",
+    "scheduled payments for subscriptions",
+    "member wallet top up",
+  ];
+
+  for (const message of variants) {
+    assert.equal(hasMembershipOwnedObject(message.toLowerCase()), true);
+  }
 });
 
 test("lets clarification answers continue through stateful chat routing", () => {
