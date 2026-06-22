@@ -147,6 +147,11 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   const copyReply = approvedStaticWorkflowReply("How do I copy services or green fees from one year to another?");
 
   assert.doesNotMatch(refundReply, /escalate/i);
+  assert.match(refundReply, /Booking Details/i);
+  assert.match(refundReply, /Payments/i);
+  assert.match(refundReply, /Click "?Refund"? beside the correct payment/i);
+  assert.match(refundReply, /Processed refunds can be found under "?Tools"? > "?BRS Payments"? > "?Refunds"?/i);
+  assert.doesNotMatch(refundReply, /use the "?BRS Payments"? refund route/i);
   assert.match(memberBillRefundReply, /taken through "?BRS Payments"?/i);
   assert.match(memberBillRefundReply, /non-BRS method/i);
   assert.match(memberBillRefundReply, /Processed refunds can be found under "?Tools"? > "?BRS Payments"? > "?Refunds"?/i);
