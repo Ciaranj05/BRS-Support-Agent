@@ -179,6 +179,37 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);
 });
 
+test("setup versus application intent is general across reusable objects", () => {
+  const createPaymentScheme = approvedStaticWorkflowReply("How do I create a payment scheme?");
+  const applyPaymentScheme = approvedStaticWorkflowReply("How do I attach a payment scheme to a bill?");
+  const createMembershipType = approvedStaticWorkflowReply("How do I create a new senior membership type?");
+  const assignMembershipType = approvedStaticWorkflowReply("How do I assign a membership type to a member?");
+  const createGreenFee = approvedStaticWorkflowReply("How do I set up green fee rates?");
+  const assignGreenFee = approvedStaticWorkflowReply("How do I assign a green fee to a reservation?");
+  const createService = approvedStaticWorkflowReply("How do I set up buggy services?");
+  const addService = approvedStaticWorkflowReply("How do I add a buggy service to a booking?");
+
+  assert.match(createPaymentScheme, /Memberships[\s\S]*Settings[\s\S]*Payment Schemes/i);
+  assert.match(applyPaymentScheme, /Payment Scheme to a Membership Bill/i);
+  assert.match(applyPaymentScheme, /member profile/i);
+
+  assert.match(createMembershipType, /Set Up Membership Types/i);
+  assert.match(createMembershipType, /Tools/i);
+  assert.match(assignMembershipType, /Change a Member's Membership Type/i);
+  assert.match(assignMembershipType, /member profile/i);
+
+  assert.match(createGreenFee, /Set Up Green Fee Rates/i);
+  assert.match(createGreenFee, /Tools/i);
+  assert.match(assignGreenFee, /Assign a Green Fee to a Reservation/i);
+  assert.match(assignGreenFee, /Booking Details/i);
+
+  assert.match(createService, /Set Up Bookable Services/i);
+  assert.match(createService, /Tools/i);
+  assert.match(createService, /Services/i);
+  assert.match(addService, /Add Services to a Booking/i);
+  assert.match(addService, /Booking Details/i);
+});
+
 test("approved static workflows cover dashboard, search, and contact variants", () => {
   const dashboardReply = approvedStaticWorkflowReply("How do I see today's bookings on the dashboard?");
   const searchReply = approvedStaticWorkflowReply("How do I find a booking by booking reference?");

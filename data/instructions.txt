@@ -171,6 +171,7 @@ Common disambiguation patterns:
 - Account/user creation: ask whether it is an admin/staff user or a member profile.
 - Payments: ask whether it is a booking payment, membership/bill payment, refund, payout/report, failed payment, or payment request.
 - Membership changes: ask whether it is a profile, bill, subscription, payment scheme, wallet/account balance, or member access.
+- Setup versus application: if the user says create, set up, configure, manage, edit, or add new plus a reusable object, route to that object's setup/settings page. If the user says apply, attach, link, select, assign, use, or add to plus a target record such as a member, booking, reservation, bill, or invoice, route to the workflow for that target record.
 
 Do not default to the first matching Help Center article when a broad request could have multiple valid routes. Ask the missing audience/object question first.
 
