@@ -343,12 +343,27 @@ test("broad competitions users club systems and ambiguous booking rules are cove
 
 test("broad live-failure regressions keep specific routes ahead of generic ones", () => {
   const timeIntervalsReply = approvedStaticWorkflowReply("change time intervals on tee sheet");
+  const addStartReply = approvedStaticWorkflowReply("how do I add a tee time at the start of the day?");
+  const addEndReply = approvedStaticWorkflowReply("add more tee times at the end of the timesheet");
+  const earlierReply = approvedStaticWorkflowReply("make the first tee time earlier");
+  const laterReply = approvedStaticWorkflowReply("make the last tee time later");
+  const bookingReply = approvedStaticWorkflowReply("add a customer booking at a tee time");
   const sheetMessageReply = approvedStaticWorkflowReply("change the message at top of the tee sheet");
   const vatReply = approvedStaticWorkflowReply("export vat reports");
 
   assert.equal(routeActionRequest("change time intervals on tee sheet"), null);
+  assert.equal(routeActionRequest("add more tee times at the end of the timesheet"), null);
+  assert.equal(routeActionRequest("add a customer booking at a tee time"), null);
   assert.equal(isMoveBookingQuestion("change time intervals on tee sheet"), false);
   assert.match(timeIntervalsReply, /Configure the Timesheet/i);
+  assert.match(addStartReply, /Configure the Timesheet/i);
+  assert.match(addStartReply, /First Tee Time Hour/i);
+  assert.match(addEndReply, /Configure the Timesheet/i);
+  assert.match(addEndReply, /Last Tee Time Hour/i);
+  assert.match(earlierReply, /Configure the Timesheet/i);
+  assert.match(laterReply, /Configure the Timesheet/i);
+  assert.doesNotMatch(bookingReply, /Configure the Timesheet/i);
+  assert.match(bookingReply, /Add a Single Tee Time Booking|Make a Booking/i);
   assert.match(sheetMessageReply, /Messages on the Timesheet/i);
   assert.doesNotMatch(sheetMessageReply, /Email the Timesheet/i);
   assert.match(vatReply, /BRS Payments VAT Report/i);

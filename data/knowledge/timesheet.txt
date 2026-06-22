@@ -84,6 +84,8 @@ Configure Timesheet also exposes Timesheet Templates. Use templates when the clu
 
 Timesheet interval changes belong in Configure Timesheet. The Help Center has separate guidance for changing tee time intervals, adding tee times to the start of the day, adding tee times to the end of the timesheet, and squeezing in additional tee times.
 
+Questions about adding, removing, extending, starting earlier, finishing later, changing the first tee time, or changing the last tee time are tee-time pattern/setup questions. Use Tools > Configure Timesheet, not the single-booking workflow, unless the user is trying to book a golfer/customer/player into an existing tee time.
+
 When answering:
 
 - Confirm whether the user wants to change future setup or alter one specific day.
