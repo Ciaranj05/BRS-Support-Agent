@@ -121,13 +121,15 @@ Confirmed workflow:
 
 1. Check Calendar End Year in System Configuration for new years.
 2. Go to Tools > Configure Timesheet.
-3. Choose operation: same interval or alternative intervals.
-4. Select year/date range.
-5. Enter intervals.
-6. Select tee time range.
-7. Select sunrise/sunset stopping rules where needed.
-8. Select weekdays.
-9. Configure the timesheet.
+3. Use the Configure Timesheet form at the bottom of the page, below the calendar-style year overview.
+4. In Operation, choose Configure one or multiple days with the same tee time interval or Configure one or multiple days with alternative tee time intervals.
+5. If the club has more than one course or tee, use Course to choose the course being configured.
+6. Select Year, Start Month, Start Day of Month, End Month, and End Day of Month.
+7. Select the tee time interval or alternative intervals.
+8. Select First Tee Time Hour, First Tee Time Minute, Last Tee Time Hour, and Last Tee Time Minute.
+9. Select sunrise/sunset stopping rules where needed.
+10. Tick the weekday checkboxes under Select the days of the week you want to configure.
+11. Click Configure the Timesheet.
 
 The live Configure Timesheet page also includes:
 

@@ -111,10 +111,16 @@ async function pathExists(filePath) {
 
 async function readJsonFiles(dir) {
   if (!await pathExists(dir)) return [];
-  const files = await fs.readdir(dir);
+  const files = await fs.readdir(dir, { withFileTypes: true });
   const entries = [];
-  for (const file of files.filter((name) => name.endsWith(".json"))) {
-    const raw = await fs.readFile(path.join(dir, file), "utf-8");
+  for (const file of files) {
+    const filePath = path.join(dir, file.name);
+    if (file.isDirectory()) {
+      entries.push(...await readJsonFiles(filePath));
+      continue;
+    }
+    if (!file.name.endsWith(".json")) continue;
+    const raw = await fs.readFile(filePath, "utf-8");
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed.entries)) entries.push(...parsed.entries);
     else if (Array.isArray(parsed)) entries.push(...parsed);

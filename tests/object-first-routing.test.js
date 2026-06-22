@@ -61,6 +61,7 @@ test("routes membership bill refunds away from booking refunds", () => {
     "how do I reverse a payment on a member bill",
     "how do I refund a bill",
     "how do I refund an invoice",
+    "how do I refund a payment on a membership bill",
   ];
 
   for (const message of variants) {

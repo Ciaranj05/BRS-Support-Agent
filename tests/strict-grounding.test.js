@@ -108,6 +108,7 @@ test("help center article urls can display as guide titles", () => {
 
 test("approved static workflows cover crawled BRS admin areas without live lookup", async () => {
   const monthReply = await answerFromKnowledge("How do I view the timesheet by month?");
+  const configureReply = await answerFromKnowledge("How do I configure the timesheet for next month?");
   const emailReply = await answerFromKnowledge("How do I email all members in a membership type?");
   const userReply = await answerFromKnowledge("How do I add a new staff user?");
   const paymentReply = await answerFromKnowledge("How do I create a general payment request?");
@@ -115,6 +116,10 @@ test("approved static workflows cover crawled BRS admin areas without live looku
 
   assert.match(monthReply, /Timesheet by Month/i);
   assert.match(monthReply, /Month link/i);
+  assert.match(configureReply, /Configure the Timesheet/i);
+  assert.match(configureReply, /"Operation"/i);
+  assert.match(configureReply, /"Configure the Timesheet"/i);
+  assert.doesNotMatch(configureReply, /View the Timesheet by Month/i);
   assert.match(emailReply, /Email Membership Types/i);
   assert.match(userReply, /Users/i);
   assert.match(userReply, /Add New/i);
@@ -142,6 +147,7 @@ test("approved static workflow matcher is general rather than example-specific",
 test("approved static workflows avoid misleading safety and routing wording", () => {
   const refundReply = approvedStaticWorkflowReply("How do I refund a booking payment?");
   const memberBillRefundReply = approvedStaticWorkflowReply("How do I refund a member bill?");
+  const membershipBillRefundReply = approvedStaticWorkflowReply("How do I refund a payment on a membership bill?");
   const contactReply = approvedStaticWorkflowReply("How do I add a new visitor contact?");
   const passwordReply = approvedStaticWorkflowReply("How do I change a user's password?");
   const copyReply = approvedStaticWorkflowReply("How do I copy services or green fees from one year to another?");
@@ -156,6 +162,8 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   assert.match(memberBillRefundReply, /non-BRS method/i);
   assert.match(memberBillRefundReply, /Processed refunds can be found under "?Tools"? > "?BRS Payments"? > "?Refunds"?/i);
   assert.doesNotMatch(memberBillRefundReply, /rather than|do not use/i);
+  assert.match(membershipBillRefundReply, /Refund a Payment on a Membership Bill/i);
+  assert.match(membershipBillRefundReply, /taken through "?BRS Payments"?/i);
   assert.doesNotMatch(contactReply, /\bMemberships\b/);
   assert.doesNotMatch(passwordReply, /ask the user to share/i);
   assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);

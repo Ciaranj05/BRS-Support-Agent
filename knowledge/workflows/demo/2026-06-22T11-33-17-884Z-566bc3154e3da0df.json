@@ -1,0 +1,95 @@
+{
+  "generatedAt": "2026-06-22T11:33:17.884Z",
+  "sourceType": "brs-system-workflow",
+  "entries": [
+    {
+      "id": "brs-demo-workflow:566bc3154e3da0df",
+      "sourceType": "brs-system-workflow",
+      "title": "Demo explored workflow routes",
+      "area": "BRS demo workflow exploration",
+      "workflow": "How do I add a buggy booking?",
+      "summary": "Workflow routes collected from a controlled demo exploration. Review before approving for chatbot use.",
+      "navigationPath": "FORE! - PAGE NOT FOUND",
+      "routes": [
+        {
+          "name": "Admin timesheet booking route",
+          "actor": "Admin or staff user",
+          "preconditions": [
+            "User is signed into the demo BRS admin area.",
+            "A tee time row is available on the Timesheet day view."
+          ],
+          "steps": [
+            "Open the Timesheet day view.",
+            "Open a tee time row or existing booking from the Timesheet.",
+            "Open the booking surface using https://www.facebook.com/BRSGOLF/.",
+            "Use the visible booking controls and service/buggy controls shown on the booking page.",
+            "Keep the demo booking as a draft unless commit mode is explicitly enabled."
+          ],
+          "outcome": "Booking-linked evidence is collected without submitting a booking.",
+          "verification": [
+            "Return to the Timesheet day view and check the booking row evidence."
+          ]
+        },
+        {
+          "name": "Online member or visitor request route",
+          "actor": "Member or visitor, where club setup allows online buggy booking",
+          "preconditions": [
+            "Club configuration permits the member or visitor channel to request buggies online."
+          ],
+          "steps": [
+            "Member or visitor requests the buggy during the online booking journey.",
+            "Admin verifies the request on the Timesheet booking row or booking details.",
+            "Admin adds or confirms any service/charge required for the buggy from the booking details/service area."
+          ],
+          "outcome": "The online request appears operationally on the admin timesheet, but charging/service completion remains an admin-controlled check.",
+          "verification": [
+            "Check Timesheet booking details and service/charge controls before confirming the customer has been charged."
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "label": "BRS Golf",
+          "type": "A",
+          "options": []
+        },
+        {
+          "label": "[redacted-email].",
+          "type": "A",
+          "options": []
+        },
+        {
+          "label": "https://www.facebook.com/BRSGOLF/",
+          "type": "A",
+          "options": []
+        },
+        {
+          "label": "https://twitter.com/BRSGOLF/",
+          "type": "A",
+          "options": []
+        },
+        {
+          "label": "BRS Golf",
+          "type": "A",
+          "options": []
+        }
+      ],
+      "tableHeaders": [],
+      "pageEvidence": {
+        "headings": [
+          "FORE! - PAGE NOT FOUND"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "safeForChatbot": false,
+      "tags": [
+        "demo-exploration",
+        "multi-route-workflow",
+        "requires-human-review"
+      ],
+      "sourceId": "566bc3154e3da0df",
+      "learnedAt": "2026-06-22T11:33:17.878Z"
+    }
+  ]
+}

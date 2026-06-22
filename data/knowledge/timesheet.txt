@@ -60,14 +60,15 @@ The Calendar End Year must extend far enough for the year the club wants to conf
 Core configure-timesheet workflow:
 
 1. Go to Tools > Configure Timesheet.
-2. Use the form at the bottom of the page.
-3. Choose the Operation.
-4. Select the year and date range.
-5. Enter the tee time interval or alternating intervals.
-6. Select the tee time range.
-7. Choose sunrise/sunset stopping behaviour if needed.
-8. Select the days of the week the configuration applies to.
-9. Click Configure the Timesheet.
+2. Use the Configure Timesheet form at the bottom of the page, below the calendar-style year overview.
+3. In Operation, choose either Configure one or multiple days with the same tee time interval or Configure one or multiple days with alternative tee time intervals.
+4. If the club has more than one course or tee, use Course to choose the course being configured.
+5. Select Year, Start Month, Start Day of Month, End Month, and End Day of Month.
+6. Select the tee time interval or alternative intervals.
+7. Select First Tee Time Hour, First Tee Time Minute, Last Tee Time Hour, and Last Tee Time Minute.
+8. Choose sunrise/sunset stopping behaviour if needed.
+9. Tick the weekday checkboxes under Select the days of the week you want to configure.
+10. Click Configure the Timesheet.
 
 Operation choices include:
 
