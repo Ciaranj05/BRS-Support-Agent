@@ -148,6 +148,7 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   assert.doesNotMatch(refundReply, /escalate/i);
   assert.match(memberBillRefundReply, /taken through "?BRS Payments"?/i);
   assert.match(memberBillRefundReply, /non-BRS method/i);
+  assert.match(memberBillRefundReply, /Processed refunds can be found under "?Tools"? > "?BRS Payments"? > "?Refunds"?/i);
   assert.doesNotMatch(memberBillRefundReply, /rather than|do not use/i);
   assert.doesNotMatch(contactReply, /\bMemberships\b/);
   assert.doesNotMatch(passwordReply, /ask the user to share/i);
