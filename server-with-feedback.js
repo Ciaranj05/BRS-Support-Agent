@@ -62,8 +62,23 @@ function hasKnownRefundObject(lower = "") {
   ]);
 }
 
+function isRefundRecordsLookup(lower = "") {
+  return lower.includes("refund") && hasAny(lower, [
+    "record",
+    "records",
+    "history",
+    "previous",
+    "report",
+    "retrieve",
+    "view",
+    "see",
+    "list",
+    "find",
+  ]);
+}
+
 function isBroadRefundRequest(lower = "") {
-  return lower.includes("refund") && !hasKnownRefundObject(lower);
+  return lower.includes("refund") && !isRefundRecordsLookup(lower) && !hasKnownRefundObject(lower);
 }
 
 const brsPaymentOptions = [

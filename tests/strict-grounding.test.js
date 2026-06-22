@@ -34,6 +34,7 @@ test("production chat route can skip dynamic knowledge before stateful clarifica
   assert.match(serverSource, /refund-clarification-flow/);
   assert.match(serverSource, /historyHasRefundPrompt/);
   assert.match(serverSource, /refundClarificationAnswer/);
+  assert.match(serverSource, /isRefundRecordsLookup/);
   assert.match(serverSource, /allowDynamicKnowledge: !preferStatefulClarification/);
   assert.match(serverSource, /queueKnowledgeGaps: !preferStatefulClarification/);
 });
@@ -176,12 +177,14 @@ test("approved static workflows cover common booking and payment lookup variants
   const vatReply = approvedStaticWorkflowReply("Where do I download a VAT report for payments?");
   const uploadReply = approvedStaticWorkflowReply("Where do I upload members or contacts?");
   const refundRecordsReply = approvedStaticWorkflowReply("Where can I see refund records after a refund has been made?");
+  const refundReportReply = approvedStaticWorkflowReply("Where do I find the refund report?");
 
   assert.match(bookingReply, /Single Tee Time Booking/i);
   assert.match(detailsReply, /Booking Details/i);
   assert.match(vatReply, /BRS Payments VAT Report/i);
   assert.match(uploadReply, /Upload Members or Contacts/i);
   assert.match(refundRecordsReply, /BRS Payments Refunds/i);
+  assert.match(refundReportReply, /BRS Payments Refunds/i);
 });
 
 test("approved static workflows cover slow clarification regressions deterministically", () => {

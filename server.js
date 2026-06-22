@@ -671,7 +671,19 @@ function isConversationEnd(message) {
 
 function isRefundRequest(text) {
   const lower = normalise(text);
-  return lower.includes("refund") && (lower.includes("booking") || lower.includes("payment") || lower.includes("golfer") || lower.includes("customer"));
+  const refundRecordsLookup = lower.includes("refund") && [
+    "record",
+    "records",
+    "history",
+    "previous",
+    "report",
+    "retrieve",
+    "view",
+    "see",
+    "list",
+    "find",
+  ].some((term) => lower.includes(term));
+  return lower.includes("refund") && !refundRecordsLookup && (lower.includes("booking") || lower.includes("payment") || lower.includes("golfer") || lower.includes("customer"));
 }
 
 function isAdminUserCreateRequest(text) {
