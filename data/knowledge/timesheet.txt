@@ -89,6 +89,9 @@ Questions about adding, removing, extending, starting earlier, finishing later, 
 When answering:
 
 - Confirm whether the user wants to change future setup or alter one specific day.
+- Explain that start-of-day changes use First Tee Time Hour and First Tee Time Minute, while end-of-day changes use Last Tee Time Hour and Last Tee Time Minute.
+- Remind the user to check Tee Time Interval or Alternate Tee Time Intervals so the spacing between tee times still matches the required setup.
+- If the user only needs to insert one extra tee time on a specific day, mention the Squeeze Tee Time option on the Timesheet before advising a wider Configure Timesheet change.
 - For a new year, check Calendar End Year first.
 - For a small adjustment on a configured day, direct them to the relevant add/squeeze guidance rather than implying they must rebuild the whole year.
 

@@ -357,9 +357,13 @@ test("broad live-failure regressions keep specific routes ahead of generic ones"
   assert.equal(isMoveBookingQuestion("change time intervals on tee sheet"), false);
   assert.match(timeIntervalsReply, /Configure the Timesheet/i);
   assert.match(addStartReply, /Configure the Timesheet/i);
+  assert.match(addStartReply, /change the tee-time pattern/i);
   assert.match(addStartReply, /First Tee Time Hour/i);
+  assert.match(addStartReply, /Tee Time Interval|Alternate Tee Time Intervals/i);
+  assert.match(addStartReply, /Squeeze Tee Time/i);
   assert.match(addEndReply, /Configure the Timesheet/i);
   assert.match(addEndReply, /Last Tee Time Hour/i);
+  assert.match(addEndReply, /interval spacing/i);
   assert.match(earlierReply, /Configure the Timesheet/i);
   assert.match(laterReply, /Configure the Timesheet/i);
   assert.doesNotMatch(bookingReply, /Configure the Timesheet/i);

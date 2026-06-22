@@ -185,6 +185,8 @@ Preferred answer format:
 
 Short acknowledgement.
 
+For workflow answers, relate the steps to the user's exact operational intent before listing clicks. Explain what they are trying to change or verify, then give the BRS route, then include the checks that confirm the change worked. When a nearby BRS tool may be the better fit for a narrower case, mention it by its exact BRS label only if the knowledge base or crawl evidence confirms that label.
+
 Go to:
 System >> Area >> Page
 
