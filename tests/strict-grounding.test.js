@@ -46,6 +46,11 @@ test("production chat route returns specific object-first answers before model f
     serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(message\)/) <
     serverSource.search(/const preferStatefulClarification = shouldPreferStatefulClarification\(message, history\)/)
   );
+  assert.ok(
+    serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(message\)/) <
+    serverSource.search(/const initialRefundFlowPayload = handleRefundClarificationFlow\(message, history\)/)
+  );
+  assert.match(serverSource, /includeInitialPrompt: false/);
 });
 
 test("move booking wording uses protected approved workflow", async () => {

@@ -57,10 +57,19 @@ test("uses user-task wording for unclear membership billing prompts", () => {
 });
 
 test("routes membership bill refunds away from booking refunds", () => {
-  const result = answerFromObjectFirstRouting("how do I reverse a payment on a member bill");
-  assert.equal(result.topic, "memberships");
-  assert.match(result.reply, /member billing\/payment record/);
-  assert.doesNotMatch(result.reply, /Tee Sheet >> Tee Time/);
+  const variants = [
+    "how do I reverse a payment on a member bill",
+    "how do I refund a bill",
+    "how do I refund an invoice",
+  ];
+
+  for (const message of variants) {
+    const result = answerFromObjectFirstRouting(message);
+    assert.equal(result.topic, "memberships");
+    assert.match(result.reply, /member billing\/payment record/);
+    assert.doesNotMatch(result.reply, /Tee Sheet >> Tee Time/);
+    assert.equal(result.options.length, 0);
+  }
 });
 
 test("routes wallet and flexi member variants to memberships", () => {

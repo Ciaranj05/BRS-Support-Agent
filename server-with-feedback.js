@@ -38,6 +38,34 @@ function hasAny(lower, terms) {
   return terms.some((term) => lower.includes(term));
 }
 
+function hasKnownRefundObject(lower = "") {
+  return hasAny(lower, [
+    "booking",
+    "tee time",
+    "tee sheet",
+    "teesheet",
+    "visitor booking",
+    "green fee",
+    "member",
+    "membership",
+    "subscription",
+    "bill",
+    "bills",
+    "billing",
+    "invoice",
+    "invoices",
+    "wallet",
+    "account balance",
+    "general payment request",
+    "payment request",
+    "payment link",
+  ]);
+}
+
+function isBroadRefundRequest(lower = "") {
+  return lower.includes("refund") && !hasKnownRefundObject(lower);
+}
+
 const brsPaymentOptions = [
   { label: "Yes, BRS Payments", value: "The payment was taken through BRS Payments" },
   { label: "No, other payment method", value: "The payment was not taken through BRS Payments" },
@@ -61,7 +89,7 @@ function shouldPreferStatefulClarification(message = "", history = []) {
   if (/^clarification answer:/i.test(message)) return true;
   const wordCount = lower.split(/\s+/).filter(Boolean).length;
   const refundClarificationAnswer = historyHasRefundPrompt(history) && hasAny(lower, ["full refund", "partial refund", "yes, brs payments", "brs payments", "no, other payment method", "other payment method"]);
-  const broadRefund = lower.includes("refund") && !hasAny(lower, ["booking", "tee time", "member bill", "membership bill", "invoice", "general payment request", "payment link"]);
+  const broadRefund = isBroadRefundRequest(lower);
   const broadCreate = hasAny(lower, ["create an account", "add an account", "new account"]) && !hasAny(lower, ["admin", "staff", "member"]);
   const broadBookingAccess = hasAny(lower, ["cannot book", "can't book", "cant book", "won't let", "wont let", "not visible online"]);
   const riskyBulkDelete = /\bdelete\b/.test(lower) && hasAny(lower, ["all bookings", "all tee times", "next month"]);
@@ -96,7 +124,7 @@ function latestRefundType(history = []) {
   return latest && isPartialRefundAnswer(latest.content) ? "partial" : "full";
 }
 
-function handleRefundClarificationFlow(message = "", history = []) {
+function handleRefundClarificationFlow(message = "", history = [], { includeInitialPrompt = true } = {}) {
   const lower = normaliseMessage(message);
   const lastAssistant = [...history].reverse().find((item) => item.role === "assistant")?.content || "";
   if (/is this a full refund or partial refund/i.test(lastAssistant)) {
@@ -109,8 +137,7 @@ function handleRefundClarificationFlow(message = "", history = []) {
     const reply = isNonBrsPaymentAnswer(message) ? approvedOfflineRefundReply() : approvedRefundReply(latestRefundType(history));
     return { reply, escalationReady: false, topic: "payments", options: [], version: "audience-aware-clarification-routing-v3" };
   }
-  const broadRefund = lower.includes("refund") && !hasAny(lower, ["booking", "tee time", "member bill", "membership bill", "invoice", "general payment request", "payment link"]);
-  if (broadRefund) {
+  if (includeInitialPrompt && isBroadRefundRequest(lower)) {
     return { reply: "Is this a full refund or partial refund?", escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: "audience-aware-clarification-routing-v3" };
   }
   return null;
@@ -255,7 +282,7 @@ async function enhancedChatHandler(req, res, next) {
     assertBotAccess(authContext);
     debug.stages.push({ name: "auth-context", matched: true, clubId: authContext.clubId, source: authContext.source, authRequired: authContext.authRequired });
 
-    const refundFlowPayload = handleRefundClarificationFlow(message, history);
+    const refundFlowPayload = handleRefundClarificationFlow(message, history, { includeInitialPrompt: false });
     debug.stages.push({ name: "refund-clarification-flow", matched: Boolean(refundFlowPayload) });
     if (refundFlowPayload) return res.json(await prepareChatPayload({ client, payload: refundFlowPayload, message: originalMessage, debug, debugEnabled, req }));
 
@@ -276,6 +303,10 @@ async function enhancedChatHandler(req, res, next) {
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
     if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
     if (objectFirstReply?.routeStrength === "specific") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
+
+    const initialRefundFlowPayload = handleRefundClarificationFlow(message, history);
+    debug.stages.push({ name: "initial-refund-clarification-flow", matched: Boolean(initialRefundFlowPayload) });
+    if (initialRefundFlowPayload) return res.json(await prepareChatPayload({ client, payload: initialRefundFlowPayload, message: originalMessage, debug, debugEnabled, req }));
 
     const preferStatefulClarification = shouldPreferStatefulClarification(message, history);
     debug.stages.push({ name: "stateful-clarification-precheck", matched: preferStatefulClarification });
