@@ -1,4 +1,4 @@
-# BRS Support Agent
+# BRS Caddie
 
 ## Timesheet action prototype
 
