@@ -115,6 +115,29 @@ function shouldPreferStatefulClarification(message = "", history = []) {
   return refundClarificationAnswer || broadRefund || broadCreate || broadBookingAccess || riskyBulkDelete || broadUserAccess || broadAdminReport || broadCompetition;
 }
 
+function vagueWorkflowClarificationPayload(message = "") {
+  const lower = normaliseMessage(message);
+  const wordCount = lower.split(/\s+/).filter(Boolean).length;
+  const tooShort = wordCount <= 2 && hasAny(lower, ["report", "refund"]);
+  const vagueReport = /^(how do i )?(show|find|view|run|open|where is|where are)?\s*reports?$/i.test(lower);
+  const vagueRefund = /^(how do i )?(refund|reverse|money back)$/i.test(lower);
+  if (!(tooShort || vagueReport || vagueRefund)) return null;
+
+  return {
+    reply: "Which BRS area is this about?",
+    escalationReady: false,
+    topic: "clarification",
+    options: [
+      { label: "Bookings", value: "Clarification answer: This is about bookings" },
+      { label: "Memberships", value: "Clarification answer: This is about memberships" },
+      { label: "BRS Payments", value: "Clarification answer: This is about BRS Payments" },
+      { label: "Reports", value: "Clarification answer: This is about reports" },
+      { label: "Type details instead", value: "Clarification answer: I need to type more details" },
+    ],
+    version: "workflow-clarification-v1",
+  };
+}
+
 function isFullRefundAnswer(message = "") {
   const lower = normaliseMessage(message);
   return lower.includes("full refund") || lower === "full" || lower.includes("full amount");
@@ -216,6 +239,12 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   if (!(liveReply || reply)) {
     if (!queueKnowledgeGaps) return false;
     if (isWorkflowQuestion) {
+      const vagueClarification = vagueWorkflowClarificationPayload(message);
+      if (vagueClarification) {
+        debug.stages.push({ name: "vague-workflow-clarification", matched: true });
+        res.json(await prepareChatPayload({ client, payload: vagueClarification, message: originalMessage, debug, debugEnabled, req }));
+        return true;
+      }
       const queued = await enqueueWorkflowExploration({
         question: message,
         reason: "chat-workflow-knowledge-gap",

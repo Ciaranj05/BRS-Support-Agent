@@ -212,6 +212,7 @@ test("setup versus application intent is general across reusable objects", () =>
 
 test("approved membership bill creation questions do not fall through to unknown workflow gap", async () => {
   const directBillReply = approvedStaticWorkflowReply("How do I create a bill for a member?");
+  const plainBillReply = await answerFromKnowledge("How do I create a bill?");
   const membershipBillReply = await answerFromKnowledge("How do I create a membership bill?");
   const addBillReply = await answerFromKnowledge("How do I add a bill for a member?");
   const invoiceReply = await answerFromKnowledge("How do I raise an invoice for a member?");
@@ -221,7 +222,7 @@ test("approved membership bill creation questions do not fall through to unknown
   assert.equal(isMemberBalanceReportQuestion("How do I create a membership bill?"), false);
   assert.equal(isMemberBalanceReportQuestion("How do I find members with outstanding bills?"), true);
 
-  for (const reply of [directBillReply, membershipBillReply, addBillReply, invoiceReply]) {
+  for (const reply of [directBillReply, plainBillReply, membershipBillReply, addBillReply, invoiceReply]) {
     assert.match(reply, /Create a Membership Bill/i);
     assert.match(reply, /member profile Billing area/i);
     assert.match(reply, /Memberships"? billing tools/i);
@@ -232,6 +233,49 @@ test("approved membership bill creation questions do not fall through to unknown
 
   assert.match(schemeReply, /Create or Manage Membership Payment Schemes/i);
   assert.match(balanceReply, /View Members Who Owe Membership Money/i);
+});
+
+test("approved direct routes cover non-billing BRS areas before workflow gap", async () => {
+  const memberProfileReply = await answerFromKnowledge("How do I create a member profile?");
+  const memberLoginReply = await answerFromKnowledge("How do I set up a member login?");
+  const bookingRulesReply = await answerFromKnowledge("How do I change booking rules?");
+  const advanceBookingReply = approvedStaticWorkflowReply("advance booking");
+  const buggyVisitorReply = await answerFromKnowledge("How do visitors book buggies?");
+  const buggyCountReply = approvedStaticWorkflowReply("buggy count");
+  const greenFeeReply = await answerFromKnowledge("How do I setup green fee rates?");
+  const emailTemplateReply = await answerFromKnowledge("How do I edit email templates?");
+  const teeSheetReply = await answerFromKnowledge("How do I setup tee sheet?");
+  const userReply = await answerFromKnowledge("How do I create a staff user?");
+
+  assert.match(memberProfileReply, /Create a Member Profile or Account/i);
+  assert.match(memberProfileReply, /BRS "?Members"? Tee Time Reservation URL/i);
+  assert.match(memberLoginReply, /Create a Member Profile or Account/i);
+  assert.match(bookingRulesReply, /Check Booking Rules/i);
+  assert.match(bookingRulesReply, /Member Casual Booking Rules/i);
+  assert.match(advanceBookingReply, /Check Booking Rules/i);
+  assert.match(buggyVisitorReply, /Check Buggy Booking Availability/i);
+  assert.match(buggyVisitorReply, /System Configuration/i);
+  assert.match(buggyCountReply, /Check Buggy Booking Availability/i);
+  assert.match(greenFeeReply, /Set Up Green Fee Rates/i);
+  assert.match(emailTemplateReply, /Set Up Email and Letter Templates/i);
+  assert.match(teeSheetReply, /Configure the Timesheet/i);
+  assert.match(userReply, /Add a User/i);
+
+  for (const reply of [memberProfileReply, memberLoginReply, bookingRulesReply, buggyVisitorReply, greenFeeReply, emailTemplateReply, teeSheetReply, userReply]) {
+    assert.doesNotMatch(reply, /complete proven BRS workflow/i);
+  }
+});
+
+test("vague workflow prompts clarify instead of queueing exploration", () => {
+  const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
+
+  assert.match(serverSource, /function vagueWorkflowClarificationPayload/);
+  assert.match(serverSource, /Which BRS area is this about\?/);
+  assert.match(serverSource, /vague-workflow-clarification/);
+  assert.ok(
+    serverSource.search(/const vagueClarification = vagueWorkflowClarificationPayload\(message\)/) <
+    serverSource.search(/const queued = await enqueueWorkflowExploration/)
+  );
 });
 
 test("approved static workflows cover dashboard, search, and contact variants", () => {
