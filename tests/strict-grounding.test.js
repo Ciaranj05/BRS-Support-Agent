@@ -210,6 +210,30 @@ test("setup versus application intent is general across reusable objects", () =>
   assert.match(addService, /Booking Details/i);
 });
 
+test("approved membership bill creation questions do not fall through to unknown workflow gap", async () => {
+  const directBillReply = approvedStaticWorkflowReply("How do I create a bill for a member?");
+  const membershipBillReply = await answerFromKnowledge("How do I create a membership bill?");
+  const addBillReply = await answerFromKnowledge("How do I add a bill for a member?");
+  const invoiceReply = await answerFromKnowledge("How do I raise an invoice for a member?");
+  const schemeReply = approvedStaticWorkflowReply("How do I create a payment scheme?");
+  const balanceReply = approvedStaticWorkflowReply("How do I find members with outstanding bills?");
+
+  assert.equal(isMemberBalanceReportQuestion("How do I create a membership bill?"), false);
+  assert.equal(isMemberBalanceReportQuestion("How do I find members with outstanding bills?"), true);
+
+  for (const reply of [directBillReply, membershipBillReply, addBillReply, invoiceReply]) {
+    assert.match(reply, /Create a Membership Bill/i);
+    assert.match(reply, /member profile Billing area/i);
+    assert.match(reply, /Memberships"? billing tools/i);
+    assert.match(reply, /manual bill, subscription or renewal bill, or payment scheme/i);
+    assert.doesNotMatch(reply, /complete proven BRS workflow/i);
+    assert.doesNotMatch(reply, /View Members Who Owe/i);
+  }
+
+  assert.match(schemeReply, /Create or Manage Membership Payment Schemes/i);
+  assert.match(balanceReply, /View Members Who Owe Membership Money/i);
+});
+
 test("approved static workflows cover dashboard, search, and contact variants", () => {
   const dashboardReply = approvedStaticWorkflowReply("How do I see today's bookings on the dashboard?");
   const searchReply = approvedStaticWorkflowReply("How do I find a booking by booking reference?");
