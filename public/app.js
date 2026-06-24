@@ -262,18 +262,7 @@ function startFreshPromptForNextQuestion(text) {
 }
 
 function addWelcome() {
-  const chat = document.getElementById("chat");
-  const row = document.createElement("div");
-  row.className = "msg-row bot-row";
-  const wrap = document.createElement("div");
-  wrap.className = "msg-wrap";
-  const div = document.createElement("div");
-  div.className = "msg bot opening";
-  div.innerHTML = `<div class="opening-inner"><div class="opening-title">How can I help you today?</div><div class="option-row"><button class="option-btn" type="button" onclick="document.getElementById('input').focus()">Ask a question</button></div></div>`;
-  wrap.appendChild(div);
-  row.appendChild(wrap);
-  chat.appendChild(row);
-  chat.scrollTop = chat.scrollHeight;
+  addMessage("Thank you for using BRS Caddie, how can I help you today?", "bot", []);
 }
 
 function disableRows() {
