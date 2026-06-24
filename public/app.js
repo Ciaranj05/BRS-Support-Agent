@@ -271,6 +271,12 @@ function disableRows() {
   if (activeRatingRow) activeRatingRow.querySelectorAll("button").forEach((b) => { b.disabled = true; });
 }
 
+function clearResolutionPrompt() {
+  if (!activeResolutionRow) return;
+  activeResolutionRow.remove();
+  activeResolutionRow = null;
+}
+
 function addSystemDivider(text) {
   const chat = document.getElementById("chat");
   const row = document.createElement("div");
@@ -281,14 +287,58 @@ function addSystemDivider(text) {
 }
 
 function addResolutionPrompt() {
-  if (activeResolutionRow) activeResolutionRow.remove();
+  clearResolutionPrompt();
   const chat = document.getElementById("chat");
   const row = document.createElement("div");
   row.className = "msg-row bot-row";
-  row.innerHTML = '<div class="msg-wrap"><div class="resolution-card"><div class="resolution-title">Was this query resolved?</div><div class="resolution-text">Choose Yes to leave a recommendation score, or No to record an escalation.</div><div class="resolution-actions"><button class="solved-btn" onclick="showRatingPrompt()">Yes, resolved</button><button class="escalate-btn" onclick="showUnresolvedPrompt()">No, escalate</button></div></div></div>';
+  row.innerHTML = '<div class="msg-wrap"><div class="resolution-card"><div class="resolution-title">Did this resolve your issue?</div><div class="resolution-text">Choose Yes if this fixed it, or keep chatting if you need to refine it.</div><div class="resolution-actions"><button class="solved-btn" onclick="showRatingPrompt()">Yes, resolved</button><button class="continue-btn" onclick="continueIssue()">No, keep helping</button></div></div></div>';
   chat.appendChild(row);
   activeResolutionRow = row;
   chat.scrollTop = chat.scrollHeight;
+}
+
+function replyAsksForMoreInput(text) {
+  const reply = String(text || "").trim();
+  if (!reply) return false;
+  const lower = reply.toLowerCase();
+  if (/\?\s*$/.test(reply)) return true;
+  return lower.includes("can you see")
+    || lower.includes("which ")
+    || lower.includes("what status")
+    || lower.includes("please select")
+    || lower.includes("please choose")
+    || lower.includes("please enter")
+    || lower.includes("add a bit more detail")
+    || lower.includes("type what")
+    || lower.includes("tell me what")
+    || lower.includes("have you checked");
+}
+
+function replyIsUncertainOrEscalating(text) {
+  const lower = String(text || "").toLowerCase();
+  return lower.includes("i don't have enough confirmed information")
+    || lower.includes("i do not have a complete")
+    || lower.includes("needs workflow exploration")
+    || lower.includes("should be escalated")
+    || lower.includes("needs to be investigated")
+    || lower.includes("i have prepared an escalation");
+}
+
+function shouldOfferResolutionCheck(data, optionCount) {
+  if (!data || optionCount > 0 || data.escalationReady) return false;
+  return !replyAsksForMoreInput(data.reply) && !replyIsUncertainOrEscalating(data.reply);
+}
+
+function maybeAddResolutionPrompt(data, optionCount) {
+  if (shouldOfferResolutionCheck(data, optionCount)) addResolutionPrompt();
+  else clearResolutionPrompt();
+}
+
+function continueIssue() {
+  clearResolutionPrompt();
+  const input = document.getElementById("input");
+  input.disabled = false;
+  input.focus();
 }
 
 function showRatingPrompt() {
@@ -615,12 +665,13 @@ async function send(m = null, d = null) {
   const input = document.getElementById("input");
   let typed = m || input.value.trim();
   if (!typed) return;
+  const hadPriorUserMessage = hasPriorUserMessage();
   if (!m && !pendingFreeTextClarification && pendingTimesheetRequest) {
     typed = `${pendingTimesheetRequest}. Additional details: ${typed}`;
     pendingTimesheetRequest = "";
   }
   const followUpHint = !m && !pendingFreeTextClarification ? pendingFollowUpHint : "";
-  const newQuestionIntent = !m && !pendingFreeTextClarification && !followUpHint && !pendingTimesheetRequest && hasPriorUserMessage() && wantsNewQuestion(typed);
+  const newQuestionIntent = !m && !pendingFreeTextClarification && !followUpHint && !pendingTimesheetRequest && hadPriorUserMessage && wantsNewQuestion(typed);
   if (newQuestionIntent) {
     const nextQuestion = extractNewQuestion(typed);
     if (!nextQuestion) {
@@ -631,11 +682,12 @@ async function send(m = null, d = null) {
     }
     typed = nextQuestion;
   }
-  const shouldStartFresh = !m && !pendingFreeTextClarification && !followUpHint && !pendingTimesheetRequest && hasPriorUserMessage() && (looksLikeStandaloneQuestion(typed) || newQuestionIntent);
+  const shouldStartFresh = !m && !pendingFreeTextClarification && !followUpHint && !pendingTimesheetRequest && hadPriorUserMessage && (looksLikeStandaloneQuestion(typed) || newQuestionIntent);
   if (shouldStartFresh) startFreshSessionForRootQuestion();
   const message = pendingFreeTextClarification && !m ? buildClarificationPayload(typed) : typed;
   pendingFreeTextClarification = false;
   disableRows();
+  clearResolutionPrompt();
   addMessage(d || typed.replace(/^.*Additional details:\s*/, "") || typed, "user");
   input.value = "";
   isSending = true;
@@ -662,7 +714,7 @@ async function send(m = null, d = null) {
     }
     pendingTimesheetRequest = "";
     const optionCount = await addMessageTyped(data.reply || "No response received.", data.options || []);
-    if (!optionCount && !data.escalationReady) addResolutionPrompt();
+    maybeAddResolutionPrompt(data, optionCount);
   } catch (e) {
     removeTyping();
     addMessage("There was a problem sending your message. Please try again.", "bot");
