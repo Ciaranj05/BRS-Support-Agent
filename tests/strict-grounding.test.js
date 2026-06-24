@@ -176,6 +176,7 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   assert.doesNotMatch(paymentSchemeReply, /What is happening with the payment/i);
   assert.doesNotMatch(contactReply, /\bMemberships\b/);
   assert.doesNotMatch(passwordReply, /ask the user to share/i);
+  assert.doesNotMatch(passwordReply, /in chat/i);
   assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);
 });
 
@@ -226,7 +227,9 @@ test("approved membership bill creation questions do not fall through to unknown
     assert.match(reply, /Create a Membership Bill/i);
     assert.match(reply, /member profile Billing area/i);
     assert.match(reply, /Memberships"? billing tools/i);
-    assert.match(reply, /manual bill, subscription or renewal bill, or payment scheme/i);
+    assert.match(reply, /manual bill, subscription or renewal bill, or all-member billing/i);
+    assert.match(reply, /confirm the bill appears with the correct member, amount, and status/i);
+    assert.doesNotMatch(reply, /If the user means|payment scheme workflow|scheduled payment/i);
     assert.doesNotMatch(reply, /complete proven BRS workflow/i);
     assert.doesNotMatch(reply, /View Members Who Owe/i);
   }
@@ -459,6 +462,30 @@ test("static workflow answers use customer-facing wording and demo labels", () =
   assert.match(replies, /"Message on the Timesheet"/i);
   assert.match(replies, /"Days Advance Booking"/i);
   assert.doesNotMatch(replies, /support task|advising staff|another support agent|club wants|club needs|club is asking|BRS customers using/i);
+});
+
+test("representative workflow answers avoid internal routing language", () => {
+  const replies = [
+    approvedStaticWorkflowReply("How do I create a bill?"),
+    approvedStaticWorkflowReply("How do I change booking rules?"),
+    approvedStaticWorkflowReply("How do I see today online and offline bookings?"),
+    approvedStaticWorkflowReply("How do I upload a timesheet?"),
+    approvedStaticWorkflowReply("How do I add a tee time at the start of the day?"),
+    approvedStaticWorkflowReply("How do I add a visitor contact?"),
+    approvedStaticWorkflowReply("How do I email members?"),
+    approvedStaticWorkflowReply("How do I text members in a group?"),
+    approvedStaticWorkflowReply("send club message to a course"),
+    approvedStaticWorkflowReply("How do I set up membership types?"),
+    approvedStaticWorkflowReply("How do I create a payment scheme?"),
+    approvedStaticWorkflowReply("How do I add staff user?"),
+    approvedStaticWorkflowReply("How do I change password?"),
+    approvedStaticWorkflowReply("How do I set up Golf Plus?"),
+  ].filter(Boolean);
+
+  for (const reply of replies) {
+    assert.doesNotMatch(reply, /\b(user means|Clarify|reusable product knowledge|support agent|technical support specialist)\b/i);
+    assert.doesNotMatch(reply, /\b(payment scheme workflow|bill workflow|normal messaging route|booking search route|club-message route|text-message route|member email route)\b/i);
+  }
 });
 
 test("static workflow answers include proven screen locations for controls generally", () => {

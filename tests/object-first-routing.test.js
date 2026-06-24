@@ -120,4 +120,6 @@ test("routes competition payment variants by competition audience", () => {
   assert.equal(visitors.topic, "teesheet");
   assert.equal(visitors.routeStrength, "guardrail");
   assert.match(visitors.reply, /visitor\/open competition fee setup/);
+  assert.doesNotMatch(visitors.reply, /\broute\b|rather than|not from/i);
+  assert.doesNotMatch(members.reply, /do not use|generic payment request for member competition charges/i);
 });
