@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-06-24T00:00:00.000Z",
+  "sourceType": "brs-system-workflow",
+  "entries": [
+    {
+      "id": "brs-demo-workflow:membership-billing-create-bills-reviewed",
+      "sourceType": "brs-system-workflow",
+      "title": "Observed workflow: create membership bills",
+      "area": "Memberships > Billing/Payments",
+      "workflow": "Create membership bills",
+      "summary": "Reviewed demo evidence for creating subscription, renewal, batch, or all-member membership bills from Billing/Payments. No live member names, amounts, payment references, or club-specific values were recorded.",
+      "navigationPath": "Memberships > Billing/Payments > CREATE BILLS",
+      "aliases": [
+        "How do I create a bill?",
+        "How do I create a membership bill?",
+        "How do I add a bill for a member?",
+        "How do I raise an invoice?",
+        "How do I create batch bills?"
+      ],
+      "routes": [
+        {
+          "name": "Create bills from Memberships Billing/Payments",
+          "actor": "Golf club admin or membership staff user",
+          "preconditions": [
+            "The staff user has access to Memberships.",
+            "The club knows the bill reference, due date, billing period, audience, subscriptions or custom line items, and whether payment schemes should be offered."
+          ],
+          "steps": [
+            "Open Memberships.",
+            "Open Billing/Payments.",
+            "Click CREATE BILLS.",
+            "In Enter Billing Details, enter the Billing Reference and Due Date.",
+            "Click SET BILL FILTERS and choose the bill cycle or period option.",
+            "Use Who To Bill to confirm the members or audience for the bill.",
+            "Select the subscriptions, discounts, and any custom bill items needed.",
+            "Use ADD ITEM only when the club needs an extra one-off line item.",
+            "In Payment Schemes, select a scheme only if members should be offered scheduled or instalment payments.",
+            "Click PREVIEW and review the bill before finalising."
+          ],
+          "outcome": "The bill is prepared through the create bills wizard and reviewed before finalisation.",
+          "verification": [
+            "Return to Billing/Payments.",
+            "Use View All Bills or the bill search/filter controls.",
+            "Confirm the bill appears with the correct member or audience, due date, amount, payment status, and publish status."
+          ],
+          "unobservedControls": [
+            "The Who To Bill modal tab was visible but not fully captured because the browser bridge did not reliably switch to that tab."
+          ]
+        }
+      ],
+      "controls": [
+        { "label": "VIEW PAYMENTS", "type": "link" },
+        { "label": "CREATE BILLS", "type": "button" },
+        { "label": "Billing Reference", "type": "input" },
+        { "label": "Due Date", "type": "date input" },
+        { "label": "SET BILL FILTERS", "type": "button" },
+        { "label": "Bill Cycles/Periods", "type": "modal tab" },
+        { "label": "Who To Bill", "type": "modal tab" },
+        { "label": "All Cycles", "type": "radio option" },
+        { "label": "Selected Cycles", "type": "radio option" },
+        { "label": "No Cycles/Periods", "type": "radio option" },
+        { "label": "ADD ITEM", "type": "button" },
+        { "label": "Payment Schemes", "type": "section" },
+        { "label": "PREVIEW", "type": "button" },
+        { "label": "View All Bills", "type": "filter/action" },
+        { "label": "Download CSV Bills", "type": "export action" },
+        { "label": "Download Bill PDF", "type": "document action" },
+        { "label": "Download Bill Batch PDF", "type": "document action" },
+        { "label": "Resend Bill", "type": "bill action" },
+        { "label": "Edit Bill", "type": "bill action" },
+        { "label": "Cancel Bill", "type": "bill action" },
+        { "label": "Make One-off Payment", "type": "bill action" }
+      ],
+      "tableHeaders": [
+        "Bill Name",
+        "Player Name",
+        "Membership Type",
+        "Membership Status",
+        "Raised",
+        "Due",
+        "Total",
+        "Paid",
+        "Outstanding",
+        "Payment Status",
+        "Publish Status",
+        "Actions"
+      ],
+      "relatedViews": [
+        {
+          "name": "Single bill view",
+          "actions": [
+            "Download Bill PDF",
+            "Resend Bill",
+            "Edit Bill",
+            "Cancel Bill",
+            "Edit Discount",
+            "Apply Discount",
+            "Make One-off Payment"
+          ]
+        },
+        {
+          "name": "Batch bill view",
+          "actions": [
+            "Resend Batch",
+            "Edit Batch",
+            "Cancel Batch",
+            "Filter Columns",
+            "Download Batch Bills CSV",
+            "Print Batch Bills"
+          ]
+        },
+        {
+          "name": "Overdue bills report",
+          "filters": [
+            "Search",
+            "Due date From",
+            "Due date To",
+            "Payment Status",
+            "Membership Types"
+          ],
+          "actions": [
+            "Filter Columns",
+            "Download CSV Overdue bills Report",
+            "Print overdue bills report"
+          ]
+        }
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Billing/Payments",
+          "CREATE BILLS",
+          "ENTER BILLING DETAILS",
+          "SELECT BILL PERIOD / WHO TO BILL",
+          "SELECT SUBSCRIPTIONS, DISCOUNTS & CUSTOM ITEMS",
+          "PAYMENT SCHEMES"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "safeForChatbot": true,
+      "safetyTier": "read-and-draft-only",
+      "mutationsPerformed": [],
+      "rollbackRequired": false,
+      "tags": [
+        "demo-exploration",
+        "reviewed",
+        "memberships",
+        "billing",
+        "create-bills"
+      ],
+      "sourceId": "membership-billing-create-bills-reviewed",
+      "learnedAt": "2026-06-24T00:00:00.000Z"
+    }
+  ]
+}

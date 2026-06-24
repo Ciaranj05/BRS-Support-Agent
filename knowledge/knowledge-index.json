@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-22T15:27:11.349Z",
+  "generatedAt": "2026-06-24T15:38:22.270Z",
   "entries": [
     {
       "id": "brs-system:multi-course-admin-navigation",
@@ -24352,6 +24352,170 @@
         }
       ],
       "tableHeaders": []
+    },
+    {
+      "id": "brs-demo-workflow:membership-billing-create-bills-reviewed",
+      "sourceType": "workflow",
+      "title": "Observed workflow: create membership bills",
+      "area": "Memberships > Billing/Payments",
+      "navigationPath": "Memberships > Billing/Payments > CREATE BILLS",
+      "sourceUrl": null,
+      "confidence": "approved",
+      "lastObservedAt": null,
+      "tags": [
+        "demo-exploration",
+        "reviewed",
+        "memberships",
+        "billing",
+        "create-bills",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "content": "Reviewed demo evidence for creating subscription, renewal, batch, or all-member membership bills from Billing/Payments. No live member names, amounts, payment references, or club-specific values were recorded.\nWorkflow: Create membership bills\nAliases: How do I create a bill?; How do I create a membership bill?; How do I add a bill for a member?; How do I raise an invoice?; How do I create batch bills?\nRoute 1: Create bills from Memberships Billing/Payments\nRoute 1 actor: Golf club admin or membership staff user\nRoute 1 preconditions: The staff user has access to Memberships.; The club knows the bill reference, due date, billing period, audience, subscriptions or custom line items, and whether payment schemes should be offered.\nRoute 1 step 1: Open Memberships.\nRoute 1 step 2: Open Billing/Payments.\nRoute 1 step 3: Click CREATE BILLS.\nRoute 1 step 4: In Enter Billing Details, enter the Billing Reference and Due Date.\nRoute 1 step 5: Click SET BILL FILTERS and choose the bill cycle or period option.\nRoute 1 step 6: Use Who To Bill to confirm the members or audience for the bill.\nRoute 1 step 7: Select the subscriptions, discounts, and any custom bill items needed.\nRoute 1 step 8: Use ADD ITEM only when the club needs an extra one-off line item.\nRoute 1 step 9: In Payment Schemes, select a scheme only if members should be offered scheduled or instalment payments.\nRoute 1 step 10: Click PREVIEW and review the bill before finalising.\nRoute 1 outcome: The bill is prepared through the create bills wizard and reviewed before finalisation.\nRoute 1 verification: Return to Billing/Payments.; Use View All Bills or the bill search/filter controls.; Confirm the bill appears with the correct member or audience, due date, amount, payment status, and publish status.\nControl: VIEW PAYMENTS: link\nControl: CREATE BILLS: button\nControl: Billing Reference: input\nControl: Due Date: date input\nControl: SET BILL FILTERS: button\nControl: Bill Cycles/Periods: modal tab\nControl: Who To Bill: modal tab\nControl: All Cycles: radio option\nControl: Selected Cycles: radio option\nControl: No Cycles/Periods: radio option\nControl: ADD ITEM: button\nControl: Payment Schemes: section\nControl: PREVIEW: button\nControl: View All Bills: filter/action\nControl: Download CSV Bills: export action\nControl: Download Bill PDF: document action\nControl: Download Bill Batch PDF: document action\nControl: Resend Bill: bill action\nControl: Edit Bill: bill action\nControl: Cancel Bill: bill action\nControl: Make One-off Payment: bill action\nTable column: Bill Name\nTable column: Player Name\nTable column: Membership Type\nTable column: Membership Status\nTable column: Raised\nTable column: Due\nTable column: Total\nTable column: Paid\nTable column: Outstanding\nTable column: Payment Status\nTable column: Publish Status\nTable column: Actions\nHeading: Billing/Payments\nHeading: CREATE BILLS\nHeading: ENTER BILLING DETAILS\nHeading: SELECT BILL PERIOD / WHO TO BILL\nHeading: SELECT SUBSCRIPTIONS, DISCOUNTS & CUSTOM ITEMS\nHeading: PAYMENT SCHEMES",
+      "workflow": "Create membership bills",
+      "workflowFamily": "Create membership bills",
+      "aliases": [
+        "How do I create a bill?",
+        "How do I create a membership bill?",
+        "How do I add a bill for a member?",
+        "How do I raise an invoice?",
+        "How do I create batch bills?"
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "VIEW PAYMENTS",
+          "type": "link"
+        },
+        {
+          "label": "CREATE BILLS",
+          "type": "button"
+        },
+        {
+          "label": "Billing Reference",
+          "type": "input"
+        },
+        {
+          "label": "Due Date",
+          "type": "date input"
+        },
+        {
+          "label": "SET BILL FILTERS",
+          "type": "button"
+        },
+        {
+          "label": "Bill Cycles/Periods",
+          "type": "modal tab"
+        },
+        {
+          "label": "Who To Bill",
+          "type": "modal tab"
+        },
+        {
+          "label": "All Cycles",
+          "type": "radio option"
+        },
+        {
+          "label": "Selected Cycles",
+          "type": "radio option"
+        },
+        {
+          "label": "No Cycles/Periods",
+          "type": "radio option"
+        },
+        {
+          "label": "ADD ITEM",
+          "type": "button"
+        },
+        {
+          "label": "Payment Schemes",
+          "type": "section"
+        },
+        {
+          "label": "PREVIEW",
+          "type": "button"
+        },
+        {
+          "label": "View All Bills",
+          "type": "filter/action"
+        },
+        {
+          "label": "Download CSV Bills",
+          "type": "export action"
+        },
+        {
+          "label": "Download Bill PDF",
+          "type": "document action"
+        },
+        {
+          "label": "Download Bill Batch PDF",
+          "type": "document action"
+        },
+        {
+          "label": "Resend Bill",
+          "type": "bill action"
+        },
+        {
+          "label": "Edit Bill",
+          "type": "bill action"
+        },
+        {
+          "label": "Cancel Bill",
+          "type": "bill action"
+        },
+        {
+          "label": "Make One-off Payment",
+          "type": "bill action"
+        }
+      ],
+      "actions": [],
+      "routes": [
+        {
+          "name": "Create bills from Memberships Billing/Payments",
+          "actor": "Golf club admin or membership staff user",
+          "preconditions": [
+            "The staff user has access to Memberships.",
+            "The club knows the bill reference, due date, billing period, audience, subscriptions or custom line items, and whether payment schemes should be offered."
+          ],
+          "steps": [
+            "Open Memberships.",
+            "Open Billing/Payments.",
+            "Click CREATE BILLS.",
+            "In Enter Billing Details, enter the Billing Reference and Due Date.",
+            "Click SET BILL FILTERS and choose the bill cycle or period option.",
+            "Use Who To Bill to confirm the members or audience for the bill.",
+            "Select the subscriptions, discounts, and any custom bill items needed.",
+            "Use ADD ITEM only when the club needs an extra one-off line item.",
+            "In Payment Schemes, select a scheme only if members should be offered scheduled or instalment payments.",
+            "Click PREVIEW and review the bill before finalising."
+          ],
+          "outcome": "The bill is prepared through the create bills wizard and reviewed before finalisation.",
+          "verification": [
+            "Return to Billing/Payments.",
+            "Use View All Bills or the bill search/filter controls.",
+            "Confirm the bill appears with the correct member or audience, due date, amount, payment status, and publish status."
+          ],
+          "unobservedControls": [
+            "The Who To Bill modal tab was visible but not fully captured because the browser bridge did not reliably switch to that tab."
+          ]
+        }
+      ],
+      "tableHeaders": [
+        "Bill Name",
+        "Player Name",
+        "Membership Type",
+        "Membership Status",
+        "Raised",
+        "Due",
+        "Total",
+        "Paid",
+        "Outstanding",
+        "Payment Status",
+        "Publish Status",
+        "Actions"
+      ]
     },
     {
       "id": "brs-workflow-family:move-tee-sheet-booking",

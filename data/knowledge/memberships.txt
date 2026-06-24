@@ -262,15 +262,23 @@ Use this route when the user means a member profile/account:
 ## END APPROVED ANSWER
 
 ## APPROVED ANSWER: create-membership-bill
-Membership bills are handled from the member profile Billing area and the Memberships billing tools.
+Membership bills are created from Memberships > Billing/Payments.
 
-Before creating or changing a bill, confirm which billing route the club needs:
+Use this route for subscription, renewal, batch, or all-member billing work:
 
-1. Manual bill or one-off charge.
-2. Subscription or renewal bill.
-3. Payment scheme or scheduled payment.
+1. Open Memberships.
+2. Open Billing/Payments.
+3. Click CREATE BILLS.
+4. Enter the Billing Reference and Due Date.
+5. Click SET BILL FILTERS and choose the bill cycle or period option: All Cycles, Selected Cycles, or No Cycles/Periods.
+6. Use the Who To Bill step to confirm which members or audience should receive the bill.
+7. Select the subscriptions, discounts, and any custom bill items needed. Use ADD ITEM only when the club needs an extra one-off line item.
+8. In Payment Schemes, select a scheme only if members should be offered scheduled or instalment payments. Leave payment schemes unselected when the bill should be paid annually in one lump sum.
+9. Click PREVIEW and review the member/audience, bill reference, due date, subscriptions, custom line items, discounts, payment options, and totals before finalising.
 
-For all-member billing work, use Memberships billing/report views rather than a single member profile.
+Check the result from Billing/Payments by using View All Bills or the bill search/filter controls, then confirm the bill appears with the correct member or audience, due date, amount, payment status, and publish status.
+
+For a manual one-off charge on a single member, open the relevant member profile and use that member's Billing area instead.
 ## END APPROVED ANSWER
 
 ## APPROVED ANSWER: payment-scheme-setup

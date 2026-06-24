@@ -225,10 +225,14 @@ test("approved membership bill creation questions do not fall through to unknown
 
   for (const reply of [directBillReply, plainBillReply, membershipBillReply, addBillReply, invoiceReply]) {
     assert.match(reply, /Create a Membership Bill/i);
-    assert.match(reply, /member profile Billing area/i);
-    assert.match(reply, /Memberships"? billing tools/i);
-    assert.match(reply, /manual bill, subscription or renewal bill, or all-member billing/i);
-    assert.match(reply, /confirm the bill appears with the correct member, amount, and status/i);
+    assert.match(reply, /"Billing\/Payments"/i);
+    assert.match(reply, /"CREATE BILLS"/i);
+    assert.match(reply, /"Billing Reference"/i);
+    assert.match(reply, /"Due Date"/i);
+    assert.match(reply, /"SET BILL FILTERS"/i);
+    assert.match(reply, /"Payment Schemes"/i);
+    assert.match(reply, /"PREVIEW"/i);
+    assert.match(reply, /confirm the bill appears with the correct member or audience, due date, amount, payment status, and publish status/i);
     assert.doesNotMatch(reply, /If the user means|payment scheme workflow|scheduled payment/i);
     assert.doesNotMatch(reply, /complete proven BRS workflow/i);
     assert.doesNotMatch(reply, /View Members Who Owe/i);
