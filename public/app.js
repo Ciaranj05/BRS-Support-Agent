@@ -488,6 +488,7 @@ function getFollowUpHint(text) {
   if (lower.includes("billing an individual member") && lower.includes("for a group")) return "The previous answer was about creating membership bills. The assistant asked whether the user wants steps for billing an individual member or for billing a group. Treat the next message as the answer to that choice, not as a new issue.";
   if (lower.includes("would you like") && lower.includes("individual") && lower.includes("group")) return "The assistant asked the user to choose between individual and group steps. Treat the next message as a follow-up choice.";
   if (lower.includes("which") && lower.includes("closest")) return "The assistant asked the user to choose the closest support route. Treat the next message as a clarification answer.";
+  if ((lower.includes("which payment") || lower.includes("are you looking for a payment")) && lower.includes("booking")) return "The assistant asked which object the payment relates to. Treat the next message as a clarification answer, not as a new issue.";
   if (lower.includes("can you add a bit more detail")) return "The assistant asked for more detail about the current support issue. Treat the next message as a clarification, not a new issue.";
   return "";
 }

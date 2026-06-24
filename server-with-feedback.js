@@ -11,6 +11,7 @@ import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
 import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.js";
+import { contextualiseShortClarificationFollowUp, exhaustedWorkflowFollowUpPayload, repeatedWorkflowFollowUpPayload } from "./lib/repeatedWorkflowFollowUp.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
@@ -266,6 +267,13 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     }
   }
   const rawReply = liveReply || reply;
+  const repeatedWorkflowPayload = repeatedWorkflowFollowUpPayload(originalMessage, getConversationHistory(req), rawReply);
+  debug.stages.push({ name: "repeated-workflow-follow-up", matched: Boolean(repeatedWorkflowPayload) });
+  if (repeatedWorkflowPayload) {
+    res.json(await prepareChatPayload({ client, payload: repeatedWorkflowPayload, message: originalMessage, debug, debugEnabled, req }));
+    return true;
+  }
+
   let completeReply = rawReply;
   if (process.env.BRS_ENABLE_ANSWER_COMPLETION === "true") {
     completeReply = await completeInitialAnswer(message, rawReply);
@@ -297,38 +305,46 @@ async function enhancedChatHandler(req, res, next) {
     assertBotAccess(authContext);
     debug.stages.push({ name: "auth-context", matched: true, clubId: authContext.clubId, source: authContext.source, authRequired: authContext.authRequired });
 
-    const refundFlowPayload = handleRefundClarificationFlow(message, history, { includeInitialPrompt: false });
+    const exhaustedWorkflowPayload = exhaustedWorkflowFollowUpPayload(originalMessage, history);
+    debug.stages.push({ name: "exhausted-workflow-follow-up", matched: Boolean(exhaustedWorkflowPayload) });
+    if (exhaustedWorkflowPayload) return res.json(await prepareChatPayload({ client, payload: exhaustedWorkflowPayload, message: originalMessage, debug, debugEnabled, req }));
+
+    const contextualMessage = contextualiseShortClarificationFollowUp(message, history);
+    if (contextualMessage !== message) debug.stages.push({ name: "contextual-short-follow-up", matched: true });
+    const routingMessage = contextualMessage;
+
+    const refundFlowPayload = handleRefundClarificationFlow(routingMessage, history, { includeInitialPrompt: false });
     debug.stages.push({ name: "refund-clarification-flow", matched: Boolean(refundFlowPayload) });
     if (refundFlowPayload) return res.json(await prepareChatPayload({ client, payload: refundFlowPayload, message: originalMessage, debug, debugEnabled, req }));
 
-    const actionRoute = routeActionRequest(message);
+    const actionRoute = routeActionRequest(routingMessage);
     debug.stages.push({ name: "action-router", matched: Boolean(actionRoute), route: actionRoute?.type || null });
     if (actionRoute) {
-      const actionPayload = await runActionRequest({ client, route: actionRoute, message, authContext });
+      const actionPayload = await runActionRequest({ client, route: actionRoute, message: routingMessage, authContext });
       if (actionPayload) return res.json(withDebug(actionPayload, debug, debugEnabled));
     }
 
-    if (isMemberBalanceLookup(message)) {
+    if (isMemberBalanceLookup(routingMessage)) {
       debug.stages.push({ name: "direct-member-balance-intent", matched: true });
-      const handled = await respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel: "knowledge-answer-direct" });
+      const handled = await respondFromKnowledge({ req, res, message: routingMessage, originalMessage, debug, debugEnabled, routeLabel: "knowledge-answer-direct" });
       if (handled) return;
     }
 
-    const objectFirstReply = answerFromObjectFirstRouting(message);
+    const objectFirstReply = answerFromObjectFirstRouting(routingMessage);
     debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
     if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
     if (objectFirstReply?.routeStrength === "specific") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
-    const initialRefundFlowPayload = handleRefundClarificationFlow(message, history);
+    const initialRefundFlowPayload = handleRefundClarificationFlow(routingMessage, history);
     debug.stages.push({ name: "initial-refund-clarification-flow", matched: Boolean(initialRefundFlowPayload) });
     if (initialRefundFlowPayload) return res.json(await prepareChatPayload({ client, payload: initialRefundFlowPayload, message: originalMessage, debug, debugEnabled, req }));
 
-    const preferStatefulClarification = shouldPreferStatefulClarification(message, history);
+    const preferStatefulClarification = shouldPreferStatefulClarification(routingMessage, history);
     debug.stages.push({ name: "stateful-clarification-precheck", matched: preferStatefulClarification });
     const handled = await respondFromKnowledge({
       req,
       res,
-      message,
+      message: routingMessage,
       originalMessage,
       debug,
       debugEnabled,
@@ -340,8 +356,9 @@ async function enhancedChatHandler(req, res, next) {
     if (objectFirstReply) return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
     debug.stages.push({ name: "legacy-server", matched: true });
+    req.body = { ...req.body, message: routingMessage };
     if (debugEnabled) {
-      req.body = { ...req.body, message, chatDebug: debug };
+      req.body = { ...req.body, chatDebug: debug };
     }
     wrapJsonForChat({ client, res, message: originalMessage, debug, debugEnabled, req });
     return baseHandler(req, res, next);

@@ -44,12 +44,12 @@ test("production chat route returns specific object-first answers before model f
 
   assert.match(serverSource, /objectFirstReply\?\.routeStrength === "specific"/);
   assert.ok(
-    serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(message\)/) <
-    serverSource.search(/const preferStatefulClarification = shouldPreferStatefulClarification\(message, history\)/)
+    serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(routingMessage\)/) <
+    serverSource.search(/const preferStatefulClarification = shouldPreferStatefulClarification\(routingMessage, history\)/)
   );
   assert.ok(
-    serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(message\)/) <
-    serverSource.search(/const initialRefundFlowPayload = handleRefundClarificationFlow\(message, history\)/)
+    serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(routingMessage\)/) <
+    serverSource.search(/const initialRefundFlowPayload = handleRefundClarificationFlow\(routingMessage, history\)/)
   );
   assert.match(serverSource, /includeInitialPrompt: false/);
 });
