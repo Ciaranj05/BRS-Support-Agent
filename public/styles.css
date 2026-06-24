@@ -41,7 +41,7 @@ body {
 }
 
 .header {
-  padding: 16px 18px;
+  padding: 15px 18px;
   border-bottom: 3px solid var(--brs-navy-soft);
   display: flex;
   justify-content: space-between;
@@ -289,7 +289,7 @@ body {
   background: linear-gradient(90deg, var(--brs-navy), var(--brs-blue), var(--brs-green));
 }
 
-.opening-inner { padding: 24px 26px 22px; }
+.opening-inner { padding: 20px 24px 18px; }
 
 .opening-kicker {
   display: inline-flex;
@@ -306,12 +306,12 @@ body {
 }
 
 .opening-title {
-  font-size: 22px;
+  font-size: 21px;
   line-height: 1.25;
   font-weight: 900;
   letter-spacing: 0;
   color: var(--brs-text);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .opening-copy {
@@ -614,7 +614,7 @@ button:disabled {
   }
 
   .opening-title {
-    font-size: 19px;
+    font-size: 18px;
   }
 }
 
@@ -674,7 +674,7 @@ button:disabled {
   }
 
   .opening-inner {
-    padding: 20px 18px 18px;
+    padding: 17px 16px 16px;
   }
 
   .input-wrap {

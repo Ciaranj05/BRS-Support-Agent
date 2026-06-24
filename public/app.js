@@ -269,7 +269,7 @@ function addWelcome() {
   wrap.className = "msg-wrap";
   const div = document.createElement("div");
   div.className = "msg bot opening";
-  div.innerHTML = `<div class="opening-inner"><div class="opening-kicker">● Support assistant</div><div class="opening-title">How can Caddie help?</div><div class="opening-copy">Support guidance for bookings, payments, memberships and admin queries.</div><div class="option-row"><button class="option-btn" type="button" onclick="document.getElementById('input').focus()">Start a support query</button></div></div>`;
+  div.innerHTML = `<div class="opening-inner"><div class="opening-title">How can I help you today?</div><div class="option-row"><button class="option-btn" type="button" onclick="document.getElementById('input').focus()">Ask a question</button></div></div>`;
   wrap.appendChild(div);
   row.appendChild(wrap);
   chat.appendChild(row);
