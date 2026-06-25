@@ -1,4 +1,5 @@
 import { rewriteAddsUnsupportedDetails } from "../../lib/rewriteSafety.js";
+import { recordQaInteraction } from "../../lib/qaInteractionStore.js";
 
 export function getSessionId(req) {
   return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
@@ -112,6 +113,23 @@ export async function prepareChatPayload({ client, payload, message, debug, debu
   }
   if (nextPayload && req) {
     nextPayload.conversationHistory = buildResponseHistory(req, message, nextPayload);
+    if (typeof nextPayload.reply === "string" && String(message || "").trim()) {
+      recordQaInteraction({
+        sessionId: getSessionId(req),
+        conversationId: req.body?.conversationId || req.body?.sessionId || getSessionId(req),
+        question: message,
+        answer: nextPayload.reply,
+        metadata: {
+          topic: nextPayload.topic,
+          version: nextPayload.version,
+          routeStrength: nextPayload.routeStrength,
+          escalationReady: nextPayload.escalationReady,
+          options: nextPayload.options,
+        },
+      }).catch((error) => {
+        console.error("Q&A interaction logging failed:", error);
+      });
+    }
   }
   return withDebug(nextPayload, debug, debugEnabled);
 }

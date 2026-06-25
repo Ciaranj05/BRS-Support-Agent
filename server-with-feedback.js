@@ -13,6 +13,7 @@ import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
 import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.js";
 import { contextualiseShortClarificationFollowUp, exhaustedWorkflowFollowUpPayload, repeatedWorkflowFollowUpPayload } from "./lib/repeatedWorkflowFollowUp.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
+import { runQaAnalysis } from "./lib/qaAnalysis.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
@@ -350,7 +351,7 @@ async function enhancedChatHandler(req, res, next) {
     debug.stages.push({ name: "action-router", matched: Boolean(actionRoute), route: actionRoute?.type || null });
     if (actionRoute) {
       const actionPayload = await runActionRequest({ client, route: actionRoute, message: routingMessage, authContext });
-      if (actionPayload) return res.json(withDebug(actionPayload, debug, debugEnabled));
+      if (actionPayload) return res.json(await prepareChatPayload({ client, payload: actionPayload, message: originalMessage, debug, debugEnabled, req }));
     }
 
     if (isMemberBalanceLookup(routingMessage)) {
@@ -459,6 +460,41 @@ app.get("/api/admin/survey-metrics", async (req, res) => {
   } catch (error) {
     console.error("Survey metrics failed:", error);
     res.status(500).json({ ok: false, error: "Unable to load survey metrics." });
+  }
+});
+
+function hasQaAnalysisAccess(req) {
+  const secret = process.env.QA_ANALYSIS_SECRET;
+  if (secret) {
+    const auth = String(req.headers.authorization || "");
+    const bearer = auth.startsWith("Bearer ") ? auth.slice("Bearer ".length) : "";
+    return bearer === secret || req.headers["x-qa-analysis-secret"] === secret || req.query?.secret === secret;
+  }
+  return req.headers["x-vercel-cron"] === "1" || process.env.NODE_ENV !== "production";
+}
+
+app.all("/api/admin/qa-analysis/run", async (req, res) => {
+  try {
+    if (!hasQaAnalysisAccess(req)) {
+      return res.status(403).json({ ok: false, error: "Q&A analysis requires QA_ANALYSIS_SECRET." });
+    }
+    const includeMarkdown = req.query?.includeMarkdown === "true" || req.body?.includeMarkdown === true;
+    const result = await runQaAnalysis({
+      startAt: req.query?.startAt || req.body?.startAt || null,
+      endAt: req.query?.endAt || req.body?.endAt || null,
+      outputDir: req.query?.outputDir || req.body?.outputDir || undefined,
+      writeFile: req.query?.writeFile !== "false" && req.body?.writeFile !== false,
+    });
+    res.status(200).json({
+      ok: true,
+      filePath: result.filePath,
+      fileName: result.fileName,
+      summary: result.summary,
+      markdown: includeMarkdown ? result.markdown : undefined,
+    });
+  } catch (error) {
+    console.error("Q&A analysis failed:", error);
+    res.status(500).json({ ok: false, error: error.message || "Unable to run Q&A analysis." });
   }
 });
 
