@@ -19,6 +19,41 @@ This audit compares the current approved knowledge structure with the live Amy's
 
 These still match the broad knowledge-file split in `data/knowledge`, so the current area families remain useful.
 
+## Extensive crawl completed on 2026-06-25
+
+After the initial Memberships-only fix, an additional broad read-only crawl was completed through the working in-app browser session. The crawl visited and saved structural evidence for:
+
+- Dashboard
+- Timesheet
+- Messages
+- Golf Plus
+- Facilities
+- Contacts
+- Users
+- Reports
+- Search
+- Tools
+- Need Help / BRS Core Knowledge Base
+- Member Competitions
+- Course Restriction
+- Embedded Memberships Dashboard
+- Embedded Memberships Members
+- Embedded Memberships Membership Types
+- Embedded Memberships Create Membership Type
+- Embedded Memberships Subscriptions
+- Embedded Memberships Billing/Payments
+- Embedded Memberships Reports
+- Embedded Memberships Accounts
+- Embedded Memberships Settings > General
+
+The crawl outputs are:
+
+- `knowledge/system/brs-iab-extensive-2026-06-25.json`
+- `knowledge/workflows/brs-iab-extensive-workflows-2026-06-25.json`
+- `docs/brs-iab-extensive-crawl-links-2026-06-25.json`
+
+The crawl extracted structural product evidence only: navigation labels, headings, tabs, fields, buttons, filter controls, table headers, and safe page/link labels. It did not intentionally capture customer/member names, emails, payment amounts, dates, or long identifiers; generated outputs were sanitized before rebuilding the knowledge index.
+
 ## Embedded Memberships app
 
 Memberships is a separate embedded app. The top-level BRS page contains a Memberships iframe whose active product surface is on `embedded-memberships.brsgolf.com`. The crawler must open that approved embedded app directly after BRS login; otherwise it records only the parent iframe and misses the actual workflow screens.

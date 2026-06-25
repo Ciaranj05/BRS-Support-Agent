@@ -1,0 +1,3420 @@
+{
+  "generatedAt": "2026-06-25T09:59:05.937Z",
+  "sourceType": "brs-system-workflow",
+  "entries": [
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"0%\" [level=3] workflow surface",
+      "area": "BRS Golf - Tee Booking System",
+      "workflow": "\"0%\" [level=3]",
+      "navigationPath": "BRS Golf - Tee Booking System > \"0%\" [level=3]",
+      "purpose": "\"0%\" [level=3] | \"0 Bookings\" [level=3] | \"0 Golfers\" [level=3] | \"Bookings\" [level=3] | \"Course Status\" [level=3] | \"Toolbox\" [level=3] | \"Version 15.28.0\" [level=3]",
+      "steps": [
+        "Open BRS Golf - Tee Booking System > \"0%\" [level=3].",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task."
+      ],
+      "controls": [
+        {
+          "label": "\"Today\" [expanded]",
+          "type": "tab"
+        },
+        {
+          "label": "\"Tomorrow\"",
+          "type": "tab"
+        },
+        {
+          "label": "textbox",
+          "type": "textbox"
+        }
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"0%\" [level=3]",
+          "\"0 Bookings\" [level=3]",
+          "\"0 Golfers\" [level=3]",
+          "\"Bookings\" [level=3]",
+          "\"Course Status\" [level=3]",
+          "\"Toolbox\" [level=3]",
+          "\"Version 15.28.0\" [level=3]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":",
+          "All Bookings\":",
+          "Visitor Bookings\":",
+          "Reservation Types\":",
+          "Tee Sheet Utilisation\":",
+          "Magenta Course\":",
+          "Cyan Course\":",
+          "Green Fees \":",
+          "Member Competitions \":",
+          "Get Help\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:57:48.548Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Timesheet workflow surface",
+      "area": "Timesheet",
+      "workflow": "Timesheet",
+      "navigationPath": "Timesheet",
+      "purpose": "Timesheet",
+      "steps": [
+        "Open Timesheet.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "type": "textbox:"
+        },
+        {
+          "label": "\"Add\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Modify\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Delete\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Clear\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Block\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Cut\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Copy\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Paste\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"18\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"9\"",
+          "type": "option"
+        },
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "[selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"Member\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Men Members\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Lady Members\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Visitor\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Guest/Member\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Competition\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Open Competition\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Society\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Corporate\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Team\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Reserved\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Reserved For Members\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Closed\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Course Maintenance\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Members Roll Up\"",
+          "type": "option"
+        },
+        {
+          "label": "\"1st tee\"",
+          "type": "option"
+        },
+        {
+          "label": "\"10th tee\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Online\"",
+          "type": "option"
+        },
+        {
+          "label": "\"1\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2\"",
+          "type": "option"
+        },
+        {
+          "label": "\"3\"",
+          "type": "option"
+        },
+        {
+          "label": "\"4\"",
+          "type": "option"
+        },
+        {
+          "label": "\"01\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"02\"",
+          "type": "option"
+        },
+        {
+          "label": "\"03\"",
+          "type": "option"
+        },
+        {
+          "label": "\"04\"",
+          "type": "option"
+        },
+        {
+          "label": "\"05\"",
+          "type": "option"
+        },
+        {
+          "label": "\"06\"",
+          "type": "option"
+        },
+        {
+          "label": "\"07\"",
+          "type": "option"
+        },
+        {
+          "label": "\"08\"",
+          "type": "option"
+        },
+        {
+          "label": "\"09\"",
+          "type": "option"
+        },
+        {
+          "label": "\"10\"",
+          "type": "option"
+        },
+        {
+          "label": "\"11\"",
+          "type": "option"
+        },
+        {
+          "label": "\"12\"",
+          "type": "option"
+        },
+        {
+          "label": "\"13\"",
+          "type": "option"
+        },
+        {
+          "label": "\"14\"",
+          "type": "option"
+        },
+        {
+          "label": "\"15\"",
+          "type": "option"
+        },
+        {
+          "label": "\"16\"",
+          "type": "option"
+        },
+        {
+          "label": "\"17\"",
+          "type": "option"
+        },
+        {
+          "label": "\"18\"",
+          "type": "option"
+        },
+        {
+          "label": "\"19\"",
+          "type": "option"
+        },
+        {
+          "label": "\"20\"",
+          "type": "option"
+        },
+        {
+          "label": "\"21\"",
+          "type": "option"
+        },
+        {
+          "label": "\"22\"",
+          "type": "option"
+        },
+        {
+          "label": "\"23\"",
+          "type": "option"
+        },
+        {
+          "label": "\"24\"",
+          "type": "option"
+        },
+        {
+          "label": "\"25\"",
+          "type": "option"
+        },
+        {
+          "label": "\"26\"",
+          "type": "option"
+        },
+        {
+          "label": "\"27\"",
+          "type": "option"
+        },
+        {
+          "label": "\"28\"",
+          "type": "option"
+        },
+        {
+          "label": "\"29\"",
+          "type": "option"
+        },
+        {
+          "label": "\"30\"",
+          "type": "option"
+        },
+        {
+          "label": "\"31\"",
+          "type": "option"
+        },
+        {
+          "label": "\"32\"",
+          "type": "option"
+        },
+        {
+          "label": "\"33\"",
+          "type": "option"
+        },
+        {
+          "label": "\"34\"",
+          "type": "option"
+        },
+        {
+          "label": "\"35\"",
+          "type": "option"
+        },
+        {
+          "label": "\"36\"",
+          "type": "option"
+        },
+        {
+          "label": "\"37\"",
+          "type": "option"
+        },
+        {
+          "label": "\"38\"",
+          "type": "option"
+        },
+        {
+          "label": "\"39\"",
+          "type": "option"
+        },
+        {
+          "label": "\"40\"",
+          "type": "option"
+        },
+        {
+          "label": "\"41\"",
+          "type": "option"
+        },
+        {
+          "label": "\"42\"",
+          "type": "option"
+        },
+        {
+          "label": "\"43\"",
+          "type": "option"
+        },
+        {
+          "label": "\"44\"",
+          "type": "option"
+        },
+        {
+          "label": "\"45\"",
+          "type": "option"
+        },
+        {
+          "label": "\"46\"",
+          "type": "option"
+        },
+        {
+          "label": "\"47\"",
+          "type": "option"
+        },
+        {
+          "label": "\"48\"",
+          "type": "option"
+        },
+        {
+          "label": "\"49\"",
+          "type": "option"
+        },
+        {
+          "label": "\"50\"",
+          "type": "option"
+        },
+        {
+          "label": "\"51\"",
+          "type": "option"
+        },
+        {
+          "label": "\"52\"",
+          "type": "option"
+        },
+        {
+          "label": "checkbox",
+          "type": "checkbox"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Add\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Modify\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Delete\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Clear\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Block\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cut\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Copy\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Paste\" [disabled]",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Tee Time",
+        "Holes",
+        "Res. Name",
+        "Res. Type",
+        "Player 1",
+        "Player 2",
+        "Player 3",
+        "Player 4",
+        "Buggy",
+        "Weeks",
+        "Magenta Course\":",
+        "Cyan Course\":",
+        "Hls",
+        "1",
+        "2",
+        "3",
+        "4",
+        "Info",
+        "columnheader:"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":",
+          "Magenta Course\":",
+          "Cyan Course\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:57:51.827Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"BRS Announcements & Systems Messages\" [level=4] workflow surface",
+      "area": "Messages",
+      "workflow": "\"BRS Announcements & Systems Messages\" [level=4]",
+      "navigationPath": "Messages > \"BRS Announcements & Systems Messages\" [level=4]",
+      "purpose": "\"BRS Announcements & Systems Messages\" [level=4]",
+      "steps": [
+        "Open Messages > \"BRS Announcements & Systems Messages\" [level=4].",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task."
+      ],
+      "controls": [
+        {
+          "label": "checkbox",
+          "type": "checkbox"
+        },
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Reset\"",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Reset\"",
+          "purpose": "action"
+        }
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"BRS Announcements & Systems Messages\" [level=4]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:57:53.883Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Golf Plus workflow surface",
+      "area": "Golf Plus",
+      "workflow": "Golf Plus",
+      "navigationPath": "Golf Plus",
+      "purpose": "Golf Plus",
+      "steps": [
+        "Open Golf Plus."
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:57:55.871Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Timesheet workflow surface",
+      "area": "Timesheet",
+      "workflow": "Timesheet",
+      "navigationPath": "Timesheet",
+      "purpose": "Timesheet",
+      "steps": [
+        "Open Timesheet.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "type": "textbox:"
+        },
+        {
+          "label": "\"Add\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Modify\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Cancel\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Delete\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Cut\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Copy\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "\"Paste\" [disabled]",
+          "type": "button"
+        },
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "\"PRO 1\"",
+          "type": "option"
+        },
+        {
+          "label": "\"PRO 2\"",
+          "type": "option"
+        },
+        {
+          "label": "\"-\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"01\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"02\"",
+          "type": "option"
+        },
+        {
+          "label": "\"03\"",
+          "type": "option"
+        },
+        {
+          "label": "\"04\"",
+          "type": "option"
+        },
+        {
+          "label": "\"05\"",
+          "type": "option"
+        },
+        {
+          "label": "\"06\"",
+          "type": "option"
+        },
+        {
+          "label": "\"07\"",
+          "type": "option"
+        },
+        {
+          "label": "\"08\"",
+          "type": "option"
+        },
+        {
+          "label": "\"09\"",
+          "type": "option"
+        },
+        {
+          "label": "\"10\"",
+          "type": "option"
+        },
+        {
+          "label": "\"11\"",
+          "type": "option"
+        },
+        {
+          "label": "\"12\"",
+          "type": "option"
+        },
+        {
+          "label": "\"13\"",
+          "type": "option"
+        },
+        {
+          "label": "\"14\"",
+          "type": "option"
+        },
+        {
+          "label": "\"15\"",
+          "type": "option"
+        },
+        {
+          "label": "\"16\"",
+          "type": "option"
+        },
+        {
+          "label": "\"17\"",
+          "type": "option"
+        },
+        {
+          "label": "\"18\"",
+          "type": "option"
+        },
+        {
+          "label": "\"19\"",
+          "type": "option"
+        },
+        {
+          "label": "\"20\"",
+          "type": "option"
+        },
+        {
+          "label": "\"21\"",
+          "type": "option"
+        },
+        {
+          "label": "\"22\"",
+          "type": "option"
+        },
+        {
+          "label": "\"23\"",
+          "type": "option"
+        },
+        {
+          "label": "\"24\"",
+          "type": "option"
+        },
+        {
+          "label": "\"25\"",
+          "type": "option"
+        },
+        {
+          "label": "\"26\"",
+          "type": "option"
+        },
+        {
+          "label": "\"27\"",
+          "type": "option"
+        },
+        {
+          "label": "\"28\"",
+          "type": "option"
+        },
+        {
+          "label": "\"29\"",
+          "type": "option"
+        },
+        {
+          "label": "\"30\"",
+          "type": "option"
+        },
+        {
+          "label": "\"31\"",
+          "type": "option"
+        },
+        {
+          "label": "\"32\"",
+          "type": "option"
+        },
+        {
+          "label": "\"33\"",
+          "type": "option"
+        },
+        {
+          "label": "\"34\"",
+          "type": "option"
+        },
+        {
+          "label": "\"35\"",
+          "type": "option"
+        },
+        {
+          "label": "\"36\"",
+          "type": "option"
+        },
+        {
+          "label": "\"37\"",
+          "type": "option"
+        },
+        {
+          "label": "\"38\"",
+          "type": "option"
+        },
+        {
+          "label": "\"39\"",
+          "type": "option"
+        },
+        {
+          "label": "\"40\"",
+          "type": "option"
+        },
+        {
+          "label": "\"41\"",
+          "type": "option"
+        },
+        {
+          "label": "\"42\"",
+          "type": "option"
+        },
+        {
+          "label": "\"43\"",
+          "type": "option"
+        },
+        {
+          "label": "\"44\"",
+          "type": "option"
+        },
+        {
+          "label": "\"45\"",
+          "type": "option"
+        },
+        {
+          "label": "\"46\"",
+          "type": "option"
+        },
+        {
+          "label": "\"47\"",
+          "type": "option"
+        },
+        {
+          "label": "\"48\"",
+          "type": "option"
+        },
+        {
+          "label": "\"49\"",
+          "type": "option"
+        },
+        {
+          "label": "\"50\"",
+          "type": "option"
+        },
+        {
+          "label": "\"51\"",
+          "type": "option"
+        },
+        {
+          "label": "\"52\"",
+          "type": "option"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Add\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Modify\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cancel\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Delete\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cut\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Copy\" [disabled]",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Paste\" [disabled]",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "columnheader",
+        "Reservation Name",
+        "Guests",
+        "Room/Facility",
+        "Start",
+        "End",
+        "Days",
+        "Weeks",
+        "PRO 1",
+        "PRO 2",
+        "Key"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":",
+          "Booking\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:05.304Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"View Contacts\" [level=1] workflow surface",
+      "area": "Contacts",
+      "workflow": "\"View Contacts\" [level=1]",
+      "navigationPath": "Contacts > \"View Contacts\" [level=1]",
+      "purpose": "\"View Contacts\" [level=1]",
+      "steps": [
+        "Open Contacts > \"View Contacts\" [level=1].",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Search\"",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Search\"",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Category",
+        "Number"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"View Contacts\" [level=1]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":",
+          "Add New\":",
+          "View All\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:07.594Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"Manage Users\" [level=1] workflow surface",
+      "area": "Users",
+      "workflow": "\"Manage Users\" [level=1]",
+      "navigationPath": "Users > \"Manage Users\" [level=1]",
+      "purpose": "\"Manage Users\" [level=1]",
+      "steps": [
+        "Open Users > \"Manage Users\" [level=1].",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "[selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"Admin\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Staff\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Member\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Event\"",
+          "type": "option"
+        },
+        {
+          "label": "\"StaffReadOnly\"",
+          "type": "option"
+        },
+        {
+          "label": "\"5 Day\"",
+          "type": "option"
+        },
+        {
+          "label": "\"5 day flex\"",
+          "type": "option"
+        },
+        {
+          "label": "\"5-6 Day\"",
+          "type": "option"
+        },
+        {
+          "label": "\"7 Day\"",
+          "type": "option"
+        },
+        {
+          "label": "\"7 day flex\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Corporate\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Full\"",
+          "type": "option"
+        },
+        {
+          "label": "\"GOLD PREMIUM\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Intermediate\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Josh Membership\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Life\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Senior\"",
+          "type": "option"
+        },
+        {
+          "label": "\"TEST\"",
+          "type": "option"
+        },
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Registered Users Only\"",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"Disabled Users Only\"",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"Find User\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Clear\"",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Find User\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Clear\"",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Retrieve Users",
+        "User Group",
+        "Member Type",
+        "Search Text",
+        "No. of Users"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"Manage Users\" [level=1]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":",
+          "Add New\":",
+          "User Privileges\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:09.835Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"Reports\" [level=1] workflow surface",
+      "area": "Reports",
+      "workflow": "\"Reports\" [level=1]",
+      "navigationPath": "Reports > \"Reports\" [level=1]",
+      "purpose": "\"Reports\" [level=1]",
+      "steps": [
+        "Open Reports > \"Reports\" [level=1].",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task."
+      ],
+      "controls": [
+        {
+          "label": "\"Both Courses\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"Magenta Course\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Cyan Course\"",
+          "type": "option"
+        },
+        {
+          "type": "textbox:"
+        },
+        {
+          "label": "\"Tee Time Usage by Time and Day\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"Tee Time Usage by Reservation Type\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Utilisation (by Number of Players)\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Arrivals Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Booking Details Full\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue Report (Summary)\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue Report (Monthly Summary)\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue Report (Daily Summary)\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue Report (Day of Week Summary)\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue Report (Detail)\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue / Rounds by Green Fee Category\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue by Green Fee (Monthly Summary)\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue by Service (Buggies, etc)\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue by Customer\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Contact Booking Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue - Actual vs Projected Green Fees\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue From Visitor Online Bookings\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Revenue From Online Merchant Payments\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Payments by Payment Date\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Payments by Transaction Date/Time & User\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Booking Transactions by Date Booked\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Booking Transactions by Date Playing\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Number of Bookings by User\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Number of Bookings by Date\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Cancelled Bookings\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Caddy Master Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Users / Members Details\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Member Playing Statistics\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Non Member Playing Statistics\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Contact Email Addresses for Outlook\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Member Email Addresses for Outlook\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Booking / Payment Status\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Booking Details\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Full Booking Details\"",
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "label": "\"Shows\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Number of Visitors by Country\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Catering Report\"",
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "label": "\"Kilkenny Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Email Message Summary Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Text Message Summary Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Text Message Account Transactions\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Club Message Summary Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Competition Purse Balance\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Competition Purse Transactions\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Competition Purse Summary\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Room/Facility Detail Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Room/Facility Summary Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Room/Facility Reservation Type Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Golf/Room/Facility Daily Activity Report\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Room/Facility Email Addresses For Outlook\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Submit\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Print Report\"",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Submit\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print Report\"",
+          "purpose": "action"
+        }
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"Reports\" [level=1]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:12.158Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"Search Bookings\" [level=1] workflow surface",
+      "area": "Search",
+      "workflow": "\"Search Bookings\" [level=1]",
+      "navigationPath": "Search > \"Search Bookings\" [level=1]",
+      "purpose": "\"Search Bookings\" [level=1]",
+      "steps": [
+        "Open Search > \"Search Bookings\" [level=1].",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "\"2018\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2019\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2020\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2021\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2022\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2023\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2024\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2025\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2026\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"2027\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2028\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2029\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Search\"",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Search\"",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Search"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"Search Bookings\" [level=1]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:14.431Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"System Tools\" [level=1] workflow surface",
+      "area": "Tools",
+      "workflow": "\"System Tools\" [level=1]",
+      "navigationPath": "Tools > \"System Tools\" [level=1]",
+      "purpose": "\"System Tools\" [level=1] | \"System Configuration\" [level=3] | \"Configure Timesheet\" [level=3] | \"Green Fee Rates\" [level=3] | \"Reservation Types\" [level=3] | \"Booking Statuses\" [level=3] | \"Payment Methods\" [level=3] | \"Contact Categories\" [level=3] | \"Catering / Refreshments\" [level=3] | \"Services\" [level=3]",
+      "steps": [
+        "Open Tools > \"System Tools\" [level=1]."
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"System Tools\" [level=1]",
+          "\"System Configuration\" [level=3]",
+          "\"Configure Timesheet\" [level=3]",
+          "\"Green Fee Rates\" [level=3]",
+          "\"Reservation Types\" [level=3]",
+          "\"Booking Statuses\" [level=3]",
+          "\"Payment Methods\" [level=3]",
+          "\"Contact Categories\" [level=3]",
+          "\"Catering / Refreshments\" [level=3]",
+          "\"Services\" [level=3]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":",
+          "System Configuration Set up system parameters, eg. club address and email, and enable / disable certain features of the system.\":",
+          "Configure Timesheet Set up Tee Times and Tee Time Intervals for individual days, months and years.\":",
+          "Reservation Types Set up the Reservation Types and choose their colours.\":",
+          "Booking Statuses Set up the Booking Statuses supported.\":",
+          "Payment Methods Set up the Payment Methods supported.\":",
+          "Contact Categories Set up the Contact Categories supported.\":",
+          "No Show Reasons Set up reasons a player may not show for a booking.\":",
+          "Title for Each Day Set up a title for each day of the year which is displayed at the top of the timesheet pages.\":",
+          "Messages on the Timesheet Set up messages that get displayed on the timesheet.\":",
+          "Email and Letter Templates Set up a number of email and letter templates for sending to members and visitors, e.g. confirmation of booking, thank you message, etc.\":",
+          "Upload Timesheet Upload a timesheet for any given day including the player names and membership number.\":",
+          "Upload Members and Contacts Upload member and contact data files into the system.\":",
+          "Membership Types Set up membership types such as full, 6-day, 5-day, senior, junior, honorary and country members.\":",
+          "Course Restriction Restrict course bookings to limited group sizes.\":",
+          "Email Messaging Send emails to your members and contacts.\":",
+          "Text Messaging Send text messages to your members and contacts.\":",
+          "Membership Groups for Messaging Set up membership groups and assign members to those groups.\":",
+          "Club News Create club news articles which can be viewed by members and the public.\":",
+          "Club Messages Send club messages to members who are using the BRS Members App or New Members Website.\":",
+          "Member Casual Booking Rules Set up the dates and times when members can view the timesheet and book casual golf on-line through the club website.\":",
+          "Member Competitions Set up competitions for members to book on-line through the club website.\":",
+          "Day Ticket Rates for Visitors Set up green fee rates for visitors playing 2 rounds on the same day to book on-line through the club website.\":",
+          "Open Competitions for Visitors Set up open competitions for visitors to book on-line through the club website.\":",
+          "Golf Events Set up part of the timesheet for the organiser of an event to populate. This can be used for a member event, a corporate day etc.\":",
+          "Green Fee Rates for Tour Operator Set up green fee rates for tour operators to book on-line through the club website.\":",
+          "Process Competition Charges Process competition charges for each member.\":",
+          "Payouts View Payout Schedule.\":",
+          "FAQs Additional Help.\":",
+          "Transactions View all transactions.\":",
+          "Refunds View Refunds.\":",
+          "Booking Payment Requests View the status of your Booking Payment Requests.\":",
+          "General Payment Requests View the status of your General Payment Requests.\":",
+          "VAT Reports Export VAT Reports.\":",
+          "Setup Use this tool to set up BRS Payments.\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:16.714Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9icnNnb2xmLnplbmRlc2suY29tL2hj:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"Flexible Membership\" [level=3]: workflow surface",
+      "area": "Knowledge Base – BRS Core",
+      "workflow": "\"Flexible Membership\" [level=3]:",
+      "navigationPath": "Knowledge Base – BRS Core > \"Flexible Membership\" [level=3]:",
+      "purpose": "\"Flexible Membership\" [level=3]: | \"Course Closure Tool\" [level=3]: | \"Webinars\" [level=3]: | \"Timesheet\" [level=3]: | \"Bookings\" [level=3]: | \"Communication via Email and Text\" [level=3]: | \"Competitions\" [level=3]: | \"GDPR\" [level=3]: | \"Member Booking\" [level=3]: | \"Clubhouse PC\" [level=3]:",
+      "steps": [
+        "Open Knowledge Base – BRS Core > \"Flexible Membership\" [level=3]:.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task."
+      ],
+      "controls": [
+        {
+          "label": "\"Sign in\"",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Sign in\"",
+          "purpose": "action"
+        }
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"Flexible Membership\" [level=3]:",
+          "\"Course Closure Tool\" [level=3]:",
+          "\"Webinars\" [level=3]:",
+          "\"Timesheet\" [level=3]:",
+          "\"Bookings\" [level=3]:",
+          "\"Communication via Email and Text\" [level=3]:",
+          "\"Competitions\" [level=3]:",
+          "\"GDPR\" [level=3]:",
+          "\"Member Booking\" [level=3]:",
+          "\"Clubhouse PC\" [level=3]:"
+        ],
+        "safeLinks": [
+          "Flexible Membership\":",
+          "Flexible Membership Setup\":",
+          "Course Closure Tool\":",
+          "Edit a Green Fee Rate for Manual Bookings\":",
+          "Delete a Green Fee Rate for Manual Bookings\":",
+          "Add a Reservation Type\":",
+          "Delete a Reservation Type\":",
+          "Edit a Booking Status\":",
+          "Timesheet\":",
+          "Add Tee Times to the Start of the Day\":",
+          "Is the Squeeze Tee Times Feature Supported on 9, 2x9, 3x9 Course Configurations?\":",
+          "How can I Squeeze in Additional Tee Times?\":",
+          "Nightly Backup Emails\":",
+          "Print or Export a Timesheet\":",
+          "Configure Timesheet - Year Unavailable\":",
+          "Bookings\":",
+          "Add a Block Booking\":",
+          "Add a Block Booking Over Multiple Weeks\":",
+          "Add a Player to an Existing Booking\":",
+          "Remove a Player From an Existing Booking\":",
+          "Add a Second Booking to a Tee Time\":",
+          "Delete a Block Booking\":",
+          "Communication via Email and Text\":",
+          "What are Messages on the Timesheet?\":",
+          "Delete a Message on the Timesheet\":",
+          "Add a Message on the Timesheet\":",
+          "Scrolling Clubhouse Timesheet\":",
+          "Send Usernames to Members by Email\":",
+          "Send an Email to Specific Membership Types\":",
+          "Competitions\":",
+          "Add a Members Competition\":",
+          "Edit a Members Competition\":",
+          "Delete a Members Competition\":",
+          "Move / Copy a Competition Timesheet\":",
+          "Competition Times not Showing as Bookable\":",
+          "Set a Competition Up for 3-Ball Play Only\":",
+          "GDPR\":",
+          "What is GolfNow doing and how can it help you?\":",
+          "GDPR - What are the key changes?\":",
+          "Member Booking\":",
+          "Add Casual Booking Rules\":",
+          "Edit Casual Booking Rules\":",
+          "Delete a Casual Booking Rule\":",
+          "Member is Unable to Book Casual Round\":",
+          "Enable Member Online Booking\":",
+          "Change How Many Days in Advance a Member Can Book\":",
+          "Competition Purse\":",
+          "What is the Competition Purse?\":",
+          "Can a Member Book a Competition with Insufficient Funds in Their Account?\":",
+          "How do I Adjust a Member's Competition Purse Balance?\":",
+          "Top Up an Account\":",
+          "View Reports on Competition Purse Transactions\":",
+          "Processing Competition Purse Charges\":",
+          "User Management\":",
+          "Change Account Details\":",
+          "Add a User\":",
+          "Change a Member's Username\":",
+          "Change the System's Superuser\":",
+          "Edit a User\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:27.727Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"Competitions for 2026\" [level=1] workflow surface",
+      "area": "BRS Golf - Tee Booking System",
+      "workflow": "\"Competitions for 2026\" [level=1]",
+      "navigationPath": "BRS Golf - Tee Booking System > \"Competitions for 2026\" [level=1]",
+      "purpose": "\"Competitions for 2026\" [level=1] | \"Magenta Course\" [level=3] | \"Cyan Course\" [level=3] | \"Competition Dates\" [level=2]",
+      "steps": [
+        "Open BRS Golf - Tee Booking System > \"Competitions for 2026\" [level=1].",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"Magenta Course\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"Cyan Course\"",
+          "type": "option"
+        },
+        {
+          "label": "[selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"Standard\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Draw\"",
+          "type": "option"
+        },
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Add Another Date\"",
+          "type": "button"
+        },
+        {
+          "label": "[checked]",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"18\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"9\"",
+          "type": "option"
+        },
+        {
+          "label": "\"1\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"2\"",
+          "type": "option"
+        },
+        {
+          "label": "\"3\"",
+          "type": "option"
+        },
+        {
+          "label": "\"4\"",
+          "type": "option"
+        },
+        {
+          "label": "\"No\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"Yes\"",
+          "type": "option"
+        },
+        {
+          "label": "\"0\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"1\"",
+          "type": "option"
+        },
+        {
+          "label": "checkbox",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"0\"",
+          "type": "option"
+        },
+        {
+          "label": "\"5\"",
+          "type": "option"
+        },
+        {
+          "label": "\"6\"",
+          "type": "option"
+        },
+        {
+          "label": "\"7\"",
+          "type": "option"
+        },
+        {
+          "label": "\"8\"",
+          "type": "option"
+        },
+        {
+          "label": "\"10\"",
+          "type": "option"
+        },
+        {
+          "label": "\"11\"",
+          "type": "option"
+        },
+        {
+          "label": "\"12\"",
+          "type": "option"
+        },
+        {
+          "label": "\"13\"",
+          "type": "option"
+        },
+        {
+          "label": "\"14\"",
+          "type": "option"
+        },
+        {
+          "label": "\"15\"",
+          "type": "option"
+        },
+        {
+          "label": "\"16\"",
+          "type": "option"
+        },
+        {
+          "label": "\"17\"",
+          "type": "option"
+        },
+        {
+          "label": "\"18\"",
+          "type": "option"
+        },
+        {
+          "label": "\"19\"",
+          "type": "option"
+        },
+        {
+          "label": "\"20\"",
+          "type": "option"
+        },
+        {
+          "label": "\"21\"",
+          "type": "option"
+        },
+        {
+          "label": "\"22\"",
+          "type": "option"
+        },
+        {
+          "label": "\"23\"",
+          "type": "option"
+        },
+        {
+          "label": "\"00\"",
+          "type": "option"
+        },
+        {
+          "label": "\"01\"",
+          "type": "option"
+        },
+        {
+          "label": "\"02\"",
+          "type": "option"
+        },
+        {
+          "label": "\"03\"",
+          "type": "option"
+        },
+        {
+          "label": "\"04\"",
+          "type": "option"
+        },
+        {
+          "label": "\"05\"",
+          "type": "option"
+        },
+        {
+          "label": "\"06\"",
+          "type": "option"
+        },
+        {
+          "label": "\"07\"",
+          "type": "option"
+        },
+        {
+          "label": "\"08\"",
+          "type": "option"
+        },
+        {
+          "label": "\"09\"",
+          "type": "option"
+        },
+        {
+          "label": "\"24\"",
+          "type": "option"
+        },
+        {
+          "label": "\"25\"",
+          "type": "option"
+        },
+        {
+          "label": "\"26\"",
+          "type": "option"
+        },
+        {
+          "label": "\"27\"",
+          "type": "option"
+        },
+        {
+          "label": "\"28\"",
+          "type": "option"
+        },
+        {
+          "label": "\"29\"",
+          "type": "option"
+        },
+        {
+          "label": "\"30\"",
+          "type": "option"
+        },
+        {
+          "label": "\"31\"",
+          "type": "option"
+        },
+        {
+          "label": "\"32\"",
+          "type": "option"
+        },
+        {
+          "label": "\"33\"",
+          "type": "option"
+        },
+        {
+          "label": "\"34\"",
+          "type": "option"
+        },
+        {
+          "label": "\"35\"",
+          "type": "option"
+        },
+        {
+          "label": "\"36\"",
+          "type": "option"
+        },
+        {
+          "label": "\"37\"",
+          "type": "option"
+        },
+        {
+          "label": "\"38\"",
+          "type": "option"
+        },
+        {
+          "label": "\"39\"",
+          "type": "option"
+        },
+        {
+          "label": "\"40\"",
+          "type": "option"
+        },
+        {
+          "label": "\"41\"",
+          "type": "option"
+        },
+        {
+          "label": "\"42\"",
+          "type": "option"
+        },
+        {
+          "label": "\"43\"",
+          "type": "option"
+        },
+        {
+          "label": "\"44\"",
+          "type": "option"
+        },
+        {
+          "label": "\"45\"",
+          "type": "option"
+        },
+        {
+          "label": "\"46\"",
+          "type": "option"
+        },
+        {
+          "label": "\"47\"",
+          "type": "option"
+        },
+        {
+          "label": "\"48\"",
+          "type": "option"
+        },
+        {
+          "label": "\"49\"",
+          "type": "option"
+        },
+        {
+          "label": "\"50\"",
+          "type": "option"
+        },
+        {
+          "label": "\"51\"",
+          "type": "option"
+        },
+        {
+          "label": "\"52\"",
+          "type": "option"
+        },
+        {
+          "label": "\"53\"",
+          "type": "option"
+        },
+        {
+          "label": "\"54\"",
+          "type": "option"
+        },
+        {
+          "label": "\"55\"",
+          "type": "option"
+        },
+        {
+          "label": "\"56\"",
+          "type": "option"
+        },
+        {
+          "label": "\"57\"",
+          "type": "option"
+        },
+        {
+          "label": "\"58\"",
+          "type": "option"
+        },
+        {
+          "label": "\"59\"",
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        },
+        {
+          "type": "option"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Add Another Date\"",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Select a Year",
+        "Key",
+        "Competition Date",
+        "Competition Time\":",
+        "Reservation Name",
+        "Players",
+        "Holes",
+        "Guests",
+        "No. Guests\":",
+        "Tee Times\":",
+        "Member Fee\":",
+        "Actions",
+        "Test (Standard) Add additional date\":",
+        "Member Competitions",
+        "columnheader"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"Competitions for 2026\" [level=1]",
+          "\"Magenta Course\" [level=3]",
+          "\"Cyan Course\" [level=3]",
+          "\"Competition Dates\" [level=2]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":",
+          "Add additional date\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:31.252Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"Course Restriction\" [level=1] workflow surface",
+      "area": "BRS Golf - Tee Booking System",
+      "workflow": "\"Course Restriction\" [level=1]",
+      "navigationPath": "BRS Golf - Tee Booking System > \"Course Restriction\" [level=1]",
+      "purpose": "\"Course Restriction\" [level=1]",
+      "steps": [
+        "Open BRS Golf - Tee Booking System > \"Course Restriction\" [level=1].",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"Show expired Course Restrictions\"",
+          "type": "checkbox"
+        },
+        {
+          "label": "textbox:",
+          "type": "textbox:"
+        },
+        {
+          "label": "\"Members & Visitors\" [selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"Members\"",
+          "type": "option"
+        },
+        {
+          "label": "\"Visitors\"",
+          "type": "option"
+        },
+        {
+          "label": "[selected]",
+          "type": "option"
+        },
+        {
+          "label": "\"0\"",
+          "type": "option"
+        },
+        {
+          "label": "\"1\"",
+          "type": "option"
+        },
+        {
+          "label": "\"2\"",
+          "type": "option"
+        },
+        {
+          "label": "\"3\"",
+          "type": "option"
+        },
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Add\"",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Add\"",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Message",
+        "Actions",
+        "Course Restriction"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"Course Restriction\" [level=1]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Timesheet\":",
+          "Messages\":",
+          "Golf Plus New!\":",
+          "Facilities\":",
+          "Contacts\":",
+          "Memberships\":",
+          "Users\":",
+          "Reports\":",
+          "Search\":",
+          "Tools\":",
+          "Need Help?\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:33.579Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Memberships workflow surface",
+      "area": "Memberships",
+      "workflow": "Memberships",
+      "navigationPath": "Memberships",
+      "purpose": "Memberships",
+      "steps": [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"Search\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Download CSV\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Print\":",
+          "type": "button"
+        },
+        {
+          "label": "\"10\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Rows per page:\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Filter Columns\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Download CSV Failed Scheduled Payments\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Print\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Download CSV Flex Members\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Print Flex Members\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\":",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Filter Columns\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Download CSV\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"10\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Filter Columns\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Download CSV Failed Scheduled Payments\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Download CSV Flex Members\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print Flex Members\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\":",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "columnheader:",
+        "Member: Not sorted. Activate to sort ascending.\"':",
+        "Membership Status: Not sorted. Activate to sort ascending.\"':",
+        "Bill: Not sorted. Activate to sort ascending.\"':",
+        "Send / Download Date: Not sorted. Activate to sort ascending.\"':",
+        "Resend / Re-Download Date: Not sorted. Activate to sort ascending.\"':",
+        "Duration",
+        "Payment: Not sorted. Activate to sort ascending.\"':",
+        "Date: Sorted descending. Activate to remove sorting.\"':",
+        "Actions",
+        "Email: Not sorted. Activate to sort ascending.\"':",
+        "Membership Type: Not sorted. Activate to sort ascending.\"':",
+        "Wallet Name(s)",
+        "Points"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":",
+          "View all bills\":",
+          "View all overdue bills\":",
+          "View all payments\":",
+          "Edit Balance\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:36.472Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Memberships workflow surface",
+      "area": "Memberships",
+      "workflow": "Memberships",
+      "navigationPath": "Memberships",
+      "purpose": "Memberships",
+      "steps": [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"Search\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Filter Active Members\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Filter\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Membership Type\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Membership Type\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Download CSV Members\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Print Members\":",
+          "type": "button"
+        },
+        {
+          "label": "\"10\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Rows per page:\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\":",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Filter Active Members\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Membership Type\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Download CSV Members\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print Members\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"10\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\":",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Title: Not sorted. Activate to sort ascending.\"':",
+        "Email: Not sorted. Activate to sort ascending.\"':",
+        "Membership Card Number: Not sorted. Activate to sort ascending.\"':",
+        "Membership Type: Not sorted. Activate to sort ascending.\"':",
+        "Membership Status: Not sorted. Activate to sort ascending.\"':",
+        "Actions"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":",
+          "FLEX MEMBERS\":",
+          "CREATE MEMBER\":",
+          "Edit Member\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:39.226Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Memberships workflow surface",
+      "area": "Memberships",
+      "workflow": "Memberships",
+      "navigationPath": "Memberships",
+      "purpose": "Memberships",
+      "steps": [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"MEMBERSHIP TYPE CHANGES\":",
+          "type": "button"
+        },
+        {
+          "label": "\"CREATE MEMBERSHIP TYPE\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Search\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Download CSV Membership Types\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Print\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Subscriptions (3)\"",
+          "type": "button"
+        },
+        {
+          "label": "[disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"10\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Rows per page:\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\":",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"MEMBERSHIP TYPE CHANGES\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"CREATE MEMBERSHIP TYPE\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Download CSV Membership Types\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Subscriptions (3)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "[disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"10\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\":",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Name: Sorted ascending. Activate to sort descending.\"':",
+        "Flex: Not sorted. Activate to sort ascending.\"':",
+        "Status: Not sorted. Activate to sort ascending.\"':",
+        "Next Chained Membership Type: Not sorted. Activate to sort ascending.\"':",
+        "Default Subscriptions",
+        "Actions"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":",
+          "Corporate\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:42.220Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Memberships workflow surface",
+      "area": "Memberships",
+      "workflow": "Memberships",
+      "navigationPath": "Memberships",
+      "purpose": "Memberships",
+      "steps": [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"Name*\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Select Membership Type Status*\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Select Membership Type Status*\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Flex\"",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"Next Chained Membership Type\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Next Chained Membership Type\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Start typing to filter available subscriptions\"",
+          "type": "textbox"
+        },
+        {
+          "label": "[disabled]: \"30\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Select\":",
+          "type": "button"
+        },
+        {
+          "label": "[disabled]: \"150\"",
+          "type": "textbox"
+        },
+        {
+          "label": "[disabled]: \"0\"",
+          "type": "textbox"
+        },
+        {
+          "label": "[disabled]: \"20\"",
+          "type": "textbox"
+        },
+        {
+          "label": "[disabled]: \"25\"",
+          "type": "textbox"
+        },
+        {
+          "label": "[disabled]: \"40\"",
+          "type": "textbox"
+        },
+        {
+          "label": "[disabled]: \"1000\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"10\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Rows per page:\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"CREATE\":",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Select Membership Type Status*\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next Chained Membership Type\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Select\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"10\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"CREATE\":",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Subscriptions\":",
+        "Membership Type Price",
+        "columnheader"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:52.826Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Memberships workflow surface",
+      "area": "Memberships",
+      "workflow": "Memberships",
+      "navigationPath": "Memberships",
+      "purpose": "Memberships",
+      "steps": [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"APPLY/ REMOVE SUBSCRIPTION\":",
+          "type": "button"
+        },
+        {
+          "label": "\"CREATE NEW SUBSCRIPTION\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Search\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Download CSV Subscriptions\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Print\":",
+          "type": "button"
+        },
+        {
+          "label": "\"(13)\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Cycles (6)\"",
+          "type": "button"
+        },
+        {
+          "label": "[disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Cycles (7)\"",
+          "type": "button"
+        },
+        {
+          "label": "\"(9)\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Cycles (12)\"",
+          "type": "button"
+        },
+        {
+          "label": "\"(4)\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Cycles (20)\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Cycles (1)\"",
+          "type": "button"
+        },
+        {
+          "label": "\"Cycles (5)\"",
+          "type": "button"
+        },
+        {
+          "label": "\"10\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Rows per page:\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\":",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"APPLY/ REMOVE SUBSCRIPTION\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"CREATE NEW SUBSCRIPTION\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Download CSV Subscriptions\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"(13)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cycles (6)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "[disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cycles (7)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"(9)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cycles (12)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"(4)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cycles (20)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cycles (1)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Cycles (5)\"",
+          "purpose": "action"
+        },
+        {
+          "label": "\"10\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\":",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Name: Not sorted. Activate to sort ascending.\"':",
+        "Cost: Not sorted. Activate to sort ascending.\"':",
+        "Tax Rate: Not sorted. Activate to sort ascending.\"':",
+        "Status: Not sorted. Activate to sort ascending.\"':",
+        "Count Members: Not sorted. Activate to sort ascending.\"':",
+        "Cycles",
+        "Count Subscriptions: Not sorted. Activate to sort ascending.\"':",
+        "Actions"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":",
+          "6 month membership\":",
+          "Membership yearly rolling\":",
+          "Annual Membership\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:55.496Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Memberships workflow surface",
+      "area": "Memberships",
+      "workflow": "Memberships",
+      "navigationPath": "Memberships",
+      "purpose": "Memberships",
+      "steps": [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"CREATE BILLS\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Download CSV Bills\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Print\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Search\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"View All Bills\":",
+          "type": "button"
+        },
+        {
+          "label": "textbox",
+          "type": "textbox"
+        },
+        {
+          "label": "\"From 2026\":",
+          "type": "button"
+        },
+        {
+          "label": "\"From\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"To\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"10\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Rows per page:\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\" [disabled]:",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"CREATE BILLS\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Download CSV Bills\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"View All Bills\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"From 2026\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"10\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\" [disabled]:",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Reference\":",
+        "Bill Raised\":",
+        "Bill Due\":",
+        "Payment Status\":",
+        "Publish Status\":",
+        "Count\":",
+        "Actions"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":",
+          "VIEW PAYMENTS\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:58:58.044Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "\"FINANCIAL REPORTS\" [level=2] workflow surface",
+      "area": "Memberships",
+      "workflow": "\"FINANCIAL REPORTS\" [level=2]",
+      "navigationPath": "Memberships > \"FINANCIAL REPORTS\" [level=2]",
+      "purpose": "\"FINANCIAL REPORTS\" [level=2] | \"Bill History\" [level=5] | \"Bill Projections\" [level=5] | \"Bills Batch Preview\" [level=5] | \"Bills Overview\" [level=5] | \"Overdue Bills\" [level=5] | \"Payments By Subscription Type\" [level=5] | \"Wallet Balances\" [level=5] | \"Wallet Transactions\" [level=5] | \"MEMBER REPORTS\" [level=2]",
+      "steps": [
+        "Open Memberships > \"FINANCIAL REPORTS\" [level=2]."
+      ],
+      "pageEvidence": {
+        "headings": [
+          "\"FINANCIAL REPORTS\" [level=2]",
+          "\"Bill History\" [level=5]",
+          "\"Bill Projections\" [level=5]",
+          "\"Bills Batch Preview\" [level=5]",
+          "\"Bills Overview\" [level=5]",
+          "\"Overdue Bills\" [level=5]",
+          "\"Payments By Subscription Type\" [level=5]",
+          "\"Wallet Balances\" [level=5]",
+          "\"Wallet Transactions\" [level=5]",
+          "\"MEMBER REPORTS\" [level=2]"
+        ],
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:59:00.443Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Memberships workflow surface",
+      "area": "Memberships",
+      "workflow": "Memberships",
+      "navigationPath": "Memberships",
+      "purpose": "Memberships",
+      "steps": [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+        "Check the table columns to verify the correct records or report output."
+      ],
+      "controls": [
+        {
+          "label": "\"Search\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Filter Columns\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Download CSV Accounts\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Print Accounts\":",
+          "type": "button"
+        },
+        {
+          "label": "\"10\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Rows per page:\"",
+          "type": "textbox"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "type": "button"
+        },
+        {
+          "label": "\"Next page\" [disabled]:",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Filter Columns\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Download CSV Accounts\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Print Accounts\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"10\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Previous page\" [disabled]:",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Next page\" [disabled]:",
+          "purpose": "action"
+        }
+      ],
+      "tableHeaders": [
+        "Account Name: Sorted ascending. Activate to sort descending.\"':",
+        "Units: Not sorted. Activate to sort ascending.\"':",
+        "Active: Not sorted. Activate to sort ascending.\"':"
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":",
+          "Bar Wallet\":",
+          "Corporate\":",
+          "Flex Wallet Premium\":",
+          "Membership Wallet\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:59:03.307Z"
+    },
+    {
+      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i:workflow",
+      "sourceType": "brs-system-workflow",
+      "clubScope": "template",
+      "title": "Memberships workflow surface",
+      "area": "Memberships",
+      "workflow": "Memberships",
+      "navigationPath": "Memberships",
+      "purpose": "Memberships",
+      "steps": [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task."
+      ],
+      "controls": [
+        {
+          "label": "\"General\" [selected]",
+          "type": "tab"
+        },
+        {
+          "label": "\"Tax Settings\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"Subscription Cycles\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"Payment Schemes\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"Payment Types\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"Membership Statuses\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"Wallets\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"PDF Templates\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"Email Templates\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"Member Filters\"",
+          "type": "tab"
+        },
+        {
+          "label": "\"Automatically deactivate players with outstanding bills past Grace Period\" [checked]",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"Number of Grace Period days before member is deactivated\": \"45\"",
+          "type": "spinbutton"
+        },
+        {
+          "label": "\"Automatically deactivate players with scheduled payments past Grace Period\" [checked]",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"Clear Failed scheduled payments; look back to bills created on or after:\":",
+          "type": "button"
+        },
+        {
+          "label": "\"Scheduled Payments Grace Period Days\": \"6\"",
+          "type": "spinbutton"
+        },
+        {
+          "label": "\"Display Flexible Wallets table on dashboard\" [checked]",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"Minimum amount that members can pay on a bill\": \"0\"",
+          "type": "spinbutton"
+        },
+        {
+          "label": "\"Send payment provider receipt email\" [checked]",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"Use Auto Generated BRS Username\"",
+          "type": "checkbox"
+        },
+        {
+          "label": "\"Save\":",
+          "type": "button"
+        }
+      ],
+      "actions": [
+        {
+          "label": "\"Clear Failed scheduled payments; look back to bills created on or after:\":",
+          "purpose": "action"
+        },
+        {
+          "label": "\"Save\":",
+          "purpose": "action"
+        }
+      ],
+      "pageEvidence": {
+        "safeLinks": [
+          "Dashboard\":",
+          "Members\":",
+          "Membership Types\":",
+          "Subscriptions\":",
+          "Billing/Payments\":",
+          "Reports\":",
+          "Accounts\":"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "2026-06-25T09:59:05.937Z"
+    }
+  ]
+}

@@ -20,6 +20,8 @@ BRS_PASSWORD=...
 BRS_CRAWL_MAX_PAGES=80
 BRS_CRAWL_ALLOW_MUTATIONS=false
 BRS_CRAWL_EMBEDDED_APP_HOSTS=embedded-memberships.brsgolf.com
+BRS_CRAWL_HELP_MODE=attributes
+BRS_CRAWL_BROWSER_EXECUTABLE_PATH=C:\Program Files\Google\Chrome\Application\chrome.exe
 ```
 
 Never commit real BRS credentials. If credentials have appeared in chat, rotate them before production use.
@@ -92,6 +94,10 @@ For approved pages it records:
 - last observed date
 
 After login, the crawler also checks for approved embedded BRS application iframes. This matters for Memberships because the top-level BRS navigation opens Memberships inside `embedded-memberships.brsgolf.com`; crawling only the parent page sees the iframe but misses the Memberships sub-navigation, forms, modals, table columns, and settings tabs. Keep `BRS_CRAWL_EMBEDDED_APP_HOSTS` narrowly allowlisted and add hosts only after confirming they are BRS product surfaces for the approved test club.
+
+Use `BRS_CRAWL_HELP_MODE=attributes` for broad crawls. It captures reusable title/aria/help attributes without clicking every tooltip or modal trigger, which keeps full-area crawls practical. Use `full` only for a narrow page or workflow where tooltip/modal detail matters.
+
+When crawl output is generated from a live demo club, run `node scripts/sanitize-crawl-output.js <json files>` before building the knowledge index. The sanitizer removes common live-data shapes such as member-like option labels, emails, monetary values, dates, and long identifiers. Still review the diff before committing generated crawl output.
 
 The crawler should focus especially on areas like:
 

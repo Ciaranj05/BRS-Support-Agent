@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { pathToFileURL } from "url";
 import dotenv from "dotenv";
 import { keepReusableProductText, redactText } from "../lib/knowledgeRedaction.js";
 
@@ -12,6 +13,8 @@ const OUTPUT_DIR = process.env.BRS_CRAWL_OUTPUT_DIR || path.join("knowledge", "s
 const WORKFLOW_OUTPUT_DIR = process.env.BRS_CRAWL_WORKFLOW_OUTPUT_DIR || path.join("knowledge", "workflows");
 const MAX_PAGES = Number(process.env.BRS_CRAWL_MAX_PAGES || 140);
 const ALLOW_MUTATIONS = process.env.BRS_CRAWL_ALLOW_MUTATIONS === "true";
+const BROWSER_EXECUTABLE_PATH = process.env.BRS_CRAWL_BROWSER_EXECUTABLE_PATH || "";
+const HELP_MODE = process.env.BRS_CRAWL_HELP_MODE || "full";
 const EMBEDDED_APP_HOSTS = (process.env.BRS_CRAWL_EMBEDDED_APP_HOSTS || "embedded-memberships.brsgolf.com")
   .split(",")
   .map((host) => host.trim().toLowerCase())
@@ -144,6 +147,9 @@ function inferActionPurpose(action = {}) {
 }
 
 async function loadPlaywright() {
+  if (process.env.PLAYWRIGHT_MODULE_PATH) {
+    return await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE_PATH).href);
+  }
   try {
     return await import("playwright");
   } catch {
@@ -252,6 +258,21 @@ async function extractTableEvidence(page) {
 }
 
 async function extractHelpText(page) {
+  if (HELP_MODE === "off") return [];
+  if (HELP_MODE === "attributes") {
+    const selector = "[title], [aria-label], [data-original-title], [data-bs-original-title], [data-tooltip], [data-help]";
+    const helpText = await page.locator(selector).evaluateAll((nodes) => nodes.flatMap((node) => [
+      node.getAttribute("title") || "",
+      node.getAttribute("aria-label") || "",
+      node.getAttribute("data-original-title") || "",
+      node.getAttribute("data-bs-original-title") || "",
+      node.getAttribute("data-tooltip") || "",
+      node.getAttribute("data-help") || "",
+      node.textContent || "",
+    ])).catch(() => []);
+    return uniqueUsefulText(helpText, 100);
+  }
+
   const selector = "[title], [aria-label], [data-original-title], [data-bs-original-title], [data-tooltip], [data-help], .help, .tooltip, .popover, [role='tooltip'], a:has-text('?'), button:has-text('?'), [class*='help'], [class*='tooltip'], [class*='popover']";
   const helpCandidates = page.locator(selector);
   const count = Math.min(await helpCandidates.count().catch(() => 0), 80);
@@ -363,6 +384,7 @@ async function crawlClub(browser, clubId) {
     const next = queue.shift();
     if (!next?.href || seen.has(next.href)) continue;
     seen.add(next.href);
+    console.log(`[crawl:${clubId}] ${seen.size}/${MAX_PAGES} ${next.href}`);
     await page.goto(next.href, { waitUntil: "domcontentloaded" }).catch(() => null);
     await page.waitForLoadState("networkidle", { timeout: 1500 }).catch(() => {});
     if (!isAllowedCrawlUrl(page.url(), clubId)) continue;
@@ -382,7 +404,7 @@ async function crawlClub(browser, clubId) {
 async function main() {
   assertConfig();
   const { chromium } = await loadPlaywright();
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, executablePath: BROWSER_EXECUTABLE_PATH || undefined });
   const output = { generatedAt: new Date().toISOString(), sourceType: "brs-system", entries: [] };
   try {
     for (const clubId of CLUB_IDS) output.entries.push(...await crawlClub(browser, clubId));
