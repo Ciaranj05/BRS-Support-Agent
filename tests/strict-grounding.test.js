@@ -262,8 +262,9 @@ test("approved direct routes cover non-billing BRS areas before workflow gap", a
   const teeSheetReply = await answerFromKnowledge("How do I setup tee sheet?");
   const userReply = await answerFromKnowledge("How do I create a staff user?");
 
-  assert.match(memberProfileReply, /Create a Member Profile or Account/i);
-  assert.match(memberProfileReply, /BRS "?Members"? Tee Time Reservation URL/i);
+  assert.match(memberProfileReply, /Create a Member Profile/i);
+  assert.match(memberProfileReply, /"Memberships"/i);
+  assert.match(memberProfileReply, /"CREATE MEMBER"/i);
   assert.match(memberLoginReply, /Create a Member Profile or Account/i);
   assert.match(bookingRulesReply, /Check Booking Rules/i);
   assert.match(bookingRulesReply, /Member Casual Booking Rules/i);
@@ -570,4 +571,19 @@ test("candidate help guides must match the question object, not just the action"
     }),
     true
   );
+});
+
+test("member profile creation routes to Memberships instead of Users", async () => {
+  const reply = await answerFromKnowledge("how do I add a member in the system?", { allowDynamic: false });
+
+  assert.match(reply, /Create a Member Profile/i);
+  assert.match(reply, /Memberships/i);
+  assert.match(reply, /Members/i);
+  assert.match(reply, /CREATE MEMBER/i);
+  assert.doesNotMatch(reply, /Create a New User \/ Add a Member/i);
+  assert.doesNotMatch(reply, /User Group\*|Username\*|Re-type Password|Address Line 1|CDH Number/i);
+
+  const staffReply = await answerFromKnowledge("how do I add a new staff user?", { allowDynamic: false });
+  assert.match(staffReply, /Add a User/i);
+  assert.match(staffReply, /Users/i);
 });

@@ -252,6 +252,66 @@ test("generic sign-in and available-action workflow captures stay in review", as
   assert.equal(reviewQueue.length, 1);
 });
 
+test("workflow relationship maps expand relevant neighbouring workflows and avoid confusable user accounts", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "relationships.json"), JSON.stringify({
+    entries: [
+      {
+        sourceType: "brs-workflow-family",
+        title: "Create a member profile workflow relationship map",
+        area: "Memberships",
+        workflowFamily: "Membership member profile management",
+        navigationPath: "Memberships > Members > CREATE MEMBER",
+        summary: "Create a normal membership profile.",
+        aliases: ["add a member", "create member", "member profile"],
+        routes: [{ name: "Create member", steps: ["Open Memberships.", "Open Members.", "Click CREATE MEMBER."] }],
+        relatedWorkflows: [
+          { workflowFamily: "Membership subscription setup", includeWhen: ["subscription", "subscriptions"], weight: 8 },
+          { workflowFamily: "User account and login management", includeWhen: ["staff", "admin", "login", "password"], weight: 4 },
+        ],
+        confidence: "approved",
+      },
+      {
+        sourceType: "brs-workflow-family",
+        title: "Membership subscription setup relationship map",
+        area: "Memberships",
+        workflowFamily: "Membership subscription setup",
+        navigationPath: "Memberships > Subscriptions",
+        summary: "Create and apply subscriptions.",
+        aliases: ["subscription", "subscriptions"],
+        routes: [{ name: "Create subscription", steps: ["Open Memberships.", "Open Subscriptions."] }],
+        confidence: "approved",
+      },
+      {
+        sourceType: "brs-workflow-family",
+        title: "User account and login workflow relationship map",
+        area: "Users",
+        workflowFamily: "User account and login management",
+        navigationPath: "Users > Add New",
+        summary: "Create staff/admin login accounts with username and user group.",
+        aliases: ["add a user", "staff user", "login account"],
+        routes: [{ name: "Create user", steps: ["Open Users.", "Use Add New."] }],
+        confidence: "approved",
+      },
+    ],
+  }));
+  await buildKnowledgeBase({ knowledgeDir, outputPath: path.join(knowledgeDir, "knowledge-index.json") });
+
+  const memberResults = await retrieveKnowledge("how do I add a member with subscriptions", {
+    indexPath: path.join(knowledgeDir, "knowledge-index.json"),
+    limit: 5,
+  });
+  assert.equal(memberResults[0].workflowFamily, "Membership member profile management");
+  assert.equal(memberResults.some((entry) => entry.workflowFamily === "Membership subscription setup"), true);
+  assert.equal(memberResults.some((entry) => entry.workflowFamily === "User account and login management"), false);
+
+  const userResults = await retrieveKnowledge("how do I add a staff user login", {
+    indexPath: path.join(knowledgeDir, "knowledge-index.json"),
+    limit: 3,
+  });
+  assert.equal(userResults[0].workflowFamily, "User account and login management");
+});
+
 test("crawl error pages stay out of approved retrieval", async () => {
   const knowledgeDir = await makeKnowledgeDir();
   await fs.writeFile(path.join(knowledgeDir, "system", "errors.json"), JSON.stringify({

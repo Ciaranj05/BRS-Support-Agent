@@ -6,6 +6,19 @@ import { hasSensitiveData, redactText } from "../lib/knowledgeRedaction.js";
 
 const KNOWLEDGE_DIR = path.join(process.cwd(), "knowledge");
 const OUTPUT_PATH = path.join(KNOWLEDGE_DIR, "knowledge-index.json");
+const TRACKED_TIMESTAMP_CRAWLS = new Set([
+  "brs-system-1780913820705.json",
+  "brs-system-1782127941508.json",
+  "brs-workflows-1782127941508.json",
+]);
+
+function shouldReadKnowledgeJson(fileName = "") {
+  if (!fileName.endsWith(".json")) return false;
+  if (/^brs-(system|workflows)-\d{13}\.json$/i.test(fileName)) {
+    return TRACKED_TIMESTAMP_CRAWLS.has(fileName);
+  }
+  return true;
+}
 
 function isSystemEntry(entry = {}) {
   return ["system", "brs-system", "workflow", "brs-system-workflow", "brs-workflow-family"].includes(entry.sourceType);
@@ -52,6 +65,18 @@ function entryTextForReview(entry = {}) {
       action.riskTier,
       action.rollbackPlan,
       action.rollbackVerified ? "rollback verified" : null,
+    ]),
+    (entry.relatedWorkflows || []).flatMap((relationship) => [
+      relationship.id,
+      relationship.workflowId,
+      relationship.workflowFamily,
+      relationship.family,
+      relationship.title,
+      relationship.type,
+      relationship.reason,
+      relationship.answerUse,
+      relationship.includeWhen || [],
+      relationship.excludeWhen || [],
     ]),
     entry.helpText || [],
     entry.tableHeaders || [],
@@ -125,7 +150,7 @@ async function readJsonFiles(dir) {
       entries.push(...await readJsonFiles(filePath));
       continue;
     }
-    if (!file.name.endsWith(".json")) continue;
+    if (!shouldReadKnowledgeJson(file.name)) continue;
     const raw = await fs.readFile(filePath, "utf-8");
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed.entries)) entries.push(...parsed.entries);
