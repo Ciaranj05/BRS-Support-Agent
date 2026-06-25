@@ -97,9 +97,17 @@ test("routes wallet and flexi member variants to memberships", () => {
   assert.equal(wallet.topic, "memberships");
   assert.match(wallet.reply, /Account Balances/);
 
-  const flexi = answerFromObjectFirstRouting("I have flexi enabled, how do I add a flexible member");
-  assert.equal(flexi.topic, "memberships");
-  assert.match(flexi.reply, /flexi\/flexible membership/);
+  const flexiType = answerFromObjectFirstRouting("how do I create a flexible membership type");
+  assert.equal(flexiType.topic, "memberships");
+  assert.match(flexiType.reply, /Create a Flexible Membership Type/);
+  assert.match(flexiType.reply, /Membership Types/);
+  assert.match(flexiType.reply, /CREATE MEMBERSHIP TYPE/);
+  assert.match(flexiType.reply, /Tick Flex/);
+
+  const flexiMember = answerFromObjectFirstRouting("I have flexi enabled, how do I add a flexible member");
+  assert.equal(flexiMember.topic, "memberships");
+  assert.match(flexiMember.reply, /Manage a Flexible Member/);
+  assert.match(flexiMember.reply, /Account Balances/);
 });
 
 test("routes competition payment variants by competition audience", () => {

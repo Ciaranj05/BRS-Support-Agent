@@ -19,6 +19,7 @@ BRS_USERNAME=...
 BRS_PASSWORD=...
 BRS_CRAWL_MAX_PAGES=80
 BRS_CRAWL_ALLOW_MUTATIONS=false
+BRS_CRAWL_EMBEDDED_APP_HOSTS=embedded-memberships.brsgolf.com
 ```
 
 Never commit real BRS credentials. If credentials have appeared in chat, rotate them before production use.
@@ -89,6 +90,8 @@ For approved pages it records:
 - question mark, title, aria-label, and tooltip-style help text
 - report names and filters when visible
 - last observed date
+
+After login, the crawler also checks for approved embedded BRS application iframes. This matters for Memberships because the top-level BRS navigation opens Memberships inside `embedded-memberships.brsgolf.com`; crawling only the parent page sees the iframe but misses the Memberships sub-navigation, forms, modals, table columns, and settings tabs. Keep `BRS_CRAWL_EMBEDDED_APP_HOSTS` narrowly allowlisted and add hosts only after confirming they are BRS product surfaces for the approved test club.
 
 The crawler should focus especially on areas like:
 

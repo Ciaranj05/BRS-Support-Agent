@@ -1,0 +1,157 @@
+{
+  "generatedAt": "2026-06-25T00:00:00.000Z",
+  "sourceType": "brs-system-workflow",
+  "entries": [
+    {
+      "id": "brs-demo-workflow:membership-types-flex-reviewed",
+      "sourceType": "brs-system-workflow",
+      "title": "Observed workflow: create or edit a flexible membership type",
+      "area": "Memberships > Membership Types",
+      "workflow": "Create or edit a flexible membership type",
+      "workflowFamily": "Membership type setup",
+      "summary": "Reviewed demo evidence for creating and inspecting a flexible membership type in the embedded Memberships app. Flexible membership type setup belongs in Membership Types. Member profiles are used later to assign or review an existing type for one member.",
+      "navigationPath": "Memberships > Membership Types > CREATE MEMBERSHIP TYPE",
+      "aliases": [
+        "How do I create a flexible membership type?",
+        "How do I create a flexi membership type?",
+        "How do I add a flexible membership?",
+        "How do I set up a flex membership type?",
+        "How do I make a membership type flexible?",
+        "How do I edit a flexi membership type?"
+      ],
+      "routes": [
+        {
+          "name": "Create a flexible membership type",
+          "actor": "Golf club admin or membership staff user",
+          "preconditions": [
+            "The club has Memberships access.",
+            "Flexible Membership is enabled for the club if the Flex option is expected to be available.",
+            "The club knows the membership type name, active/inactive status, any age or service eligibility rules, and any default subscriptions."
+          ],
+          "steps": [
+            "Open Memberships.",
+            "Open Membership Types.",
+            "Click CREATE MEMBERSHIP TYPE.",
+            "In Membership Type Details, enter the Name.",
+            "Choose Select Membership Type Status. Observed options are Active and Inactive.",
+            "Tick Flex.",
+            "Use Minimum Age and Maximum Age only if the type should be age-limited.",
+            "Use Qualifying Length of Service only if eligibility depends on years of service.",
+            "Use Next Chained Membership Type only if members should later move automatically to another type.",
+            "In Subscription Items, use Start typing to filter available subscriptions and Select to add any default subscriptions.",
+            "Review the Default Items table.",
+            "Click CREATE."
+          ],
+          "outcome": "The membership type is created with Flex enabled.",
+          "verification": [
+            "Return to Membership Types.",
+            "Find the membership type row.",
+            "Confirm the Flex column shows Yes.",
+            "Open the membership type and confirm the Flex checkbox is checked and default subscription items are correct."
+          ]
+        },
+        {
+          "name": "Inspect or edit an existing flexible membership type",
+          "actor": "Golf club admin or membership staff user",
+          "preconditions": [
+            "The flexible membership type already exists."
+          ],
+          "steps": [
+            "Open Memberships.",
+            "Open Membership Types.",
+            "Open the membership type row.",
+            "Check Membership Type Details and confirm Flex is checked.",
+            "Review Default Items for default subscriptions.",
+            "Use EDIT if the membership type details need to change.",
+            "Use the Members table on the detail view to check which members are assigned to that membership type."
+          ],
+          "outcome": "The staff user can verify or amend the flexible membership type configuration.",
+          "verification": [
+            "Return to Membership Types and confirm the row still shows the expected status and Flex value."
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "name": "Managing one flexible member",
+          "appliesWhen": "The user asks about one member's flexible membership, points, balance, top-up, clawback, or account balance.",
+          "answerImpact": "Use Members to open the member profile and Account Balances for wallet movement. Do not use the create membership type route as the main answer."
+        },
+        {
+          "name": "Flexible wallets dashboard visibility",
+          "appliesWhen": "The user asks why flexible wallets are or are not shown on the Memberships Dashboard.",
+          "answerImpact": "Use Memberships > Settings > General and the Display Flexible Wallets table on dashboard checkbox."
+        },
+        {
+          "name": "Wallet/account setup",
+          "appliesWhen": "The user asks about configuring wallets, account units, auto assignment, active state, or minimum balance.",
+          "answerImpact": "Use Memberships > Accounts, not Membership Types."
+        }
+      ],
+      "controls": [
+        { "label": "MEMBERSHIP TYPE CHANGES", "type": "button" },
+        { "label": "CREATE MEMBERSHIP TYPE", "type": "button" },
+        { "label": "Name*", "type": "textbox" },
+        { "label": "Select Membership Type Status*", "type": "select", "options": ["Active", "Inactive"] },
+        { "label": "Flex", "type": "checkbox" },
+        { "label": "Minimum Age", "type": "spinbutton" },
+        { "label": "Maximum Age", "type": "spinbutton" },
+        { "label": "Qualifying Length of Service", "type": "spinbutton" },
+        { "label": "Next Chained Membership Type", "type": "select" },
+        { "label": "Start typing to filter available subscriptions", "type": "search textbox" },
+        { "label": "Select", "type": "subscription item button" },
+        { "label": "CANCEL", "type": "link" },
+        { "label": "CREATE", "type": "button" },
+        { "label": "EDIT", "type": "link" },
+        { "label": "DELETE", "type": "button" }
+      ],
+      "tableHeaders": [
+        "Name",
+        "Flex",
+        "Status",
+        "Minimum Age",
+        "Maximum Age",
+        "Qualifying Length of Service",
+        "Next Chained Membership Type",
+        "Default Subscriptions",
+        "Actions",
+        "Default Items",
+        "Membership Type Price",
+        "Members"
+      ],
+      "relatedViews": [
+        {
+          "name": "Memberships > Settings > General",
+          "controls": [
+            "Display Flexible Wallets table on dashboard"
+          ],
+          "purpose": "Controls whether the flexible wallets table appears on the Memberships Dashboard."
+        },
+        {
+          "name": "Memberships > Accounts",
+          "purpose": "Wallet/account setup."
+        },
+        {
+          "name": "Memberships > Members",
+          "purpose": "Assign or review the existing flexible membership type for a specific member and manage member account balances."
+        }
+      ],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "safeForChatbot": true,
+      "safetyTier": "read-and-draft-only",
+      "mutationsPerformed": [],
+      "rollbackRequired": false,
+      "tags": [
+        "demo-exploration",
+        "reviewed",
+        "memberships",
+        "membership-types",
+        "flexible-membership",
+        "flexi-membership"
+      ],
+      "sourceId": "membership-types-flex-reviewed",
+      "learnedAt": "2026-06-25T00:00:00.000Z"
+    }
+  ]
+}

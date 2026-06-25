@@ -25,6 +25,7 @@ In the live demo system, Memberships opens an embedded memberships app. Its main
 - Billing/Payments.
 - Reports.
 - Accounts.
+- Settings, shown as the cog icon.
 
 Use Memberships when the user mentions:
 
@@ -65,6 +66,49 @@ Membership type setup is covered in User Management/Tools-related Help Center ar
 The Membership Types page includes actions such as Create Membership Type and Membership Type Changes. Observed columns include name, flex flag, status, minimum age, maximum age, qualifying length of service, next chained membership type, default subscriptions, and actions.
 
 Use Membership Types when the user is changing membership categories or the rules/default subscriptions attached to a category. Use Members when changing one person. Use Subscriptions when changing the financial product/fee being assigned.
+
+## Create or edit a flexible membership type
+
+Use Memberships > Membership Types when the user asks how to create, add, set up, edit, or configure a flexi/flexible membership type. Do not send this question first to a member profile; a member profile is where a club assigns or reviews an existing type for one member.
+
+Observed route:
+
+1. Open Memberships.
+2. Open Membership Types.
+3. Click CREATE MEMBERSHIP TYPE.
+4. In Membership Type Details, enter Name.
+5. Choose Select Membership Type Status. Observed status options are Active and Inactive.
+6. Tick Flex to make the membership type a flexible membership type.
+7. Use Minimum Age and Maximum Age only when the membership type is age-limited.
+8. Use Qualifying Length of Service only when eligibility depends on years of service.
+9. Use Next Chained Membership Type only when members should later move to another membership type.
+10. In Subscription Items, use the search box and Select buttons to add default subscriptions to the membership type.
+11. Review the Default Items table.
+12. Click CREATE.
+13. Return to Membership Types and check the row shows Flex as Yes.
+
+Observed create/edit fields and controls:
+
+- Name.
+- Select Membership Type Status.
+- Flex checkbox.
+- Minimum Age.
+- Maximum Age.
+- Qualifying Length of Service.
+- Next Chained Membership Type.
+- Start typing to filter available subscriptions.
+- Select, used to add a subscription item.
+- Default Items table.
+- CANCEL.
+- CREATE.
+
+Use Membership Types > open an existing flexible type when the club wants to inspect or edit an existing flex type. The detail view shows the Flex checkbox as checked, the default subscription items for that type, the members assigned to that type, DELETE where allowed, and EDIT.
+
+Related but separate flexible membership setup:
+
+- Memberships > Settings > General includes Display Flexible Wallets table on dashboard. This controls whether the flexible wallets table appears on the Memberships Dashboard; it does not create the membership type.
+- Memberships > Accounts is for configured wallets/accounts.
+- Members > open member profile is for assigning/reviewing the type and member-specific account balances.
 
 ## Subscriptions
 
@@ -162,7 +206,14 @@ Confirm the correct member, bill, payment, amount, and allocation before refundi
 
 Flexible Membership is an optional feature. The Help Center says clubs should contact their account manager or sales/support to add it.
 
-Flexible/flexi membership is handled from the Memberships/member profile area, not from booking payments.
+Flexible/flexi membership setup spans Membership Types, Settings, Accounts, and the member profile:
+
+- Use Membership Types to create or edit the flexible membership type and tick Flex.
+- Use Settings > General to show or hide the flexible wallets table on the Memberships Dashboard.
+- Use Accounts for wallet/account setup.
+- Use Members to assign or review an existing flexible type on one member and manage that member's account balance.
+
+Flexible/flexi membership is not handled from booking payments.
 
 ## Wallet/account balances
 

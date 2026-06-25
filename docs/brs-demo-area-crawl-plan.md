@@ -69,3 +69,5 @@ Use a clearly temporary label such as `BRS Chatbot Test YYYY-MM-DD`. Prefer draf
 - Single bill, batch bill, and overdue bill report views have been captured in read-only mode.
 - No demo records were created or edited during the first Memberships billing pass, so no rollback was required.
 - The Who To Bill controls inside the Create Bills filter modal still need a separate capture pass because the browser bridge did not reliably switch to that modal tab.
+- Memberships > Membership Types > Create Membership Type has been captured in read-and-draft-only mode, including the Flex checkbox, status options, age/service/chained-type fields, default subscription selection, and verification that the Membership Types list shows Flex as Yes for flexible types.
+- Memberships opens an embedded app. Future crawls should open the approved embedded Memberships iframe directly after login so Dashboard, Members, Membership Types, Subscriptions, Billing/Payments, Reports, Accounts, and Settings are captured as real pages rather than a blank parent iframe.

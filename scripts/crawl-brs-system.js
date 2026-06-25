@@ -12,6 +12,10 @@ const OUTPUT_DIR = process.env.BRS_CRAWL_OUTPUT_DIR || path.join("knowledge", "s
 const WORKFLOW_OUTPUT_DIR = process.env.BRS_CRAWL_WORKFLOW_OUTPUT_DIR || path.join("knowledge", "workflows");
 const MAX_PAGES = Number(process.env.BRS_CRAWL_MAX_PAGES || 140);
 const ALLOW_MUTATIONS = process.env.BRS_CRAWL_ALLOW_MUTATIONS === "true";
+const EMBEDDED_APP_HOSTS = (process.env.BRS_CRAWL_EMBEDDED_APP_HOSTS || "embedded-memberships.brsgolf.com")
+  .split(",")
+  .map((host) => host.trim().toLowerCase())
+  .filter(Boolean);
 
 const CLUB_IDS = (process.env.BRS_CLUB_IDS || process.env.BRS_CLUB_ID || "")
   .split(",")
@@ -79,9 +83,22 @@ function sameClubUrl(url, clubId) {
   }
 }
 
+function isAllowedEmbeddedAppUrl(url) {
+  try {
+    const parsed = new URL(url);
+    return EMBEDDED_APP_HOSTS.includes(parsed.hostname.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
+function isAllowedCrawlUrl(url, clubId) {
+  return sameClubUrl(url, clubId) || isAllowedEmbeddedAppUrl(url);
+}
+
 function isAllowedLink(link, clubId) {
   const text = `${link.text || ""} ${link.href || ""}`;
-  if (!sameClubUrl(link.href, clubId)) return false;
+  if (!isAllowedCrawlUrl(link.href, clubId)) return false;
   if (BLOCKED_URL_TEXT.some((pattern) => pattern.test(text))) return false;
   return ALLOWED_NAVIGATION_TEXT.some((pattern) => pattern.test(text));
 }
@@ -161,6 +178,15 @@ async function login(page, clubId) {
 async function extractLinks(page, clubId) {
   const links = await page.locator("a[href]").evaluateAll((nodes) => nodes.map((node) => ({ text: node.textContent || "", href: node.href })));
   return links.filter((link) => isAllowedLink(link, clubId));
+}
+
+async function extractEmbeddedAppLinks(page) {
+  const frames = await page.locator("iframe[src]").evaluateAll((nodes) => nodes.map((node) => ({
+    text: node.getAttribute("title") || node.getAttribute("id") || node.getAttribute("name") || "Embedded BRS app",
+    href: node.src,
+  }))).catch(() => []);
+
+  return frames.filter((frame) => isAllowedEmbeddedAppUrl(frame.href));
 }
 
 async function readVisibleText(page, selector) {
@@ -329,6 +355,7 @@ async function crawlClub(browser, clubId) {
   await login(page, clubId);
 
   const queue = await extractLinks(page, clubId);
+  queue.push(...await extractEmbeddedAppLinks(page));
   const seen = new Set();
   const entries = [];
 
@@ -338,9 +365,12 @@ async function crawlClub(browser, clubId) {
     seen.add(next.href);
     await page.goto(next.href, { waitUntil: "domcontentloaded" }).catch(() => null);
     await page.waitForLoadState("networkidle", { timeout: 1500 }).catch(() => {});
-    if (!sameClubUrl(page.url(), clubId)) continue;
+    if (!isAllowedCrawlUrl(page.url(), clubId)) continue;
     entries.push(...await extractPageKnowledge(page, clubId, page.url()));
     for (const link of await extractLinks(page, clubId)) {
+      if (!seen.has(link.href)) queue.push(link);
+    }
+    for (const link of await extractEmbeddedAppLinks(page)) {
       if (!seen.has(link.href)) queue.push(link);
     }
   }
