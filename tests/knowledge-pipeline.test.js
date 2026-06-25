@@ -165,6 +165,118 @@ test("retrieval prefers matching workflow detail over generic page evidence", as
   assert.equal(results[0].title, "Member Report workflow");
 });
 
+test("incomplete launcher-only workflows stay out of approved retrieval", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "incomplete.json"), JSON.stringify({
+    entries: [{
+      sourceType: "brs-system-workflow",
+      title: "Memberships workflow surface",
+      area: "Memberships",
+      workflow: "Memberships",
+      navigationPath: "Memberships",
+      purpose: "Help Button Launcher with How to Create a New Member and How to Edit a Member.",
+      steps: [
+        "Open Memberships.",
+        "Use the visible fields, filters, tabs, or actions shown on the page for the task.",
+      ],
+      actions: [
+        { label: "How to Create a New Member", purpose: "reset filters" },
+        { label: "How to Edit a Member", purpose: "reset filters" },
+      ],
+      confidence: "needs-review",
+      containsClubSpecificData: false,
+    }],
+  }));
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "complete.json"), JSON.stringify({
+    entries: [{
+      sourceType: "brs-system-workflow",
+      title: "Add a contact workflow",
+      area: "Contacts",
+      workflow: "Add a contact",
+      navigationPath: "Contacts > Add Contact",
+      purpose: "Creates a contact record.",
+      steps: ["Open Contacts.", "Click Add Contact.", "Enter the contact name.", "Click Save."],
+      actions: [{ label: "Save", purpose: "save" }],
+      confidence: "needs-review",
+      containsClubSpecificData: false,
+    }],
+  }));
+
+  const { entries, reviewQueue } = await buildKnowledgeBase({
+    knowledgeDir,
+    outputPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+  const incomplete = entries.find((entry) => entry.title === "Memberships workflow surface");
+  const complete = entries.find((entry) => entry.title === "Add a contact workflow");
+
+  assert.equal(incomplete.confidence, "needs-review");
+  assert.ok(incomplete.tags.includes("incomplete-workflow-evidence"));
+  assert.equal(complete.confidence, "approved");
+  assert.equal(reviewQueue.some((entry) => entry.title === "Memberships workflow surface"), true);
+
+  const results = await retrieveKnowledge("how do I create a new member", {
+    indexPath: path.join(knowledgeDir, "knowledge-index.json"),
+    limit: 5,
+  });
+
+  assert.equal(results.some((entry) => entry.title === "Memberships workflow surface"), false);
+});
+
+test("generic sign-in and available-action workflow captures stay in review", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "signin.json"), JSON.stringify({
+    entries: [{
+      sourceType: "brs-system-workflow",
+      title: "BRS Golf - Tee Booking System workflow",
+      area: "BRS Golf - Tee Booking System",
+      workflow: "BRS Golf - Tee Booking System",
+      purpose: "Amys Golf Club Sign In Username: Password: Forgot password You may only login if you are authorised to do so.",
+      steps: [
+        "Open BRS Golf - Tee Booking System",
+        "Use the available fields, filters, or selectors to narrow the result.",
+        "Use the available page actions for the next step, such as run, filter, print, or download/export where shown.",
+      ],
+      actions: [{ label: "Forgot password", purpose: "reset filters" }],
+      confidence: "needs-review",
+      containsClubSpecificData: false,
+    }],
+  }));
+
+  const { entries, reviewQueue } = await buildKnowledgeBase({
+    knowledgeDir,
+    outputPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+
+  assert.equal(entries[0].confidence, "needs-review");
+  assert.ok(entries[0].tags.includes("incomplete-workflow-evidence"));
+  assert.equal(reviewQueue.length, 1);
+});
+
+test("crawl error pages stay out of approved retrieval", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "system", "errors.json"), JSON.stringify({
+    entries: [{
+      sourceType: "brs-system",
+      title: "500 - Internal Server Error",
+      area: "Reports",
+      purpose: "500 - Internal Server Error with navigation links and page chrome.",
+      fields: [{ label: "Reports" }],
+      actions: [{ label: "Back" }],
+      confidence: "needs-review",
+      containsClubSpecificData: false,
+    }],
+  }));
+
+  const { entries, reviewQueue } = await buildKnowledgeBase({
+    knowledgeDir,
+    outputPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+
+  assert.equal(entries[0].confidence, "needs-review");
+  assert.ok(entries[0].tags.includes("incomplete-workflow-evidence"));
+  assert.equal(reviewQueue.length, 1);
+});
+
 test("multi-route workflow knowledge is preserved and searchable", async () => {
   const knowledgeDir = await makeKnowledgeDir();
   await fs.writeFile(path.join(knowledgeDir, "workflows", "workflow.json"), JSON.stringify({

@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { hasIncompleteWorkflowEvidence } from "../lib/groundingGuards.js";
 import { normaliseKnowledgeEntry } from "../lib/knowledgeSources.js";
 import { hasSensitiveData, redactText } from "../lib/knowledgeRedaction.js";
 
@@ -73,7 +74,7 @@ function hasEnoughReusableProductKnowledge(entry = {}) {
   const text = entryTextForReview(entry);
   const wordCount = text.split(/\s+/).filter(Boolean).length;
   const hasUiShape = (entry.fields || []).length || (entry.actions || []).length || (entry.helpText || []).length || (entry.routes || []).length;
-  return wordCount >= 8 && (hasUiShape || Boolean(entry.purpose || entry.content));
+  return wordCount >= 8 && (hasUiShape || Boolean(entry.purpose || entry.content)) && !hasIncompleteWorkflowEvidence(entry);
 }
 
 function prepareSystemEntry(entry = {}) {
@@ -91,7 +92,12 @@ function prepareSystemEntry(entry = {}) {
     clubId: undefined,
     clubScope: "template",
     confidence: safeForChatbot ? "approved" : "needs-review",
-    tags: [...tags, sourceType === "workflow" ? "workflow-knowledge" : null, safeForChatbot ? "auto-approved-after-redaction" : "requires-human-review"].filter(Boolean),
+    tags: [
+      ...tags,
+      sourceType === "workflow" ? "workflow-knowledge" : null,
+      hasIncompleteWorkflowEvidence(redacted) ? "incomplete-workflow-evidence" : null,
+      safeForChatbot ? "auto-approved-after-redaction" : "requires-human-review",
+    ].filter(Boolean),
   };
 }
 
