@@ -3,6 +3,7 @@ import fs from "node:fs";
 import test from "node:test";
 import { answerFromKnowledge, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
 import { routeActionRequest } from "../lib/actionRouter.js";
+import { candidateGuideMatchesQuestion, hasUnsupportedGeneratedWorkflowShape } from "../lib/groundingGuards.js";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "../lib/bookingWorkflowAnswers.js";
 import { BRS_SCREEN_LOCATION_RECORD } from "../lib/brsScreenLocations.js";
 import { isMemberBalanceReportQuestion } from "../lib/membershipWorkflowAnswers.js";
@@ -80,11 +81,18 @@ test("forbidden move-booking generated actions are detected", () => {
 test("related guides use workflow family first and variants only when relevant", () => {
   const generalGuides = relatedGuidesForQuestion("how do I move a booking?");
   const serviceGuides = relatedGuidesForQuestion("how do I move a buggy booking?");
+  const memberGuides = relatedGuidesForQuestion("how do I add a member in the system", [
+    {
+      title: "Add a User",
+      url: "https://help.brsgolf.com/hc/en-us/articles/123-Add-a-User",
+    },
+  ]);
 
   assert.equal(generalGuides[0].title, "Move part of a booking to another tee time");
   assert.equal(generalGuides.some((guide) => guide.title === "Buggy Management"), false);
   assert.equal(serviceGuides[0].title, "Move part of a booking to another tee time");
   assert.equal(serviceGuides.some((guide) => guide.title === "Buggy Management"), true);
+  assert.equal(memberGuides.some((guide) => guide.title === "Add a User"), false);
 });
 
 test("member balance lookup uses protected membership workflow and does not leak contacts routing notes", async () => {
@@ -521,4 +529,45 @@ test("protected move booking answer includes screen locations without adding for
   assert.match(reply, /tee-time grid/i);
   assert.match(reply, /Timesheet action toolbar above the tee-time grid/i);
   assert.doesNotMatch(reply, /drag|right-click|move button/i);
+});
+
+test("generated fallback guards reject vague workflow guesses generally", () => {
+  assert.equal(
+    hasUnsupportedGeneratedWorkflowShape(
+      "how do I add a member in the system",
+      "Open Memberships, then look for an option labelled How to Create a New Member or a similar action."
+    ),
+    true
+  );
+  assert.equal(
+    hasUnsupportedGeneratedWorkflowShape(
+      "how do I create a visitor contact",
+      "Enter the details in the available fields and save as prompted by the system."
+    ),
+    true
+  );
+  assert.equal(
+    hasUnsupportedGeneratedWorkflowShape(
+      "how do I run a payments report",
+      "Open Reports, choose \"BRS Payments VAT Report\", select the date range, then click \"Download\"."
+    ),
+    false
+  );
+});
+
+test("candidate help guides must match the question object, not just the action", () => {
+  assert.equal(
+    candidateGuideMatchesQuestion("how do I add a member in the system", {
+      title: "Add a User",
+      url: "https://help.brsgolf.com/hc/en-us/articles/123-Add-a-User",
+    }),
+    false
+  );
+  assert.equal(
+    candidateGuideMatchesQuestion("how do I add a staff user", {
+      title: "Add a User",
+      url: "https://help.brsgolf.com/hc/en-us/articles/123-Add-a-User",
+    }),
+    true
+  );
 });

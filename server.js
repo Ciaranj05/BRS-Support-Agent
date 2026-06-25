@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "./lib/bookingWorkflowAnswers.js";
+import { hasUnsupportedGeneratedWorkflowShape } from "./lib/groundingGuards.js";
 import { appendRelatedGuides, relatedGuidesForQuestion } from "./lib/relatedGuides.js";
 import { hasMembershipOwnedObject } from "./lib/objectFirstRouting.js";
 
@@ -524,22 +525,21 @@ async function isReplyGrounded(reply, helpCenterContext, approvedSupportContext,
     const verification = await client.responses.create({
       model: "gpt-4.1",
       input: [
-        { role: "system", content: `You are a support-answer safety verifier. Decide whether the assistant answer is reasonably grounded in the supplied BRS sources.
+        { role: "system", content: `You are a strict support-answer safety verifier. Decide whether the assistant answer is directly grounded in the supplied BRS sources.
 
 Sources may include BRS Help Center articles and local approved support guidance.
 
 Reply exactly SUPPORTED if:
-- the answer is based on the supplied BRS sources, and
-- the troubleshooting path is a reasonable application of those sources to the user's issue, and
-- any product-specific UI labels, buttons, menu paths, workflows, prices, rules, or policies are present in the supplied sources.
+- every product-specific UI label, button, menu path, workflow step, field, price, rule, or policy in the answer is present in the supplied sources, and
+- the answer does not use partial evidence to infer missing workflow steps.
 
 Reply exactly UNSUPPORTED only if:
 - the answer invents product-specific UI labels, buttons, menu paths, workflows, prices, rules, or policies that are not present in the supplied sources, or
 - the answer contradicts the supplied sources, or
 - the supplied sources are unrelated to the user's issue, or
+- the answer uses uncertainty or placeholder wording such as "look for", "similar action", "available fields", "as prompted", "if available", "may be", "likely", "usually", or "depending on" to bridge a missing workflow step, or
 - a Help Center URL is required but the answer has no BRS Help Center article URL.
-
-Do not reject an answer just because it translates vague wording into likely BRS product terms or combines related source facts into a troubleshooting sequence.` },
+If the source only proves that a guide or launcher exists, but not the actual steps, reply UNSUPPORTED.` },
         { role: "user", content: `BRS HELP CENTER ARTICLE CONTEXT:\n${helpCenterContext || "No Help Center articles found."}\n\nLOCAL APPROVED SUPPORT GUIDANCE:\n${approvedSupportContext || "No local approved guidance found."}\n\nHELP CENTER URL REQUIRED: ${sourceRequired ? "yes" : "no"}\n\nASSISTANT ANSWER:\n${reply}` },
       ],
     });
@@ -566,7 +566,9 @@ async function createGroundedReply(message, topic, conversationHistory, state = 
 
   const draftReply = response.output_text?.trim() || "";
   if (isMoveBookingQuestion(message) && hasForbiddenMoveBookingAdvice(draftReply)) return approvedMoveBookingReply(message);
+  if (hasUnsupportedGeneratedWorkflowShape(message, draftReply)) return UNKNOWN_REPLY;
   const reply = hasHelpCenterSource(draftReply) ? draftReply : appendSourceLinks(draftReply, articles, message);
+  if (hasUnsupportedGeneratedWorkflowShape(message, reply)) return UNKNOWN_REPLY;
   return await isReplyGrounded(reply, helpCenterContext, approvedSupportContext, Boolean(articles.length)) ? reply : UNKNOWN_REPLY;
 }
 
