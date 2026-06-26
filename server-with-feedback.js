@@ -489,6 +489,8 @@ app.all("/api/admin/qa-analysis/run", async (req, res) => {
       ok: true,
       filePath: result.filePath,
       fileName: result.fileName,
+      workbookFilePath: result.workbookFilePath,
+      workbookFileName: result.workbookFileName,
       summary: result.summary,
       markdown: includeMarkdown ? result.markdown : undefined,
     });

@@ -11,5 +11,7 @@ console.log(JSON.stringify({
   ok: true,
   filePath: result.filePath,
   fileName: result.fileName,
+  workbookFilePath: result.workbookFilePath,
+  workbookFileName: result.workbookFileName,
   summary: result.summary,
 }, null, 2));

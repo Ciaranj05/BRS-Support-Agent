@@ -9,6 +9,7 @@ import { buildReusableWorkflowEntry } from "../lib/liveBrsLookup.js";
 import { normaliseKnowledgeEntry } from "../lib/knowledgeSources.js";
 import { buildWorkflowFamilyEntry } from "../lib/workflowFamily.js";
 import { buildWorkflowExplorationTask } from "../lib/workflowExplorationQueue.js";
+import { writeXlsxWorkbook } from "../lib/xlsxWriter.js";
 
 async function makeKnowledgeDir() {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brs-knowledge-"));
@@ -459,4 +460,18 @@ test("workflow exploration queue assigns safe automation tiers", () => {
   assert.equal(settingsTask.allowedTier, "read-and-draft-only");
   assert.equal(paymentTask.allowedTier, "auto-restricted");
   assert.equal(bookingTask.automationPolicy.requireRollbackVerification, true);
+});
+
+test("QA workbook writer creates an Excel xlsx archive", async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "brs-qa-xlsx-"));
+  const filePath = path.join(dir, "qa.xlsx");
+
+  await writeXlsxWorkbook(filePath, [
+    { name: "Summary", rows: [["Metric", "Value"], ["Review candidates", 2]] },
+    { name: "Responses", rows: [["Question", "Answer"], ["How do I add a booking?", "Open Timesheet."]] },
+  ]);
+
+  const buffer = await fs.readFile(filePath);
+  assert.equal(buffer.slice(0, 2).toString("utf8"), "PK");
+  assert.ok(buffer.length > 500);
 });

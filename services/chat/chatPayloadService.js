@@ -1,5 +1,6 @@
 import { rewriteAddsUnsupportedDetails } from "../../lib/rewriteSafety.js";
 import { recordQaInteraction } from "../../lib/qaInteractionStore.js";
+import { applyAnswerQualityGate } from "../../lib/answerQuality.js";
 
 export function getSessionId(req) {
   return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
@@ -107,9 +108,14 @@ function buildResponseHistory(req, message, payload) {
 }
 
 export async function prepareChatPayload({ client, payload, message, debug, debugEnabled, req = null }) {
-  const nextPayload = payload && typeof payload === "object" && !Array.isArray(payload) ? { ...payload } : payload;
+  let nextPayload = payload && typeof payload === "object" && !Array.isArray(payload) ? { ...payload } : payload;
   if (nextPayload && nextPayload.version !== "strict-evidence-gap-v1" && !shouldSkipReplyRewrite(nextPayload) && shouldRewriteReply(nextPayload.reply)) {
     nextPayload.reply = await rewriteReplyInOwnWords(client, nextPayload.reply, message);
+  }
+  if (nextPayload && typeof nextPayload === "object") {
+    const gatedPayload = applyAnswerQualityGate(nextPayload, message);
+    if (gatedPayload?.qualityGate?.blocked) debug?.stages?.push?.({ name: "answer-quality-gate", matched: true, reason: gatedPayload.qualityGate.reason, originalVersion: gatedPayload.qualityGate.originalVersion });
+    nextPayload = gatedPayload;
   }
   if (nextPayload && req) {
     nextPayload.conversationHistory = buildResponseHistory(req, message, nextPayload);

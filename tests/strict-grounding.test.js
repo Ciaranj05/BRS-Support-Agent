@@ -10,6 +10,7 @@ import { isMemberBalanceReportQuestion } from "../lib/membershipWorkflowAnswers.
 import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
 import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/relatedGuides.js";
 import { approvedRefundReply, approvedOfflineRefundReply } from "../server.js";
+import { applyAnswerQualityGate } from "../lib/answerQuality.js";
 
 test("classifies operational BRS questions as workflow questions", () => {
   assert.equal(isBRSWorkflowQuestion("how do I add a buggy to a booking"), true);
@@ -103,7 +104,7 @@ test("member balance lookup uses protected membership workflow and does not leak
   assert.match(typoReply, /Open Memberships from the main navigation menu/);
   assert.match(typoReply, /For one individual member/);
   assert.doesNotMatch(typoReply, /Contacts section|non-member records|avoid using the Contacts/i);
-  assert.match(regularReply, /billing\/report area/i);
+  assert.match(regularReply, /Open Reports in the Memberships navigation/i);
   assert.doesNotMatch(regularReply, /Contacts section|non-member records|avoid using the Contacts/i);
 });
 
@@ -554,6 +555,34 @@ test("generated fallback guards reject vague workflow guesses generally", () => 
     ),
     false
   );
+});
+
+test("answer quality gate escalates vague customer workflow advice", () => {
+  const gated = applyAnswerQualityGate({
+    reply: "Create a competition\n\n1. Open Tools.\n2. Follow the prompts on the page.",
+    escalationReady: false,
+    version: "knowledge-retrieval-v1",
+  }, "How do I create a competition?");
+
+  assert.equal(gated.escalationReady, true);
+  assert.equal(gated.version, "answer-quality-escalation-v1");
+  assert.match(gated.reply, /complete verified BRS workflow/i);
+});
+
+test("high-risk static answers avoid vague workflow placeholders", async () => {
+  const replies = [
+    approvedStaticWorkflowReply("How do I create a new member?"),
+    approvedStaticWorkflowReply("How do I change a staff user permission?"),
+    approvedStaticWorkflowReply("How do I export member email addresses?"),
+    approvedStaticWorkflowReply("How do I create a competition?"),
+    await answerFromKnowledge("Where can I see unpaid membership bills?", { allowDynamic: false }),
+  ].filter(Boolean).join("\n\n");
+
+  assert.doesNotMatch(replies, /depending on the club'?s interface/i);
+  assert.doesNotMatch(replies, /follow the prompts/i);
+  assert.doesNotMatch(replies, /similar privilege-related fields/i);
+  assert.doesNotMatch(replies, /complete the required fields/i);
+  assert.doesNotMatch(replies, /club-specific .*details/i);
 });
 
 test("candidate help guides must match the question object, not just the action", () => {
