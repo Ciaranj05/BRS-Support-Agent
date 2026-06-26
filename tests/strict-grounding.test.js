@@ -132,6 +132,8 @@ test("approved static workflows cover crawled BRS admin areas without live looku
   assert.match(emailReply, /Email Membership Types/i);
   assert.match(userReply, /Users/i);
   assert.match(userReply, /Add New/i);
+  assert.match(userReply, /User Group\*/i);
+  assert.match(userReply, /Create new user/i);
   assert.match(paymentReply, /"Tools" > "BRS Payments" > "General Payment Requests"/i);
   assert.match(copyReply, /Copy Services, Catering, or Green Fees/i);
   assert.doesNotMatch(copyReply, /\bdelete\b/i);
@@ -216,6 +218,9 @@ test("setup versus application intent is general across reusable objects", () =>
   assert.match(createService, /Set Up Bookable Services/i);
   assert.match(createService, /Tools/i);
   assert.match(createService, /Services/i);
+  assert.match(createService, /Service Type/i);
+  assert.match(createService, /Service Name/i);
+  assert.match(createService, /Service Rate/i);
   assert.match(addService, /Add Services to a Booking/i);
   assert.match(addService, /Booking Details/i);
 });
@@ -509,10 +514,13 @@ test("static workflow answers include proven screen locations for controls gener
   const bookingReply = approvedStaticWorkflowReply("How do I add a single tee time booking?");
 
   assert.match(printReply, /action toolbar above the tee-time grid/i);
-  assert.match(printReply, /Add, Modify, Delete, Clear, Block, Cut, Copy, and Paste/i);
+  assert.match(printReply, /"?Add"?, Modify, Delete, Clear, Block, Cut, Copy, and Paste/i);
+  assert.doesNotMatch(printReply, /grid\. for/i);
   assert.match(greenFeeReply, /"Tools" page/i);
   assert.match(greenFeeReply, /Basic Set Up Requirements/i);
   assert.match(reportReply, /"Type of Report" dropdown/i);
+  assert.match(reportReply, /Revenue From Visitor Online Bookings/i);
+  assert.match(reportReply, /Number of Visitors by Country/i);
   assert.match(bookingReply, /tee-time grid/i);
 });
 
@@ -567,6 +575,14 @@ test("answer quality gate escalates vague customer workflow advice", () => {
   assert.equal(gated.escalationReady, true);
   assert.equal(gated.version, "answer-quality-escalation-v1");
   assert.match(gated.reply, /complete verified BRS workflow/i);
+
+  const requiredFieldsGated = applyAnswerQualityGate({
+    reply: "Add a User\n\n1. Open Users.\n2. Complete the required user fields.",
+    escalationReady: false,
+    version: "knowledge-retrieval-v1",
+  }, "How do I add a staff user?");
+
+  assert.equal(requiredFieldsGated.escalationReady, true);
 });
 
 test("high-risk static answers avoid vague workflow placeholders", async () => {
@@ -575,6 +591,12 @@ test("high-risk static answers avoid vague workflow placeholders", async () => {
     approvedStaticWorkflowReply("How do I change a staff user permission?"),
     approvedStaticWorkflowReply("How do I export member email addresses?"),
     approvedStaticWorkflowReply("How do I create a competition?"),
+    approvedStaticWorkflowReply("How do I add a new staff user?"),
+    approvedStaticWorkflowReply("How do I find a booking by reference?"),
+    approvedStaticWorkflowReply("How do I run a visitor booking report?"),
+    approvedStaticWorkflowReply("How do I add a new visitor contact?"),
+    approvedStaticWorkflowReply("How do I set up a new buggy service?"),
+    approvedStaticWorkflowReply("How do I check BRS Payments transactions?"),
     await answerFromKnowledge("Where can I see unpaid membership bills?", { allowDynamic: false }),
   ].filter(Boolean).join("\n\n");
 
@@ -582,10 +604,68 @@ test("high-risk static answers avoid vague workflow placeholders", async () => {
   assert.doesNotMatch(replies, /follow the prompts/i);
   assert.doesNotMatch(replies, /similar privilege-related fields/i);
   assert.doesNotMatch(replies, /complete the required fields/i);
+  assert.doesNotMatch(replies, /complete the required [a-z ]*fields/i);
   assert.doesNotMatch(replies, /club-specific .*details/i);
   assert.doesNotMatch(replies, /relevant fields/i);
+  assert.doesNotMatch(replies, /choose the visitor report/i);
+  assert.doesNotMatch(replies, /visitor filters required/i);
+  assert.doesNotMatch(replies, /choose the member email option that matches/i);
   assert.match(approvedStaticWorkflowReply("How do I change a staff user permission?"), /Retrieve Users/i);
   assert.match(approvedStaticWorkflowReply("How do I change a staff user permission?"), /User Group/i);
+});
+
+test("live-verified admin answers include exact demo controls", async () => {
+  const userReply = await answerFromKnowledge("How do I add a new staff user?", { allowDynamic: false });
+  const searchReply = approvedStaticWorkflowReply("How do I find a booking by reference?");
+  const reportReply = approvedStaticWorkflowReply("How do I run a visitor booking report?");
+  const contactReply = approvedStaticWorkflowReply("How do I add a new visitor contact?");
+  const serviceReply = approvedStaticWorkflowReply("How do I set up a new buggy service?");
+  const paymentsReply = approvedStaticWorkflowReply("How do I check BRS Payments transactions?");
+
+  assert.match(userReply, /Create a New User \/ Add a Member/i);
+  assert.match(userReply, /User Group\*/i);
+  assert.match(userReply, /Username\*/i);
+  assert.match(userReply, /Enable \/ Disable\*/i);
+  assert.match(userReply, /Password/i);
+  assert.match(userReply, /Re-type Password/i);
+  assert.match(userReply, /First Name\*/i);
+  assert.match(userReply, /Last Name\*/i);
+  assert.match(userReply, /Create new user/i);
+
+  assert.match(searchReply, /Search Bookings/i);
+  assert.match(searchReply, /Search Text/i);
+  assert.match(searchReply, /Year/i);
+  assert.match(searchReply, /Booking Ref\. Number/i);
+  assert.match(searchReply, /Club Ref\. Number/i);
+
+  assert.match(reportReply, /Course/i);
+  assert.match(reportReply, /Start Date/i);
+  assert.match(reportReply, /End Date/i);
+  assert.match(reportReply, /Type of Report/i);
+  assert.match(reportReply, /Revenue From Visitor Online Bookings/i);
+  assert.match(reportReply, /Number of Visitors by Country/i);
+  assert.match(reportReply, /Booking Details/i);
+  assert.match(reportReply, /Full Booking Details/i);
+  assert.match(reportReply, /Submit/i);
+
+  assert.match(contactReply, /Add Contact/i);
+  assert.match(contactReply, /Company \/ Group Name/i);
+  assert.match(contactReply, /Contact Category/i);
+  assert.match(contactReply, /General Information/i);
+  assert.match(contactReply, /Address Information/i);
+  assert.match(contactReply, /Club Details/i);
+  assert.match(contactReply, /Marketing Preferences/i);
+
+  assert.match(serviceReply, /Select a Year/i);
+  assert.match(serviceReply, /Service Type/i);
+  assert.match(serviceReply, /Buggy/i);
+  assert.match(serviceReply, /Service Name/i);
+  assert.match(serviceReply, /Service Rate/i);
+  assert.match(serviceReply, /Add/i);
+
+  assert.match(paymentsReply, /Tools/i);
+  assert.match(paymentsReply, /BRS Payments/i);
+  assert.match(paymentsReply, /Transactions/i);
 });
 
 test("candidate help guides must match the question object, not just the action", () => {
