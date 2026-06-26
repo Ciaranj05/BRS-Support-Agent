@@ -597,6 +597,13 @@ test("high-risk static answers avoid vague workflow placeholders", async () => {
     approvedStaticWorkflowReply("How do I add a new visitor contact?"),
     approvedStaticWorkflowReply("How do I set up a new buggy service?"),
     approvedStaticWorkflowReply("How do I check BRS Payments transactions?"),
+    approvedStaticWorkflowReply("How do I send an email to members?"),
+    approvedStaticWorkflowReply("How do I set up payment methods?"),
+    approvedStaticWorkflowReply("How do I set up booking statuses?"),
+    approvedStaticWorkflowReply("How do I add a no show reason?"),
+    approvedStaticWorkflowReply("How do I set up catering refreshments?"),
+    approvedStaticWorkflowReply("How do I set up reservation types and colours?"),
+    approvedStaticWorkflowReply("How do I set up green fee rates?"),
     await answerFromKnowledge("Where can I see unpaid membership bills?", { allowDynamic: false }),
   ].filter(Boolean).join("\n\n");
 
@@ -666,6 +673,77 @@ test("live-verified admin answers include exact demo controls", async () => {
   assert.match(paymentsReply, /Tools/i);
   assert.match(paymentsReply, /BRS Payments/i);
   assert.match(paymentsReply, /Transactions/i);
+});
+
+test("verified tools setup and messaging answers use exact demo labels", () => {
+  const emailReply = approvedStaticWorkflowReply("How do I send an email to members?");
+  const selectedEmailReply = approvedStaticWorkflowReply("How do I email selected members?");
+  const smsReply = approvedStaticWorkflowReply("How do I text selected members?");
+  const paymentMethodReply = approvedStaticWorkflowReply("How do I set up payment methods?");
+  const bookingStatusReply = approvedStaticWorkflowReply("How do I set up booking statuses?");
+  const noShowReply = approvedStaticWorkflowReply("How do I add a no show reason?");
+  const cateringReply = approvedStaticWorkflowReply("How do I set up catering refreshments?");
+  const reservationTypeReply = approvedStaticWorkflowReply("How do I set up reservation types and colours?");
+  const greenFeeReply = approvedStaticWorkflowReply("How do I set up green fee rates?");
+
+  assert.match(emailReply, /Tools/i);
+  assert.match(emailReply, /Email Messaging/i);
+  assert.match(emailReply, /Email Membership Types/i);
+  assert.match(emailReply, /Email Membership Groups/i);
+  assert.match(emailReply, /Email Selected Members/i);
+  assert.doesNotMatch(emailReply, /Open Messages|Email Messages/i);
+
+  assert.match(selectedEmailReply, /Email Selected Members/i);
+  assert.match(smsReply, /Text Messaging/i);
+  assert.match(smsReply, /Text Message Selected Members/i);
+  assert.doesNotMatch(smsReply, /Open Messages|Text Messages/i);
+
+  assert.match(paymentMethodReply, /Payment Methods/i);
+  assert.match(paymentMethodReply, /Name/i);
+  assert.match(paymentMethodReply, /Supported/i);
+  assert.match(paymentMethodReply, /Actions/i);
+  assert.match(paymentMethodReply, /Payment Method Name/i);
+  assert.match(paymentMethodReply, /Add/i);
+
+  assert.match(bookingStatusReply, /Booking Statuses/i);
+  assert.match(bookingStatusReply, /Name/i);
+  assert.match(bookingStatusReply, /Supported/i);
+  assert.match(bookingStatusReply, /Actions/i);
+  assert.match(bookingStatusReply, /Add/i);
+
+  assert.match(noShowReply, /No Show Reasons/i);
+  assert.match(noShowReply, /Name/i);
+  assert.match(noShowReply, /Supported/i);
+  assert.match(noShowReply, /Actions/i);
+  assert.match(noShowReply, /Add/i);
+
+  assert.match(cateringReply, /Catering \/ Refreshments/i);
+  assert.match(cateringReply, /Select a Year/i);
+  assert.match(cateringReply, /Name/i);
+  assert.match(cateringReply, /Rate/i);
+  assert.match(cateringReply, /Add/i);
+
+  assert.match(reservationTypeReply, /Reservation Types/i);
+  assert.match(reservationTypeReply, /Name/i);
+  assert.match(reservationTypeReply, /Code/i);
+  assert.match(reservationTypeReply, /Supported/i);
+  assert.match(reservationTypeReply, /Allow Online Bookings/i);
+  assert.match(reservationTypeReply, /Set As Default/i);
+  assert.match(reservationTypeReply, /Colour/i);
+
+  assert.match(greenFeeReply, /Green Fee Rates/i);
+  assert.match(greenFeeReply, /Select a Year/i);
+  assert.match(greenFeeReply, /Filter Category/i);
+  assert.match(greenFeeReply, /Add Green Fees/i);
+  assert.match(greenFeeReply, /Category/i);
+  assert.match(greenFeeReply, /Sub Category/i);
+  assert.match(greenFeeReply, /Holes/i);
+  assert.match(greenFeeReply, /Start Date/i);
+  assert.match(greenFeeReply, /End Date/i);
+  assert.match(greenFeeReply, /Rates/i);
+  assert.match(greenFeeReply, /Mem Types/i);
+  assert.match(greenFeeReply, /Default/i);
+  assert.match(greenFeeReply, /Global/i);
 });
 
 test("candidate help guides must match the question object, not just the action", () => {
