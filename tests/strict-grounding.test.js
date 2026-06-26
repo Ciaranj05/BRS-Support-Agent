@@ -583,6 +583,9 @@ test("high-risk static answers avoid vague workflow placeholders", async () => {
   assert.doesNotMatch(replies, /similar privilege-related fields/i);
   assert.doesNotMatch(replies, /complete the required fields/i);
   assert.doesNotMatch(replies, /club-specific .*details/i);
+  assert.doesNotMatch(replies, /relevant fields/i);
+  assert.match(approvedStaticWorkflowReply("How do I change a staff user permission?"), /Retrieve Users/i);
+  assert.match(approvedStaticWorkflowReply("How do I change a staff user permission?"), /User Group/i);
 });
 
 test("candidate help guides must match the question object, not just the action", () => {
