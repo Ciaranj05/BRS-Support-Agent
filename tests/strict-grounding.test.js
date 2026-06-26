@@ -604,6 +604,12 @@ test("high-risk static answers avoid vague workflow placeholders", async () => {
     approvedStaticWorkflowReply("How do I set up catering refreshments?"),
     approvedStaticWorkflowReply("How do I set up reservation types and colours?"),
     approvedStaticWorkflowReply("How do I set up green fee rates?"),
+    approvedStaticWorkflowReply("How do I configure member booking rules?"),
+    approvedStaticWorkflowReply("How do I edit privacy policy text?"),
+    approvedStaticWorkflowReply("How do I add a course restriction?"),
+    approvedStaticWorkflowReply("How do I set visitor prices?"),
+    approvedStaticWorkflowReply("How do I set day ticket rates for visitors?"),
+    approvedStaticWorkflowReply("How do I copy green fees to next year?"),
     await answerFromKnowledge("Where can I see unpaid membership bills?", { allowDynamic: false }),
   ].filter(Boolean).join("\n\n");
 
@@ -744,6 +750,75 @@ test("verified tools setup and messaging answers use exact demo labels", () => {
   assert.match(greenFeeReply, /Mem Types/i);
   assert.match(greenFeeReply, /Default/i);
   assert.match(greenFeeReply, /Global/i);
+});
+
+test("verified rules legal rates and copy answers use exact demo labels", () => {
+  const memberRulesReply = approvedStaticWorkflowReply("How do I configure member booking rules?");
+  const legalReply = approvedStaticWorkflowReply("How do I edit privacy policy text?");
+  const courseRestrictionReply = approvedStaticWorkflowReply("How do I add a course restriction?");
+  const visitorRatesReply = approvedStaticWorkflowReply("How do I set visitor prices?");
+  const dayTicketReply = approvedStaticWorkflowReply("How do I set day ticket rates for visitors?");
+  const copyReply = approvedStaticWorkflowReply("How do I copy green fees to next year?");
+
+  assert.match(memberRulesReply, /Member Casual Booking Rules/i);
+  assert.match(memberRulesReply, /Casual Booking Rules/i);
+  assert.match(memberRulesReply, /Course/i);
+  assert.match(memberRulesReply, /Start Date/i);
+  assert.match(memberRulesReply, /End Date/i);
+  assert.match(memberRulesReply, /Start Time/i);
+  assert.match(memberRulesReply, /End Time/i);
+  assert.match(memberRulesReply, /Days Advance Booking/i);
+  assert.match(memberRulesReply, /Guest booking allowed from/i);
+  assert.match(memberRulesReply, /Casual guests not allowed/i);
+  assert.match(memberRulesReply, /Number of Players Per Tee Time/i);
+  assert.match(memberRulesReply, /Days of Week/i);
+  assert.match(memberRulesReply, /Applies to/i);
+  assert.doesNotMatch(memberRulesReply, /form\.,/i);
+
+  assert.match(legalReply, /Legal Messages/i);
+  assert.match(legalReply, /Legal Message/i);
+  assert.match(legalReply, /Version/i);
+  assert.match(legalReply, /Marketing Preferences/i);
+  assert.match(legalReply, /Privacy Policy/i);
+  assert.match(legalReply, /Member Terms and Conditions/i);
+  assert.match(legalReply, /Visitor Terms and Conditions/i);
+
+  assert.match(courseRestrictionReply, /Course Restriction/i);
+  assert.match(courseRestrictionReply, /Show expired Course Restrictions/i);
+  assert.match(courseRestrictionReply, /Start Date/i);
+  assert.match(courseRestrictionReply, /End Date/i);
+  assert.match(courseRestrictionReply, /Player Types/i);
+  assert.match(courseRestrictionReply, /Members & Visitors/i);
+  assert.match(courseRestrictionReply, /Max Group Size/i);
+  assert.match(courseRestrictionReply, /Message/i);
+
+  assert.match(visitorRatesReply, /Green Fee Rates for Visitors \/ Agents/i);
+  assert.match(visitorRatesReply, /Filter Rates/i);
+  assert.match(visitorRatesReply, /Channel/i);
+  assert.match(visitorRatesReply, /Enabled Rates Only/i);
+  assert.match(visitorRatesReply, /All Rates/i);
+  assert.match(visitorRatesReply, /Include Years/i);
+  assert.match(visitorRatesReply, /Include Months/i);
+  assert.match(visitorRatesReply, /Include Days/i);
+  assert.match(visitorRatesReply, /Green Fee Rate/i);
+  assert.match(visitorRatesReply, /Golf \/ Package/i);
+  assert.match(visitorRatesReply, /Tee Time Agents/i);
+
+  assert.match(dayTicketReply, /Day Ticket Rates for Visitors/i);
+  assert.match(dayTicketReply, /Course 1/i);
+  assert.match(dayTicketReply, /Course 2/i);
+  assert.match(dayTicketReply, /Green Fee Rate/i);
+  assert.match(dayTicketReply, /1 Player/i);
+  assert.match(dayTicketReply, /4 Players/i);
+  assert.match(dayTicketReply, /feature is not enabled/i);
+
+  assert.match(copyReply, /Copy Services, Catering or Green Fees/i);
+  assert.match(copyReply, /Operation/i);
+  assert.match(copyReply, /Copy Services/i);
+  assert.match(copyReply, /Copy Catering/i);
+  assert.match(copyReply, /Copy Green Fees/i);
+  assert.match(copyReply, /From Year/i);
+  assert.match(copyReply, /To Year/i);
 });
 
 test("candidate help guides must match the question object, not just the action", () => {
