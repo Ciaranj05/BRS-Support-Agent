@@ -14,6 +14,7 @@ import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.j
 import { contextualiseShortClarificationFollowUp, exhaustedWorkflowFollowUpPayload, repeatedWorkflowFollowUpPayload } from "./lib/repeatedWorkflowFollowUp.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
 import { runQaAnalysis } from "./lib/qaAnalysis.js";
+import { isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
@@ -313,7 +314,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   }
   const payload = {
     reply: completeReply,
-    escalationReady: false,
+    escalationReady: isSuperuserCreateRequest(message),
     topic: "knowledge",
     options: [],
     version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",

@@ -7,7 +7,7 @@ import { candidateGuideMatchesQuestion, hasUnsupportedGeneratedWorkflowShape } f
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "../lib/bookingWorkflowAnswers.js";
 import { BRS_SCREEN_LOCATION_RECORD } from "../lib/brsScreenLocations.js";
 import { isMemberBalanceReportQuestion } from "../lib/membershipWorkflowAnswers.js";
-import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
+import { approvedStaticWorkflowReply, isSuperuserCreateRequest } from "../lib/staticWorkflowAnswers.js";
 import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/relatedGuides.js";
 import { approvedRefundReply, approvedOfflineRefundReply } from "../server.js";
 import { applyAnswerQualityGate } from "../lib/answerQuality.js";
@@ -679,6 +679,36 @@ test("live-verified admin answers include exact demo controls", async () => {
   assert.match(paymentsReply, /Tools/i);
   assert.match(paymentsReply, /BRS Payments/i);
   assert.match(paymentsReply, /Transactions/i);
+});
+
+test("superuser creation is support-only and escalation-ready", async () => {
+  const source = fs.readFileSync(new URL("../data/knowledge/users.txt", import.meta.url), "utf8");
+  const serverWithFeedback = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
+  const serverSource = fs.readFileSync(new URL("../server.js", import.meta.url), "utf8");
+  const reply = await answerFromKnowledge("How do I add a superuser in BRS?", { allowDynamic: false });
+  const spacedReply = approvedStaticWorkflowReply("How do I create a new super user?");
+  const staffReply = await answerFromKnowledge("How do I add a new staff user?", { allowDynamic: false });
+
+  assert.equal(isSuperuserCreateRequest("How do I add a superuser in BRS?"), true);
+  assert.equal(isSuperuserCreateRequest("How do I add a new staff user?"), false);
+  assert.match(source, /new superuser can only be created by a BRS employee/i);
+  assert.match(serverWithFeedback, /escalationReady: isSuperuserCreateRequest\(message\)/);
+  assert.match(serverSource, /approvedSuperuserEscalationReply/);
+
+  assert.match(reply, /Superusers can only be created by a BRS employee/i);
+  assert.match(reply, /BRS Support/i);
+  assert.match(reply, /Before escalating/i);
+  assert.match(reply, /Club name/i);
+  assert.match(reply, /Requested user's full name/i);
+  assert.match(reply, /Requested username/i);
+  assert.match(reply, /Email address and contact number/i);
+  assert.match(reply, /authorised club contact/i);
+  assert.match(reply, /Do not use Users > Add New/i);
+  assert.doesNotMatch(reply, /set "?User Group\*"? to the superuser/i);
+  assert.doesNotMatch(reply, /highest available/i);
+  assert.doesNotMatch(reply, /Click "?Create"? at the bottom/i);
+  assert.match(spacedReply, /Superusers can only be created by a BRS employee/i);
+  assert.match(staffReply, /Create a New User \/ Add a Member/i);
 });
 
 test("verified tools setup and messaging answers use exact demo labels", () => {

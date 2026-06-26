@@ -9,6 +9,7 @@ import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQ
 import { hasUnsupportedGeneratedWorkflowShape } from "./lib/groundingGuards.js";
 import { appendRelatedGuides, relatedGuidesForQuestion } from "./lib/relatedGuides.js";
 import { hasMembershipOwnedObject } from "./lib/objectFirstRouting.js";
+import { approvedSuperuserEscalationReply, isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
 
 dotenv.config();
 
@@ -691,6 +692,7 @@ function isRefundRequest(text) {
 
 function isAdminUserCreateRequest(text) {
   const lower = normalise(text);
+  if (isSuperuserCreateRequest(text)) return false;
   return (lower.includes("admin user") || lower.includes("staff user") || lower.includes("new user") || lower.includes("create user") || lower.includes("add user")) && (lower.includes("create") || lower.includes("add") || lower.includes("setup") || lower.includes("set up"));
 }
 
@@ -1176,6 +1178,16 @@ app.post("/api/chat", async (req, res) => {
       state.conversationHistory.push({ role: "assistant", content: reply });
       saveSessionState(sessionId, state);
       return res.json({ reply, escalationReady: false, topic, options: transactionOptions, version: APP_VERSION });
+    }
+
+    if (isSuperuserCreateRequest(routingMessage)) {
+      state.currentTopic = "user-management";
+      const reply = approvedSuperuserEscalationReply();
+      state.pendingClarification = null;
+      state.conversationHistory.push({ role: "user", content: displayMessage });
+      state.conversationHistory.push({ role: "assistant", content: reply });
+      saveSessionState(sessionId, state);
+      return res.json({ reply, escalationReady: true, topic: "user-management", options: [], version: APP_VERSION });
     }
 
     if (isAdminUserCreateRequest(routingMessage) || (state.clarificationContext?.includes("Ambiguous create account request") && message.toLowerCase().includes("admin or staff user"))) {

@@ -109,6 +109,8 @@ Use StaffReadOnly for users who need visibility without the ability to make chan
 
 The Help Center includes guidance for changing the Superuser. Treat this as a sensitive admin task. Confirm the request should be handled by an authorised admin and escalate if the exact workflow is not visible in approved guidance.
 
+Creating a new superuser is not a self-service club workflow. A new superuser can only be created by a BRS employee. Before escalating to BRS Support, confirm the club has approved the request and collect the proposed user's profile details, including name, username, email/contact details, club, current role, and the reason superuser access is required. Do not tell club staff to create a superuser from Users > Add New or to choose the highest available admin group.
+
 ## Member users versus member profiles
 
 Member user accounts support member login for online booking. Member profiles and billing details belong in Memberships.
