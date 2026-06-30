@@ -22,10 +22,18 @@ test("does not classify generic thanks as a workflow question", () => {
   assert.equal(isBRSWorkflowQuestion("thanks that worked"), false);
 });
 
-test("production chat route does not invoke live lookup", () => {
+test("production chat route uses live lookup only as a post-knowledge safety net", () => {
   const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
 
-  assert.doesNotMatch(serverSource, /liveBrsLookup|formatLiveEvidence|shouldAttemptLiveBrsLookup/);
+  assert.match(serverSource, /answerFromKnowledge/);
+  assert.match(serverSource, /liveBrsLookup/);
+  assert.match(serverSource, /answerFromLiveEvidence/);
+  assert.match(serverSource, /saveLearnedWorkflowFromLiveAnswer/);
+  assert.match(serverSource, /!hasStaticAnswer && queueKnowledgeGaps && shouldAttemptLiveBrsLookup/);
+  assert.ok(
+    serverSource.search(/const reply = await answerFromKnowledge/) <
+    serverSource.search(/liveLookup = await liveBrsLookup/)
+  );
 });
 
 test("production chat route can skip dynamic knowledge before stateful clarification", () => {

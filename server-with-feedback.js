@@ -6,10 +6,12 @@ import dotenv from "dotenv";
 import OpenAI from "openai";
 import baseHandler, { approvedRefundReply, approvedOfflineRefundReply } from "./server.js";
 import { getSurveyMetrics } from "./feedbackStore.js";
-import { answerFromKnowledge, isBRSWorkflowQuestion } from "./lib/knowledgeAnswer.js";
+import { answerFromKnowledge, answerFromLiveEvidence, isBRSWorkflowQuestion } from "./lib/knowledgeAnswer.js";
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
+import { isLiveLookupRuntimeConfigured, liveBrsLookup, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
+import { saveLearnedWorkflowFromLiveAnswer } from "./lib/workflowLearning.js";
 import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.js";
 import { contextualiseShortClarificationFollowUp, exhaustedWorkflowFollowUpPayload, repeatedWorkflowFollowUpPayload } from "./lib/repeatedWorkflowFollowUp.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
@@ -226,19 +228,65 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   const reply = await answerFromKnowledge(message, { allowDynamic: allowDynamicKnowledge });
   debug.stages.push({ name: routeLabel, matched: Boolean(reply), directIntent: isMemberBalanceLookup(message) });
 
-  const liveLookup = null;
-  const liveReply = null;
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
   const hasStaticAnswer = Boolean(reply);
-  if (isWorkflowQuestion) {
+  let liveLookup = null;
+  let liveReply = null;
+  let liveIntent = null;
+  let liveLearning = null;
+
+  if (isWorkflowQuestion && !hasStaticAnswer && queueKnowledgeGaps && shouldAttemptLiveBrsLookup(message, reply || "")) {
+    debug.stages.push({ name: "live-brs-lookup", matched: false, attempted: true, mode: "safety-net" });
+    liveLookup = await liveBrsLookup(message, { staticEvidence: reply || "", knowledgeHints: [routeLabel] }).catch((error) => ({
+      enabled: true,
+      attempted: true,
+      successful: false,
+      mode: "safety-net",
+      pages: [],
+      error: error.message || "Unknown live lookup error",
+    }));
+    debug.stages.push({
+      name: "live-brs-lookup-result",
+      matched: Boolean(liveLookup?.successful),
+      attempted: Boolean(liveLookup?.attempted),
+      mode: liveLookup?.mode || null,
+      pages: liveLookup?.pages?.length || 0,
+      error: liveLookup?.error || null,
+    });
+    const liveAnswer = await answerFromLiveEvidence(message, liveLookup).catch((error) => {
+      console.error("Live evidence answer generation failed:", error);
+      return null;
+    });
+    liveReply = liveAnswer?.reply || null;
+    liveIntent = liveAnswer?.intent || null;
+    debug.stages.push({ name: "live-brs-answer-verification", matched: Boolean(liveReply) });
+    if (liveReply) {
+      liveLearning = await saveLearnedWorkflowFromLiveAnswer({
+        question: message,
+        answer: liveReply,
+        liveResult: liveLookup,
+        intent: liveIntent,
+        topic: liveIntent?.topic || "knowledge",
+      }).catch((error) => {
+        console.error("Live workflow learning failed:", error);
+        return null;
+      });
+      debug.stages.push({ name: "live-workflow-learning", matched: Boolean(liveLearning), storage: liveLearning?.storage || null });
+    }
+  } else if (isWorkflowQuestion) {
+    const liveRuntimeConfigured = isLiveLookupRuntimeConfigured();
     debug.stages.push({
       name: "live-brs-lookup",
       matched: false,
       attempted: false,
       skipped: true,
       reason: hasStaticAnswer
-        ? "approved-knowledge-returned-live-lookup-disabled"
-        : "live-lookup-disabled-demo-crawler-primary",
+        ? "approved-knowledge-returned"
+        : !queueKnowledgeGaps
+          ? "knowledge-gap-queue-disabled"
+          : !liveRuntimeConfigured
+            ? "live-lookup-runtime-not-configured"
+            : "live-lookup-not-needed",
     });
   }
 
@@ -264,9 +312,9 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
       debug.stages.push({ name: "workflow-exploration-queue", matched: Boolean(queued), storage: queued?.storage || null, allowedTier: queued?.item?.allowedTier || null });
       const payload = {
         reply: queued?.item?.status === "queued"
-          ? "I do not have a complete proven BRS workflow for that yet. I have queued this for automatic exploration against the BRS test system so the workflow family, variants, and routes can be captured safely."
-          : "I do not have a complete proven BRS workflow for that yet. This needs workflow exploration before I can give reliable steps.",
-        escalationReady: false,
+          ? "I could not verify a complete BRS workflow for that from the approved knowledge base or live safety-net lookup. I have queued it for automatic exploration against the BRS test system, and this should be escalated to support if the user needs an immediate answer."
+          : "I could not verify a complete BRS workflow for that from the approved knowledge base or live safety-net lookup. This should be escalated to support before giving customer-facing steps.",
+        escalationReady: true,
         topic: "knowledge",
         options: [],
         version: "strict-evidence-gap-v1",
@@ -291,8 +339,8 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     });
     if (!reply) {
       const payload = {
-        reply: "I do not have a complete directly observed BRS workflow for that yet. I have queued this for automatic exploration against the BRS test system.",
-        escalationReady: false,
+        reply: "I could not verify a complete directly observed BRS workflow for that yet. I have queued this for automatic exploration against the BRS test system, and this should be escalated to support if the user needs an immediate answer.",
+        escalationReady: true,
         topic: "knowledge",
         options: [],
         version: "strict-evidence-gap-v1",
@@ -323,6 +371,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     options: [],
     version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",
     liveLookup: liveLookup?.successful ? liveLookup : null,
+    learnedWorkflow: liveLearning ? { storage: liveLearning.storage || null } : null,
   };
   res.json(await prepareChatPayload({ client, payload, message: originalMessage, debug, debugEnabled, req }));
   return true;

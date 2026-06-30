@@ -23,7 +23,8 @@ npm start
 5. Add these environment variables in Render:
 
 ```text
-BRS_BASE_URL=https://brsgolf.com
+BRS_BASE_URL=https://www.brsgolf.com/amysgolfclub
+BRS_CLUB_ID=amysgolfclub
 BRS_USERNAME=your-rotated-brs-username
 BRS_PASSWORD=your-rotated-brs-password
 BRS_LIVE_WORKER_SECRET=a-long-random-shared-secret
@@ -40,6 +41,8 @@ BRS_LIVE_WORKER_SECRET=the-same-long-random-shared-secret
 ```
 
 Leave `BRS_LIVE_BROWSER_WS_ENDPOINT` blank unless you decide to use a paid browser websocket provider instead.
+
+`BRS_BASE_URL` should include the club path. If you only set the host, also set `BRS_CLUB_ID`; the worker will normalize the target to `https://www.brsgolf.com/{clubId}` so it opens the authenticated club system rather than the public BRS website.
 
 ## Health check
 

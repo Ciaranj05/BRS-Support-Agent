@@ -7,7 +7,8 @@ const app = express();
 const PORT = Number(process.env.PORT || 3001);
 const LIVE_LOOKUP_TIMEOUT_MS = Number(process.env.BRS_LIVE_LOOKUP_TIMEOUT_MS || 45000);
 const STAGE_TIMEOUT_MS = Math.min(Number(process.env.BRS_LIVE_LOOKUP_STAGE_TIMEOUT_MS || 12000), LIVE_LOOKUP_TIMEOUT_MS);
-const BASE_URL = process.env.BRS_BASE_URL || "https://brsgolf.com";
+const CLUB_ID = process.env.BRS_CLUB_ID || process.env.BRS_DEMO_CLUB_ID || process.env.BRS_LOCAL_CLUB_ID || "";
+const BASE_URL = resolveBrsBaseUrl(process.env.BRS_BASE_URL, CLUB_ID);
 const USERNAME = process.env.BRS_USERNAME;
 const PASSWORD = process.env.BRS_PASSWORD;
 const WORKER_SECRET = process.env.BRS_LIVE_WORKER_SECRET || process.env.BRS_LIVE_LOOKUP_WORKER_SECRET;
@@ -31,6 +32,13 @@ const SAFE_NAVIGATION_TERMS = [
   "settings",
   "users",
   "admin",
+  "contacts",
+  "contact",
+  "messages",
+  "tools",
+  "categories",
+  "rates",
+  "restrictions",
 ];
 
 app.use(cors());
@@ -38,6 +46,27 @@ app.use(express.json({ limit: "1mb" }));
 
 function compact(value = "") {
   return String(value || "").replace(/\s+/g, " ").trim();
+}
+
+function resolveBrsBaseUrl(configuredBaseUrl = "", clubId = "") {
+  const configured = compact(configuredBaseUrl).replace(/\/+$/, "");
+  const cleanedClubId = compact(clubId).replace(/^\/+|\/+$/g, "");
+  if (configured) {
+    if (!cleanedClubId) return configured;
+    try {
+      const parsed = new URL(configured);
+      const path = parsed.pathname.toLowerCase().replace(/\/+$/, "");
+      if (path === `/${cleanedClubId.toLowerCase()}` || path.startsWith(`/${cleanedClubId.toLowerCase()}/`)) return configured;
+      if (!path) {
+        const host = parsed.hostname === "brsgolf.com" ? "www.brsgolf.com" : parsed.host;
+        return `${parsed.protocol}//${host}/${cleanedClubId}`;
+      }
+    } catch {
+      return configured;
+    }
+    return configured;
+  }
+  return cleanedClubId ? `https://www.brsgolf.com/${cleanedClubId}` : "";
 }
 
 function normalise(value = "") {
@@ -70,15 +99,38 @@ function inferSearchPlan(question = "", knowledgeHints = []) {
   const text = normalise(`${question} ${knowledgeHints.join(" ")}`);
   const plan = [];
   if (/member|membership|bill|invoice|subscription|wallet|unpaid|outstanding/.test(text)) {
-    plan.push({ area: "Membership reports", query: "membership reports billing bills unpaid outstanding" });
-    plan.push({ area: "Memberships", query: "memberships members billing bills" });
+    plan.push({ area: "Membership reports", query: "membership reports billing bills unpaid outstanding", path: "/brs-memberships/" });
+    plan.push({ area: "Memberships", query: "memberships members billing bills", path: "/brs-memberships/" });
   }
-  if (/payment|refund|transaction|payout/.test(text)) plan.push({ area: "BRS Payments", query: "payments transactions refunds payout" });
-  if (/tee|booking|timesheet|visitor/.test(text)) plan.push({ area: "Tee sheet", query: "tee sheet bookings visitors" });
-  if (/competition|draw|entry/.test(text)) plan.push({ area: "Competitions", query: "competition setup entries draw purse" });
-  if (/report|list|show|see which|export|download/.test(text)) plan.push({ area: "Reports", query: "reports export filters table" });
-  if (/user|staff|admin|permission|login/.test(text)) plan.push({ area: "User management", query: "users staff permissions admin" });
+  if (/payment|refund|transaction|payout|vat/.test(text)) plan.push({ area: "BRS Payments", query: "payments transactions refunds payout vat", path: "/payment/account/reports" });
+  if (/green fee|rate|visitor green fee/.test(text)) plan.push({ area: "Green Fee Rates", query: "green fee rates visitors agents", path: "/green-fee-rates/" });
+  if (/tee|booking|timesheet|visitor/.test(text)) plan.push({ area: "Tee sheet", query: "tee sheet bookings visitors", path: /visitor/.test(text) ? "/visitor_menu.php" : "/day.php" });
+  if (/competition|draw|entry|purse/.test(text)) plan.push({ area: "Competitions", query: "competition setup entries draw purse", path: /purse|charge|payment/.test(text) ? "/competition_purse.php" : "/competitions/member/" });
+  if (/report|list|show|see which|export|download/.test(text)) plan.push({ area: "Reports", query: "reports export filters table", path: "/reports.php" });
+  if (/user|staff|admin|permission|login/.test(text)) plan.push({ area: "User management", query: "users staff permissions admin", path: "/user_admin.php?stage=Retrieve" });
+  if (/contact categor/.test(text)) plan.push({ area: "Contact Categories", query: "contact categories setup", path: "/contactcategory/" });
+  else if (/contact/.test(text)) plan.push({ area: "Contacts", query: "contacts categories add view", path: "/contacts.php" });
+  if (/reservation type/.test(text)) plan.push({ area: "Reservation Types", query: "reservation types setup", path: "/reservationtype/" });
+  if (/booking status/.test(text)) plan.push({ area: "Booking Statuses", query: "booking statuses setup", path: "/bookingstatus/" });
+  if (/restriction/.test(text)) plan.push({ area: "Course Restrictions", query: "course restriction setup", path: "/course-restriction/" });
+  if (/message|email|sms|text/.test(text)) plan.push({ area: "Messaging", query: "email sms text club messages templates", path: /sms|text/.test(text) ? "/smsmenu.php" : "/emailmenu.php" });
+  if (/tool|configuration|configure|setting|setup/.test(text)) plan.push({ area: "System Tools", query: "tools system configuration setup", path: "/tools" });
   return plan.length ? plan : [{ area: "Global navigation", query: question }];
+}
+
+function plannedRouteUrl(routePath = "") {
+  if (!routePath) return "";
+  if (/^https?:\/\//i.test(routePath)) return routePath;
+  try {
+    return `${BASE_URL.replace(/\/+$/, "")}/${String(routePath).replace(/^\/+/, "")}`;
+  } catch {
+    return "";
+  }
+}
+
+function isUsefulLivePage(pageEvidence = {}) {
+  const text = normalise(`${pageEvidence.title || ""} ${(pageEvidence.headings || []).join(" ")}`);
+  return !/\b(404 not found|page not found)\b/.test(text);
 }
 
 function scoreLabel(label = "", plan = []) {
@@ -220,6 +272,19 @@ async function followSafeNavigation(page, plan) {
   return visited;
 }
 
+async function collectPlannedRouteEvidence(page, plan) {
+  const pages = [];
+  const visited = [];
+  const routes = unique(plan.map((item) => plannedRouteUrl(item.path)).filter(Boolean), 8);
+  for (const routeUrl of routes) {
+    await page.goto(routeUrl, { waitUntil: "domcontentloaded", timeout: STAGE_TIMEOUT_MS }).catch(() => null);
+    await page.waitForLoadState("domcontentloaded", { timeout: STAGE_TIMEOUT_MS }).catch(() => null);
+    visited.push(routeUrl);
+    pages.push(await collectPageEvidence(page));
+  }
+  return { visited, pages };
+}
+
 async function runLookup(question, { staticEvidence = "", knowledgeHints = [] } = {}) {
   const plan = inferSearchPlan(question, [staticEvidence, ...knowledgeHints]);
   const baseResult = {
@@ -232,6 +297,9 @@ async function runLookup(question, { staticEvidence = "", knowledgeHints = [] } 
     error: null,
   };
   const timer = createTimer();
+  if (!BASE_URL) {
+    return { ...baseResult, timings: timer.stages, totalMs: timer.totalMs(), error: "BRS_BASE_URL or BRS_CLUB_ID must be configured with the target club system URL." };
+  }
   if (!USERNAME || !PASSWORD) {
     return { ...baseResult, timings: timer.stages, totalMs: timer.totalMs(), error: "BRS worker credentials are not configured. Set BRS_USERNAME and BRS_PASSWORD on the worker service." };
   }
@@ -243,10 +311,20 @@ async function runLookup(question, { staticEvidence = "", knowledgeHints = [] } 
     await timer.step("login", () => tryLogin(page));
     await timer.step("install-read-only-guard", () => installReadOnlyGuard(page));
     const firstEvidence = await timer.step("collect-initial-evidence", () => collectPageEvidence(page));
-    const visited = await timer.step("follow-safe-navigation", () => followSafeNavigation(page, plan));
+    const plannedRoutes = await timer.step("collect-planned-route-evidence", () => collectPlannedRouteEvidence(page, plan));
+    const visited = [
+      ...plannedRoutes.visited.map((routeUrl) => `direct:${routeUrl}`),
+      ...(await timer.step("follow-safe-navigation", () => followSafeNavigation(page, plan))),
+    ];
     const finalEvidence = await timer.step("collect-final-evidence", () => collectPageEvidence(page));
-    const pages = [firstEvidence, finalEvidence].filter((pageEvidence, index, arr) => arr.findIndex((item) => item.url === pageEvidence.url) === index);
-    return { ...baseResult, successful: pages.length > 0, visited, pages, timings: timer.stages, totalMs: timer.totalMs() };
+    const pages = [firstEvidence, ...plannedRoutes.pages, finalEvidence]
+      .filter(isUsefulLivePage)
+      .filter((pageEvidence, index, arr) => arr.findIndex((item) => item.url === pageEvidence.url) === index);
+    const hasPlannedRoutes = plan.some((item) => item.path);
+    const successful = hasPlannedRoutes
+      ? plannedRoutes.pages.some(isUsefulLivePage)
+      : pages.length > 0;
+    return { ...baseResult, successful, visited, pages, timings: timer.stages, totalMs: timer.totalMs() };
   } catch (error) {
     return { ...baseResult, timings: timer.stages, totalMs: timer.totalMs(), error: summariseError(error) };
   } finally {

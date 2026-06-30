@@ -1214,7 +1214,13 @@ app.post("/api/chat", async (req, res) => {
     rememberFollowUpFromReply(state, reply, topic, routingMessage);
     state.conversationHistory.push({ role: "assistant", content: reply });
     saveSessionState(sessionId, state);
-    res.json({ reply, escalationReady: false, topic, options: [], version: APP_VERSION });
+    res.json({
+      reply,
+      escalationReady: reply === UNKNOWN_REPLY,
+      topic,
+      options: [],
+      version: reply === UNKNOWN_REPLY ? "legacy-evidence-gap-v1" : APP_VERSION,
+    });
   } catch (error) {
     console.error("FULL ERROR:", error);
     saveSessionState(sessionId, state);

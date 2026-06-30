@@ -54,8 +54,9 @@ Postgres access uses `pg` with `DATABASE_URL`.
 
 - Do not guess BRS UI labels, buttons, fields, report names, or step order.
 - Put exact BRS UI labels in double quotes.
-- Do not use live lookup in the chat request path.
-- Queue missing workflows for demo-system crawler exploration instead of making users wait.
+- Answer from approved knowledge first. Use live lookup only after the approved knowledge path has a workflow evidence gap and a configured browser runtime is available.
+- If live lookup cannot verify the answer, ask for clarification or return an escalation-ready response and queue the missing workflow for demo-system crawler exploration.
+- When live lookup does verify an answer, persist the observed workflow/context so future matching questions can be answered from the knowledge base.
 
 ## Tests
 

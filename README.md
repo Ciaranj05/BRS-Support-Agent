@@ -66,10 +66,14 @@ This writes `knowledge/workflows/starter-workflow-families.json` and rebuilds `k
 
 ## Live BRS workflow lookup
 
-For questions where the stored knowledge is incomplete, the app can try a read-only live BRS lookup before answering. Set this in Vercel:
+For questions where approved stored knowledge is incomplete, the app can use live BRS lookup as a safety net. The chatbot tries the knowledge base first; only workflow evidence gaps are eligible for live lookup. If live evidence verifies the answer, the observed workflow/context is saved back into reusable workflow knowledge. If it cannot verify the answer, the response is escalation-ready and the missing workflow is queued for exploration.
+
+Set this in Vercel:
 
 ```text
 BRS_LIVE_LOOKUP_ENABLED=true
+BRS_BASE_URL=https://www.brsgolf.com/amysgolfclub
+BRS_CLUB_ID=amysgolfclub
 ```
 
 Vercel serverless functions usually cannot launch Chromium directly. The free/low-cost route is to deploy the included browser worker to a service that can run Chrome, then point Vercel at it:
@@ -81,9 +85,11 @@ BRS_LIVE_WORKER_SECRET=the-same-secret-used-by-the-worker
 
 See `browser-worker/README.md` for the worker deployment steps.
 
+For local verification only, you can set `BRS_LIVE_LOOKUP_ALLOW_DIRECT=true` and `BRS_LIVE_BROWSER_EXECUTABLE_PATH` to a local Chrome executable. Production should use the worker URL or a managed browser websocket endpoint.
+
 ## Self-improving workflow knowledge
 
-When a chatbot answer uses successful live BRS evidence and the user marks the query as resolved with a recommendation score of at least 70%, the app stores that observed workflow in Postgres as reusable knowledge.
+When a chatbot answer uses successful live BRS evidence, the app stores that observed workflow as reusable knowledge. Resolved-query survey feedback can also store high-quality static answers when the user marks the query as resolved with a recommendation score of at least 70%.
 
 Required production settings:
 

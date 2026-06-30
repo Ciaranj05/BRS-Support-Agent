@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { buildKnowledgeBase } from "../scripts/build-knowledge-base.js";
 import { retrieveKnowledge } from "../lib/retrieval.js";
-import { buildReusableWorkflowEntry } from "../lib/liveBrsLookup.js";
+import { buildReusableWorkflowEntry, resolveBrsBaseUrl } from "../lib/liveBrsLookup.js";
 import { normaliseKnowledgeEntry } from "../lib/knowledgeSources.js";
 import { buildWorkflowFamilyEntry } from "../lib/workflowFamily.js";
 import { buildWorkflowExplorationTask } from "../lib/workflowExplorationQueue.js";
@@ -398,6 +398,12 @@ test("successful live workflows are reusable by the chatbot", () => {
   assert.equal(entry.confidence, "approved");
   assert.equal(entry.safeForChatbot, true);
   assert.equal(entry.sourceType, "brs-system-workflow");
+});
+
+test("live lookup base URL targets the club system", () => {
+  assert.equal(resolveBrsBaseUrl("", "amysgolfclub"), "https://www.brsgolf.com/amysgolfclub");
+  assert.equal(resolveBrsBaseUrl("https://www.brsgolf.com/amysgolfclub", "amysgolfclub"), "https://www.brsgolf.com/amysgolfclub");
+  assert.equal(resolveBrsBaseUrl("https://brsgolf.com", "amysgolfclub"), "https://www.brsgolf.com/amysgolfclub");
 });
 
 test("learned workflow answers are included in searchable knowledge content", () => {

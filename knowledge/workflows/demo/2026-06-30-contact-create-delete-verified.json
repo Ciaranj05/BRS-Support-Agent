@@ -1,0 +1,1377 @@
+{
+  "generatedAt": "2026-06-30T10:53:03.494Z",
+  "sourceType": "brs-system-workflow",
+  "entries": [
+    {
+      "id": "brs-demo-workflow:contact-create-delete-verified-2026-06-30",
+      "sourceType": "brs-system-workflow",
+      "title": "Create and delete a temporary contact",
+      "area": "Contacts",
+      "workflow": "Create, verify, and delete a contact",
+      "summary": "Controlled demo workflow captured with a temporary disabled contact and verified cleanup. Use as product workflow evidence, not as live contact data.",
+      "navigationPath": "Contacts >> Add New",
+      "routes": [
+        {
+          "name": "Create a disabled contact and verify cleanup",
+          "actor": "Admin or staff user with Contacts access",
+          "preconditions": [
+            "User is signed into the BRS admin area.",
+            "The Contacts module is enabled for the club."
+          ],
+          "steps": [
+            "Open \"Contacts\" from the main navigation menu.",
+            "Click \"Add New\" on the Contacts page.",
+            "Complete \"CompanyName\" and choose \"Other\" in \"Category\".",
+            "Tick \"Disabled\" when creating a temporary or inactive contact.",
+            "Use the contact detail fields such as \"Title1\", \"Firstname1\", \"Surname1\", \"Email1\", telephone fields, address fields, and \"CustomerNotes\" as needed.",
+            "Leave marketing consent boxes such as \"Email\", \"Text Message\", \"Post\", and \"Phone\" unticked unless the contact has consented.",
+            "Click \"Add\" to create the contact.",
+            "Use contact search/view to confirm the contact appears.",
+            "Open the contact record and click \"Delete\" to remove the temporary contact.",
+            "Search again and confirm the temporary contact no longer appears."
+          ],
+          "outcome": "A temporary disabled contact can be created, found, deleted, and verified as removed.",
+          "verification": [
+            "Temporary test contact appeared in Contacts search after creation.",
+            "Temporary test contact was deleted and no longer appeared in Contacts search.",
+            "Cleanup verification was completed in a follow-up cleanup run for marker \"[temporary test contact]\".",
+            "Post-submit message observed: General Information Company / Group Name: Contact Category: Company Hotel Other Society Tour Operator Visitor Disable Contact Title: Mr Mrs Miss Ms Dr Prof Sir Lady Lord Dame Col Capt Rev Fr Major Master First Name: Initials: Last Name: Position: Email: Telephone (Home): Telephone (Work): Mobile: Fax: Address Information: Address (line 1): Address (line 2): Town / City: County / State: Country: Argentina Austria Australia Bahrain Barbados Belgium Bermuda Canada China Denmark England Finland France Germany Iceland India Ireland Isle of Man Israel Italy Japan Kuwait Lebanon Malaysia Malta Mexico Netherlands New Zealand Norway Northern Ireland Oman Papua New Guinea Poland Portugal Qatar Saudi Arabia Scotland Singapore South Africa South Korea Spain Sweden Switzerland Thailand United Arab Emirates United Kingdom United States Wales Other Postcode / Zip: Club Details: Club Name: Handicap: CDH: Marketing Preferences: Email Text Message Post Phone I have made the contact aware of the Marketing Consent message Privacy Policy and Visitor Terms and Conditions: The contact has read and accepted the Privacy Policy and Visitor Terms and Conditions."
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "label": "/amysgolfclub/index.php",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Dashboard",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Timesheet",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Messages",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Facilities",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Contacts",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Memberships",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Users",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Reports",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Search",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Tools",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Need Help?",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Sign Out",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "#",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "search_text",
+          "name": "search_text",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Search",
+          "name": "Submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Add New",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "View All",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Add",
+          "name": "submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CompanyName",
+          "name": "CompanyName",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Company Hotel Other Society Tour Operator Visitor",
+          "name": "Category",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": [
+            "Company",
+            "Hotel",
+            "Other",
+            "Society",
+            "Tour Operator",
+            "Visitor"
+          ]
+        },
+        {
+          "label": "1",
+          "name": "Disabled",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Mr Mrs Miss Ms Dr Prof Sir Lady Lord Dame Col Capt Rev Fr Major Master",
+          "name": "Title1",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": [
+            "Mr",
+            "Mrs",
+            "Miss",
+            "Ms",
+            "Dr",
+            "Prof",
+            "Sir",
+            "Lady",
+            "Lord",
+            "Dame",
+            "Col",
+            "Capt",
+            "Rev",
+            "Fr",
+            "Major",
+            "Master"
+          ]
+        },
+        {
+          "label": "Firstname1",
+          "name": "Firstname1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Initials1",
+          "name": "Initials1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Surname1",
+          "name": "Surname1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Position1",
+          "name": "Position1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Email1",
+          "name": "Email1",
+          "type": "email",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TelephoneHome1",
+          "name": "TelephoneHome1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TelephoneWork1",
+          "name": "TelephoneWork1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Mobile1",
+          "name": "Mobile1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Fax",
+          "name": "Fax",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Address1",
+          "name": "Address1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Address2",
+          "name": "Address2",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TownCity",
+          "name": "TownCity",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "County",
+          "name": "County",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Argentina Austria Australia Bahrain Barbados Belgium Bermuda Canada China Denmark England Finland France Germany Iceland India Ireland Isle of Man Israel Italy Japan Kuwait Lebanon Malaysia Malta Mexico Netherlands New Zealand Norway Northern Ireland Oman Papua New Guinea Poland Portugal Qatar Saudi Arabia Scotland Singapore South Africa South Korea Spain Sweden Switzerland Thailand United Arab Emirates United Kingdom United States Wales Other",
+          "name": "Country",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": [
+            "Argentina",
+            "Austria",
+            "Australia",
+            "Bahrain",
+            "Barbados",
+            "Belgium",
+            "Bermuda",
+            "Canada",
+            "China",
+            "Denmark",
+            "England",
+            "Finland",
+            "France",
+            "Germany",
+            "Iceland",
+            "India",
+            "Ireland",
+            "Isle of Man",
+            "Israel",
+            "Italy",
+            "Japan",
+            "Kuwait",
+            "Lebanon",
+            "Malaysia",
+            "Malta",
+            "Mexico",
+            "Netherlands",
+            "New Zealand",
+            "Norway",
+            "Northern Ireland",
+            "Oman",
+            "Papua New Guinea",
+            "Poland",
+            "Portugal",
+            "Qatar",
+            "Saudi Arabia",
+            "Scotland",
+            "Singapore",
+            "South Africa",
+            "South Korea"
+          ]
+        },
+        {
+          "label": "PostcodeZip",
+          "name": "PostcodeZip",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Issuing_Auth",
+          "name": "Issuing_Auth",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Handicap",
+          "name": "Handicap",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CDH_id",
+          "name": "CDH_id",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentEmail",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentSms",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentPost",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentPhone",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "privacyTermsConsent",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CustomerNotes",
+          "name": "CustomerNotes",
+          "type": "TEXTAREA",
+          "tagName": "TEXTAREA",
+          "options": []
+        },
+        {
+          "label": "EmailSmsGroup",
+          "name": "EmailSmsGroup",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TourOperatorCommission",
+          "name": "TourOperatorCommission",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TourOperatorTier",
+          "name": "TourOperatorTier",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Preferences",
+          "name": "",
+          "type": "button",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Add",
+          "name": "submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Delete",
+          "name": "submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "/amysgolfclub/index.php",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Dashboard",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Timesheet",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Messages",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Facilities",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Contacts",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Memberships",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Users",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Reports",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Search",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Tools",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Need Help?",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Sign Out",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "#",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "search_text",
+          "name": "search_text",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Search",
+          "name": "Submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Add New",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "View All",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Add",
+          "name": "submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CompanyName",
+          "name": "CompanyName",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Company Hotel Other Society Tour Operator Visitor",
+          "name": "Category",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": [
+            "Company",
+            "Hotel",
+            "Other",
+            "Society",
+            "Tour Operator",
+            "Visitor"
+          ]
+        },
+        {
+          "label": "1",
+          "name": "Disabled",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Mr Mrs Miss Ms Dr Prof Sir Lady Lord Dame Col Capt Rev Fr Major Master",
+          "name": "Title1",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": [
+            "Mr",
+            "Mrs",
+            "Miss",
+            "Ms",
+            "Dr",
+            "Prof",
+            "Sir",
+            "Lady",
+            "Lord",
+            "Dame",
+            "Col",
+            "Capt",
+            "Rev",
+            "Fr",
+            "Major",
+            "Master"
+          ]
+        },
+        {
+          "label": "Firstname1",
+          "name": "Firstname1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Initials1",
+          "name": "Initials1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Surname1",
+          "name": "Surname1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Position1",
+          "name": "Position1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Email1",
+          "name": "Email1",
+          "type": "email",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TelephoneHome1",
+          "name": "TelephoneHome1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TelephoneWork1",
+          "name": "TelephoneWork1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Mobile1",
+          "name": "Mobile1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Fax",
+          "name": "Fax",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Address1",
+          "name": "Address1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Address2",
+          "name": "Address2",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TownCity",
+          "name": "TownCity",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "County",
+          "name": "County",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Argentina Austria Australia Bahrain Barbados Belgium Bermuda Canada China Denmark England Finland France Germany Iceland India Ireland Isle of Man Israel Italy Japan Kuwait Lebanon Malaysia Malta Mexico Netherlands New Zealand Norway Northern Ireland Oman Papua New Guinea Poland Portugal Qatar Saudi Arabia Scotland Singapore South Africa South Korea Spain Sweden Switzerland Thailand United Arab Emirates United Kingdom United States Wales Other",
+          "name": "Country",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": [
+            "Argentina",
+            "Austria",
+            "Australia",
+            "Bahrain",
+            "Barbados",
+            "Belgium",
+            "Bermuda",
+            "Canada",
+            "China",
+            "Denmark",
+            "England",
+            "Finland",
+            "France",
+            "Germany",
+            "Iceland",
+            "India",
+            "Ireland",
+            "Isle of Man",
+            "Israel",
+            "Italy",
+            "Japan",
+            "Kuwait",
+            "Lebanon",
+            "Malaysia",
+            "Malta",
+            "Mexico",
+            "Netherlands",
+            "New Zealand",
+            "Norway",
+            "Northern Ireland",
+            "Oman",
+            "Papua New Guinea",
+            "Poland",
+            "Portugal",
+            "Qatar",
+            "Saudi Arabia",
+            "Scotland",
+            "Singapore",
+            "South Africa",
+            "South Korea"
+          ]
+        },
+        {
+          "label": "PostcodeZip",
+          "name": "PostcodeZip",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Issuing_Auth",
+          "name": "Issuing_Auth",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Handicap",
+          "name": "Handicap",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CDH_id",
+          "name": "CDH_id",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentEmail",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentSms",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentPost",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentPhone",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "privacyTermsConsent",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CustomerNotes",
+          "name": "CustomerNotes",
+          "type": "TEXTAREA",
+          "tagName": "TEXTAREA",
+          "options": []
+        },
+        {
+          "label": "EmailSmsGroup",
+          "name": "EmailSmsGroup",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TourOperatorCommission",
+          "name": "TourOperatorCommission",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TourOperatorTier",
+          "name": "TourOperatorTier",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Preferences",
+          "name": "",
+          "type": "button",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Add",
+          "name": "submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Delete",
+          "name": "submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "/amysgolfclub/index.php",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Dashboard",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Timesheet",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Messages",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Facilities",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Contacts",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Memberships",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Users",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Reports",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Search",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Tools",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Need Help?",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Sign Out",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "#",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "search_text",
+          "name": "search_text",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Search",
+          "name": "Submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Add New",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "View All",
+          "name": "",
+          "type": "A",
+          "tagName": "A",
+          "options": []
+        },
+        {
+          "label": "Add",
+          "name": "submit",
+          "type": "submit",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CompanyName",
+          "name": "CompanyName",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Category",
+          "name": "Category",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "Disabled",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Title1",
+          "name": "Title1",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": []
+        },
+        {
+          "label": "Firstname1",
+          "name": "Firstname1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Initials1",
+          "name": "Initials1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Surname1",
+          "name": "Surname1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Position1",
+          "name": "Position1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Email1",
+          "name": "Email1",
+          "type": "email",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TelephoneHome1",
+          "name": "TelephoneHome1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TelephoneWork1",
+          "name": "TelephoneWork1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Mobile1",
+          "name": "Mobile1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Fax",
+          "name": "Fax",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Address1",
+          "name": "Address1",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Address2",
+          "name": "Address2",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TownCity",
+          "name": "TownCity",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "County",
+          "name": "County",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Country",
+          "name": "Country",
+          "type": "SELECT",
+          "tagName": "SELECT",
+          "options": []
+        },
+        {
+          "label": "PostcodeZip",
+          "name": "PostcodeZip",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Issuing_Auth",
+          "name": "Issuing_Auth",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Handicap",
+          "name": "Handicap",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CDH_id",
+          "name": "CDH_id",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentEmail",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentSms",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentPost",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "marketingConsentPhone",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "1",
+          "name": "privacyTermsConsent",
+          "type": "checkbox",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "CustomerNotes",
+          "name": "CustomerNotes",
+          "type": "TEXTAREA",
+          "tagName": "TEXTAREA",
+          "options": []
+        },
+        {
+          "label": "EmailSmsGroup",
+          "name": "EmailSmsGroup",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TourOperatorCommission",
+          "name": "TourOperatorCommission",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "TourOperatorTier",
+          "name": "TourOperatorTier",
+          "type": "text",
+          "tagName": "INPUT",
+          "options": []
+        },
+        {
+          "label": "Preferences",
+          "name": "",
+          "type": "button",
+          "tagName": "INPUT",
+          "options": []
+        }
+      ],
+      "tableHeaders": [
+        "General Information",
+        "Company / Group Name:",
+        "Contact Category:",
+        "Disable",
+        "Contact",
+        "Title:",
+        "First Name:",
+        "Initials:",
+        "Last Name:",
+        "Position:",
+        "Email:",
+        "Telephone (Home):",
+        "Telephone (Work):",
+        "Mobile:",
+        "Fax:",
+        "Address Information:",
+        "Address (line 1):",
+        "Address (line 2):",
+        "Town / City:",
+        "County / State:",
+        "Country:",
+        "Postcode / Zip:",
+        "Club Details:",
+        "Club Name:",
+        "Handicap:",
+        "CDH:",
+        "Marketing Preferences:",
+        "Privacy Policy and Visitor Terms and Conditions:",
+        "Other Information:",
+        "Customer Notes:",
+        "Email / SMS Group:",
+        "Tour Operator Commission:",
+        "Tour Operator / Hotel Tier:"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Add Contact",
+          "New Contact"
+        ],
+        "pages": [
+          {
+            "label": "Add Contact form",
+            "title": "Tee Booking System",
+            "url": "https://www.brsgolf.com/amysgolfclub/contacts.php"
+          },
+          {
+            "label": "Created Contact view",
+            "title": "Tee Booking System",
+            "url": "https://www.brsgolf.com/amysgolfclub/contacts.php"
+          },
+          {
+            "label": "Delete confirmation/result",
+            "title": "Tee Booking System",
+            "url": "https://www.brsgolf.com/amysgolfclub/contacts.php"
+          }
+        ]
+      },
+      "writeActions": [
+        {
+          "name": "Temporary contact create/delete",
+          "label": "Add / Delete",
+          "type": "safe-test-record-with-rollback",
+          "riskTier": "controlled-demo-write",
+          "rollbackPlan": "Create a disabled temporary contact with a unique marker, delete it immediately, then search for the marker to verify removal.",
+          "rollbackVerified": true
+        }
+      ],
+      "containsClubSpecificData": false,
+      "rollbackVerified": true,
+      "confidence": "approved",
+      "safeForChatbot": true,
+      "tags": [
+        "demo-exploration",
+        "controlled-write-tested",
+        "rollback-verified",
+        "contacts",
+        "workflow-knowledge"
+      ],
+      "sourceId": "contact-create-delete-verified-2026-06-30",
+      "learnedAt": "2026-06-30T10:53:03.492Z"
+    }
+  ]
+}

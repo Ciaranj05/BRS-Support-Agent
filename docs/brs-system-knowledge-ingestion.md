@@ -13,8 +13,8 @@ The system crawler is designed for product knowledge, not club data. It should r
 Create a dedicated test user with the lowest useful permissions. Store credentials as environment variables only:
 
 ```text
-BRS_BASE_URL=https://brsgolf.com
-BRS_CLUB_ID=harrysgolfclub
+BRS_BASE_URL=https://www.brsgolf.com/amysgolfclub
+BRS_CLUB_ID=amysgolfclub
 BRS_USERNAME=...
 BRS_PASSWORD=...
 BRS_CRAWL_MAX_PAGES=80
@@ -25,6 +25,8 @@ BRS_CRAWL_BROWSER_EXECUTABLE_PATH=C:\Program Files\Google\Chrome\Application\chr
 ```
 
 Never commit real BRS credentials. If credentials have appeared in chat, rotate them before production use.
+
+Use a club-specific `BRS_BASE_URL` or set `BRS_CLUB_ID`. A bare `https://brsgolf.com` URL is the public site; the crawler and live lookup need the authenticated club path.
 
 ## Running ingestion
 
@@ -57,7 +59,7 @@ npm run explore:demo-workflows -- "how do I add a buggy booking"
 npm run build:knowledge
 ```
 
-`draft` mode opens and fills safe demo booking surfaces for evidence without submitting. `commit` mode can submit a test booking only on the dedicated demo club. The explorer blocks setup/settings mutations such as System Configuration, Configure Timesheet, Green Fee setup, reservation types, payment methods, user permissions, and other admin setup areas.
+`draft` mode opens and fills safe demo booking surfaces for evidence without submitting. `commit` mode can submit a test booking only on the dedicated demo club. Controlled write exploration is allowed only when it creates temporary test data, records the exact rollback action, restores or deletes the test data, and verifies cleanup before marking the workflow safe. The explorer blocks setup/settings mutations such as System Configuration, Configure Timesheet, Green Fee setup, reservation types, payment methods, user permissions, and other admin setup areas unless a setting-specific restore helper exists.
 
 Demo workflow output is written to `knowledge/workflows/demo` with `confidence: needs-review` and `safeForChatbot: false`. A human must review the route evidence before it becomes approved answer material.
 
@@ -122,7 +124,7 @@ New BRS system entries default to `confidence: needs-review`. They should be che
 
 The crawler already accepts `BRS_CLUB_IDS` as a comma-separated list. Keep each club on an explicit allowlist and continue tagging entries with `clubScope: template` unless the knowledge is intentionally club-specific.
 
-The support bot should normally answer from the reviewed knowledge index rather than logging into BRS during a live support conversation. This keeps answers fast, auditable, and safer for customer data.
+The support bot should answer from the reviewed knowledge index first. Live lookup is a safety net for workflow evidence gaps: it should verify the answer from the configured test system, answer only from verified evidence, and persist the observed workflow/context back into the knowledge base so future matching questions do not need live browsing.
 
 ## Vercel live lookup browser runtime
 
@@ -132,7 +134,7 @@ Required Vercel environment variables for live lookup:
 
 ```text
 BRS_LIVE_LOOKUP_ENABLED=true
-BRS_BASE_URL=https://brsgolf.com
+BRS_BASE_URL=https://www.brsgolf.com/amysgolfclub
 BRS_CLUB_ID=amysgolfclub
 BRS_USERNAME=...
 BRS_PASSWORD=...
@@ -140,4 +142,4 @@ BRS_LIVE_LOOKUP_TIMEOUT_MS=45000
 BRS_LIVE_BROWSER_WS_ENDPOINT=wss://...
 ```
 
-The app still contains a local/serverless Chromium fallback, but if debug output mentions missing native libraries, configure `BRS_LIVE_BROWSER_WS_ENDPOINT` rather than trying to store browser binaries in the repo.
+The app still contains a local direct Chromium fallback for development. Set `BRS_LIVE_LOOKUP_ALLOW_DIRECT=true` and `BRS_LIVE_BROWSER_EXECUTABLE_PATH` locally when you need to verify the browser path. On Vercel, configure `BRS_LIVE_WORKER_URL` or `BRS_LIVE_BROWSER_WS_ENDPOINT`; do not rely on direct browser launch in serverless runtime.

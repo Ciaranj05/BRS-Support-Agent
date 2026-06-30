@@ -6,7 +6,7 @@ import { keepReusableProductText, redactText } from "../lib/knowledgeRedaction.j
 
 dotenv.config();
 
-const BASE_URL = process.env.BRS_BASE_URL || "https://brsgolf.com";
+const BASE_URL = process.env.BRS_BASE_URL || "";
 const USERNAME = process.env.BRS_USERNAME;
 const PASSWORD = process.env.BRS_PASSWORD;
 const OUTPUT_DIR = process.env.BRS_CRAWL_OUTPUT_DIR || path.join("knowledge", "system");
@@ -15,9 +15,15 @@ const MAX_PAGES = Number(process.env.BRS_CRAWL_MAX_PAGES || 140);
 const ALLOW_MUTATIONS = process.env.BRS_CRAWL_ALLOW_MUTATIONS === "true";
 const BROWSER_EXECUTABLE_PATH = process.env.BRS_CRAWL_BROWSER_EXECUTABLE_PATH || "";
 const HELP_MODE = process.env.BRS_CRAWL_HELP_MODE || "full";
+const PAGE_NAVIGATION_TIMEOUT_MS = Number(process.env.BRS_CRAWL_PAGE_NAVIGATION_TIMEOUT_MS || 12000);
+const PAGE_ACTION_TIMEOUT_MS = Number(process.env.BRS_CRAWL_PAGE_ACTION_TIMEOUT_MS || 3500);
 const EMBEDDED_APP_HOSTS = (process.env.BRS_CRAWL_EMBEDDED_APP_HOSTS || "embedded-memberships.brsgolf.com")
   .split(",")
   .map((host) => host.trim().toLowerCase())
+  .filter(Boolean);
+const EXTRA_SEED_PATHS = (process.env.BRS_CRAWL_SEED_PATHS || "")
+  .split(",")
+  .map((seed) => seed.trim())
   .filter(Boolean);
 
 const CLUB_IDS = (process.env.BRS_CLUB_IDS || process.env.BRS_CLUB_ID || "")
@@ -68,6 +74,57 @@ const BLOCKED_URL_TEXT = [
   /checkout/i,
 ];
 
+const DEFAULT_SEED_PATHS = [
+  "/",
+  "/dashboard/",
+  "/day.php",
+  "/calendar.php",
+  "/visitor_availability_month.php",
+  "/visitor_menu.php",
+  "/fac_day.php",
+  "/contacts.php",
+  "/contacts.php?operation=add_contact",
+  "/contacts.php?operation=view_contacts",
+  "/brs-memberships",
+  "/user_admin.php?stage=Retrieve",
+  "/reports.php",
+  "/search.php",
+  "/tools",
+  "/system_conf.php",
+  "/config_timesheet.php",
+  "/copy_settings_year_to_year.php",
+  "/upload_timesheet.php",
+  "/upload.php",
+  "/admin_config.php?config_type=services",
+  "/admin_config.php?config_type=refreshments",
+  "/admin_config.php?config_type=timesheet_msg",
+  "/admin_config.php?config_type=timesheet_templates",
+  "/admin_config.php?config_type=mem_types",
+  "/admin_config.php?config_type=mem_groups",
+  "/admin_config.php?config_type=casual_times",
+  "/admin_config.php?config_type=competitions",
+  "/admin_config.php?config_type=open_comp",
+  "/admin_letters.php",
+  "/emailmenu.php",
+  "/smsmenu.php",
+  "/admin-messages/",
+  "/club-messages/",
+  "/club-news",
+  "/green-fee-rates/",
+  "/visitorgreenfee/add/",
+  "/reservationtype/",
+  "/bookingstatus/",
+  "/contactcategory/",
+  "/course-restriction/",
+  "/competitions/member/",
+  "/competition_purse.php",
+  "/payment/account/reports",
+  "/payment/account/setup",
+  "/membershipdatamerge/view/",
+  "/membershiptypemap/list/",
+  "/term/list",
+];
+
 function assertConfig() {
   if (!USERNAME || !PASSWORD) throw new Error("Set BRS_USERNAME and BRS_PASSWORD before crawling.");
   if (!CLUB_IDS.length) throw new Error("Set BRS_CLUB_ID or BRS_CLUB_IDS before crawling.");
@@ -76,11 +133,35 @@ function assertConfig() {
   }
 }
 
+function compactUrl(value = "") {
+  return String(value || "").trim().replace(/\/+$/, "");
+}
+
+function clubBaseUrl(clubId) {
+  const configured = compactUrl(BASE_URL);
+  if (configured) {
+    try {
+      const parsed = new URL(configured);
+      const path = parsed.pathname.toLowerCase().replace(/\/+$/, "");
+      if (path === `/${clubId.toLowerCase()}` || path.startsWith(`/${clubId.toLowerCase()}/`)) return configured;
+      if (!path) {
+        const host = parsed.hostname === "brsgolf.com" ? "www.brsgolf.com" : parsed.host;
+        return `${parsed.protocol}//${host}/${clubId}`;
+      }
+      return configured;
+    } catch {
+      return configured;
+    }
+  }
+  return `https://www.brsgolf.com/${clubId}`;
+}
+
 function sameClubUrl(url, clubId) {
   try {
     const parsed = new URL(url);
-    const base = new URL(BASE_URL);
-    return parsed.hostname === base.hostname && parsed.pathname.toLowerCase().startsWith(`/${clubId.toLowerCase()}`);
+    const base = new URL(clubBaseUrl(clubId));
+    const basePath = base.pathname.toLowerCase().replace(/\/+$/, "");
+    return parsed.hostname === base.hostname && parsed.pathname.toLowerCase().startsWith(basePath);
   } catch {
     return false;
   }
@@ -106,6 +187,16 @@ function isAllowedLink(link, clubId) {
   return ALLOWED_NAVIGATION_TEXT.some((pattern) => pattern.test(text));
 }
 
+function buildSeedLinks(clubId) {
+  const base = clubBaseUrl(clubId);
+  return [...EXTRA_SEED_PATHS, ...DEFAULT_SEED_PATHS].map((seed) => {
+    const href = /^https?:\/\//i.test(seed)
+      ? seed
+      : `${base}${seed.startsWith("/") ? seed : `/${seed}`}`;
+    return { text: seed, href };
+  }).filter((link) => isAllowedCrawlUrl(link.href, clubId));
+}
+
 function uniqueUsefulText(values = [], limit = 120) {
   const seen = new Set();
   const output = [];
@@ -117,6 +208,34 @@ function uniqueUsefulText(values = [], limit = 120) {
     if (output.length >= limit) break;
   }
   return output;
+}
+
+function isMetricHeading(value = "") {
+  const text = String(value || "").trim();
+  return /^-?\d+(\.\d+)?%?$/.test(text) || /^\d+\s+(bookings?|golfers?|members?|visitors?)$/i.test(text);
+}
+
+function titleFromUrl(url = "") {
+  try {
+    const parsed = new URL(url);
+    const pathname = parsed.pathname.replace(/\/+$/, "");
+    const last = pathname.split("/").filter(Boolean).pop() || "Dashboard";
+    const configType = parsed.searchParams.get("config_type");
+    if (configType) return configType.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+    if (/^day\.php$/i.test(last)) return "Timesheet";
+    if (/^dashboard$/i.test(last)) return "Dashboard";
+    return last.replace(/\.[a-z0-9]+$/i, "").replace(/[-_]/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+  } catch {
+    return "";
+  }
+}
+
+function choosePageTitle({ headings = [], pageTitle = "", url = "" } = {}) {
+  const usefulHeading = headings.find((heading) => !isMetricHeading(heading));
+  if (usefulHeading) return usefulHeading;
+  const usefulTitle = normaliseLabel(pageTitle);
+  if (usefulTitle && !/^brs golf - tee booking system$/i.test(usefulTitle)) return usefulTitle;
+  return titleFromUrl(url) || usefulTitle || "BRS page";
 }
 
 function normaliseLabel(value = "") {
@@ -146,6 +265,25 @@ function inferActionPurpose(action = {}) {
   return "action";
 }
 
+function joinQuoted(values = [], limit = 18) {
+  const useful = values.map((value) => normaliseLabel(value)).filter(Boolean).slice(0, limit);
+  if (!useful.length) return "";
+  return useful.map((value) => `"${value}"`).join(", ");
+}
+
+function buildWorkflowSteps({ titleText, navigationPath, formControls = [], actions = [], tableHeaders = [] } = {}) {
+  const steps = [
+    navigationPath ? `Open "${navigationPath}".` : `Open "${titleText}".`,
+  ];
+  const fieldLabels = joinQuoted(formControls.map((control) => control.label), 24);
+  if (fieldLabels) steps.push(`Use the visible field, filter, and selector labels on this page: ${fieldLabels}.`);
+  const actionLabels = joinQuoted(actions.map((action) => action.label), 24);
+  if (actionLabels) steps.push(`Use the visible action controls on this page as needed for the task: ${actionLabels}.`);
+  const tableLabels = joinQuoted(tableHeaders, 18);
+  if (tableLabels) steps.push(`Check the visible table columns for the result or record details: ${tableLabels}.`);
+  return steps;
+}
+
 async function loadPlaywright() {
   if (process.env.PLAYWRIGHT_MODULE_PATH) {
     return await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE_PATH).href);
@@ -171,7 +309,7 @@ async function fillFirstVisible(page, selectors, value) {
 }
 
 async function login(page, clubId) {
-  await page.goto(`${BASE_URL}/${clubId}/login`, { waitUntil: "domcontentloaded" });
+  await page.goto(`${clubBaseUrl(clubId)}/login`, { waitUntil: "domcontentloaded", timeout: PAGE_NAVIGATION_TIMEOUT_MS });
   const filledUser = await fillFirstVisible(page, ["input[name='username']", "input[name='login']", "input[type='text']", "input[type='email']"], USERNAME);
   const filledPassword = await fillFirstVisible(page, ["input[name='password']", "input[type='password']"], PASSWORD);
   if (!filledUser || !filledPassword) throw new Error(`Could not find login fields for ${clubId}.`);
@@ -245,7 +383,12 @@ async function extractFormControls(page) {
     };
   })).catch(() => []);
 
-  return uniqueObjects(controls.map((control) => ({
+  return uniqueObjects(controls.filter((control) => {
+    if (control.type !== "hidden") return true;
+    const label = normaliseLabel(control.label);
+    const name = normaliseLabel(control.name);
+    return label && label !== name && label !== "hidden";
+  }).map((control) => ({
     ...control,
     options: uniqueUsefulText(control.options || [], 80),
   })), "label", 140);
@@ -314,7 +457,7 @@ async function extractPageKnowledge(page, clubId, url) {
   const actions = interactiveControls.map((control) => ({ label: control.label, purpose: control.purpose, title: control.title, ariaLabel: control.ariaLabel, iconText: control.iconText }));
   const navigationPath = keepReusableProductText(breadcrumbs) || headings.join(" > ") || null;
   const baseId = `brs-system:${clubId}:${Buffer.from(url).toString("base64url").slice(0, 32)}`;
-  const titleText = headings[0] || title;
+  const titleText = choosePageTitle({ headings, pageTitle: title, url });
 
   const pageEntry = {
     id: baseId,
@@ -349,11 +492,7 @@ async function extractPageKnowledge(page, clubId, url) {
     navigationPath,
     sourceUrl: url,
     purpose: headings.slice(0, 8).join(" | ") || pageText.split("\n")[0] || titleText,
-    steps: [
-      navigationPath ? `Open ${navigationPath}` : `Open ${titleText}`,
-      formControls.length ? "Use the available fields, filters, or selectors to narrow the result." : null,
-      actions.length ? "Use the available page actions for the next step, such as run, filter, print, or download/export where shown." : null,
-    ].filter(Boolean),
+    steps: buildWorkflowSteps({ titleText, navigationPath, formControls, actions, tableHeaders: tableEvidence.headers }),
     controls: formControls,
     actions,
     tableHeaders: tableEvidence.headers,
@@ -373,9 +512,14 @@ async function extractPageKnowledge(page, clubId, url) {
 async function crawlClub(browser, clubId) {
   const context = await browser.newContext();
   const page = await context.newPage();
+  page.setDefaultTimeout(PAGE_ACTION_TIMEOUT_MS);
+  page.setDefaultNavigationTimeout(PAGE_NAVIGATION_TIMEOUT_MS);
   await login(page, clubId);
 
-  const queue = await extractLinks(page, clubId);
+  const queue = [
+    ...buildSeedLinks(clubId),
+    ...await extractLinks(page, clubId),
+  ];
   queue.push(...await extractEmbeddedAppLinks(page));
   const seen = new Set();
   const entries = [];
@@ -385,7 +529,7 @@ async function crawlClub(browser, clubId) {
     if (!next?.href || seen.has(next.href)) continue;
     seen.add(next.href);
     console.log(`[crawl:${clubId}] ${seen.size}/${MAX_PAGES} ${next.href}`);
-    await page.goto(next.href, { waitUntil: "domcontentloaded" }).catch(() => null);
+    await page.goto(next.href, { waitUntil: "domcontentloaded", timeout: PAGE_NAVIGATION_TIMEOUT_MS }).catch(() => null);
     await page.waitForLoadState("networkidle", { timeout: 1500 }).catch(() => {});
     if (!isAllowedCrawlUrl(page.url(), clubId)) continue;
     entries.push(...await extractPageKnowledge(page, clubId, page.url()));
