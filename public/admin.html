@@ -84,6 +84,19 @@
   </main>
 
   <script>
+    function getAdminSecret() {
+      let secret = sessionStorage.getItem('brs_admin_secret');
+      if (!secret) {
+        secret = prompt('Enter admin access key:');
+        if (secret) sessionStorage.setItem('brs_admin_secret', secret);
+      }
+      return secret || '';
+    }
+
+    function clearAdminSecret() {
+      sessionStorage.removeItem('brs_admin_secret');
+    }
+
     function esc(value) {
       return String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
     }
@@ -161,7 +174,16 @@
       const params = getDateParams();
       params.set('_', Date.now().toString());
       try {
-        const response = await fetch(`/api/admin/survey-metrics?${params}`, { cache: 'no-store' });
+        const secret = getAdminSecret();
+        if (!secret) throw new Error('Access key required.');
+        const response = await fetch(`/api/admin/survey-metrics?${params}`, {
+          cache: 'no-store',
+          headers: { 'Authorization': `Bearer ${secret}` },
+        });
+        if (response.status === 403) {
+          clearAdminSecret();
+          throw new Error('Invalid access key. Refresh the page to try again.');
+        }
         const data = await response.json();
         if (data.ok === false) throw new Error(data.error || 'Metrics request failed.');
         setRangeLabel();
@@ -176,7 +198,7 @@
         renderScoreGrid(data.scoreCounts || {});
         renderRecentTable(data.recentResponses || []);
       } catch (error) {
-        document.getElementById('recentTable').innerHTML = '<div class="empty">Unable to refresh survey metrics.</div>';
+        document.getElementById('recentTable').innerHTML = `<div class="empty">${esc(error.message || 'Unable to refresh survey metrics.')}</div>`;
       } finally {
         if (refreshBtn) {
           refreshBtn.disabled = false;
