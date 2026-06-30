@@ -19,6 +19,7 @@ import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
 import { runActionRequest, runTimesheetActionRequest } from "./services/timesheet/timesheetActionService.js";
+import { rateLimiter, validateChatInput, securityHeaders, getCorsOptions } from "./lib/middleware/security.js";
 
 dotenv.config();
 
@@ -26,8 +27,9 @@ const __filename = fileURLToPath(import.meta.url);
 const app = express();
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-app.use(cors());
-app.use(express.json());
+app.use(securityHeaders);
+app.use(cors(getCorsOptions()));
+app.use(express.json({ limit: "100kb" }));
 
 function isMemberBalanceLookup(message = "") {
   return isMemberBalanceReportQuestion(message);
@@ -409,10 +411,10 @@ async function enhancedChatHandler(req, res, next) {
   }
 }
 
-app.post("/api/chat", enhancedChatHandler);
-app.post("/chat", enhancedChatHandler);
+app.post("/api/chat", rateLimiter, validateChatInput, enhancedChatHandler);
+app.post("/chat", rateLimiter, validateChatInput, enhancedChatHandler);
 
-app.post("/api/resolved-interactions", async (req, res) => {
+app.post("/api/resolved-interactions", rateLimiter, async (req, res) => {
   try {
     const result = await recordResolvedInteractionWithLearning({ sessionId: getSessionId(req), payload: req.body });
     res.status(201).json({ ok: true, ...result });
@@ -422,7 +424,7 @@ app.post("/api/resolved-interactions", async (req, res) => {
   }
 });
 
-app.post("/api/feedback", async (req, res) => {
+app.post("/api/feedback", rateLimiter, async (req, res) => {
   try {
     const result = await recordSurveyScoreWithLearning({ sessionId: getSessionId(req), payload: req.body });
     res.status(201).json({ ok: true, ...result });
@@ -432,7 +434,7 @@ app.post("/api/feedback", async (req, res) => {
   }
 });
 
-app.post("/api/actions/timesheet-request", async (req, res) => {
+app.post("/api/actions/timesheet-request", rateLimiter, validateChatInput, async (req, res) => {
   try {
     const message = String(req.body?.message || "").trim();
     if (!message) return res.status(400).json({ ok: false, error: "Please enter a timesheet request." });
@@ -452,6 +454,9 @@ app.post("/api/actions/timesheet-request", async (req, res) => {
 
 app.get("/api/admin/survey-metrics", async (req, res) => {
   try {
+    if (!hasQaAnalysisAccess(req)) {
+      return res.status(403).json({ ok: false, error: "Admin access requires QA_ANALYSIS_SECRET." });
+    }
     res.status(200).json(await getSurveyMetrics({
       startDate: req.query?.startDate,
       endDate: req.query?.endDate,
