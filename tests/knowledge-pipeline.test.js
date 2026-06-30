@@ -86,6 +86,77 @@ test("retrieval ranks membership bill evidence above competition purse overlap",
   assert.equal(results[0].title, "Members With Unpaid Bills Report");
 });
 
+test("retrieval expands customer action words to observed BRS control labels", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "booking-controls.json"), JSON.stringify({
+    entries: [
+      {
+        sourceType: "brs-system-workflow",
+        title: "Timesheet Booking Controls",
+        area: "Timesheet",
+        workflow: "Timesheet Booking Controls",
+        summary: "The tee sheet action toolbar contains controls for existing reservations.",
+        steps: [
+          "Open the Timesheet for the booking date.",
+          "Tick the checkbox beside the reservation.",
+          "Use Delete to delete an existing reservation.",
+        ],
+        actions: [
+          { label: "Add", purpose: "Add a new reservation." },
+          { label: "Modify", purpose: "Modify an existing reservation." },
+          { label: "Delete", purpose: "Delete an existing reservation." },
+        ],
+        confidence: "needs-review",
+        containsClubSpecificData: false,
+      },
+      {
+        sourceType: "brs-system-workflow",
+        title: "Timesheet Booking Controls",
+        area: "Timesheet",
+        workflow: "Timesheet Booking Controls",
+        summary: "The tee sheet action toolbar contains controls for existing reservations.",
+        steps: [
+          "Open the Timesheet for the booking date.",
+          "Tick the checkbox beside the reservation.",
+          "Use Delete to delete an existing reservation.",
+        ],
+        actions: [
+          { label: "Add", purpose: "Add a new reservation." },
+          { label: "Modify", purpose: "Modify an existing reservation." },
+          { label: "Delete", purpose: "Delete an existing reservation." },
+        ],
+        confidence: "needs-review",
+        containsClubSpecificData: false,
+      },
+      {
+        sourceType: "brs-system-workflow",
+        title: "Search Bookings",
+        area: "Search",
+        workflow: "Search Bookings",
+        summary: "Search Bookings can find tee time bookings by reference or customer details.",
+        fields: [{ label: "Search Text" }, { label: "Year" }],
+        actions: [{ label: "Search" }],
+        confidence: "needs-review",
+        containsClubSpecificData: false,
+      },
+    ],
+  }));
+
+  await buildKnowledgeBase({
+    knowledgeDir,
+    outputPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+
+  const results = await retrieveKnowledge("How do I cancel a booking?", {
+    limit: 3,
+    indexPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+
+  assert.equal(results[0].title, "Timesheet Booking Controls");
+  assert.match(results[0].content, /Delete an existing reservation/i);
+  assert.equal(results.filter((entry) => entry.title === "Timesheet Booking Controls").length, 1);
+});
+
 test("workflow knowledge preserves controls, actions, and table evidence", async () => {
   const knowledgeDir = await makeKnowledgeDir();
   await fs.writeFile(path.join(knowledgeDir, "workflows", "workflow.json"), JSON.stringify({

@@ -375,6 +375,9 @@ test("BRS Contacts product questions do not route to support contact details", a
 test("approved static workflows cover common booking and payment lookup variants", () => {
   const bookingReply = approvedStaticWorkflowReply("How do I add a single tee time booking?");
   const detailsReply = approvedStaticWorkflowReply("How do I open booking details from the tee sheet?");
+  const cancelReply = approvedStaticWorkflowReply("How do I cancel a booking?");
+  const deleteReply = approvedStaticWorkflowReply("How do I delete a tee time booking?");
+  const removeReply = approvedStaticWorkflowReply("How do I remove a booking from the timesheet?");
   const vatReply = approvedStaticWorkflowReply("Where do I download a VAT report for payments?");
   const uploadReply = approvedStaticWorkflowReply("Where do I upload members or contacts?");
   const refundRecordsReply = approvedStaticWorkflowReply("Where can I see refund records after a refund has been made?");
@@ -382,6 +385,14 @@ test("approved static workflows cover common booking and payment lookup variants
 
   assert.match(bookingReply, /Single Tee Time Booking/i);
   assert.match(detailsReply, /Booking Details/i);
+  for (const reply of [cancelReply, deleteReply, removeReply]) {
+    assert.match(reply, /Cancel a Tee Sheet Booking/i);
+    assert.match(reply, /Timesheet/i);
+    assert.match(reply, /Delete/i);
+    assert.match(reply, /existing reservation/i);
+    assert.match(reply, /"Tools" > "BRS Payments" > "Refunds"/i);
+    assert.doesNotMatch(reply, /complete proven BRS workflow/i);
+  }
   assert.match(vatReply, /BRS Payments VAT Report/i);
   assert.match(uploadReply, /Upload Members or Contacts/i);
   assert.match(refundRecordsReply, /BRS Payments Refunds/i);
@@ -651,6 +662,17 @@ test("answer quality gate escalates vague customer workflow advice", () => {
 
   assert.equal(internalToneGated.escalationReady, true);
   assert.equal(internalToneGated.qualityGate.reason, "internal-or-third-person-workflow-wording");
+
+  const approvedBillReply = approvedStaticWorkflowReply("How do I create a bill?");
+  const billGated = applyAnswerQualityGate({
+    reply: approvedBillReply,
+    escalationReady: false,
+    version: "knowledge-retrieval-v1",
+  }, "How do I create a bill?");
+
+  assert.equal(billGated.escalationReady, false);
+  assert.equal(billGated.version, "knowledge-retrieval-v1");
+  assert.match(billGated.reply, /Create a Membership Bill/i);
 });
 
 test("high-risk static answers avoid vague workflow placeholders", async () => {
