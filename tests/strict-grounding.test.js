@@ -147,6 +147,42 @@ test("approved static workflows cover crawled BRS admin areas without live looku
   assert.doesNotMatch(copyReply, /\bdelete\b/i);
 });
 
+test("long data export questions synthesize related member routes instead of email messaging", async () => {
+  const reply = await answerFromKnowledge(
+    "I'm trying to produce a database of members names and their email addresses from specific categories of membership. In this case our 4 junior categories, is it possible to apply filters to produce just that info please?",
+    { allowDynamic: false }
+  );
+
+  assert.match(reply, /Create a Filtered Member Data Export/i);
+  assert.match(reply, /not an email-message request/i);
+  assert.match(reply, /Filter Active Members/i);
+  assert.match(reply, /Membership Type/i);
+  assert.match(reply, /Filter Columns/i);
+  assert.match(reply, /Download CSV Members/i);
+  assert.match(reply, /Alternative routes/i);
+  assert.match(reply, /Member Categories/i);
+  assert.match(reply, /Member Email Addresses for Outlook/i);
+  assert.doesNotMatch(reply, /Email Members in a Membership Type/i);
+  assert.doesNotMatch(reply, /Choose "Email Membership Types"/i);
+  assert.doesNotMatch(reply, /Prepare and send the email/i);
+});
+
+test("email address data-field questions do not steal real messaging workflows", () => {
+  const dataReply = approvedStaticWorkflowReply("Can I download a spreadsheet of member names and email addresses by membership type?");
+  const contactDataReply = approvedStaticWorkflowReply("Can I export a report of contact email addresses?");
+  const messagingReply = approvedStaticWorkflowReply("How do I email all members in a membership type?");
+
+  assert.match(dataReply, /Create a Filtered Member Data Export/i);
+  assert.match(dataReply, /Download CSV Members/i);
+  assert.doesNotMatch(dataReply, /Choose "Email Membership Types"/i);
+
+  assert.match(contactDataReply, /Run a Contact Report|Export a Report/i);
+  assert.doesNotMatch(contactDataReply, /Email Contacts/i);
+
+  assert.match(messagingReply, /Email Members in a Membership Type/i);
+  assert.match(messagingReply, /Email Membership Types/i);
+});
+
 test("approved static workflow matcher is general rather than example-specific", () => {
   const facilityReply = approvedStaticWorkflowReply("How do I make a room booking?");
   const contactReply = approvedStaticWorkflowReply("How do I add a society contact?");
