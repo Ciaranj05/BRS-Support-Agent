@@ -18,6 +18,7 @@ import { routeActionRequest } from "./lib/actionRouter.js";
 import { runQaAnalysis } from "./lib/qaAnalysis.js";
 import { isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
+import { attachmentMetadata, buildVisionContextFromAttachments, messageWithVisionContext } from "./lib/visionContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
 import { runActionRequest, runTimesheetActionRequest } from "./services/timesheet/timesheetActionService.js";
@@ -32,7 +33,7 @@ const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.use(securityHeaders);
 app.use(cors(getCorsOptions()));
-app.use(express.json({ limit: "100kb" }));
+app.use(express.json({ limit: process.env.BRS_CHAT_JSON_LIMIT || "6mb" }));
 app.use(requestLogger);
 
 function isMemberBalanceLookup(message = "") {
@@ -380,14 +381,30 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
 async function enhancedChatHandler(req, res, next) {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
-  const originalMessage = String(req.body?.message || "").trim();
+  const imageAttachments = Array.isArray(req.body?.attachments) ? req.body.attachments : [];
+  const submittedMessage = String(req.body?.message || "").trim();
+  const originalMessage = submittedMessage || (imageAttachments.length ? "Please help with the attached screenshot." : "");
   const history = getConversationHistory(req);
-  const message = expandAffirmationMessage(originalMessage, history);
+  let message = expandAffirmationMessage(originalMessage, history);
 
   try {
     const authContext = resolveAuthContext(req);
     assertBotAccess(authContext);
     debug.stages.push({ name: "auth-context", matched: true, clubId: authContext.clubId, source: authContext.source, authRequired: authContext.authRequired });
+    if (!originalMessage) {
+      return res.json(withDebug({ reply: "Please enter a question or attach a screenshot.", escalationReady: false, options: [], version: "input-required-v1" }, debug, debugEnabled));
+    }
+
+    const visionContext = await buildVisionContextFromAttachments(client, imageAttachments, originalMessage);
+    req.visionContext = visionContext;
+    req.imageAttachmentMetadata = attachmentMetadata(imageAttachments);
+    debug.stages.push({
+      name: "vision-context",
+      matched: Boolean(visionContext.summary),
+      attachments: visionContext.attachmentCount || imageAttachments.length,
+      error: visionContext.error || null,
+    });
+    message = messageWithVisionContext(message, visionContext);
 
     const exhaustedWorkflowPayload = exhaustedWorkflowFollowUpPayload(originalMessage, history);
     debug.stages.push({ name: "exhausted-workflow-follow-up", matched: Boolean(exhaustedWorkflowPayload) });
