@@ -154,17 +154,19 @@ test("long data export questions synthesize related member routes instead of ema
   );
 
   assert.match(reply, /Create a Filtered Member Data Export/i);
-  assert.match(reply, /not an email-message request/i);
+  assert.match(reply, /Yes\. For a list of member names and email addresses/i);
+  assert.match(reply, /your 4 junior membership categories/i);
   assert.match(reply, /Filter Active Members/i);
   assert.match(reply, /Membership Type/i);
   assert.match(reply, /Filter Columns/i);
   assert.match(reply, /Download CSV Members/i);
-  assert.match(reply, /Alternative routes/i);
+  assert.match(reply, /Other ways to get the same information/i);
   assert.match(reply, /Member Categories/i);
   assert.match(reply, /Member Email Addresses for Outlook/i);
   assert.doesNotMatch(reply, /Email Members in a Membership Type/i);
   assert.doesNotMatch(reply, /Choose "Email Membership Types"/i);
   assert.doesNotMatch(reply, /Prepare and send the email/i);
+  assert.doesNotMatch(reply, /data\/export request|email-message request|club needs|club wants|the club wants|the club needs/i);
 });
 
 test("email address data-field questions do not steal real messaging workflows", () => {
@@ -527,6 +529,7 @@ test("static workflow answers use customer-facing wording and demo labels", () =
     approvedStaticWorkflowReply("change cancellation time limit"),
     approvedStaticWorkflowReply("How do I send an email message to members?"),
     approvedStaticWorkflowReply("How do I set up membership types like senior and junior?"),
+    approvedStaticWorkflowReply("I need names and email addresses for our junior membership categories in a spreadsheet"),
     approvedRefundReply("full"),
     approvedOfflineRefundReply(),
   ].join("\n\n");
@@ -535,7 +538,7 @@ test("static workflow answers use customer-facing wording and demo labels", () =
   assert.match(replies, /"Tee Time Interval"|"Alternate Tee Time Intervals"/i);
   assert.match(replies, /"Message on the Timesheet"/i);
   assert.match(replies, /"Days Advance Booking"/i);
-  assert.doesNotMatch(replies, /support task|advising staff|another support agent|club wants|club needs|club is asking|BRS customers using/i);
+  assert.doesNotMatch(replies, /support task|advising staff|another support agent|club wants|club needs|club is asking|BRS customers using|data\/export request|email-message request/i);
 });
 
 test("representative workflow answers avoid internal routing language", () => {
@@ -554,10 +557,11 @@ test("representative workflow answers avoid internal routing language", () => {
     approvedStaticWorkflowReply("How do I add staff user?"),
     approvedStaticWorkflowReply("How do I change password?"),
     approvedStaticWorkflowReply("How do I set up Golf Plus?"),
+    approvedStaticWorkflowReply("Can I download a spreadsheet of member names and email addresses by membership type?"),
   ].filter(Boolean);
 
   for (const reply of replies) {
-    assert.doesNotMatch(reply, /\b(user means|Clarify|reusable product knowledge|support agent|technical support specialist)\b/i);
+    assert.doesNotMatch(reply, /\b(user means|Clarify|reusable product knowledge|support agent|technical support specialist|data\/export request|email-message request)\b/i);
     assert.doesNotMatch(reply, /\b(payment scheme workflow|bill workflow|normal messaging route|booking search route|club-message route|text-message route|member email route)\b/i);
   }
 });
@@ -638,6 +642,15 @@ test("answer quality gate escalates vague customer workflow advice", () => {
   }, "How do I add a staff user?");
 
   assert.equal(requiredFieldsGated.escalationReady, true);
+
+  const internalToneGated = applyAnswerQualityGate({
+    reply: "Create a Filtered Member Data Export\n\nThis is a member data/export request, not an email-message request.\n\n1. Open Memberships.",
+    escalationReady: false,
+    version: "knowledge-retrieval-v1",
+  }, "Can I export member names and email addresses?");
+
+  assert.equal(internalToneGated.escalationReady, true);
+  assert.equal(internalToneGated.qualityGate.reason, "internal-or-third-person-workflow-wording");
 });
 
 test("high-risk static answers avoid vague workflow placeholders", async () => {
