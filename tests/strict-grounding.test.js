@@ -312,6 +312,7 @@ test("approved static workflows cover dashboard, search, and contact variants", 
   const dashboardReply = approvedStaticWorkflowReply("How do I see today's bookings on the dashboard?");
   const searchReply = approvedStaticWorkflowReply("How do I find a booking by booking reference?");
   const contactReply = approvedStaticWorkflowReply("How do I filter contacts by category?");
+  const contactCategoriesReply = approvedStaticWorkflowReply("Where do I manage contact categories in BRS?");
   const emailReply = approvedStaticWorkflowReply("How do I email contacts?");
 
   assert.match(dashboardReply, /Dashboard/i);
@@ -320,7 +321,17 @@ test("approved static workflows cover dashboard, search, and contact variants", 
   assert.match(searchReply, /booking reference/i);
   assert.match(contactReply, /Contacts/i);
   assert.match(contactReply, /category/i);
+  assert.match(contactCategoriesReply, /Contact Categories/i);
   assert.match(emailReply, /Email Contacts/i);
+});
+
+test("BRS Contacts product questions do not route to support contact details", async () => {
+  const reply = await answerFromKnowledge("Where do I manage contact categories in BRS?");
+
+  assert.match(reply, /Contact Categories/i);
+  assert.match(reply, /Tools/i);
+  assert.doesNotMatch(reply, /Call us on UK/i);
+  assert.doesNotMatch(reply, /Golf Now Customer Support/i);
 });
 
 test("approved static workflows cover common booking and payment lookup variants", () => {
