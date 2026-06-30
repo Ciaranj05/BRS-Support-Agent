@@ -1,7 +1,12 @@
 node_modules/
 .env
+.env.local
+.env.production
 data/feedback-store.json
 data/qa-interactions.json
 data/workflow-exploration-queue.jsonl
+data/qa-analysis/
 local-chatbot*.log
 .DS_Store
+*.log
+.vercel/

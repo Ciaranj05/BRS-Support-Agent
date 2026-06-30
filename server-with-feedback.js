@@ -474,7 +474,8 @@ function hasQaAnalysisAccess(req) {
   if (secret) {
     const auth = String(req.headers.authorization || "");
     const bearer = auth.startsWith("Bearer ") ? auth.slice("Bearer ".length) : "";
-    return bearer === secret || req.headers["x-qa-analysis-secret"] === secret || req.query?.secret === secret;
+    // Accept Bearer token or custom header only — never query string (leaks to logs/history).
+    return bearer === secret || req.headers["x-qa-analysis-secret"] === secret;
   }
   return req.headers["x-vercel-cron"] === "1" || process.env.NODE_ENV !== "production";
 }
