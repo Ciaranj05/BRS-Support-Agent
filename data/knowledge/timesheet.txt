@@ -12,21 +12,24 @@ Support style:
 - Give concrete navigation where known.
 - Do not invent a Move or Reschedule button for bookings. Approved local guidance says moving bookings should use the cut/paste workflow from Booking Details when applicable.
 - Do not quote live booking names, player names, prices, references, or customer details.
+- Never use internal HTML field names or database column names in customer-facing answers. Use the user-facing label instead. Examples: use "Calendar End Year" not "calendar_end_year_4"; use "the date selector" not "d_date"; use "the tee time checkboxes" not "T_ids[]"; use "Calendar Start Year" not "calendar_start_year_4".
 
 ## Main purpose
 
 The Timesheet is the main operational area for viewing and working with tee times. It shows the club's daily tee-time rows and supports creating, editing, viewing, printing, and reporting on bookings.
 
-Observed timesheet views include:
+## Timesheet views
 
-- Day/Timesheet view.
-- Summary view.
-- 4 Week view.
-- Month view.
-- Year view.
-- Both/combined course view on multi-course systems.
+BRS provides several timesheet views accessible from the Timesheet page:
 
-Multi-course systems can expose course-specific views and combined views. Course names are club configuration data, so only describe the multi-course pattern unless the user supplies their own course names.
+- Day view (default) — shows all tee-time rows for a single date with full booking detail.
+- Summary view — condensed overview of bookings for a date.
+- 4 Week view — shows four weeks of tee times in a grid layout for quick scanning of availability and bookings across multiple weeks.
+- Month view — calendar-style monthly overview showing which days have tee times configured and booking activity.
+- Year view — full-year calendar overview showing configured days across all months.
+- Both/combined course view — on multi-course systems, shows all courses together on one screen.
+
+To switch views, use the view links above the tee-time grid on the Timesheet page (Day, Summary, 4 Week, Month, Year). Multi-course systems can also expose course-specific views and combined views. Course names are club configuration data, so only describe the multi-course pattern unless the user supplies their own course names.
 
 ## Day view structure
 
@@ -80,7 +83,25 @@ Use same-interval configuration when the club uses one interval across the selec
 
 Configure Timesheet also exposes Timesheet Templates. Use templates when the club wants reusable timesheets that can be copied quickly from one date to another.
 
-## Changing intervals and adding tee times
+## Changing tee time intervals
+
+To change the tee time interval (for example, from 10 minutes to 8 minutes):
+
+1. Go to Tools > Configure Timesheet.
+2. In "Operation", choose "Configure one or multiple days with the same tee time interval".
+3. Select the "Year" and set the date range using "Start Month", "Start Day of Month", "End Month", and "End Day of Month".
+4. In "Tee Time Interval", select the new interval value (for example, 8 minutes).
+5. Set "First Tee Time Hour", "First Tee Time Minute", "Last Tee Time Hour", and "Last Tee Time Minute" to match the required tee time range for the day.
+6. Tick the days of the week under "Select the days of the week you want to configure".
+7. Click "Configure the Timesheet".
+8. Check the affected dates on the Timesheet to confirm the new interval is applied.
+
+Important notes:
+- This overwrites existing tee times for the selected date range and days. Existing bookings on those tee times may be affected.
+- To set different intervals for weekdays versus weekends, run Configure Timesheet twice: once for weekdays with one interval, then again for weekends with a different interval.
+- To set different intervals for summer versus winter, run Configure Timesheet with different date ranges for each season.
+
+## Adding tee times and adjusting start/end times
 
 Timesheet interval changes belong in Configure Timesheet. The Help Center has separate guidance for changing tee time intervals, adding tee times to the start of the day, adding tee times to the end of the timesheet, and squeezing in additional tee times.
 
@@ -89,11 +110,21 @@ Questions about adding, removing, extending, starting earlier, finishing later, 
 When answering:
 
 - Confirm whether the user wants to change future setup or alter one specific day.
-- Explain that start-of-day changes use First Tee Time Hour and First Tee Time Minute, while end-of-day changes use Last Tee Time Hour and Last Tee Time Minute.
-- Remind the user to check Tee Time Interval or Alternate Tee Time Intervals so the spacing between tee times still matches the required setup.
+- Explain that start-of-day changes use "First Tee Time Hour" and "First Tee Time Minute", while end-of-day changes use "Last Tee Time Hour" and "Last Tee Time Minute".
+- Remind the user to check "Tee Time Interval" or "Alternate Tee Time Intervals" so the spacing between tee times still matches the required setup.
 - If the user only needs to insert one extra tee time on a specific day, mention the Squeeze Tee Time option on the Timesheet before advising a wider Configure Timesheet change.
-- For a new year, check Calendar End Year first.
+- For a new year, check "Calendar End Year" first.
 - For a small adjustment on a configured day, direct them to the relevant add/squeeze guidance rather than implying they must rebuild the whole year.
+
+## Sunrise and sunset stopping behaviour
+
+When configuring the timesheet, the sunrise/sunset stopping options control whether BRS automatically stops generating tee times before sunrise or after sunset. This is useful for clubs that want tee times to follow daylight hours.
+
+The sunrise/sunset options appear on the Configure Timesheet form. When enabled:
+- Tee times will not be generated before sunrise or after sunset for the configured date range.
+- The exact sunrise/sunset times are calculated per day based on the club's geographic location settings.
+
+If a club wants fixed start/end times regardless of season, they should leave sunrise/sunset stopping disabled and set explicit "First Tee Time" and "Last Tee Time" values instead.
 
 ## Single tee time booking
 
@@ -106,6 +137,65 @@ Approved Help Center workflow for adding a single 18-hole tee time booking:
 5. The in-grid editor can also be used for a single tee time booking where available.
 
 Use this when the user asks how to add a standard single tee time booking. If they need contact details, payments, refunds, or transaction history, route to the more specific booking details or payments guidance.
+
+## Cancel or delete a booking
+
+There are two separate operations that users may describe as "deleting" on the Timesheet. It is important to distinguish between them:
+
+### Delete a booking (remove a reservation from a tee time)
+
+Use this when the user wants to cancel or remove a booking that has been made on an existing tee time. The tee time slot itself remains; only the reservation is removed.
+
+1. Open the Timesheet from the main navigation menu.
+2. Navigate to the date of the booking.
+3. Tick the checkbox beside the booked tee time you want to cancel.
+4. Click "Delete" in the action toolbar above the tee-time grid.
+5. The reservation is removed and the tee time becomes available again.
+
+Important:
+- If the booking has payments attached via BRS Payments, check whether a refund is required before deleting.
+- Deleted bookings may still appear in the Cancelled Bookings report under Reports.
+- For block bookings, select all the tee times in the block before clicking Delete, or use the block booking management tools.
+
+### Delete tee time slots (remove time slots from the timesheet)
+
+Use this when the user wants to remove tee time slots entirely from a date range — for example, removing all tee times on a closure day or shortening the day.
+
+1. Go to Tools > Configure Timesheet.
+2. In "Operation", choose "Delete selected tee times on one or multiple days".
+3. Select the "Year" and date range.
+4. Set the time range and days of week to target.
+5. Click "Configure the Timesheet".
+
+This removes the tee time slots themselves. Any bookings on those slots will also be removed.
+
+Do not confuse these two operations when answering:
+- "Delete a booking" or "cancel a booking" = remove the reservation from the Timesheet grid.
+- "Delete tee times" or "remove tee time slots" = Configure Timesheet > Delete operation.
+
+## Add a player to an existing booking
+
+To add a player to a booking that has already been made:
+
+1. Open the Timesheet from the main navigation menu.
+2. Navigate to the date and find the booked tee time.
+3. Click the time of the booked tee time to open Booking Details.
+4. In Booking Details, add the player name in the next available player field.
+5. Click "Save" or "Update" to confirm the change.
+
+If the tee time has available player slots, the additional player name will appear in the tee-time grid after saving. If all player slots are full, consider whether the booking needs to be expanded or an additional tee time booked.
+
+## Remove a player from a booking
+
+To remove a player from an existing booking:
+
+1. Open the Timesheet from the main navigation menu.
+2. Navigate to the date and find the booked tee time.
+3. Click the time of the booked tee time to open Booking Details.
+4. In Booking Details, clear the player name from the relevant player field.
+5. Click "Save" or "Update" to confirm the change.
+
+The player will be removed from the tee-time display. If removing the last player from a booking, consider whether the entire booking should be deleted instead.
 
 ## Block bookings and repeated bookings
 
@@ -176,6 +266,64 @@ Booking statuses describe the state of a booking. Observed examples include:
 - Visitor Request.
 
 Statuses can affect reporting, booking management, and follow-up. Booking statuses are configured from Tools > Booking Statuses.
+
+## Messages on the Timesheet
+
+"Messages on the Timesheet" is a feature that displays text messages directly on the tee sheet for members and/or visitors to see when they view a particular date. This is NOT the same as emailing the timesheet.
+
+To add or edit a message on the timesheet:
+
+1. Go to Tools > Messages on the Timesheet (in the Additional Set Up Requirements section).
+2. Use "Select a Year" if the message is for a different year.
+3. Set the "Start Date" and "End Date" for when the message should appear.
+4. Enter the message text in the "Message on the Timesheet" field.
+5. Set the "Message Time" if the message should appear at a specific tee time position.
+6. Select the "Days of Week" the message should display on.
+7. Tick "Members" and/or "Visitors" to control who sees the message.
+8. Click "Save" or "Add" to apply the message.
+
+Common uses:
+- Course closed notices (e.g., "Course closed for maintenance").
+- Competition notices (e.g., "Ladies Competition — 1st tee reserved 9:00–11:00").
+- Seasonal messages (e.g., "Winter mats in use").
+- Event reminders displayed directly on the booking sheet.
+
+Important disambiguation:
+- "Messages on the Timesheet" = text displayed on the tee sheet view for specific dates. Found at Tools > Messages on the Timesheet.
+- "Email the Timesheet" = sending an email to members/contacts about bookings on a date. Found at Tools > Email Messaging > Email the Timesheet.
+
+When a user asks about "adding a message to the timesheet", they almost always mean the display message (Messages on the Timesheet), not the email function.
+
+## Timesheet Templates
+
+Timesheet Templates allow clubs to save a reusable timesheet configuration that can be applied quickly to different dates without re-entering all the settings manually each time.
+
+Timesheet Templates are accessed from the Configure Timesheet page at Tools > Configure Timesheet. The "Timesheet Templates" link appears on that page.
+
+Use templates when:
+- The club has a standard setup they apply repeatedly (e.g., summer weekday pattern, winter weekend pattern).
+- The club wants to quickly copy a proven configuration to a new date range.
+- Different seasons or event types require switching between pre-saved configurations.
+
+Note: Detailed template creation and application steps depend on the club's BRS version. Direct the user to the Timesheet Templates link on the Configure Timesheet page and the BRS Help Center article on Timesheet Templates for the most current instructions.
+
+## Copy Timesheet
+
+BRS does not have a direct "copy timesheet from one week to another" button on the main Timesheet grid. To replicate a timesheet setup across multiple weeks or periods:
+
+Option 1 — Use Configure Timesheet with the same settings:
+1. Go to Tools > Configure Timesheet.
+2. Apply the same configuration (interval, times, days) to the new date range.
+
+Option 2 — Use Timesheet Templates:
+1. If the club has saved a Timesheet Template, apply it to the target date range from the Configure Timesheet page.
+
+Option 3 — Copy individual bookings:
+- To copy bookings (not the tee time structure), use the Copy and Paste functions in the Timesheet action toolbar. This copies reservation content between tee times, not the underlying tee time setup.
+
+Clarify with the user whether they want to:
+- Copy the tee time structure/intervals (use Configure Timesheet or Templates).
+- Copy actual bookings/reservations from one date to another (use Copy/Paste on the Timesheet).
 
 ## Printing and exporting
 
