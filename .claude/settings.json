@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -X POST https://brs-support-agent.vercel.app/api/chat -H 'Content-Type: application/json' -d '{\"message\": \"How do I run a financial report?\", \"history\": []}')",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s -X POST https://brs-support-agent.vercel.app/api/chat -H 'Content-Type: application/json' -d '{\"message\": \"How do I check booking transactions?\", \"history\": []}')",
+      "Bash(curl -s -X POST https://brs-support-agent.vercel.app/api/chat -H 'Content-Type: application/json' -d '{\"message\": \"How do I see who booked tee times?\", \"history\": []}')",
+      "Bash(curl -s -X POST https://brs-support-agent.vercel.app/api/chat -H 'Content-Type: application/json' -d '{\"message\": \"How do I view payment transactions in BRS Payments?\", \"history\": []}')",
+      "Bash(curl -s -X POST https://brs-support-agent.vercel.app/api/chat -H 'Content-Type: application/json' -d '{\"message\": \"Where do I find the overdue bills report?\", \"history\": []}')",
+      "Bash(node -e ' *)",
+      "Bash(git commit -m 'Add deterministic report answers and fix routing collisions *)",
+      "Bash(curl -s -w \"\\\\nHTTP_STATUS:%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I send a club message to all members?\", \"history\": []}')",
+      "Bash(curl -s -w \"\\\\nHTTP_STATUS:%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I search for a booking?\", \"history\": []}')",
+      "Bash(curl -s -o /tmp/chat_response1.txt -w \"%{http_code}\" --max-time 30 -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I add a new contact?\", \"history\": []}')",
+      "Bash(curl -s -o /tmp/chat_response1.txt -w \"%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I add a new staff user?\", \"history\": []}' --timeout 30)",
+      "Bash(curl -s -o /tmp/chat_response_1.txt -w \"%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I make a facility booking?\", \"history\": []}' --max-time 30)",
+      "Bash(curl -s -w \"\\\\nHTTP_STATUS:%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I send a text message to selected members?\", \"history\": []}')",
+      "Bash(curl -s -w \"\\\\nHTTP_STATUS:%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I search for a member?\", \"history\": []}')",
+      "Bash(curl -s -o /tmp/chat_response2.txt -w \"%{http_code}\" --max-time 30 -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I add a society contact?\", \"history\": []}')",
+      "Bash(curl -s -o /tmp/chat_response2.txt -w \"%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I reset a user'\\\\''s password?\", \"history\": []}' --timeout 30)",
+      "Bash(curl -s -o /tmp/chat_response_2.txt -w \"%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I set up a new facility/room?\", \"history\": []}' --max-time 30)",
+      "Bash(curl -s -w \"\\\\nHTTP_STATUS:%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I email members in a specific membership type?\", \"history\": []}')",
+      "Bash(curl -s -o /tmp/chat_response3.txt -w \"%{http_code}\" --max-time 30 -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I change a contact'\\\\''s email?\", \"history\": []}')",
+      "Bash(curl -s -o /tmp/chat_response3.txt -w \"%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"What user groups are available?\", \"history\": []}' --timeout 30)",
+      "Bash(curl -s -w \"\\\\nHTTP_STATUS:%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"Where do I find sent messages?\", \"history\": []}')",
+      "Bash(curl -s -o /tmp/chat_response4.txt -w \"%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I give someone admin access?\", \"history\": []}' --timeout 30)",
+      "Bash(curl -s -o /tmp/chat_response5.txt -w \"%{http_code}\" -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I delete a user account?\", \"history\": []}' --timeout 30)",
+      "Bash(curl -s -o /tmp/chat_response4.txt -w \"%{http_code}\" --max-time 30 -X POST https://brs-support-agent.vercel.app/api/chat -H \"Content-Type: application/json\" -d '{\"message\": \"How do I delete a contact?\", \"history\": []}')"
+    ]
+  }
+}

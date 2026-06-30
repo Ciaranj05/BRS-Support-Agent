@@ -92,6 +92,32 @@ Approved system knowledge indicates that cut/copy/paste tools can move or duplic
 
 The Facility Booking Help Center includes an article about extending the latest time to midnight. If a user asks why late-night slots are unavailable, check facility-area setup and latest-time configuration rather than treating it as a booking error.
 
+## Verified facility booking fields
+
+The following fields and actions are confirmed from the BRS system:
+
+Booking fields: Reservation Name, Guests, Room/Facility, Start, End, Repeat Days, Repeat Weeks.
+
+Booking actions in the toolbar: Add new reservation, Modify reservation, Cancel reservation, Cut reservation, Copy reservation, Paste reservation.
+
+## Facility rate configuration
+
+Facility booking rates are not configured within the Facilities area itself. Rate configuration depends on the club's module setup:
+
+- Check Tools > System Configuration for facility rate settings.
+- Not all clubs have facility rate configuration enabled.
+- If rate settings are not visible, contact BRS Support to confirm the club's facility billing setup.
+
+## Cancelling a facility booking
+
+To cancel an existing facility reservation:
+
+1. Open Facilities from the main navigation menu.
+2. Use the Booking view to find the reservation on the correct date.
+3. Click the facility booking to select it.
+4. Click "Cancel reservation" in the reservation actions.
+5. Confirm the cancellation.
+
 ## Related areas
 
 - Tools contains service and room-hire setup where those options are enabled.

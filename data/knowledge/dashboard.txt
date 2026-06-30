@@ -22,7 +22,7 @@ The dashboard replaces older home-screen shortcut layouts. Users can usually ret
 
 The top dashboard cards summarise current booking activity:
 
-- Tee sheet utilisation as a percentage.
+- Tee sheet utilisation as a percentage (the proportion of available tee times that have been booked on the selected date or date range).
 - Number of bookings.
 - Number of golfers.
 - Split between member and visitor activity where the system has that data.
