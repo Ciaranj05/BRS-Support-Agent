@@ -20,6 +20,7 @@ import { expandAffirmationMessage, getConversationHistory, getSessionId, prepare
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
 import { runActionRequest, runTimesheetActionRequest } from "./services/timesheet/timesheetActionService.js";
 import { rateLimiter, validateChatInput, securityHeaders, getCorsOptions } from "./lib/middleware/security.js";
+import { requestLogger } from "./lib/middleware/requestLogger.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 app.use(securityHeaders);
 app.use(cors(getCorsOptions()));
 app.use(express.json({ limit: "100kb" }));
+app.use(requestLogger);
 
 function isMemberBalanceLookup(message = "") {
   return isMemberBalanceReportQuestion(message);
@@ -410,6 +412,14 @@ async function enhancedChatHandler(req, res, next) {
     return baseHandler(req, res, next);
   }
 }
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    ok: true,
+    version: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || "local",
+    timestamp: new Date().toISOString(),
+  });
+});
 
 app.post("/api/chat", rateLimiter, validateChatInput, enhancedChatHandler);
 app.post("/chat", rateLimiter, validateChatInput, enhancedChatHandler);
