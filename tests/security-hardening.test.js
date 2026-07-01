@@ -42,8 +42,25 @@ function checkOrigin(options, origin) {
   });
 }
 
-test("production auth defaults to required and ignores spoofable body/query context", () => {
+test("production public chat stays open but ignores spoofable body/query context", () => {
   withEnv({ VERCEL: "1" }, () => {
+    const context = resolveAuthContext({
+      headers: {},
+      body: { clubId: "body-club", userId: "body-user", permissions: ["bot:actions"] },
+      query: { clubId: "query-club", userId: "query-user" },
+    });
+
+    assert.equal(context.authRequired, false);
+    assert.equal(context.isAuthenticated, true);
+    assert.equal(context.clubId, "local-demo-club");
+    assert.equal(context.userId, "local-prototype-user");
+    assert.deepEqual(context.permissions, []);
+    assert.equal(canRunBotAction(context, "timesheet.configure"), false);
+  });
+});
+
+test("explicit production auth requires signed context and ignores body/query context", () => {
+  withEnv({ VERCEL: "1", BRS_BOT_REQUIRE_AUTH: "true" }, () => {
     const context = resolveAuthContext({
       headers: {},
       body: { clubId: "body-club", userId: "body-user", permissions: ["bot:actions"] },
@@ -59,7 +76,7 @@ test("production auth defaults to required and ignores spoofable body/query cont
 });
 
 test("authenticated production headers can carry club and permission context", () => {
-  withEnv({ VERCEL: "1" }, () => {
+  withEnv({ VERCEL: "1", BRS_BOT_REQUIRE_AUTH: "true" }, () => {
     const context = resolveAuthContext({
       headers: {
         authorization: "Bearer test-token",
