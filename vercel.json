@@ -1,6 +1,6 @@
 {
   "env": {
-    "BRS_LIVE_LOOKUP_ENABLED": "true",
+    "BRS_LIVE_LOOKUP_ENABLED": "false",
     "BRS_LIVE_LOOKUP_TIMEOUT_MS": "45000"
   },
   "functions": {

@@ -144,7 +144,9 @@ function scoreLabel(label = "", plan = []) {
 }
 
 function checkSecret(req, res, next) {
-  if (!WORKER_SECRET) return next();
+  if (!WORKER_SECRET) {
+    return res.status(503).json({ error: "BRS_LIVE_WORKER_SECRET must be configured before this worker accepts lookup requests." });
+  }
   if (req.get("x-brs-live-worker-secret") === WORKER_SECRET) return next();
   return res.status(401).json({ error: "Unauthorized live lookup worker request." });
 }
@@ -338,6 +340,7 @@ app.get("/health", (req, res) => {
     worker: "brs-live-lookup-worker",
     liveBaseUrlConfigured: Boolean(BASE_URL),
     credentialsConfigured: Boolean(USERNAME && PASSWORD),
+    workerSecretConfigured: Boolean(WORKER_SECRET),
   });
 });
 

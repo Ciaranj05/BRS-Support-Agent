@@ -20,9 +20,9 @@ IF the user wants text embedded on the timesheet rather than sent to people:
 
 -> Use tools.txt > Messages on the Timesheet and cross-check timesheet.txt.
 
-IF the user asks why a member did not receive a message:
+IF the user asks why a member, contact, customer, visitor, or staff/admin user did not receive a message, email, SMS/text, password reset, booking confirmation, registration reminder, or club message:
 
--> Check audience selection, membership type/group, member/contact details, opt-in/consent where relevant, and recent-message/reporting evidence.
+-> Check the recipient record first, including email/mobile accuracy, duplicate or old records, visible Unsuppress button/suppression state beside the email address, opt-in/consent where relevant, audience selection, membership type/group/contact category, app registration where relevant, and recent-message/reporting evidence.
 
 ## Guardrails
 

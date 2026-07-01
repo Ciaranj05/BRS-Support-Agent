@@ -7,8 +7,27 @@ export function getSessionId(req) {
   return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
 }
 
+function isProductionRuntime() {
+  return process.env.VERCEL === "1" || process.env.NODE_ENV === "production";
+}
+
+function bearerToken(req) {
+  const auth = String(req.headers?.authorization || "");
+  return auth.startsWith("Bearer ") ? auth.slice("Bearer ".length) : "";
+}
+
+function hasDebugAccess(req) {
+  if (!isProductionRuntime()) return true;
+  const secret = process.env.BRS_CHAT_DEBUG_SECRET || process.env.QA_ANALYSIS_SECRET || "";
+  if (!secret) return false;
+  return bearerToken(req) === secret
+    || req.headers?.["x-brs-debug-secret"] === secret
+    || req.headers?.["x-qa-analysis-secret"] === secret;
+}
+
 export function wantsChatDebug(req) {
-  return req.body?.debug === true || req.query?.debug === "true" || process.env.BRS_CHAT_DEBUG === "true";
+  const requested = req.body?.debug === true || req.query?.debug === "true" || process.env.BRS_CHAT_DEBUG === "true";
+  return requested && hasDebugAccess(req);
 }
 
 export function withDebug(payload, debug, enabled) {

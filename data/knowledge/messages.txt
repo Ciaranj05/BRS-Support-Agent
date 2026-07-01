@@ -101,6 +101,30 @@ Use these distinctions:
 
 The live Email Messaging page shows recently sent messages and a report link for previous messages. Useful columns include username, date/time sent, email message, number of emails, attachments, and marketing flag. Do not copy message content, usernames, or attachment names from a live club.
 
+## Recipient delivery troubleshooting
+
+Use this when a member, contact, customer, visitor, or staff user is not receiving BRS emails, SMS/texts, club messages, password reset emails, booking confirmations, or registration/reminder messages.
+
+Do not answer delivery-failure questions with the normal "Email Membership Types", "Email Membership Groups", or "Email Selected Members" sending workflow unless the user asks how to send a new email.
+
+Recommended checks:
+
+- Identify the channel and message type first: email, SMS/text, club message, password reset, booking confirmation, registration reminder, or another BRS message.
+- Open the record that owns the recipient details. For a member, open the member profile/details page from Users or Memberships depending on the club's workflow. For a contact, use Contacts. For staff/admin users, use Users.
+- Confirm the email address or mobile number is correct, current, and saved on that record. Check for duplicate records or an old address on a booking, contact, member, or user profile.
+- For email, check whether an Unsuppress button is shown beside the email address. If Unsuppress is shown, the address is suppressed by the BRS/email delivery system; only unsuppress it after confirming the recipient wants to receive messages. If no Unsuppress button is shown, there is no visible suppression on that profile.
+- Check whether the message type depends on consent, marketing preference, opt-in, app registration, member status, membership type, membership group, contact category, or user permissions.
+- Check the original sent-message area or report for that channel, such as Email Messaging, SMS/text messaging, club messaging, recent messages, or the related report, and confirm the recipient was included in the selected audience.
+- Ask the recipient to check spam/junk, mailbox full or blocked sender rules, and any business email allowlist settings if they use a managed mailbox.
+- If the address or mobile is correct, the recipient was in the audience, there is no visible suppression or opt-out issue, and messages still do not arrive, escalate to BRS Support with the recipient record, address/mobile, message type, sent date/time, and what has already been checked.
+
+Common causes:
+
+- The recipient was not in the selected audience because of membership type, group, contact category, timesheet selection, status, or app-registration requirements.
+- The email address was suppressed after a bounce, complaint, or repeated delivery failure.
+- The address or mobile number exists in more than one place and the message used a different record than expected.
+- The message is a marketing communication and the recipient is not opted in, even though transactional emails may still work.
+
 ## Text/SMS messaging
 
 The Help Center communication section includes SMS guidance for:
