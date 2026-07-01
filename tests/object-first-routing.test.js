@@ -45,6 +45,11 @@ test("lets clarification answers continue through stateful chat routing", () => 
   assert.equal(result, null);
 });
 
+test("lets conceptual membership questions use knowledge synthesis instead of clarification buttons", () => {
+  const result = answerFromObjectFirstRouting("what is a payment scheme?");
+  assert.equal(result, null);
+});
+
 test("lets action-led membership questions use approved knowledge instead of category buttons", () => {
   const variants = [
     "how do I create a bill",

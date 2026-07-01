@@ -150,6 +150,7 @@ export async function prepareChatPayload({ client, payload, message, debug, debu
           routeStrength: nextPayload.routeStrength,
           escalationReady: nextPayload.escalationReady,
           options: nextPayload.options,
+          answerComposition: nextPayload.answerComposition || null,
         },
       }).catch((error) => {
         console.error("Q&A interaction logging failed:", error);

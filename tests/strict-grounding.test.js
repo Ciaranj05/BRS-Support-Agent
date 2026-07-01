@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { answerFromKnowledge, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
+import { answerFromKnowledge, answerFromKnowledgeDetailed, isBRSWorkflowQuestion } from "../lib/knowledgeAnswer.js";
 import { routeActionRequest } from "../lib/actionRouter.js";
 import { candidateGuideMatchesQuestion, hasUnsupportedGeneratedWorkflowShape } from "../lib/groundingGuards.js";
 import { approvedMoveBookingReply, hasForbiddenMoveBookingAdvice, isMoveBookingQuestion } from "../lib/bookingWorkflowAnswers.js";
@@ -22,16 +22,36 @@ test("does not classify generic thanks as a workflow question", () => {
   assert.equal(isBRSWorkflowQuestion("thanks that worked"), false);
 });
 
+test("conceptual why questions are not forced into workflow shape", () => {
+  assert.equal(isBRSWorkflowQuestion("why would I use a reservation type?"), false);
+
+  const reply = approvedStaticWorkflowReply("why would I use a reservation type?");
+  assert.match(reply, /classify tee-time bookings by purpose/i);
+  assert.match(reply, /configured at Tools > Reservation Types/i);
+  assert.doesNotMatch(reply, /Set Up Reservation Types and Colours/i);
+  assert.doesNotMatch(reply, /Click "?Add"?/i);
+});
+
+test("knowledge detail reports static-heavy fallback composition", async () => {
+  const result = await answerFromKnowledgeDetailed("what is a payment scheme?", { allowDynamic: false });
+
+  assert.match(result.reply, /Payment Schemes in BRS allow membership bills/i);
+  assert.equal(result.answerComposition.mode, "static-fallback");
+  assert.equal(result.answerComposition.staticFallbackUsed, true);
+  assert.equal(result.answerComposition.staticShare, 1);
+  assert.equal(result.answerComposition.recommendCrawlEnhancement, true);
+});
+
 test("production chat route uses live lookup only as a post-knowledge safety net", () => {
   const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
 
-  assert.match(serverSource, /answerFromKnowledge/);
+  assert.match(serverSource, /answerFromKnowledgeDetailed/);
   assert.match(serverSource, /liveBrsLookup/);
   assert.match(serverSource, /answerFromLiveEvidence/);
   assert.match(serverSource, /saveLearnedWorkflowFromLiveAnswer/);
   assert.match(serverSource, /!hasStaticAnswer && queueKnowledgeGaps && shouldAttemptLiveBrsLookup/);
   assert.ok(
-    serverSource.search(/const reply = await answerFromKnowledge/) <
+    serverSource.search(/const knowledgeResult = await answerFromKnowledgeDetailed/) <
     serverSource.search(/liveLookup = await liveBrsLookup/)
   );
 });

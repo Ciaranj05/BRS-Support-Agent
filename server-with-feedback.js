@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import OpenAI from "openai";
 import baseHandler, { approvedRefundReply, approvedOfflineRefundReply } from "./server.js";
 import { getSurveyMetrics } from "./feedbackStore.js";
-import { answerFromKnowledge, answerFromLiveEvidence, isBRSWorkflowQuestion } from "./lib/knowledgeAnswer.js";
+import { answerFromKnowledgeDetailed, answerFromLiveEvidence, isBRSWorkflowQuestion } from "./lib/knowledgeAnswer.js";
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
@@ -225,8 +225,15 @@ Rules:
 }
 
 async function respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel = "knowledge", allowDynamicKnowledge = true, queueKnowledgeGaps = true }) {
-  const reply = await answerFromKnowledge(message, { allowDynamic: allowDynamicKnowledge });
-  debug.stages.push({ name: routeLabel, matched: Boolean(reply), directIntent: isMemberBalanceLookup(message) });
+  const knowledgeResult = await answerFromKnowledgeDetailed(message, { allowDynamic: allowDynamicKnowledge });
+  const reply = knowledgeResult?.reply || null;
+  debug.stages.push({
+    name: routeLabel,
+    matched: Boolean(reply),
+    directIntent: isMemberBalanceLookup(message),
+    route: knowledgeResult?.route || null,
+    answerComposition: knowledgeResult?.answerComposition || null,
+  });
 
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
   const hasStaticAnswer = Boolean(reply);
@@ -372,6 +379,17 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     version: liveReply ? "live-brs-knowledge-v1" : "knowledge-retrieval-v1",
     liveLookup: liveLookup?.successful ? liveLookup : null,
     learnedWorkflow: liveLearning ? { storage: liveLearning.storage || null } : null,
+    answerComposition: liveReply
+      ? {
+        mode: "live-synthesis",
+        sourceCounts: { "live-evidence": liveLookup?.pages?.length || 0 },
+        sourceCharacters: {},
+        staticShare: 0,
+        staticFallbackUsed: false,
+        lockedStaticUsed: false,
+        recommendCrawlEnhancement: false,
+      }
+      : knowledgeResult?.answerComposition || null,
   };
   res.json(await prepareChatPayload({ client, payload, message: originalMessage, debug, debugEnabled, req }));
   return true;
@@ -409,23 +427,12 @@ async function enhancedChatHandler(req, res, next) {
     }
 
     const approvedStaticReply = approvedStaticWorkflowReply(routingMessage);
-    if (/^Check Why .+ Is Not Receiving (a )?BRS (Email|Emails|Text Messages|Message)/.test(approvedStaticReply || "")) {
-      debug.stages.push({ name: "approved-static-delivery-troubleshooting", matched: true });
-      return res.json(await prepareChatPayload({
-        client,
-        payload: {
-          reply: approvedStaticReply,
-          escalationReady: false,
-          topic: "knowledge",
-          options: [],
-          version: "approved-static-delivery-troubleshooting-v1",
-        },
-        message: originalMessage,
-        debug,
-        debugEnabled,
-        req,
-      }));
-    }
+    debug.stages.push({
+      name: "approved-static-precheck",
+      matched: Boolean(approvedStaticReply),
+      directReturn: false,
+      reason: approvedStaticReply ? "static snippets are now evidence for the knowledge synthesis path" : null,
+    });
 
     if (isMemberBalanceLookup(routingMessage)) {
       debug.stages.push({ name: "direct-member-balance-intent", matched: true });
