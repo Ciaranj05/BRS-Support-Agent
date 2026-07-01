@@ -35,12 +35,12 @@ test("flags record edit links and opaque identifiers as sensitive crawl data", (
 });
 
 test("redacts demo club urls and names without treating reusable product text as sensitive", () => {
-  const text = "AMYS GOLF CLUB links to https://www.brsgolf.com/amysgolfclub/index.php and uses Amy Chambers GC consent text.";
+  const text = "AMYS GOLF CLUB links to https://www.brsgolf.com/amysgolfclub/index.php, Amys Golf Club appears in titles, and Amy Chambers GC consent text appears.";
   const redacted = redactText(text);
 
   assert.equal(
     redacted,
-    "[redacted-club] links to [redacted-club-url] and uses [redacted-club] consent text.",
+    "[redacted-club] links to [redacted-club-url], [redacted-club] appears in titles, and [redacted-club] consent text appears.",
   );
   assert.equal(hasSensitiveData(redacted), false);
 });

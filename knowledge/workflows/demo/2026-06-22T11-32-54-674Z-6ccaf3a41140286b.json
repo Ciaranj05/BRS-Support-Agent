@@ -24,6 +24,7 @@
         "crawled-brs-system",
         "redacted-system-observation",
         "workflow-knowledge",
+        "incomplete-workflow-evidence",
         "workflow-knowledge",
         "incomplete-workflow-evidence",
         "requires-human-review"

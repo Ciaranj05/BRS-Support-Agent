@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-01T15:50:36.263Z",
+  "generatedAt": "2026-07-01T16:15:35.936Z",
   "entries": [
     {
       "id": "system:manage-users-level-1:dba70b7dfe9e",
@@ -3928,9 +3928,9 @@
     {
       "id": "workflow:book-tee-times-online-at-amys-golf-club-confirmed-brs-page-evide:1f8a92a6c53a",
       "sourceType": "workflow",
-      "title": "Book Tee Times Online at Amys Golf Club confirmed BRS page evidence",
-      "area": "Book Tee Times Online at Amys Golf Club",
-      "navigationPath": "Book Tee Times Online at Amys Golf Club",
+      "title": "Book Tee Times Online at [redacted-club] confirmed BRS page evidence",
+      "area": "Book Tee Times Online at [redacted-club]",
+      "navigationPath": "Book Tee Times Online at [redacted-club]",
       "sourceUrl": null,
       "confidence": "needs-review",
       "lastObservedAt": "[redacted-phone]T15:16:19.009Z",
@@ -3962,9 +3962,9 @@
     {
       "id": "workflow:book-tee-times-online-at-amys-golf-club-confirmed-brs-page-evide:be7507aa7c09",
       "sourceType": "workflow",
-      "title": "Book Tee Times Online at Amys Golf Club confirmed BRS page evidence",
-      "area": "Book Tee Times Online at Amys Golf Club",
-      "navigationPath": "Book Tee Times Online at Amys Golf Club",
+      "title": "Book Tee Times Online at [redacted-club] confirmed BRS page evidence",
+      "area": "Book Tee Times Online at [redacted-club]",
+      "navigationPath": "Book Tee Times Online at [redacted-club]",
       "sourceUrl": null,
       "confidence": "needs-review",
       "lastObservedAt": "[redacted-phone]T15:16:19.165Z",

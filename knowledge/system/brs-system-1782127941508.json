@@ -583,15 +583,15 @@
       "navigationPath": "Online Tee Bookings / Reservations > Member On-line Booking > Visitor On-line Booking > Open Days / Competitions > Golf Event Bookings",
       "sourceUrl": null,
       "purpose": "Online Tee Bookings / Reservations | Member On-line Booking | Visitor On-line Booking | Open Days / Competitions | Golf Event Bookings",
-      "content": "Amys Golf Club HOME Online Tee Bookings / Reservations Amys Golf Club have installed an Internet Tee Reservation System which allows golfers to book tee times through the club website 24/7. Member On-line Booking If you are a member and would like to book a tee time through our web site, click here. Visitor On-line Booking If you are a visitor and would like to book a tee time through our web site, click here. Online Booking Software provided by BRS Golf",
+      "content": "[redacted-club] HOME Online Tee Bookings / Reservations [redacted-club] have installed an Internet Tee Reservation System which allows golfers to book tee times through the club website 24/7. Member On-line Booking If you are a member and would like to book a tee time through our web site, click here. Visitor On-line Booking If you are a visitor and would like to book a tee time through our web site, click here. Online Booking Software provided by BRS Golf",
       "fields": [],
       "actions": [
         {
-          "label": "Amys Golf Club",
+          "label": "[redacted-club]",
           "purpose": "action",
           "title": "",
           "ariaLabel": "",
-          "iconText": "Amys Golf Club"
+          "iconText": "[redacted-club]"
         },
         {
           "label": "HOME",
