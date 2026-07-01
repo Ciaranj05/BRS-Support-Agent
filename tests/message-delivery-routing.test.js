@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { applyAnswerQualityGate } from "../lib/answerQuality.js";
 import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
 
 test("delivery failure questions route to troubleshooting instead of send-email workflow", () => {
@@ -32,4 +33,13 @@ test("send-email questions still route to the send-email workflow", () => {
   assert.match(reply, /Email Membership Types/i);
   assert.match(reply, /Email Membership Groups/i);
   assert.match(reply, /Email Selected Members/i);
+});
+
+test("approved delivery troubleshooting answer is not replaced by the quality gate", () => {
+  const question = "Can you please check on an email address from one of our members which doesn't seem to be accepting emails from BRS. He has checked for messages in his spam folder. The email address does not appear to be suppressed on our system.";
+  const reply = approvedStaticWorkflowReply(question);
+  const payload = applyAnswerQualityGate({ reply, version: "approved-static-delivery-troubleshooting-v1" }, question);
+
+  assert.equal(Boolean(payload.qualityGate?.blocked), false);
+  assert.match(payload.reply, /Unsuppress/i);
 });

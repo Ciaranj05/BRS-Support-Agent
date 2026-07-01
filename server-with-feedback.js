@@ -16,7 +16,7 @@ import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.j
 import { contextualiseShortClarificationFollowUp, exhaustedWorkflowFollowUpPayload, repeatedWorkflowFollowUpPayload } from "./lib/repeatedWorkflowFollowUp.js";
 import { routeActionRequest } from "./lib/actionRouter.js";
 import { runQaAnalysis } from "./lib/qaAnalysis.js";
-import { isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
+import { approvedStaticWorkflowReply, isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { attachmentMetadata, buildVisionContextFromAttachments, messageWithVisionContext } from "./lib/visionContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
@@ -423,6 +423,25 @@ async function enhancedChatHandler(req, res, next) {
     if (actionRoute) {
       const actionPayload = await runActionRequest({ client, route: actionRoute, message: routingMessage, authContext });
       if (actionPayload) return res.json(await prepareChatPayload({ client, payload: actionPayload, message: originalMessage, debug, debugEnabled, req }));
+    }
+
+    const approvedStaticReply = approvedStaticWorkflowReply(routingMessage);
+    if (approvedStaticReply?.startsWith("Check Why a Recipient Is Not Receiving BRS Messages")) {
+      debug.stages.push({ name: "approved-static-delivery-troubleshooting", matched: true });
+      return res.json(await prepareChatPayload({
+        client,
+        payload: {
+          reply: approvedStaticReply,
+          escalationReady: false,
+          topic: "knowledge",
+          options: [],
+          version: "approved-static-delivery-troubleshooting-v1",
+        },
+        message: originalMessage,
+        debug,
+        debugEnabled,
+        req,
+      }));
     }
 
     if (isMemberBalanceLookup(routingMessage)) {
