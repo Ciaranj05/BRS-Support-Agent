@@ -6,6 +6,7 @@ import { wantsChatDebug } from "../services/chat/chatPayloadService.js";
 
 const ENV_KEYS = [
   "BRS_ALLOWED_ORIGINS",
+  "BRS_BOT_PUBLIC_CHAT_ENABLED",
   "BRS_BOT_REQUIRE_AUTH",
   "BRS_CHAT_DEBUG",
   "BRS_CHAT_DEBUG_SECRET",
@@ -59,8 +60,26 @@ test("production public chat stays open but ignores spoofable body/query context
   });
 });
 
-test("explicit production auth requires signed context and ignores body/query context", () => {
+test("explicit production auth keeps public chat read-only unless strict public chat is disabled", () => {
   withEnv({ VERCEL: "1", BRS_BOT_REQUIRE_AUTH: "true" }, () => {
+    const context = resolveAuthContext({
+      headers: {},
+      body: { clubId: "body-club", userId: "body-user", permissions: ["bot:actions"] },
+      query: { clubId: "query-club", userId: "query-user" },
+    });
+
+    assert.equal(context.authRequired, true);
+    assert.equal(context.isAuthenticated, true);
+    assert.equal(context.clubId, "local-demo-club");
+    assert.equal(context.userId, "local-prototype-user");
+    assert.deepEqual(context.permissions, []);
+    assert.equal(context.source, "public-read-only");
+    assert.equal(canRunBotAction(context, "timesheet.configure"), false);
+  });
+});
+
+test("strict production auth can disable public read-only chat", () => {
+  withEnv({ VERCEL: "1", BRS_BOT_REQUIRE_AUTH: "true", BRS_BOT_PUBLIC_CHAT_ENABLED: "false" }, () => {
     const context = resolveAuthContext({
       headers: {},
       body: { clubId: "body-club", userId: "body-user", permissions: ["bot:actions"] },
@@ -72,6 +91,7 @@ test("explicit production auth requires signed context and ignores body/query co
     assert.equal(context.clubId, "");
     assert.equal(context.userId, "");
     assert.deepEqual(context.permissions, []);
+    assert.equal(context.source, "local-placeholder");
   });
 });
 
