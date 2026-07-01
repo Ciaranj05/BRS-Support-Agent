@@ -110,7 +110,7 @@ Do not answer delivery-failure questions with the normal "Email Membership Types
 Recommended checks:
 
 - Identify the channel and message type first: email, SMS/text, club message, password reset, booking confirmation, registration reminder, or another BRS message.
-- Open the record that owns the recipient details. For a member, open the member profile/details page from Users or Memberships depending on the club's workflow. For a contact, use Contacts. For staff/admin users, use Users.
+- Open the record that owns the recipient details. For a member email-delivery issue, open the member profile/details page from Users because the Unsuppress button is visible on the Users side. For a contact, use Contacts. For staff/admin users, use Users.
 - Confirm the email address or mobile number is correct, current, and saved on that record. Check for duplicate records or an old address on a booking, contact, member, or user profile.
 - For email, check whether an Unsuppress button is shown beside the email address. If Unsuppress is shown, the address is suppressed by the BRS/email delivery system; only unsuppress it after confirming the recipient wants to receive messages. If no Unsuppress button is shown, there is no visible suppression on that profile.
 - Check whether the message type depends on consent, marketing preference, opt-in, app registration, member status, membership type, membership group, contact category, or user permissions.

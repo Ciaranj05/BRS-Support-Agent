@@ -12,7 +12,7 @@ test("member email delivery failure questions route to concise contextual troubl
   assert.match(reply, /no visible suppression on that profile/i);
   assert.match(reply, /spam\/junk has already been checked/i);
   assert.match(reply, /sent email record or report in "Email Messaging"/i);
-  assert.doesNotMatch(reply, /SMS|password reset|booking confirmation|registration reminder|staff\/admin|app-registration|Common causes|Avoid/i);
+  assert.doesNotMatch(reply, /"Memberships" > "Members"|open the member profile there instead|SMS|password reset|booking confirmation|registration reminder|staff\/admin|app-registration|Common causes|Avoid/i);
   assert.doesNotMatch(reply, /Email Members\s*\n\n1\. "Tools"/i);
   assert.doesNotMatch(reply, /Choose "Email Membership Types", "Email Membership Groups", or "Email Selected Members"/i);
   assert.doesNotMatch(reply, /Select the membership type, member group, or selected members who should receive the email/i);
