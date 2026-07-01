@@ -324,6 +324,40 @@ test("generic sign-in and available-action workflow captures stay in review", as
   assert.equal(reviewQueue.length, 1);
 });
 
+test("broad crawl confirmed page evidence stays in review until converted into a complete workflow", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "page-evidence.json"), JSON.stringify({
+    entries: [{
+      sourceType: "brs-system-workflow",
+      title: "Timesheet confirmed BRS page evidence",
+      area: "Timesheet",
+      workflow: "Timesheet",
+      navigationPath: "Timesheet",
+      purpose: "Timesheet page controls and table labels.",
+      steps: [
+        "Open \"Timesheet\" from day php.",
+        "Use the confirmed fields/filters on this screen: \"ReservationName\", \"ReservationType\", \"Player1\".",
+        "Use the confirmed actions on this screen as needed: \"Add\", \"Modify\", \"Delete\".",
+        "Check the result table columns: \"Tee Time\", \"Res. Name\", \"Player 1\".",
+      ],
+      controls: [{ label: "ReservationName", type: "text" }],
+      actions: [{ label: "Add", purpose: "action" }],
+      tableHeaders: ["Tee Time", "Res. Name", "Player 1"],
+      confidence: "needs-review",
+      containsClubSpecificData: false,
+    }],
+  }));
+
+  const { entries, reviewQueue } = await buildKnowledgeBase({
+    knowledgeDir,
+    outputPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+
+  assert.equal(entries[0].confidence, "needs-review");
+  assert.ok(entries[0].tags.includes("incomplete-workflow-evidence"));
+  assert.equal(reviewQueue.length, 1);
+});
+
 test("workflow relationship maps expand relevant neighbouring workflows and avoid confusable user accounts", async () => {
   const knowledgeDir = await makeKnowledgeDir();
   await fs.writeFile(path.join(knowledgeDir, "workflows", "relationships.json"), JSON.stringify({

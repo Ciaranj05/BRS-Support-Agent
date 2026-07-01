@@ -23,3 +23,13 @@ test("redacts likely real names when they are labelled by user role", () => {
   assert.equal(redactText("Customer Jane Bloggs called support"), "Customer [redacted-name] called support");
   assert.equal(hasSensitiveData("Visitor Sam Jones paid online"), true);
 });
+
+test("flags record edit links and opaque identifiers as sensitive crawl data", () => {
+  const contactUrl = "https://www.brsgolf.com/amysgolfclub/contacts.php?operation=edit_contact&customer_id=78";
+  const identifier = "e29ae85a-597e-11ef-b8c0-b6aea80b5905";
+
+  assert.equal(redactText(contactUrl), "[redacted-record-link]");
+  assert.equal(redactText(`Common ID ${identifier}`), "Common ID [redacted-id]");
+  assert.equal(hasSensitiveData(contactUrl), true);
+  assert.equal(hasSensitiveData(`Common ID ${identifier}`), true);
+});

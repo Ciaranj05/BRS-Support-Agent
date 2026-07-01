@@ -1,4 +1,5 @@
 import fs from "fs";
+import { hasSensitiveData } from "../lib/knowledgeRedaction.js";
 
 const files = process.argv.slice(2);
 
@@ -13,7 +14,8 @@ const sensitivePatterns = [
 ];
 
 function isSensitive(value = "") {
-  return sensitivePatterns.some((pattern) => pattern.test(String(value)));
+  const text = String(value);
+  return hasSensitiveData(text) || sensitivePatterns.some((pattern) => pattern.test(text));
 }
 
 function isEmpty(value) {
