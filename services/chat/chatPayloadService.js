@@ -1,7 +1,6 @@
 import { rewriteAddsUnsupportedDetails } from "../../lib/rewriteSafety.js";
 import { recordQaInteraction } from "../../lib/qaInteractionStore.js";
 import { applyAnswerQualityGate } from "../../lib/answerQuality.js";
-import { visualAidIds, visualAidOptionForAnswer } from "../../lib/visualAids.js";
 
 export function getSessionId(req) {
   return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
@@ -118,7 +117,6 @@ function buildResponseHistory(req, message, payload) {
     {
       role: "assistant",
       content: payload.reply,
-      images: Array.isArray(payload.images) ? payload.images.map((image) => ({ id: image.id, title: image.title, source: image.source })) : [],
       liveLookup: payload.liveLookup || null,
       version: payload.version || null,
       topic: payload.topic || null,
@@ -138,17 +136,9 @@ export async function prepareChatPayload({ client, payload, message, debug, debu
     if (gatedPayload?.qualityGate?.blocked) debug?.stages?.push?.({ name: "answer-quality-gate", matched: true, reason: gatedPayload.qualityGate.reason, originalVersion: gatedPayload.qualityGate.originalVersion });
     nextPayload = gatedPayload;
   }
-  if (nextPayload && typeof nextPayload === "object" && nextPayload.reply && !nextPayload.escalationReady) {
-    const options = Array.isArray(nextPayload.options) ? nextPayload.options : [];
-    const hasImages = Array.isArray(nextPayload.images) && nextPayload.images.length > 0;
-    const screenshotOption = !hasImages && !options.length ? visualAidOptionForAnswer(nextPayload.reply, message) : null;
-    if (screenshotOption) nextPayload.options = [screenshotOption];
-  }
   if (nextPayload && req) {
     nextPayload.conversationHistory = buildResponseHistory(req, message, nextPayload);
     if (typeof nextPayload.reply === "string" && String(message || "").trim()) {
-      const visionContext = req.visionContext || {};
-      const imageAttachments = Array.isArray(req.imageAttachmentMetadata) ? req.imageAttachmentMetadata : [];
       recordQaInteraction({
         sessionId: getSessionId(req),
         conversationId: req.body?.conversationId || req.body?.sessionId || getSessionId(req),
@@ -160,11 +150,6 @@ export async function prepareChatPayload({ client, payload, message, debug, debu
           routeStrength: nextPayload.routeStrength,
           escalationReady: nextPayload.escalationReady,
           options: nextPayload.options,
-          visualAidIds: visualAidIds(nextPayload.images),
-          imageAttachmentCount: imageAttachments.length,
-          imageAttachmentMetadata: imageAttachments,
-          visionSummary: visionContext.summary || "",
-          visionError: visionContext.error || null,
         },
       }).catch((error) => {
         console.error("Q&A interaction logging failed:", error);

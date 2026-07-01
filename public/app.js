@@ -11,11 +11,6 @@ let pendingRatingScore = null;
 let pendingFollowUpHint = "";
 let pendingTimesheetRequest = "";
 let conversationHistory = [];
-let pendingImageAttachments = [];
-
-const MAX_IMAGE_ATTACHMENTS = 3;
-const MAX_IMAGE_BYTES = 1500000;
-const ALLOWED_IMAGE_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);
 
 function esc(t) {
   return String(t || "")
@@ -24,95 +19,6 @@ function esc(t) {
     .replaceAll(">", "&gt;")
     .replaceAll("\"", "&quot;")
     .replaceAll("'", "&#039;");
-}
-
-function openImagePicker() {
-  document.getElementById("imageInput")?.click();
-}
-
-function fileToDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-async function handleImageFiles(event) {
-  const files = Array.from(event.target.files || []);
-  event.target.value = "";
-  for (const file of files) {
-    if (pendingImageAttachments.length >= MAX_IMAGE_ATTACHMENTS) {
-      addSystemDivider(`Only ${MAX_IMAGE_ATTACHMENTS} screenshots can be attached at once.`);
-      break;
-    }
-    if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-      addSystemDivider(`${file.name} was not attached. Use PNG, JPG, WEBP, or GIF.`);
-      continue;
-    }
-    if (file.size > MAX_IMAGE_BYTES) {
-      addSystemDivider(`${file.name} was not attached. Maximum image size is 1.5MB.`);
-      continue;
-    }
-    const dataUrl = await fileToDataUrl(file);
-    pendingImageAttachments.push({
-      type: "image",
-      filename: file.name,
-      mimeType: file.type,
-      sizeBytes: file.size,
-      dataUrl,
-    });
-  }
-  renderAttachmentPreview();
-}
-
-function removePendingAttachment(index) {
-  pendingImageAttachments.splice(index, 1);
-  renderAttachmentPreview();
-}
-
-function renderAttachmentPreview() {
-  const preview = document.getElementById("attachmentPreview");
-  if (!preview) return;
-  if (!pendingImageAttachments.length) {
-    preview.innerHTML = "";
-    preview.hidden = true;
-    return;
-  }
-  preview.hidden = false;
-  preview.innerHTML = pendingImageAttachments.map((attachment, index) => `
-    <div class="attachment-chip">
-      <img src="${attachment.dataUrl}" alt="${esc(attachment.filename)} preview">
-      <span>${esc(attachment.filename)}</span>
-      <button type="button" onclick="removePendingAttachment(${index})" aria-label="Remove ${esc(attachment.filename)}">Remove</button>
-    </div>
-  `).join("");
-}
-
-function renderAttachmentThumbnails(attachments = []) {
-  const safe = Array.isArray(attachments) ? attachments : [];
-  if (!safe.length) return "";
-  return `<div class="message-attachments">${safe.map((attachment) => `
-    <a class="message-attachment" href="${attachment.dataUrl}" target="_blank" rel="noopener noreferrer">
-      <img src="${attachment.dataUrl}" alt="${esc(attachment.filename || "Uploaded screenshot")}">
-      <span>${esc(attachment.filename || "Screenshot")}</span>
-    </a>
-  `).join("")}</div>`;
-}
-
-function renderVisualAids(visualAids = []) {
-  const aids = Array.isArray(visualAids) ? visualAids : [];
-  if (!aids.length) return "";
-  return `<div class="visual-aids">${aids.map((aid) => `
-    <a class="visual-aid-card" href="${esc(aid.url)}" target="_blank" rel="noopener noreferrer">
-      <div class="visual-aid-copy">
-        <div class="visual-aid-title">${esc(aid.title || "Visual guide")}</div>
-        <div class="visual-aid-source">${aid.source === "verified-screenshot" ? "Verified BRS screenshot" : "Visual guide"}</div>
-      </div>
-      <img src="${esc(aid.url)}" alt="${esc(aid.alt || aid.title || "Annotated visual guide")}">
-    </a>
-  `).join("")}</div>`;
 }
 
 function renderInlineMarkdown(t) {
@@ -336,8 +242,6 @@ function startFreshSessionForRootQuestion() {
   pendingFreeTextClarification = false;
   pendingFollowUpHint = "";
   pendingTimesheetRequest = "";
-  pendingImageAttachments = [];
-  renderAttachmentPreview();
   addSystemDivider("Starting a fresh context for this question.");
 }
 
@@ -353,8 +257,6 @@ function startFreshPromptForNextQuestion(text) {
   pendingFreeTextClarification = false;
   pendingFollowUpHint = "";
   pendingTimesheetRequest = "";
-  pendingImageAttachments = [];
-  renderAttachmentPreview();
   addSystemDivider("Starting a fresh context for the next question.");
   addWelcome();
 }
@@ -630,7 +532,7 @@ function getFollowUpHint(text) {
   return "";
 }
 
-function addMessage(text, sender = "bot", opts = [], variant = "", attachments = [], visualAids = []) {
+function addMessage(text, sender = "bot", opts = [], variant = "") {
   const chat = document.getElementById("chat");
   const row = document.createElement("div");
   row.className = `msg-row ${sender === "user" ? "user-row" : "bot-row"}`;
@@ -646,13 +548,6 @@ function addMessage(text, sender = "bot", opts = [], variant = "", attachments =
     if (hint) pendingFollowUpHint = hint;
   }
   wrap.appendChild(div);
-  if (sender === "user") {
-    const renderedAttachments = renderAttachmentThumbnails(attachments);
-    if (renderedAttachments) wrap.insertAdjacentHTML("beforeend", renderedAttachments);
-  } else {
-    const renderedVisualAids = renderVisualAids(visualAids);
-    if (renderedVisualAids) wrap.insertAdjacentHTML("beforeend", renderedVisualAids);
-  }
   row.appendChild(wrap);
   chat.appendChild(row);
   chat.scrollTop = chat.scrollHeight;
@@ -704,7 +599,7 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function addMessageTyped(text, opts = [], visualAids = []) {
+async function addMessageTyped(text, opts = []) {
   const chat = document.getElementById("chat");
   const row = document.createElement("div");
   row.className = "msg-row bot-row";
@@ -731,8 +626,6 @@ async function addMessageTyped(text, opts = [], visualAids = []) {
   const optionCount = addOptionButtons(div, getBotOptions(message, opts));
   const hint = getFollowUpHint(message);
   if (hint) pendingFollowUpHint = hint;
-  const renderedVisualAids = renderVisualAids(visualAids);
-  if (renderedVisualAids) wrap.insertAdjacentHTML("beforeend", renderedVisualAids);
   chat.scrollTop = chat.scrollHeight;
   return optionCount;
 }
@@ -771,8 +664,7 @@ async function send(m = null, d = null) {
   if (isSending) return;
   const input = document.getElementById("input");
   let typed = m || input.value.trim();
-  const attachmentsToSend = m ? [] : pendingImageAttachments.slice();
-  if (!typed && !attachmentsToSend.length) return;
+  if (!typed) return;
   const hadPriorUserMessage = hasPriorUserMessage();
   if (!m && !pendingFreeTextClarification && pendingTimesheetRequest) {
     typed = `${pendingTimesheetRequest}. Additional details: ${typed}`;
@@ -792,18 +684,14 @@ async function send(m = null, d = null) {
   }
   const shouldStartFresh = !m && !pendingFreeTextClarification && !followUpHint && !pendingTimesheetRequest && hadPriorUserMessage && (looksLikeStandaloneQuestion(typed) || newQuestionIntent);
   if (shouldStartFresh) startFreshSessionForRootQuestion();
-  const outboundText = typed || "Please help with the attached screenshot.";
-  const message = pendingFreeTextClarification && !m ? buildClarificationPayload(outboundText) : outboundText;
+  const message = pendingFreeTextClarification && !m ? buildClarificationPayload(typed) : typed;
   pendingFreeTextClarification = false;
   disableRows();
   clearResolutionPrompt();
-  addMessage(d || typed.replace(/^.*Additional details:\s*/, "") || typed || "Attached screenshot", "user", [], "", attachmentsToSend);
+  addMessage(d || typed.replace(/^.*Additional details:\s*/, "") || typed, "user");
   input.value = "";
-  pendingImageAttachments = [];
-  renderAttachmentPreview();
   isSending = true;
   document.getElementById("sendBtn").disabled = true;
-  document.getElementById("attachBtn").disabled = true;
   input.disabled = true;
   showTyping();
 
@@ -811,7 +699,7 @@ async function send(m = null, d = null) {
     const r = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-session-id": sessionId },
-      body: JSON.stringify({ message, contextHint: followUpHint, conversationHistory, attachments: attachmentsToSend }),
+      body: JSON.stringify({ message, contextHint: followUpHint, conversationHistory }),
     });
     pendingFollowUpHint = "";
     const data = await readJsonResponse(r);
@@ -821,11 +709,11 @@ async function send(m = null, d = null) {
       if (data.status === "needs_clarification") pendingTimesheetRequest = message;
       else pendingTimesheetRequest = "";
       if (data.status === "completed") addTimesheetSuccess(data);
-      else addMessage(data.reply || data.error || "I could not run that timesheet request.", "bot", [], "", [], data.images || []);
+      else addMessage(data.reply || data.error || "I could not run that timesheet request.", "bot", []);
       return;
     }
     pendingTimesheetRequest = "";
-    const optionCount = await addMessageTyped(data.reply || "No response received.", data.options || [], data.images || []);
+    const optionCount = await addMessageTyped(data.reply || "No response received.", data.options || []);
     maybeAddResolutionPrompt(data, optionCount);
   } catch (e) {
     removeTyping();
@@ -833,7 +721,6 @@ async function send(m = null, d = null) {
   } finally {
     isSending = false;
     document.getElementById("sendBtn").disabled = false;
-    document.getElementById("attachBtn").disabled = false;
     input.disabled = false;
     input.focus();
   }
@@ -848,8 +735,6 @@ function resetChat() {
   pendingFreeTextClarification = false;
   pendingFollowUpHint = "";
   pendingTimesheetRequest = "";
-  pendingImageAttachments = [];
-  renderAttachmentPreview();
   sessionId = crypto.randomUUID();
   conversationHistory = [];
   localStorage.setItem("brsSupportSessionId", sessionId);
