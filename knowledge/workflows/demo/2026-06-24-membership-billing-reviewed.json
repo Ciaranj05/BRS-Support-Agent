@@ -3,8 +3,8 @@
   "sourceType": "brs-system-workflow",
   "entries": [
     {
-      "id": "brs-demo-workflow:membership-billing-create-bills-reviewed",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:observed-workflow-create-membership-bills:cba2872626c2",
+      "sourceType": "workflow",
       "title": "Observed workflow: create membership bills",
       "area": "Memberships > Billing/Payments",
       "workflow": "Create membership bills",
@@ -49,27 +49,90 @@
         }
       ],
       "controls": [
-        { "label": "VIEW PAYMENTS", "type": "link" },
-        { "label": "CREATE BILLS", "type": "button" },
-        { "label": "Billing Reference", "type": "input" },
-        { "label": "Due Date", "type": "date input" },
-        { "label": "SET BILL FILTERS", "type": "button" },
-        { "label": "Bill Cycles/Periods", "type": "modal tab" },
-        { "label": "Who To Bill", "type": "modal tab" },
-        { "label": "All Cycles", "type": "radio option" },
-        { "label": "Selected Cycles", "type": "radio option" },
-        { "label": "No Cycles/Periods", "type": "radio option" },
-        { "label": "ADD ITEM", "type": "button" },
-        { "label": "Payment Schemes", "type": "section" },
-        { "label": "PREVIEW", "type": "button" },
-        { "label": "View All Bills", "type": "filter/action" },
-        { "label": "Download CSV Bills", "type": "export action" },
-        { "label": "Download Bill PDF", "type": "document action" },
-        { "label": "Download Bill Batch PDF", "type": "document action" },
-        { "label": "Resend Bill", "type": "bill action" },
-        { "label": "Edit Bill", "type": "bill action" },
-        { "label": "Cancel Bill", "type": "bill action" },
-        { "label": "Make One-off Payment", "type": "bill action" }
+        {
+          "label": "VIEW PAYMENTS",
+          "type": "link"
+        },
+        {
+          "label": "CREATE BILLS",
+          "type": "button"
+        },
+        {
+          "label": "Billing Reference",
+          "type": "input"
+        },
+        {
+          "label": "Due Date",
+          "type": "date input"
+        },
+        {
+          "label": "SET BILL FILTERS",
+          "type": "button"
+        },
+        {
+          "label": "Bill Cycles/Periods",
+          "type": "modal tab"
+        },
+        {
+          "label": "Who To Bill",
+          "type": "modal tab"
+        },
+        {
+          "label": "All Cycles",
+          "type": "radio option"
+        },
+        {
+          "label": "Selected Cycles",
+          "type": "radio option"
+        },
+        {
+          "label": "No Cycles/Periods",
+          "type": "radio option"
+        },
+        {
+          "label": "ADD ITEM",
+          "type": "button"
+        },
+        {
+          "label": "Payment Schemes",
+          "type": "section"
+        },
+        {
+          "label": "PREVIEW",
+          "type": "button"
+        },
+        {
+          "label": "View All Bills",
+          "type": "filter/action"
+        },
+        {
+          "label": "Download CSV Bills",
+          "type": "export action"
+        },
+        {
+          "label": "Download Bill PDF",
+          "type": "document action"
+        },
+        {
+          "label": "Download Bill Batch PDF",
+          "type": "document action"
+        },
+        {
+          "label": "Resend Bill",
+          "type": "bill action"
+        },
+        {
+          "label": "Edit Bill",
+          "type": "bill action"
+        },
+        {
+          "label": "Cancel Bill",
+          "type": "bill action"
+        },
+        {
+          "label": "Make One-off Payment",
+          "type": "bill action"
+        }
       ],
       "tableHeaders": [
         "Bill Name",
@@ -146,10 +209,18 @@
         "reviewed",
         "memberships",
         "billing",
-        "create-bills"
+        "create-bills",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
       ],
       "sourceId": "membership-billing-create-bills-reviewed",
-      "learnedAt": "2026-06-24T00:00:00.000Z"
+      "learnedAt": "[redacted-phone]T00:00:00.000Z",
+      "sourceUrl": null,
+      "clubScope": "template"
     }
   ]
 }

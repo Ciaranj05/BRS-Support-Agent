@@ -4,174 +4,354 @@
   "sourceAccountRole": "staffreadonly",
   "entries": [
     {
-      "id": "brs-system:readonly-access-profile",
-      "sourceType": "brs-system",
+      "id": "system:staff-read-only-access-profile:825f1057c06c",
+      "sourceType": "system",
       "clubScope": "template",
-      "title": "Staff Read Only access profile",
+      "title": "Staff [redacted-name] access profile",
       "area": "User access",
       "navigationPath": "Login > Dashboard",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/dashboard/",
-      "purpose": "A Staff Read Only account can sign into the BRS admin area and view operational pages without being able to access many configuration pages.",
-      "content": "Staff Read Only users can view dashboard, timesheet, search, reports, users summary, contacts, facilities, messages, and tools index pages. Configuration pages such as system configuration details, green fee setup, competition setup, timesheet message setup, and text messaging can return a privilege warning. This access level is suitable for gathering template knowledge from visible product structure while reducing the chance of changing club setup.",
+      "sourceUrl": null,
+      "purpose": "A Staff [redacted-name] account can sign into the BRS admin area and view operational pages without being able to access many configuration pages.",
+      "content": "Staff [redacted-name] users can view dashboard, timesheet, search, reports, users summary, contacts, facilities, messages, and tools index pages. Configuration pages such as system configuration details, green fee setup, competition setup, timesheet message setup, and text messaging can return a privilege warning. This access level is suitable for gathering template knowledge from visible product structure while reducing the chance of changing club setup.",
       "fields": [],
       "actions": [],
       "helpText": [],
-      "relatedAreas": ["Dashboard", "Timesheet", "Tools", "Reports", "Users"],
+      "relatedAreas": [
+        "Dashboard",
+        "Timesheet",
+        "Tools",
+        "Reports",
+        "Users"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["access", "staff-read-only", "permissions"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "access",
+        "staff-read-only",
+        "permissions",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:global-admin-navigation",
-      "sourceType": "brs-system",
+      "id": "system:global-admin-navigation:3830678f28ee",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Global admin navigation",
       "area": "Navigation",
       "navigationPath": "Admin shell",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/dashboard/",
+      "sourceUrl": null,
       "purpose": "The main BRS admin shell exposes consistent navigation between operational areas.",
       "content": "Primary navigation observed across authenticated pages includes Dashboard, Timesheet, Messages, Golf Plus, Facilities, Contacts, Memberships, Users, Reports, Search, Tools, and Need Help. These links are the main orientation points for staff users moving between tee sheet operations, communication, facilities, contact records, user management, reporting, setup, and support content.",
       "fields": [],
       "actions": [
-        { "label": "Dashboard" },
-        { "label": "Timesheet" },
-        { "label": "Messages" },
-        { "label": "Facilities" },
-        { "label": "Contacts" },
-        { "label": "Memberships" },
-        { "label": "Users" },
-        { "label": "Reports" },
-        { "label": "Search" },
-        { "label": "Tools" },
-        { "label": "Need Help" }
+        {
+          "label": "Dashboard"
+        },
+        {
+          "label": "Timesheet"
+        },
+        {
+          "label": "Messages"
+        },
+        {
+          "label": "Facilities"
+        },
+        {
+          "label": "Contacts"
+        },
+        {
+          "label": "Memberships"
+        },
+        {
+          "label": "Users"
+        },
+        {
+          "label": "Reports"
+        },
+        {
+          "label": "Search"
+        },
+        {
+          "label": "Tools"
+        },
+        {
+          "label": "Need Help"
+        }
       ],
       "helpText": [],
-      "relatedAreas": ["Dashboard", "Timesheet", "Reports", "Tools"],
+      "relatedAreas": [
+        "Dashboard",
+        "Timesheet",
+        "Reports",
+        "Tools"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["navigation", "admin-shell"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "navigation",
+        "admin-shell",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:dashboard-overview",
-      "sourceType": "brs-system",
+      "id": "system:dashboard-overview:53ca953f5902",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Dashboard overview",
       "area": "Dashboard",
       "navigationPath": "Dashboard",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/dashboard/",
+      "sourceUrl": null,
       "purpose": "The dashboard gives staff an operational overview and shortcuts into key BRS areas.",
       "content": "The dashboard contains tee sheet utilisation widgets with date-range controls such as today, tomorrow, and custom ranges. It summarizes bookings and golfers and separates member and visitor activity. Dashboard shortcut groups include course status, green fees, messaging, online booking links, competition links, tee time availability, golf event booking, online tee times menu, clubhouse PC login, and product/help links. These figures are club-state data and should not be used as product knowledge, but the widget structure and shortcut purposes are reusable.",
       "fields": [
-        { "label": "Date range controls" },
-        { "label": "Tee sheet utilisation" },
-        { "label": "Bookings online and offline" },
-        { "label": "Golfers split by members and visitors" }
+        {
+          "label": "Date range controls"
+        },
+        {
+          "label": "Tee sheet utilisation"
+        },
+        {
+          "label": "Bookings online and offline"
+        },
+        {
+          "label": "Golfers split by members and visitors"
+        }
       ],
       "actions": [
-        { "label": "Open Email Messages" },
-        { "label": "Open Text Messages" },
-        { "label": "Open Timesheet Messages" },
-        { "label": "Open Member Booking" },
-        { "label": "Open Visitor Booking" },
-        { "label": "Open Tee Time Availability" }
+        {
+          "label": "Open Email Messages"
+        },
+        {
+          "label": "Open Text Messages"
+        },
+        {
+          "label": "Open Timesheet Messages"
+        },
+        {
+          "label": "Open Member Booking"
+        },
+        {
+          "label": "Open Visitor Booking"
+        },
+        {
+          "label": "Open Tee Time Availability"
+        }
       ],
       "helpText": [],
-      "relatedAreas": ["Timesheet", "Messaging", "Visitor Booking", "Member Booking", "Competitions"],
+      "relatedAreas": [
+        "Timesheet",
+        "Messaging",
+        "Visitor Booking",
+        "Member Booking",
+        "Competitions"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["dashboard", "utilisation", "shortcuts"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "dashboard",
+        "utilisation",
+        "shortcuts",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:timesheet-day-view",
-      "sourceType": "brs-system",
+      "id": "system:timesheet-day-view:f6e73bda6ed5",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Timesheet day view",
       "area": "Timesheet",
       "navigationPath": "Timesheet > Day",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/day.php",
+      "sourceUrl": null,
       "purpose": "The timesheet day view is the main operational page for viewing and working with tee times.",
       "content": "The day timesheet has date navigation and alternate views including Timesheet, Summary, 4 Week, Month, and Year. The sheet displays tee-time rows with columns for holes, reservation name, reservation type, players, buggy, and information. Booking option controls allow staff to filter or prepare booking data by tee time, holes, reservation name, reservation type, players, buggies, repeat weeks, and green fee fields. The day view can include sunrise, sunset, and other timing markers and provides a print daily booking sheet link. Observed row contents, names, prices, and booking counts are club state and should not be ingested literally.",
       "fields": [
-        { "label": "Date" },
-        { "label": "Tee Time" },
-        { "label": "Holes" },
-        { "label": "Reservation Name" },
-        { "label": "Reservation Type" },
-        { "label": "Player 1" },
-        { "label": "Player 2" },
-        { "label": "Player 3" },
-        { "label": "Player 4" },
-        { "label": "Buggies" },
-        { "label": "Book number of weeks" },
-        { "label": "Green fee fields" }
+        {
+          "label": "Date"
+        },
+        {
+          "label": "Tee Time"
+        },
+        {
+          "label": "Holes"
+        },
+        {
+          "label": "Reservation Name"
+        },
+        {
+          "label": "Reservation Type"
+        },
+        {
+          "label": "Player 1"
+        },
+        {
+          "label": "Player 2"
+        },
+        {
+          "label": "Player 3"
+        },
+        {
+          "label": "Player 4"
+        },
+        {
+          "label": "Buggies"
+        },
+        {
+          "label": "Book number of weeks"
+        },
+        {
+          "label": "Green fee fields"
+        }
       ],
       "actions": [
-        { "label": "Switch to Summary view" },
-        { "label": "Switch to 4 Week view" },
-        { "label": "Switch to Month view" },
-        { "label": "Switch to Year view" },
-        { "label": "Print daily booking sheet" }
+        {
+          "label": "Switch to Summary view"
+        },
+        {
+          "label": "Switch to 4 Week view"
+        },
+        {
+          "label": "Switch to Month view"
+        },
+        {
+          "label": "Switch to Year view"
+        },
+        {
+          "label": "Print daily booking sheet"
+        }
       ],
       "helpText": [],
-      "relatedAreas": ["Booking Details", "Reports", "Visitor Booking", "Member Booking", "Green Fees"],
+      "relatedAreas": [
+        "Booking Details",
+        "Reports",
+        "Visitor Booking",
+        "Member Booking",
+        "Green Fees"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["timesheet", "tee-sheet", "day-view", "bookings"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "timesheet",
+        "tee-sheet",
+        "day-view",
+        "bookings",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:reservation-types-and-statuses",
-      "sourceType": "brs-system",
+      "id": "system:reservation-types-and-booking-statuses:e3edcb5a0f11",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Reservation types and booking statuses",
       "area": "Timesheet",
       "navigationPath": "Timesheet > Booking options / Booking details",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/day.php",
+      "sourceUrl": null,
       "purpose": "Reservation types and booking statuses classify tee-time rows and bookings throughout the system.",
       "content": "Reservation type options can include Member, Visitor, Guest/Member, Competition, Open Competition, Society, Corporate, Team, Reserved, Reserved For Members, Reserved For Visitors, Closed, and club-defined custom types. Booking status options can include Booking Taken, Closed, Confirmed, Deposit Cleared, Deposit Paid Bank, Deposit Received, Deposit Requested, Full Payment Received, Letter Sent, Outstanding Balance, Part Payment, Provisional, and Visitor Request. These labels drive filtering, reporting, row display, and booking workflows. Custom reservation types should be treated as club-specific unless approved separately.",
       "fields": [
-        { "label": "Reservation Type" },
-        { "label": "Booking Status" }
+        {
+          "label": "Reservation Type"
+        },
+        {
+          "label": "Booking Status"
+        }
       ],
       "actions": [],
       "helpText": [],
-      "relatedAreas": ["Timesheet", "Booking Details", "Reports", "Tools"],
+      "relatedAreas": [
+        "Timesheet",
+        "Booking Details",
+        "Reports",
+        "Tools"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["reservation-types", "booking-status", "classification"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "reservation-types",
+        "booking-status",
+        "classification",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:tools-index",
-      "sourceType": "brs-system",
+      "id": "system:tools-index:38199ff85645",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Tools index",
       "area": "Tools",
       "navigationPath": "Tools",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/tools/",
+      "sourceUrl": null,
       "purpose": "The Tools page is a setup and administration index that explains what each configuration area is for.",
       "content": "The Tools index groups setup functions into basic and additional requirements. It lists System Configuration for club parameters and feature switches, Configure Timesheet for tee times and intervals, Green Fee Rates for visitor/society/member guest categories and rates, Reservation Types for types and colours, Booking Statuses for supported statuses, Payment Methods, Contact Categories, Catering and Refreshments, No Show Reasons, Services such as buggies/caddies/club hire/room hire/trolleys/course setup, copying services/catering/green fees between years, daily timesheet titles, timesheet messages, email and letter templates, uploads for timesheets and members/contacts, membership types, legal messages, course restrictions, messaging, member casual booking rules, competitions, clubhouse PC setup, visitor/agent/tour-operator rates, day ticket rates, golf events, and competition charges.",
       "fields": [],
       "actions": [
-        { "label": "System Configuration" },
-        { "label": "Configure Timesheet" },
-        { "label": "Green Fee Rates" },
-        { "label": "Reservation Types" },
-        { "label": "Booking Statuses" },
-        { "label": "Payment Methods" },
-        { "label": "Contact Categories" },
-        { "label": "Catering / Refreshments" },
-        { "label": "No Show Reasons" },
-        { "label": "Services" },
-        { "label": "Email and Letter Templates" },
-        { "label": "Member Casual Booking Rules" },
-        { "label": "Member Competitions" },
-        { "label": "Open Competitions" },
-        { "label": "Golf Events" },
-        { "label": "Process Competition Charges" }
+        {
+          "label": "System Configuration"
+        },
+        {
+          "label": "Configure Timesheet"
+        },
+        {
+          "label": "Green Fee Rates"
+        },
+        {
+          "label": "Reservation Types"
+        },
+        {
+          "label": "Booking Statuses"
+        },
+        {
+          "label": "Payment Methods"
+        },
+        {
+          "label": "Contact Categories"
+        },
+        {
+          "label": "Catering / Refreshments"
+        },
+        {
+          "label": "No Show Reasons"
+        },
+        {
+          "label": "Services"
+        },
+        {
+          "label": "Email and Letter Templates"
+        },
+        {
+          "label": "Member Casual Booking Rules"
+        },
+        {
+          "label": "Member Competitions"
+        },
+        {
+          "label": "Open Competitions"
+        },
+        {
+          "label": "Golf Events"
+        },
+        {
+          "label": "Process Competition Charges"
+        }
       ],
       "helpText": [
         "System Configuration sets system parameters such as club address and email and can enable or disable features.",
@@ -179,243 +359,496 @@
         "Green Fee Rates sets categories and rates for visitors, societies, member guests, and similar groups.",
         "Member Casual Booking Rules control when members can view the timesheet and book casual golf online."
       ],
-      "relatedAreas": ["System Configuration", "Timesheet", "Green Fees", "Messaging", "Competitions", "Users"],
+      "relatedAreas": [
+        "System Configuration",
+        "Timesheet",
+        "Green Fees",
+        "Messaging",
+        "Competitions",
+        "Users"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["tools", "configuration", "setup", "admin"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "tools",
+        "configuration",
+        "setup",
+        "admin",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:reports-index",
-      "sourceType": "brs-system",
+      "id": "system:reports-index:adf32d447688",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Reports index",
       "area": "Reports",
       "navigationPath": "Reports",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/reports.php",
+      "sourceUrl": null,
       "purpose": "Reports provide date-filtered operational, revenue, transaction, booking, user, contact, and playing-statistic outputs.",
       "content": "The Reports page has Start Date and End Date filters and a report type selector. Report categories include tee time usage, utilisation, arrivals, booking details, revenue summaries and detail, outstanding balance, revenue/rounds by green fee category, revenue by service, catering revenue, revenue by tour operator or hotel, revenue by customer contact, visitor online booking revenue, payments by payment date, payments by transaction date/time and user, booking transactions by date booked or date playing, booking counts by user or date, cancelled bookings, playing schedule/fixtures/events, caddy master report, contact details, users/members details, member playing statistics, non-member playing statistics, and contact email address reports.",
       "fields": [
-        { "label": "Start Date" },
-        { "label": "End Date" },
-        { "label": "Type of Report" }
+        {
+          "label": "Start Date"
+        },
+        {
+          "label": "End Date"
+        },
+        {
+          "label": "Type of Report"
+        }
       ],
       "actions": [],
       "helpText": [],
-      "relatedAreas": ["Timesheet", "Payments", "Green Fees", "Contacts", "Users", "Members"],
+      "relatedAreas": [
+        "Timesheet",
+        "Payments",
+        "Green Fees",
+        "Contacts",
+        "Users",
+        "Members"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["reports", "revenue", "payments", "bookings", "statistics"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "reports",
+        "revenue",
+        "payments",
+        "bookings",
+        "statistics",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:user-management-summary",
-      "sourceType": "brs-system",
+      "id": "system:user-management-summary:251ff0dd3be2",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "User management summary",
       "area": "Users",
       "navigationPath": "Users > Retrieve Users",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/user_admin.php?stage=Retrieve",
+      "sourceUrl": null,
       "purpose": "The Users area lets staff retrieve and inspect system users and user groups according to their permissions.",
       "content": "The Manage Users page exposes actions such as Add New, Your Details, User Privileges, Purse Top Up, and Retrieve Users. Search/filter controls include user group, member type, search text, registered users only, disabled users only, and include deleted users. User group concepts include Admin, Staff, StaffReadOnly, Member Registered, Member Unregistered, and Event. Counts and individual users are club data and should not be used as product knowledge.",
       "fields": [
-        { "label": "User Group" },
-        { "label": "Member Type" },
-        { "label": "Search Text" },
-        { "label": "Registered Users Only" },
-        { "label": "Disabled Users Only" },
-        { "label": "Include Deleted Users" }
+        {
+          "label": "User Group"
+        },
+        {
+          "label": "Member Type"
+        },
+        {
+          "label": "Search Text"
+        },
+        {
+          "label": "Registered Users Only"
+        },
+        {
+          "label": "Disabled Users Only"
+        },
+        {
+          "label": "Include Deleted Users"
+        }
       ],
       "actions": [
-        { "label": "Add New" },
-        { "label": "Your Details" },
-        { "label": "User Privileges" },
-        { "label": "Purse Top Up" },
-        { "label": "Retrieve Users" }
+        {
+          "label": "Add New"
+        },
+        {
+          "label": "Your Details"
+        },
+        {
+          "label": "User Privileges"
+        },
+        {
+          "label": "Purse Top Up"
+        },
+        {
+          "label": "Retrieve Users"
+        }
       ],
       "helpText": [],
-      "relatedAreas": ["Permissions", "Members", "Purse", "User access"],
+      "relatedAreas": [
+        "Permissions",
+        "Members",
+        "Purse",
+        "User access"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["users", "permissions", "staff", "members"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "users",
+        "permissions",
+        "staff",
+        "members",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:search-bookings",
-      "sourceType": "brs-system",
+      "id": "system:search-bookings:639ab3585934",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Search bookings",
       "area": "Search",
       "navigationPath": "Search",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/search.php",
+      "sourceUrl": null,
       "purpose": "The Search page locates bookings using multiple booking, contact, and reference fields.",
       "content": "Search Bookings searches reservation name, the four player names, booking contact name, booking reference number, club reference number, email, telephone, mobile, and postcode fields. Search is not case sensitive. Controls include search text, year, and system selection such as tee booking system or related booking system where available.",
       "fields": [
-        { "label": "Search Text" },
-        { "label": "Year" },
-        { "label": "Search System" }
+        {
+          "label": "Search Text"
+        },
+        {
+          "label": "Year"
+        },
+        {
+          "label": "Search System"
+        }
       ],
       "actions": [
-        { "label": "Search" }
+        {
+          "label": "Search"
+        }
       ],
-      "helpText": ["The search is not case sensitive."],
-      "relatedAreas": ["Timesheet", "Booking Details", "Contacts"],
+      "helpText": [
+        "The search is not case sensitive."
+      ],
+      "relatedAreas": [
+        "Timesheet",
+        "Booking Details",
+        "Contacts"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["search", "bookings", "contacts"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "search",
+        "bookings",
+        "contacts",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:facilities-module",
-      "sourceType": "brs-system",
+      "id": "system:facilities-module:99ed2d34aa8d",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Facilities module",
       "area": "Facilities",
       "navigationPath": "Facilities",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/fac_day.php",
+      "sourceUrl": null,
       "purpose": "The Facilities area supports booking non-tee-sheet resources when facility areas are configured.",
       "content": "The Facility Booking module has Booking, Month, and Year views. Facility booking controls include date, reservation name, guest count, room/facility, start and end times, repeat days, and repeat weeks. If no facility areas exist, the page explains that the module has not been set up and support can set up the facilities the club wants to manage. Status concepts include provisional, confirmed, and outstanding. Specific facility names and bookings are club setup/data and should not be ingested literally.",
       "fields": [
-        { "label": "Date" },
-        { "label": "Reservation Name" },
-        { "label": "Guests" },
-        { "label": "Room/Facility" },
-        { "label": "Start" },
-        { "label": "End" },
-        { "label": "Repeat Days" },
-        { "label": "Repeat Weeks" }
+        {
+          "label": "Date"
+        },
+        {
+          "label": "Reservation Name"
+        },
+        {
+          "label": "Guests"
+        },
+        {
+          "label": "Room/Facility"
+        },
+        {
+          "label": "Start"
+        },
+        {
+          "label": "End"
+        },
+        {
+          "label": "Repeat Days"
+        },
+        {
+          "label": "Repeat Weeks"
+        }
       ],
       "actions": [
-        { "label": "Booking view" },
-        { "label": "Month view" },
-        { "label": "Year view" }
+        {
+          "label": "Booking view"
+        },
+        {
+          "label": "Month view"
+        },
+        {
+          "label": "Year view"
+        }
       ],
       "helpText": [],
-      "relatedAreas": ["Golf Plus", "Services", "Reports"],
+      "relatedAreas": [
+        "Golf Plus",
+        "Services",
+        "Reports"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["facilities", "resource-booking"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "facilities",
+        "resource-booking",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:contacts-summary",
-      "sourceType": "brs-system",
+      "id": "system:contacts-summary:8f7b8d2212da",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Contacts summary",
       "area": "Contacts",
       "navigationPath": "Contacts",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/contacts.php",
+      "sourceUrl": null,
       "purpose": "The Contacts area groups non-member contact records for booking, reporting, and messaging workflows.",
       "content": "The Contacts page provides View Contacts, Add New, and View All actions. Contact categories can include Company, Hotel, Other, Society, Tour Operator, Visitor, and not set. A search text field is available. Category counts and individual contact records are club data and should not be ingested literally.",
       "fields": [
-        { "label": "Search text" },
-        { "label": "Contact category" }
+        {
+          "label": "Search text"
+        },
+        {
+          "label": "Contact category"
+        }
       ],
       "actions": [
-        { "label": "View Contacts" },
-        { "label": "Add New" },
-        { "label": "View All" },
-        { "label": "Filter by category" }
+        {
+          "label": "View Contacts"
+        },
+        {
+          "label": "Add New"
+        },
+        {
+          "label": "View All"
+        },
+        {
+          "label": "Filter by category"
+        }
       ],
       "helpText": [],
-      "relatedAreas": ["Visitor Booking", "Reports", "Email Messages", "Search"],
+      "relatedAreas": [
+        "Visitor Booking",
+        "Reports",
+        "Email Messages",
+        "Search"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["contacts", "visitors", "societies", "tour-operators"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "contacts",
+        "visitors",
+        "societies",
+        "tour-operators",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:messages-announcements",
-      "sourceType": "brs-system",
+      "id": "system:brs-announcements-and-system-messages:240ccc497198",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "BRS announcements and system messages",
       "area": "Messages",
       "navigationPath": "Messages",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/admin-messages/",
+      "sourceUrl": null,
       "purpose": "The Messages area displays BRS announcements and operational system messages for the club.",
       "content": "The page explains that it contains information about new features, general news applicable to the club, scheduled system maintenance, downtime, and updates on critical errors. Filters include favourites, announcements, system messages, title search, start date, end date, reset, and pagination. Message contents, dates, and read/favourite state should be treated as operational data unless separately approved.",
       "fields": [
-        { "label": "Favourites" },
-        { "label": "Announcements" },
-        { "label": "System Messages" },
-        { "label": "Title" },
-        { "label": "Start Date" },
-        { "label": "End Date" }
+        {
+          "label": "Favourites"
+        },
+        {
+          "label": "Announcements"
+        },
+        {
+          "label": "System Messages"
+        },
+        {
+          "label": "Title"
+        },
+        {
+          "label": "Start Date"
+        },
+        {
+          "label": "End Date"
+        }
       ],
       "actions": [
-        { "label": "Reset filters" },
-        { "label": "Previous page" },
-        { "label": "Next page" }
+        {
+          "label": "Reset filters"
+        },
+        {
+          "label": "Previous page"
+        },
+        {
+          "label": "Next page"
+        }
       ],
-      "helpText": ["Messages can include new features, general news, scheduled maintenance, downtime, and critical error updates."],
-      "relatedAreas": ["Dashboard", "Need Help"],
+      "helpText": [
+        "Messages can include new features, general news, scheduled maintenance, downtime, and critical error updates."
+      ],
+      "relatedAreas": [
+        "Dashboard",
+        "Need Help"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["messages", "announcements", "maintenance"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "messages",
+        "announcements",
+        "maintenance",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:email-messaging",
-      "sourceType": "brs-system",
+      "id": "system:email-messaging-options:7077306af2be",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Email messaging options",
       "area": "Messaging",
       "navigationPath": "Tools / Dashboard > Email Messages",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/emailmenu.php",
+      "sourceUrl": null,
       "purpose": "Email messaging lets staff send targeted messages to member and contact audiences.",
-      "content": "Email options include Email Membership Types, Email Membership Groups, Email Selected Members, Email the Timesheet, and Email Contacts. Email Membership Types can target members in a membership type and may include male/female options. Email Membership Groups targets members assigned to groups. Email Selected Members lets staff choose from a list. Email the Timesheet targets members or contacts on the timesheet for a date/time. Email Contacts targets visitors, societies, and similar contact database records. Service reminder options include Member App Reminder and BRS Registration Reminder. Recently sent message rows are club activity data and should not be used as template knowledge.",
+      "content": "Email options include Email Membership Types, Email Membership Groups, Email Selected Members, Email the Timesheet, and Email Contacts. Email Membership Types can target members in a membership type and may include male/female options. Email Membership Groups targets members assigned to groups. Email Selected Members lets staff choose from a list. Email the Timesheet targets members or contacts on the timesheet for a date/time. Email Contacts targets visitors, societies, and similar contact database records. Service reminder options include Member [redacted-name] and BRS Registration Reminder. Recently sent message rows are club activity data and should not be used as template knowledge.",
       "fields": [],
       "actions": [
-        { "label": "Email Membership Types" },
-        { "label": "Email Membership Groups" },
-        { "label": "Email Selected Members" },
-        { "label": "Email the Timesheet" },
-        { "label": "Email Contacts" },
-        { "label": "Member App Reminder" },
-        { "label": "BRS Registration Reminder" }
+        {
+          "label": "Email Membership Types"
+        },
+        {
+          "label": "Email Membership Groups"
+        },
+        {
+          "label": "Email Selected Members"
+        },
+        {
+          "label": "Email the Timesheet"
+        },
+        {
+          "label": "Email Contacts"
+        },
+        {
+          "label": "Member [redacted-name]"
+        },
+        {
+          "label": "BRS Registration Reminder"
+        }
       ],
       "helpText": [],
-      "relatedAreas": ["Members", "Contacts", "Timesheet", "Messaging"],
+      "relatedAreas": [
+        "Members",
+        "Contacts",
+        "Timesheet",
+        "Messaging"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["email", "messaging", "members", "contacts"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "email",
+        "messaging",
+        "members",
+        "contacts",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-system:public-online-booking-pages",
-      "sourceType": "brs-system",
+      "id": "system:public-and-member-online-booking-pages:7cb26dae5bfe",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Public and member online booking pages",
       "area": "Online Booking",
       "navigationPath": "Member Booking / Visitor Booking / Tee Time Availability / Open Competitions",
-      "sourceUrl": "https://brsgolf.com/harrysgolfclub/visitor_home.php",
+      "sourceUrl": null,
       "purpose": "BRS exposes separate online booking surfaces for members, visitors, tee time availability, tour operators, and open competitions.",
       "content": "Member Booking is a separate member login surface with username, password, register, forgot username, and forgot password flows. Visitor Booking explains online tee time reservation with instant on-screen and email confirmation and links to book a tee time, cancel an existing booking, and tour operator login. Tee Time Availability month view explains that each cell represents one tee time and provides a legend for free and booked reservation categories. Open Competitions explains online reservation for open competitions and instructs users to select a competition with a Book Now button when competitions exist. Club-specific visitor terms, rates, messages, phone numbers, availability, and competition lists should not be ingested literally.",
       "fields": [
-        { "label": "Member username" },
-        { "label": "Member password" },
-        { "label": "Visitor booking month" },
-        { "label": "Availability legend" }
+        {
+          "label": "Member username"
+        },
+        {
+          "label": "Member password"
+        },
+        {
+          "label": "Visitor booking month"
+        },
+        {
+          "label": "Availability legend"
+        }
       ],
       "actions": [
-        { "label": "Member login" },
-        { "label": "Register" },
-        { "label": "Forgot username" },
-        { "label": "Forgot password" },
-        { "label": "Book visitor tee time" },
-        { "label": "Cancel existing visitor booking" },
-        { "label": "Tour operator login" },
-        { "label": "Book open competition" }
+        {
+          "label": "Member login"
+        },
+        {
+          "label": "Register"
+        },
+        {
+          "label": "Forgot username"
+        },
+        {
+          "label": "Forgot password"
+        },
+        {
+          "label": "Book visitor tee time"
+        },
+        {
+          "label": "Cancel existing visitor booking"
+        },
+        {
+          "label": "Tour operator login"
+        },
+        {
+          "label": "Book open competition"
+        }
       ],
       "helpText": [
         "Visitor online booking can provide instant on-screen and email confirmation.",
         "Tee time availability month view represents each tee time as a cell."
       ],
-      "relatedAreas": ["Member Booking", "Visitor Booking", "Open Competitions", "Tee Time Availability"],
+      "relatedAreas": [
+        "Member Booking",
+        "Visitor Booking",
+        "Open Competitions",
+        "Tee Time Availability"
+      ],
       "containsClubSpecificData": false,
       "confidence": "approved",
-      "lastObservedAt": "2026-06-02T12:20:00.000Z",
-      "tags": ["online-booking", "visitor-booking", "member-booking", "open-competitions"]
+      "lastObservedAt": "[redacted-phone]T12:20:00.000Z",
+      "tags": [
+        "online-booking",
+        "visitor-booking",
+        "member-booking",
+        "open-competitions",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     }
   ]
 }

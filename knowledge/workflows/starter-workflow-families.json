@@ -3,8 +3,8 @@
   "sourceType": "brs-workflow-family",
   "entries": [
     {
-      "id": "brs-workflow-family:move-tee-sheet-booking",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:workflow-family-move-a-tee-sheet-booking:ea61e13c135a",
+      "sourceType": "workflow",
       "title": "Workflow family: Move a tee sheet booking",
       "area": "Timesheet",
       "workflow": "Move a tee sheet booking",
@@ -65,12 +65,20 @@
         "timesheet",
         "booking",
         "move-booking",
-        "multi-route-ready"
-      ]
+        "multi-route-ready",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-workflow-family:create-tee-sheet-booking",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:workflow-family-create-a-tee-sheet-booking:130ee7b0cdce",
+      "sourceType": "workflow",
       "title": "Workflow family: Create a tee sheet booking",
       "area": "Timesheet",
       "workflow": "Create a tee sheet booking",
@@ -132,12 +140,20 @@
         "timesheet",
         "booking",
         "create-booking",
-        "write-with-rollback-ready"
-      ]
+        "write-with-rollback-ready",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-workflow-family:configure-timesheet",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:workflow-family-configure-the-timesheet:61301bd47c5a",
+      "sourceType": "workflow",
       "title": "Workflow family: Configure the timesheet",
       "area": "Tools",
       "workflow": "Configure the timesheet",
@@ -199,12 +215,20 @@
         "workflow-family",
         "timesheet",
         "configuration",
-        "settings-auto-restricted"
-      ]
+        "settings-auto-restricted",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-workflow-family:facility-booking",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:workflow-family-facility-or-room-booking:c78da2fe180a",
+      "sourceType": "workflow",
       "title": "Workflow family: Facility or room booking",
       "area": "Facilities",
       "workflow": "Facility or room booking",
@@ -259,12 +283,20 @@
         "workflow-family",
         "facilities",
         "resource-booking",
-        "room-booking"
-      ]
+        "room-booking",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-workflow-family:membership-billing-balances",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:workflow-family-find-membership-billing-balances:60ba98a48a1c",
+      "sourceType": "workflow",
       "title": "Workflow family: Find membership billing balances",
       "area": "Memberships",
       "workflow": "Find membership billing balances",
@@ -307,8 +339,16 @@
         "memberships",
         "billing",
         "reports",
-        "read-only"
-      ]
+        "read-only",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     }
   ]
 }

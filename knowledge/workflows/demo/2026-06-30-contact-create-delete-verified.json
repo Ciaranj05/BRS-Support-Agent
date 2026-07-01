@@ -3,8 +3,8 @@
   "sourceType": "brs-system-workflow",
   "entries": [
     {
-      "id": "brs-demo-workflow:contact-create-delete-verified-2026-06-30",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:create-and-delete-a-temporary-contact:c8326c9216b5",
+      "sourceType": "workflow",
       "title": "Create and delete a temporary contact",
       "area": "Contacts",
       "workflow": "Create, verify, and delete a contact",
@@ -35,13 +35,13 @@
             "Temporary test contact appeared in Contacts search after creation.",
             "Temporary test contact was deleted and no longer appeared in Contacts search.",
             "Cleanup verification was completed in a follow-up cleanup run for marker \"[temporary test contact]\".",
-            "Post-submit message observed: General Information Company / Group Name: Contact Category: Company Hotel Other Society Tour Operator Visitor Disable Contact Title: Mr Mrs Miss Ms Dr Prof Sir Lady Lord Dame Col Capt Rev Fr Major Master First Name: Initials: Last Name: Position: Email: Telephone (Home): Telephone (Work): Mobile: Fax: Address Information: Address (line 1): Address (line 2): Town / City: County / State: Country: Argentina Austria Australia Bahrain Barbados Belgium Bermuda Canada China Denmark England Finland France Germany Iceland India Ireland Isle of Man Israel Italy Japan Kuwait Lebanon Malaysia Malta Mexico Netherlands New Zealand Norway Northern Ireland Oman Papua New Guinea Poland Portugal Qatar Saudi Arabia Scotland Singapore South Africa South Korea Spain Sweden Switzerland Thailand United Arab Emirates United Kingdom United States Wales Other Postcode / Zip: Club Details: Club Name: Handicap: CDH: Marketing Preferences: Email Text Message Post Phone I have made the contact aware of the Marketing Consent message Privacy Policy and Visitor Terms and Conditions: The contact has read and accepted the Privacy Policy and Visitor Terms and Conditions."
+            "Post-submit message observed: General Information Company / Group Name: Contact Category: Company Hotel Other Society Tour Operator Visitor [redacted-name]: Mr Mrs Miss Ms Dr Prof Sir Lady Lord Dame Col Capt Rev Fr Major Master First Name: Initials: Last Name: Position: Email: Telephone (Home): Telephone (Work): Mobile: Fax: Address Information: Address (line 1): Address (line 2): Town / City: County / State: Country: Argentina Austria Australia Bahrain Barbados Belgium Bermuda Canada China Denmark England Finland France Germany Iceland India Ireland Isle of Man Israel Italy Japan Kuwait Lebanon Malaysia Malta Mexico Netherlands New Zealand Norway Northern Ireland Oman Papua New Guinea Poland Portugal Qatar Saudi Arabia Scotland Singapore South Africa South Korea Spain Sweden Switzerland Thailand United Arab Emirates United Kingdom United States Wales Other Postcode / Zip: Club Details: Club Name: Handicap: CDH: Marketing Preferences: Email Text Message Post Phone I have made the contact aware of the Marketing Consent message Privacy Policy and Visitor Terms and Conditions: The contact has read and accepted the Privacy Policy and Visitor Terms and Conditions."
           ]
         }
       ],
       "controls": [
         {
-          "label": "/amysgolfclub/index.php",
+          "label": "/[redacted-club-id]/index.php",
           "name": "",
           "type": "A",
           "tagName": "A",
@@ -484,7 +484,7 @@
           "options": []
         },
         {
-          "label": "/amysgolfclub/index.php",
+          "label": "/[redacted-club-id]/index.php",
           "name": "",
           "type": "A",
           "tagName": "A",
@@ -927,7 +927,7 @@
           "options": []
         },
         {
-          "label": "/amysgolfclub/index.php",
+          "label": "/[redacted-club-id]/index.php",
           "name": "",
           "type": "A",
           "tagName": "A",
@@ -1335,17 +1335,17 @@
           {
             "label": "Add Contact form",
             "title": "Tee Booking System",
-            "url": "https://www.brsgolf.com/amysgolfclub/contacts.php"
+            "url": "[redacted-club-url]"
           },
           {
             "label": "Created Contact view",
             "title": "Tee Booking System",
-            "url": "https://www.brsgolf.com/amysgolfclub/contacts.php"
+            "url": "[redacted-club-url]"
           },
           {
             "label": "Delete confirmation/result",
             "title": "Tee Booking System",
-            "url": "https://www.brsgolf.com/amysgolfclub/contacts.php"
+            "url": "[redacted-club-url]"
           }
         ]
       },
@@ -1368,10 +1368,17 @@
         "controlled-write-tested",
         "rollback-verified",
         "contacts",
-        "workflow-knowledge"
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
       ],
-      "sourceId": "contact-create-delete-verified-2026-06-30",
-      "learnedAt": "2026-06-30T10:53:03.492Z"
+      "sourceId": "contact-create-delete-verified-[redacted-phone]",
+      "learnedAt": "[redacted-phone]T10:53:03.492Z",
+      "sourceUrl": null,
+      "clubScope": "template"
     }
   ]
 }

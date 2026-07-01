@@ -3,8 +3,8 @@
   "sourceType": "brs-system-workflow",
   "entries": [
     {
-      "id": "brs-demo-workflow:membership-types-flex-reviewed",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:observed-workflow-create-or-edit-a-flexible-membership-type:a5eea8facc35",
+      "sourceType": "workflow",
       "title": "Observed workflow: create or edit a flexible membership type",
       "area": "Memberships > Membership Types",
       "workflow": "Create or edit a flexible membership type",
@@ -89,21 +89,70 @@
         }
       ],
       "controls": [
-        { "label": "MEMBERSHIP TYPE CHANGES", "type": "button" },
-        { "label": "CREATE MEMBERSHIP TYPE", "type": "button" },
-        { "label": "Name*", "type": "textbox" },
-        { "label": "Select Membership Type Status*", "type": "select", "options": ["Active", "Inactive"] },
-        { "label": "Flex", "type": "checkbox" },
-        { "label": "Minimum Age", "type": "spinbutton" },
-        { "label": "Maximum Age", "type": "spinbutton" },
-        { "label": "Qualifying Length of Service", "type": "spinbutton" },
-        { "label": "Next Chained Membership Type", "type": "select" },
-        { "label": "Start typing to filter available subscriptions", "type": "search textbox" },
-        { "label": "Select", "type": "subscription item button" },
-        { "label": "CANCEL", "type": "link" },
-        { "label": "CREATE", "type": "button" },
-        { "label": "EDIT", "type": "link" },
-        { "label": "DELETE", "type": "button" }
+        {
+          "label": "MEMBERSHIP TYPE CHANGES",
+          "type": "button"
+        },
+        {
+          "label": "CREATE MEMBERSHIP TYPE",
+          "type": "button"
+        },
+        {
+          "label": "Name*",
+          "type": "textbox"
+        },
+        {
+          "label": "Select Membership Type Status*",
+          "type": "select",
+          "options": [
+            "Active",
+            "Inactive"
+          ]
+        },
+        {
+          "label": "Flex",
+          "type": "checkbox"
+        },
+        {
+          "label": "Minimum Age",
+          "type": "spinbutton"
+        },
+        {
+          "label": "Maximum Age",
+          "type": "spinbutton"
+        },
+        {
+          "label": "Qualifying Length of Service",
+          "type": "spinbutton"
+        },
+        {
+          "label": "Next Chained Membership Type",
+          "type": "select"
+        },
+        {
+          "label": "Start typing to filter available subscriptions",
+          "type": "search textbox"
+        },
+        {
+          "label": "Select",
+          "type": "subscription item button"
+        },
+        {
+          "label": "CANCEL",
+          "type": "link"
+        },
+        {
+          "label": "CREATE",
+          "type": "button"
+        },
+        {
+          "label": "EDIT",
+          "type": "link"
+        },
+        {
+          "label": "DELETE",
+          "type": "button"
+        }
       ],
       "tableHeaders": [
         "Name",
@@ -148,10 +197,18 @@
         "memberships",
         "membership-types",
         "flexible-membership",
-        "flexi-membership"
+        "flexi-membership",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
       ],
       "sourceId": "membership-types-flex-reviewed",
-      "learnedAt": "2026-06-25T00:00:00.000Z"
+      "learnedAt": "[redacted-phone]T00:00:00.000Z",
+      "sourceUrl": null,
+      "clubScope": "template"
     }
   ]
 }

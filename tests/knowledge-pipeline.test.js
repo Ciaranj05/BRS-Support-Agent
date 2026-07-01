@@ -358,6 +358,40 @@ test("broad crawl confirmed page evidence stays in review until converted into a
   assert.equal(reviewQueue.length, 1);
 });
 
+test("unsafe review entries with live record data are withheld from generated knowledge files", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "system", "contact-list.json"), JSON.stringify({
+    entries: [{
+      sourceType: "brs-system",
+      title: "View Contacts",
+      area: "Contacts",
+      navigationPath: "Contacts > View Contacts",
+      sourceUrl: "https://www.brsgolf.com/amysgolfclub/contacts.php?operation=view_contacts",
+      content: "View Contacts 111 records found John Smith https://www.brsgolf.com/amysgolfclub/contacts.php?operation=edit_contact&customer_id=78",
+      steps: [
+        "Open https://www.brsgolf.com/amysgolfclub/contacts.php?operation=edit_contact&customer_id=78",
+        "Use row 78 for John Smith.",
+      ],
+      tableHeaders: ["Customer ID", "John Smith"],
+      actions: [{ label: "https://www.brsgolf.com/amysgolfclub/contacts.php?operation=edit_contact&customer_id=78" }],
+      confidence: "needs-review",
+      containsClubSpecificData: false,
+    }],
+  }));
+
+  const { entries, reviewQueue } = await buildKnowledgeBase({
+    knowledgeDir,
+    outputPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+
+  assert.equal(entries[0].confidence, "needs-review");
+  assert.equal(entries[0].reviewPayloadWithheld, true);
+  assert.equal(entries[0].reviewReason, "sensitive-or-live-crawl-data");
+  assert.deepEqual(entries[0].tableHeaders, []);
+  assert.doesNotMatch(JSON.stringify(entries[0]), /customer_id=78|John Smith|Customer ID|amysgolfclub/);
+  assert.doesNotMatch(JSON.stringify(reviewQueue[0]), /customer_id=78|John Smith|Customer ID|amysgolfclub/);
+});
+
 test("workflow relationship maps expand relevant neighbouring workflows and avoid confusable user accounts", async () => {
   const knowledgeDir = await makeKnowledgeDir();
   await fs.writeFile(path.join(knowledgeDir, "workflows", "relationships.json"), JSON.stringify({

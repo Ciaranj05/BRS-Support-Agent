@@ -3,2564 +3,434 @@
   "sourceType": "brs-system-workflow",
   "entries": [
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:club-systems-membership-data-preview-workflow:13e571b3e368",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Club Systems Membership Data Preview workflow",
       "area": "Club Systems Membership Data Preview",
-      "workflow": "Club Systems Membership Data Preview",
+      "workflow": null,
       "navigationPath": "Club Systems Membership Data Preview",
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/membershipdatamerge/view/",
-      "purpose": "Club Systems Membership Data Preview",
-      "steps": [
-        "Open \"Club Systems Membership Data Preview\".",
-        "Use the visible field, filter, and selector labels on this page: \"preview\".",
-        "Use the visible action controls on this page as needed for the task: \"https://www.brsgolf.com/amysgolfclub/index.php\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Reports\", \"Search\", \"Tools\", \"Need Help?\", \"Sign Out\", \"BRS and Club Systems Joint Statement\", \"Preview Club Systems Membership Data\"."
-      ],
-      "controls": [
-        {
-          "label": "preview",
-          "name": "preview",
-          "type": "button",
-          "options": []
-        }
-      ],
-      "actions": [
-        {
-          "label": "https://www.brsgolf.com/amysgolfclub/index.php",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Dashboard",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Timesheet",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Plus NEW!",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Facilities",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contacts",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Memberships",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Users",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reports",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Search",
-          "purpose": "filter/search",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tools",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Need Help?",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Sign Out",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "BRS and Club Systems Joint Statement",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Preview Club Systems Membership Data",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
       "tableHeaders": [],
-      "pageEvidence": {
-        "headings": [
-          "Club Systems Membership Data Preview"
-        ],
-        "captions": [],
-        "helpText": []
-      },
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:09:40.011Z"
+      "lastObservedAt": "[redacted-phone]T11:09:40.011Z",
+      "summary": "Review required before chatbot use. Reason: incomplete-workflow-evidence.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "incomplete-workflow-evidence",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:club-systems-membership-category-mapping-workflow:e82f55a21616",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Club Systems Membership Category Mapping workflow",
       "area": "Club Systems Membership Category Mapping",
-      "workflow": "Club Systems Membership Category Mapping",
+      "workflow": null,
       "navigationPath": "Club Systems Membership Category Mapping",
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/membershiptypemap/list/",
-      "purpose": "Club Systems Membership Category Mapping",
-      "steps": [
-        "Open \"Club Systems Membership Category Mapping\".",
-        "Use the visible field, filter, and selector labels on this page: \"download\".",
-        "Use the visible action controls on this page as needed for the task: \"https://www.brsgolf.com/amysgolfclub/index.php\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Reports\", \"Search\", \"Tools\", \"Need Help?\", \"Sign Out\", \"Import Club Systems Membership Categories\"."
-      ],
-      "controls": [
-        {
-          "label": "download",
-          "name": "download",
-          "type": "button",
-          "options": []
-        }
-      ],
-      "actions": [
-        {
-          "label": "https://www.brsgolf.com/amysgolfclub/index.php",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Dashboard",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Timesheet",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Plus NEW!",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Facilities",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contacts",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Memberships",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Users",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reports",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Search",
-          "purpose": "filter/search",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tools",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Need Help?",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Sign Out",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Import Club Systems Membership Categories",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
       "tableHeaders": [],
-      "pageEvidence": {
-        "headings": [
-          "Club Systems Membership Category Mapping"
-        ],
-        "captions": [],
-        "helpText": [
-          "Help Button Launcher......"
-        ]
-      },
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:09:45.246Z"
+      "lastObservedAt": "[redacted-phone]T11:09:45.246Z",
+      "summary": "Review required before chatbot use. Reason: incomplete-workflow-evidence.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "incomplete-workflow-evidence",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:legal-messages-workflow:0d286efe78f9",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Legal Messages workflow",
       "area": "Legal Messages",
-      "workflow": "Legal Messages",
+      "workflow": null,
       "navigationPath": "Legal Messages",
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/term/list",
-      "purpose": "Legal Messages",
-      "steps": [
-        "Open \"Legal Messages\".",
-        "Use the visible action controls on this page as needed for the task: \"https://www.brsgolf.com/amysgolfclub/\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Reports\", \"Search\", \"Tools\", \"Need Help?\", \"Sign Out\", \"Click to View this record\", \"Click to Edit this record\", \"Click to Add this record\".",
-        "Check the visible table columns for the result or record details: \"Legal Message\", \"Version\", \"Actions\"."
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
       "controls": [],
-      "actions": [
-        {
-          "label": "https://www.brsgolf.com/amysgolfclub/",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Dashboard",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Timesheet",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Plus NEW!",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Facilities",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contacts",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Memberships",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Users",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reports",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Search",
-          "purpose": "filter/search",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tools",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Need Help?",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Sign Out",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Click to View this record",
-          "purpose": "open/run",
-          "title": "Click to View this record",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Click to Edit this record",
-          "purpose": "action",
-          "title": "Click to Edit this record",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Click to Add this record",
-          "purpose": "action",
-          "title": "Click to Add this record",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
-      "tableHeaders": [
-        "Legal Message",
-        "Version",
-        "Actions"
-      ],
-      "pageEvidence": {
-        "headings": [
-          "Legal Messages"
-        ],
-        "captions": [],
-        "helpText": [
-          "This is the Name of the Consent Definition.",
-          "Legal Message",
-          "This is the Current Version of the Consent Definition.",
-          "Version",
-          "Last modified on [redacted-phone]:46:49",
-          "Marketing Preferences 2",
-          "Click to View this record",
-          "Click to Edit this record",
-          "Last modified on [redacted-phone]:57:00",
-          "Privacy Policy 3",
-          "Last modified on [redacted-phone]:36:56",
-          "Member Terms and Conditions 6",
-          "Last modified on [redacted-phone]:09:00",
-          "Visitor Terms and Conditions 13",
-          "Last modified on [redacted-phone]:09:45",
-          "Tour Operator Terms and Conditions -",
-          "Click to Add this record",
-          "Last modified on [redacted-phone]:12:15",
-          "Facility Booking Terms and Conditions 2",
-          "Help Button Launcher......"
-        ]
-      },
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:09:50.540Z"
+      "lastObservedAt": "[redacted-phone]T11:09:50.540Z",
+      "summary": "Review required before chatbot use. Reason: incomplete-workflow-evidence.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "incomplete-workflow-evidence",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:bookings-workflow:4c442bdb0f77",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Bookings workflow",
       "area": "Bookings",
-      "workflow": "Bookings",
+      "workflow": null,
       "navigationPath": "0% > 1 Bookings > 2 Golfers > 0 Bookings > 0 Golfers > Bookings > Course Status > Toolbox > Version 15.28.0",
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/dashboard/?course_id=1",
-      "purpose": "0% | 1 Bookings | 2 Golfers | 0 Bookings | 0 Golfers | Bookings | Course Status | Toolbox",
-      "steps": [
-        "Open \"0% > 1 Bookings > 2 Golfers > 0 Bookings > 0 Golfers > Bookings > Course Status > Toolbox > Version 15.28.0\".",
-        "Use the visible field, filter, and selector labels on this page: \"text\", \"From\", \"To\".",
-        "Use the visible action controls on this page as needed for the task: \"https://www.brsgolf.com/amysgolfclub/\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Reports\", \"Search\", \"Tools\", \"Need Help?\", \"Sign Out\", \"Today\", \"Tomorrow\", \"Select Date\", \"Magenta\", \"Cyan\", \"All Bookings\", \"Visitor Bookings\", \"Reservation Types\", \"Tee Sheet Utilisation\", \"Next 7 Days\"."
-      ],
-      "controls": [
-        {
-          "label": "text",
-          "name": "",
-          "type": "text",
-          "options": []
-        },
-        {
-          "label": "From",
-          "name": "dashboard_date_pickers[startDate]",
-          "type": "hidden",
-          "options": []
-        },
-        {
-          "label": "To",
-          "name": "dashboard_date_pickers[endDate]",
-          "type": "hidden",
-          "options": []
-        }
-      ],
-      "actions": [
-        {
-          "label": "https://www.brsgolf.com/amysgolfclub/",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Dashboard",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Timesheet",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Plus NEW!",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Facilities",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contacts",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Memberships",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Users",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reports",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Search",
-          "purpose": "filter/search",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tools",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Need Help?",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Sign Out",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Today",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tomorrow",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Select Date",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Magenta",
-          "purpose": "action",
-          "title": "Course 1",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Cyan",
-          "purpose": "action",
-          "title": "Course 3",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "All Bookings",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Visitor Bookings",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reservation Types",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tee Sheet Utilisation",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Next 7 Days",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Next 14 Days",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Next 30 Days",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Custom",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Magenta Course",
-          "purpose": "open/run",
-          "title": "Open",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Cyan Course",
-          "purpose": "open/run",
-          "title": "Open",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Green Fees",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Offline",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-book pull-right"
-        },
-        {
-          "label": "Online",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-cloud pull-right"
-        },
-        {
-          "label": "Messaging",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Email Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-envelope pull-right"
-        },
-        {
-          "label": "Text Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-mobile pull-right"
-        },
-        {
-          "label": "Timesheet Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-commenting pull-right"
-        },
-        {
-          "label": "Club Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-mobile pull-right"
-        },
-        {
-          "label": "Useful Links",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Member Booking",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-vcard pull-right"
-        },
-        {
-          "label": "Visitor Booking",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-vcard-o pull-right"
-        },
-        {
-          "label": "Golf Plus Booking",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-calendar-plus-o pull-right"
-        },
-        {
-          "label": "Open Competitions",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-trophy pull-right"
-        },
-        {
-          "label": "Tee Time Availability",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-clock-o pull-right"
-        },
-        {
-          "label": "Golf Event Booking",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-calendar-o pull-right"
-        },
-        {
-          "label": "Online Tee Times Menu",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-navicon pull-right"
-        },
-        {
-          "label": "Club House PC Login",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-building pull-right"
-        },
-        {
-          "label": "Member Competitions",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-trophy pull-right"
-        },
-        {
-          "label": "What's New",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Get Help",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
       "tableHeaders": [],
-      "pageEvidence": {
-        "headings": [
-          "0%",
-          "1 Bookings",
-          "2 Golfers",
-          "0 Bookings",
-          "0 Golfers",
-          "Bookings",
-          "Course Status",
-          "Toolbox",
-          "Version 15.28.0"
-        ],
-        "captions": [],
-        "helpText": [
-          "Course 1",
-          "Magenta",
-          "Course 3",
-          "Cyan",
-          "Please enter a from date",
-          "From",
-          "Please enter a to date",
-          "To",
-          "Open",
-          "Magenta Course",
-          "Cyan Course",
-          "Walk Me Through.....",
-          "Help Button Launcher......"
-        ]
-      },
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:09:55.796Z"
+      "lastObservedAt": "[redacted-phone]T11:09:55.796Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:bookings-workflow:abf1ddc9f071",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Bookings workflow",
       "area": "Bookings",
-      "workflow": "Bookings",
+      "workflow": null,
       "navigationPath": "0% > 0 Bookings > 0 Golfers > Bookings > Course Status > Toolbox > Version 15.28.0",
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/dashboard/?course_id=3",
-      "purpose": "0% | 0 Bookings | 0 Golfers | Bookings | Course Status | Toolbox | Version 15.28.0",
-      "steps": [
-        "Open \"0% > 0 Bookings > 0 Golfers > Bookings > Course Status > Toolbox > Version 15.28.0\".",
-        "Use the visible field, filter, and selector labels on this page: \"text\", \"From\", \"To\".",
-        "Use the visible action controls on this page as needed for the task: \"https://www.brsgolf.com/amysgolfclub/\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Reports\", \"Search\", \"Tools\", \"Need Help?\", \"Sign Out\", \"Today\", \"Tomorrow\", \"Select Date\", \"Magenta\", \"Cyan\", \"All Bookings\", \"Visitor Bookings\", \"Reservation Types\", \"Tee Sheet Utilisation\", \"Next 7 Days\"."
-      ],
-      "controls": [
-        {
-          "label": "text",
-          "name": "",
-          "type": "text",
-          "options": []
-        },
-        {
-          "label": "From",
-          "name": "dashboard_date_pickers[startDate]",
-          "type": "hidden",
-          "options": []
-        },
-        {
-          "label": "To",
-          "name": "dashboard_date_pickers[endDate]",
-          "type": "hidden",
-          "options": []
-        }
-      ],
-      "actions": [
-        {
-          "label": "https://www.brsgolf.com/amysgolfclub/",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Dashboard",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Timesheet",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Plus NEW!",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Facilities",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contacts",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Memberships",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Users",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reports",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Search",
-          "purpose": "filter/search",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tools",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Need Help?",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Sign Out",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Today",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tomorrow",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Select Date",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Magenta",
-          "purpose": "action",
-          "title": "Course 1",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Cyan",
-          "purpose": "action",
-          "title": "Course 3",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "All Bookings",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Visitor Bookings",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reservation Types",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tee Sheet Utilisation",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Next 7 Days",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Next 14 Days",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Next 30 Days",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Custom",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Magenta Course",
-          "purpose": "open/run",
-          "title": "Open",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Cyan Course",
-          "purpose": "open/run",
-          "title": "Open",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Green Fees",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Offline",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-book pull-right"
-        },
-        {
-          "label": "Online",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-cloud pull-right"
-        },
-        {
-          "label": "Messaging",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Email Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-envelope pull-right"
-        },
-        {
-          "label": "Text Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-mobile pull-right"
-        },
-        {
-          "label": "Timesheet Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-commenting pull-right"
-        },
-        {
-          "label": "Club Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-mobile pull-right"
-        },
-        {
-          "label": "Useful Links",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Member Booking",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-vcard pull-right"
-        },
-        {
-          "label": "Visitor Booking",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-vcard-o pull-right"
-        },
-        {
-          "label": "Golf Plus Booking",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-calendar-plus-o pull-right"
-        },
-        {
-          "label": "Open Competitions",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-trophy pull-right"
-        },
-        {
-          "label": "Tee Time Availability",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-clock-o pull-right"
-        },
-        {
-          "label": "Golf Event Booking",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-calendar-o pull-right"
-        },
-        {
-          "label": "Online Tee Times Menu",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-navicon pull-right"
-        },
-        {
-          "label": "Club House PC Login",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-angle-right fa fa-building pull-right"
-        },
-        {
-          "label": "Member Competitions",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "fa fa-trophy pull-right"
-        },
-        {
-          "label": "What's New",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Get Help",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
       "tableHeaders": [],
-      "pageEvidence": {
-        "headings": [
-          "0%",
-          "0 Bookings",
-          "0 Golfers",
-          "Bookings",
-          "Course Status",
-          "Toolbox",
-          "Version 15.28.0"
-        ],
-        "captions": [],
-        "helpText": [
-          "Course 1",
-          "Magenta",
-          "Course 3",
-          "Cyan",
-          "Please enter a from date",
-          "From",
-          "Please enter a to date",
-          "To",
-          "Open",
-          "Magenta Course",
-          "Cyan Course",
-          "Walk Me Through.....",
-          "Help Button Launcher......"
-        ]
-      },
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:10:01.178Z"
+      "lastObservedAt": "[redacted-phone]T11:10:01.178Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:online-tee-bookings-reservations-workflow:90044dbf8c94",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Online Tee Bookings / Reservations workflow",
       "area": "Online Tee Bookings / Reservations",
-      "workflow": "Online Tee Bookings / Reservations",
+      "workflow": null,
       "navigationPath": "Online Tee Bookings / Reservations > Member On-line Booking > Visitor On-line Booking > Open Days / Competitions > Golf Event Bookings",
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/visitor_menu.php",
-      "purpose": "Online Tee Bookings / Reservations | Member On-line Booking | Visitor On-line Booking | Open Days / Competitions | Golf Event Bookings",
-      "steps": [
-        "Open \"Online Tee Bookings / Reservations > Member On-line Booking > Visitor On-line Booking > Open Days / Competitions > Golf Event Bookings\".",
-        "Use the visible action controls on this page as needed for the task: \"Amys Golf Club\", \"HOME\", \"If you are a member and would like to book a tee time through our web site, click here\", \"Members Click Here\", \"If you are a visitor and would like to book a tee time through our web site, click here\", \"Visitors Click Here\", \"If you are a member or visitor and would like to book a tee time for one of our Open Competitions, click here\", \"Visitors Click Here For Open Days\", \"If you are a golf event organiser and have been assigned a username and password to manage the timesheet for your event, click here\", \"Event Organisers Click Here\", \"Online Booking Software provided by BRS Golf\"."
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
       "controls": [],
-      "actions": [
-        {
-          "label": "Amys Golf Club",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "Amys Golf Club"
-        },
-        {
-          "label": "HOME",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "If you are a member and would like to book a tee time through our web site, click here",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Members Click Here",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "Members Click Here"
-        },
-        {
-          "label": "If you are a visitor and would like to book a tee time through our web site, click here",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Visitors Click Here",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "Visitors Click Here"
-        },
-        {
-          "label": "If you are a member or visitor and would like to book a tee time for one of our Open Competitions, click here",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Visitors Click Here For Open Days",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "Visitors Click Here For Open Days"
-        },
-        {
-          "label": "If you are a golf event organiser and have been assigned a username and password to manage the timesheet for your event, click here",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Event Organisers Click Here",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": "Event Organisers Click Here"
-        },
-        {
-          "label": "Online Booking Software provided by BRS Golf",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
+      "actions": [],
       "tableHeaders": [],
-      "pageEvidence": {
-        "headings": [
-          "Online Tee Bookings / Reservations",
-          "Member On-line Booking",
-          "Visitor On-line Booking",
-          "Open Days / Competitions",
-          "Golf Event Bookings"
-        ],
-        "captions": [
-          "Online Tee Bookings / Reservations",
-          "Member On-line Booking",
-          "Visitor On-line Booking",
-          "Open Days / Competitions",
-          "Golf Event Bookings"
-        ],
-        "helpText": []
-      },
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:10:05.533Z"
+      "lastObservedAt": "[redacted-phone]T11:10:05.533Z",
+      "summary": "Review required before chatbot use. Reason: incomplete-workflow-evidence.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "incomplete-workflow-evidence",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:brs-memberships-workflow:4472e6d86bba",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Brs Memberships workflow",
       "area": "Brs Memberships",
-      "workflow": "Brs Memberships",
+      "workflow": null,
       "navigationPath": null,
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/brs-memberships/",
-      "purpose": "AMYS GOLF CLUB Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Help Button Launcher......",
-      "steps": [
-        "Open \"Brs Memberships\".",
-        "Use the visible action controls on this page as needed for the task: \"https://www.brsgolf.com/amysgolfclub/\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Reports\", \"Search\", \"Tools\", \"Need Help?\", \"Sign Out\"."
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
       "controls": [],
-      "actions": [
-        {
-          "label": "https://www.brsgolf.com/amysgolfclub/",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Dashboard",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Timesheet",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Plus NEW!",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Facilities",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contacts",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Memberships",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Users",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reports",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Search",
-          "purpose": "filter/search",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tools",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Need Help?",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Sign Out",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
+      "actions": [],
       "tableHeaders": [],
-      "pageEvidence": {
-        "headings": [],
-        "captions": [],
-        "helpText": [
-          "Help Button Launcher......"
-        ]
-      },
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:10:11.770Z"
+      "lastObservedAt": "[redacted-phone]T11:10:11.770Z",
+      "summary": "Review required before chatbot use. Reason: incomplete-workflow-evidence.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "incomplete-workflow-evidence",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:system-tools-workflow:ec0d2c5ee39f",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "System Tools workflow",
       "area": "System Tools",
-      "workflow": "System Tools",
+      "workflow": null,
       "navigationPath": "System Tools > System Configuration > Configure Timesheet > Green Fee Rates > Reservation Types > Booking Statuses > Payment Methods > Contact Categories > Catering / Refreshments > No Show Reasons > Services > Copy Services, Catering or Green Fees",
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/tools/",
-      "purpose": "System Tools | System Configuration | Configure Timesheet | Green Fee Rates | Reservation Types | Booking Statuses | Payment Methods | Contact Categories",
-      "steps": [
-        "Open \"System Tools > System Configuration > Configure Timesheet > Green Fee Rates > Reservation Types > Booking Statuses > Payment Methods > Contact Categories > Catering / Refreshments > No Show Reasons > Services > Copy Services, Catering or Green Fees\".",
-        "Use the visible action controls on this page as needed for the task: \"https://www.brsgolf.com/amysgolfclub/index.php\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Reports\", \"Search\", \"Tools\", \"Need Help?\", \"Sign Out\", \"System Configuration Set up system parameters, eg. club address and email, and enable / disable certain features of the system.\", \"Configure Timesheet Set up Tee Times and Tee Time Intervals for individual days, months and years.\", \"Green Fee Rates Set up Green Fee Categories and Rates for Visitors, Societies, Member Guests, etc.\", \"Reservation Types Set up the Reservation Types and choose their colours.\", \"Booking Statuses Set up the Booking Statuses supported.\", \"Payment Methods Set up the Payment Methods supported.\", \"Contact Categories Set up the Contact Categories supported.\", \"Catering / Refreshments Set up Catering and Refreshments.\", \"No Show Reasons Set up reasons a player may not show for a booking.\", \"Services Set up Services offered by the club such as Buggies, Caddies, Club Hire, Room Hire, Trolleys and Course Set Up.\"."
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
       "controls": [],
-      "actions": [
-        {
-          "label": "https://www.brsgolf.com/amysgolfclub/index.php",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Dashboard",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Timesheet",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Plus NEW!",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Facilities",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contacts",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Memberships",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Users",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reports",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Search",
-          "purpose": "filter/search",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tools",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Need Help?",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Sign Out",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "System Configuration Set up system parameters, eg. club address and email, and enable / disable certain features of the system.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Configure Timesheet Set up Tee Times and Tee Time Intervals for individual days, months and years.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Green Fee Rates Set up Green Fee Categories and Rates for Visitors, Societies, Member Guests, etc.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reservation Types Set up the Reservation Types and choose their colours.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Booking Statuses Set up the Booking Statuses supported.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Payment Methods Set up the Payment Methods supported.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contact Categories Set up the Contact Categories supported.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Catering / Refreshments Set up Catering and Refreshments.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "No Show Reasons Set up reasons a player may not show for a booking.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Services Set up Services offered by the club such as Buggies, Caddies, Club Hire, Room Hire, Trolleys and Course Set Up.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Copy Services, Catering or Green Fees Copy Services, Catering or Green Fees from one year to another year.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Title for Each Day Set up a title for each day of the year which is displayed at the top of the timesheet pages.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages on the Timesheet Set up messages that get displayed on the timesheet.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Email and Letter Templates Set up a number of email and letter templates for sending to members and visitors, e.g. confirmation of booking, thank you message, etc.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Upload Timesheet Upload a timesheet for any given day including the player names and membership number.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Upload Members and Contacts Upload member and contact data files into the system.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Membership Types Set up membership types such as full, 6-day, 5-day, senior, junior, honorary and country members.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Legal Messages Set up Marketing Preferences, Privacy Policy, Member Terms and Conditions and Visitor Terms and Conditions.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Course Restriction Restrict course bookings to limited group sizes.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Email Messaging Send emails to your members and contacts.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Text Messaging Send text messages to your members and contacts.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Membership Groups for Messaging Set up membership groups and assign members to those groups.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Club News Create club news articles which can be viewed by members and the public.",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Club Messages Send club messages to members who are using the BRS Members App or New Members Website.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Member Casual Booking Rules Set up the dates and times when members can view the timesheet and book casual golf on-line through the club website.",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Member Competitions Set up competitions for members to book on-line through the club website.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Green Fee Rates for Visitors / Agents Set up green fee rates for visitors to book on-line through the club website. It is also for setting up rates for 3rd Party Tee Time Agents.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Day Ticket Rates for Visitors Set up green fee rates for visitors playing 2 rounds on the same day to book on-line through the club website.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Open Competitions for Visitors Set up open competitions for visitors to book on-line through the club website.",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Events Set up part of the timesheet for the organiser of an event to populate. This can be used for a member event, a corporate day etc.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Green Fee Rates for Tour Operator Set up green fee rates for tour operators to book on-line through the club website.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Process Competition Charges Process competition charges for each member.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Payouts View Payout Schedule.",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "FAQs Additional Help.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Transactions View all transactions.",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Refunds View Refunds.",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Booking Payment Requests View the status of your Booking Payment Requests.",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "General Payment Requests View the status of your General Payment Requests.",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "VAT Reports Export VAT Reports.",
-          "purpose": "download/export",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Setup Use this tool to set up BRS Payments.",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
+      "actions": [],
       "tableHeaders": [],
-      "pageEvidence": {
-        "headings": [
-          "System Tools",
-          "System Configuration",
-          "Configure Timesheet",
-          "Green Fee Rates",
-          "Reservation Types",
-          "Booking Statuses",
-          "Payment Methods",
-          "Contact Categories",
-          "Catering / Refreshments",
-          "No Show Reasons",
-          "Services",
-          "Copy Services, Catering or Green Fees"
-        ],
-        "captions": [],
-        "helpText": [
-          "Help Button Launcher......"
-        ]
-      },
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:10:17.194Z"
+      "lastObservedAt": "[redacted-phone]T11:10:17.194Z",
+      "summary": "Review required before chatbot use. Reason: incomplete-workflow-evidence.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "incomplete-workflow-evidence",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:squeeze-tee-time-workflow:d32c126727e8",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Squeeze Tee Time workflow",
       "area": "Squeeze Tee Time",
-      "workflow": "Squeeze Tee Time",
+      "workflow": null,
       "navigationPath": "Squeeze Tee Time",
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/squeezeteetime?course_id=1&d_date=2026-06-30",
-      "purpose": "Squeeze Tee Time",
-      "steps": [
-        "Open \"Squeeze Tee Time\".",
-        "Use the visible field, filter, and selector labels on this page: \"squeezeteetime[teeDate]\", \"squeezeteetime[teeTimeHours]\", \"squeezeteetime[teeTimeMinutes]\".",
-        "Use the visible action controls on this page as needed for the task: \"https://www.brsgolf.com/amysgolfclub/\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Reports\", \"Search\", \"Tools\", \"Need Help?\", \"Sign Out\", \"Back\", \"Add\".",
-        "Check the visible table columns for the result or record details: \"Squeeze Tee Time\", \"Course:\", \"Date:\", \"Tee Time:\"."
-      ],
-      "controls": [
-        {
-          "label": "squeezeteetime[teeDate]",
-          "name": "squeezeteetime[teeDate]",
-          "type": "date",
-          "options": []
-        },
-        {
-          "label": "squeezeteetime[teeTimeHours]",
-          "name": "squeezeteetime[teeTimeHours]",
-          "type": "select",
-          "options": [
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22"
-          ]
-        },
-        {
-          "label": "squeezeteetime[teeTimeMinutes]",
-          "name": "squeezeteetime[teeTimeMinutes]",
-          "type": "select",
-          "options": [
-            "00",
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30",
-            "31",
-            "32",
-            "33",
-            "34",
-            "35",
-            "36",
-            "37",
-            "38",
-            "39",
-            "40",
-            "41",
-            "42",
-            "43",
-            "44",
-            "45",
-            "46",
-            "47",
-            "48",
-            "49",
-            "50",
-            "51",
-            "52",
-            "53",
-            "54",
-            "55",
-            "56",
-            "57",
-            "58",
-            "59"
-          ]
-        }
-      ],
-      "actions": [
-        {
-          "label": "https://www.brsgolf.com/amysgolfclub/",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Dashboard",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Timesheet",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Messages",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Golf Plus NEW!",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Facilities",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Contacts",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Memberships",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Users",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Reports",
-          "purpose": "open/run",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Search",
-          "purpose": "filter/search",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Tools",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Need Help?",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Sign Out",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Back",
-          "purpose": "action",
-          "title": "Click here to go back to timesheet",
-          "ariaLabel": "",
-          "iconText": ""
-        },
-        {
-          "label": "Add",
-          "purpose": "action",
-          "title": "",
-          "ariaLabel": "",
-          "iconText": ""
-        }
-      ],
-      "tableHeaders": [
-        "Squeeze Tee Time",
-        "Course:",
-        "Date:",
-        "Tee Time:"
-      ],
-      "pageEvidence": {
-        "headings": [
-          "Squeeze Tee Time"
-        ],
-        "captions": [],
-        "helpText": [
-          "Click here to go back to timesheet",
-          "Back",
-          "Help Button Launcher......"
-        ]
-      },
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:10:22.464Z"
+      "lastObservedAt": "[redacted-phone]T11:10:22.464Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-system:amysgolfclub:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20v:workflow",
-      "sourceType": "brs-system-workflow",
+      "id": "workflow:print-daily-booking-sheet-workflow:63b95e5e8ae7",
+      "sourceType": "workflow",
       "clubScope": "template",
-      "clubId": "amysgolfclub",
       "title": "Print Daily Booking Sheet workflow",
       "area": "Print Daily Booking Sheet",
-      "workflow": "Print Daily Booking Sheet",
+      "workflow": null,
       "navigationPath": null,
-      "sourceUrl": "https://www.brsgolf.com/amysgolfclub/print_daily_booking_sheet.php?course_id=1&d_date=2026-06-30",
-      "purpose": "Print Daily Timesheet Start Time: 05:00 05:05 05:10 05:15 05:20 05:25 05:30 05:35 05:40 05:45 05:50 05:55 06:00 06:05 06:10 06:15 06:20 06:25 06:30 06:35 06:40 06:45 06:50 06:55 07:00 07:05 07:10 07:15 07:20 07:25 07:30 07:35 07:40 07:45 07:50 07:55 08:00 08:05 08:10 08:15 08:20 08:25 08:30 08:35 08:40 08:45 08:50 08:55 09:00 09:05 09:10 09:15 09:20 09:25 09:30 09:35 09:40 09:45 09:50 09:55 10:00 10:05 10:10 10:15 10:20 10:25 10:30 10:35 10:40 10:45 10:50 10:55 11:00 11:05 11:10 11:15 11:20 11:25 11:30 11:35 11:40 11:45 11:50 11:55 12:00 12:05 12:10 12:15 12:20 12:25 12:30 12:35 12:40 12:45 12:50 12:55 13:00 13:05 13:10 13:15 13:20 13:25 13:30 13:35 13:40 13:45 13:50 13:55 14:00 14:05 14:10 14:15 14:20 14:25 14:30 14:35 14:40 14:45 14:50 14:55 15:00 15:05 15:10 15:15 15:20 15:25 15:30 15:35 15:40 15:45 15:50 15:55 16:00 16:05 16:10 16:15 16:20 16:25 16:30 16:35 16:40 16:45 16:50 16:55 17:00 17:05 17:10 17:15 17:20 17:25 17:30 17:35 17:40 17:45 17:50 17:55 18:00 18:05 18:10 18:15 18:20 18:25 18:30 18:35 18:40 18:45 18:50 18:55 19:00 19:05 19:10 19:15 19:20 19:25 19:30 19:35 19:40 19:45 19:50 19:55 20:00 20:05 20:10 20:15 20:20 20:25 20:30 20:35 20:40 20:45 20:50 20:55 21:00 21:05 21:10 21:15 21:20 21:25 21:30 21:35 21:40 21:45 21:50 21:55 22:00 22:05 22:10 22:15 22:20 22:25 22:30 22:35 22:40 22:45 22:50 22:55 23:00 23:05 23:10 23:15 23:20 23:25 23:30 23:35 23:40 23:45 23:50 23:55 End Time: 05:00 05:05 05:10 05:15 05:20 05:25 05:30 05:35 05:40 05:45 05:50 05:55 06:00 06:05 06:10 06:15 06:20 06:25 06:30 06:35 06:40 06:45 06:50 06:55 07:00 07:05 07:10 07:15 07:20 07:25 07:30 07:35 07:40 07:45 07:50 07:55 08:00 08:05 08:10 08:15 08:20 08:25 08:30 08:35 08:40 08:45 08:50 08:55 09:00 09:05 09:10 09:15 09:20 09:25 09:30 09:35 09:40 09:45 09:50 09:55 10:00 10:05 10:10 10:15 10:20 10:25 10:30 10:35 10:40 10:45 10:50 10:55 11:00 11:05 11:10 11:15 11:20 11:25 11:30 11:35 11:40 11:45 11:50 11:55 12:00 12:05 12:10 12:15 12:20 12:25 12:30 12:35 12:40 12:45 12:50 12:55 13:00 13:05 13:10 13:15 13:20 13:25 13:30 13:35 13:40 13:45 13:50 13:55 14:00 14:05 14:10 14:15 14:20 14:25 14:30 14:35 14:40 14:45 14:50 14:55 15:00 15:05 15:10 15:15 15:20 15:25 15:30 15:35 15:40 15:45 15:50 15:55 16:00 16:05 16:10 16:15 16:20 16:25 16:30 16:35 16:40 16:45 16:50 16:55 17:00 17:05 17:10 17:15 17:20 17:25 17:30 17:35 17:40 17:45 17:50 17:55 18:00 18:05 18:10 18:15 18:20 18:25 18:30 18:35 18:40 18:45 18:50 18:55 19:00 19:05 19:10 19:15 19:20 19:25 19:30 19:35 19:40 19:45 19:50 19:55 20:00 20:05 20:10 20:15 20:20 20:25 20:30 20:35 20:40 20:45 20:50 20:55 21:00 21:05 21:10 21:15 21:20 21:25 21:30 21:35 21:40 21:45 21:50 21:55 22:00 22:05 22:10 22:15 22:20 22:25 22:30 22:35 22:40 22:45 22:50 22:55 23:00 23:05 23:10 23:15 23:20 23:25 23:30 23:35 23:40 23:45 23:50 23:55 23:59 Text Size: Very Small Small Medium Large Very Large Display No. Holes: Res. Name: Res. Type: Handicap / Club / CDH: Membership Colours: Timesheet Messages: Graphical Icons: Show Buggy Nos.: Display Extra Columns Print Condensed: Download as PDF A4 US Letter",
-      "steps": [
-        "Open \"Print Daily Booking Sheet\".",
-        "Use the visible field, filter, and selector labels on this page: \"StartTeeTime\", \"EndTeeTime\", \"font_size\", \"display_holes\", \"display_res_name\", \"display_res_type\", \"display_handicap\", \"colour\", \"timesheetMessages\", \"icons\", \"showBuggyNumbers\", \"custom1Text\", \"custom1Check\", \"custom2Text\", \"custom2Check\", \"custom3Text\", \"custom3Check\", \"condensed\", \"download\", \"pagesize\", \"submit\".",
-        "Check the visible table columns for the result or record details: \"Print Daily Timesheet\", \"Start Time:\", \"End Time:\", \"Text Size:\", \"Display\", \"No. Holes:\", \"Res. Name:\", \"Res. Type:\", \"Handicap / Club / CDH:\", \"Membership Colours:\", \"Timesheet Messages:\", \"Graphical Icons:\", \"Show Buggy Nos.:\", \"Display Extra Columns\", \"Print\", \"Condensed:\", \"Download as PDF\"."
-      ],
-      "controls": [
-        {
-          "label": "StartTeeTime",
-          "name": "StartTeeTime",
-          "type": "select",
-          "options": [
-            "05:00",
-            "05:05",
-            "05:10",
-            "05:15",
-            "05:20",
-            "05:25",
-            "05:30",
-            "05:35",
-            "05:40",
-            "05:45",
-            "05:50",
-            "05:55",
-            "06:00",
-            "06:05",
-            "06:10",
-            "06:15",
-            "06:20",
-            "06:25",
-            "06:30",
-            "06:35",
-            "06:40",
-            "06:45",
-            "06:50",
-            "06:55",
-            "07:00",
-            "07:05",
-            "07:10",
-            "07:15",
-            "07:20",
-            "07:25",
-            "07:30",
-            "07:35",
-            "07:40",
-            "07:45",
-            "07:50",
-            "07:55",
-            "08:00",
-            "08:05",
-            "08:10",
-            "08:15",
-            "08:20",
-            "08:25",
-            "08:30",
-            "08:35",
-            "08:40",
-            "08:45",
-            "08:50",
-            "08:55",
-            "09:00",
-            "09:05",
-            "09:10",
-            "09:15",
-            "09:20",
-            "09:25",
-            "09:30",
-            "09:35",
-            "09:40",
-            "09:45",
-            "09:50",
-            "09:55",
-            "10:00",
-            "10:05",
-            "10:10",
-            "10:15",
-            "10:20",
-            "10:25",
-            "10:30",
-            "10:35",
-            "10:40",
-            "10:45",
-            "10:50",
-            "10:55",
-            "11:00",
-            "11:05",
-            "11:10",
-            "11:15",
-            "11:20",
-            "11:25",
-            "11:30",
-            "11:35"
-          ]
-        },
-        {
-          "label": "EndTeeTime",
-          "name": "EndTeeTime",
-          "type": "select",
-          "options": [
-            "05:00",
-            "05:05",
-            "05:10",
-            "05:15",
-            "05:20",
-            "05:25",
-            "05:30",
-            "05:35",
-            "05:40",
-            "05:45",
-            "05:50",
-            "05:55",
-            "06:00",
-            "06:05",
-            "06:10",
-            "06:15",
-            "06:20",
-            "06:25",
-            "06:30",
-            "06:35",
-            "06:40",
-            "06:45",
-            "06:50",
-            "06:55",
-            "07:00",
-            "07:05",
-            "07:10",
-            "07:15",
-            "07:20",
-            "07:25",
-            "07:30",
-            "07:35",
-            "07:40",
-            "07:45",
-            "07:50",
-            "07:55",
-            "08:00",
-            "08:05",
-            "08:10",
-            "08:15",
-            "08:20",
-            "08:25",
-            "08:30",
-            "08:35",
-            "08:40",
-            "08:45",
-            "08:50",
-            "08:55",
-            "09:00",
-            "09:05",
-            "09:10",
-            "09:15",
-            "09:20",
-            "09:25",
-            "09:30",
-            "09:35",
-            "09:40",
-            "09:45",
-            "09:50",
-            "09:55",
-            "10:00",
-            "10:05",
-            "10:10",
-            "10:15",
-            "10:20",
-            "10:25",
-            "10:30",
-            "10:35",
-            "10:40",
-            "10:45",
-            "10:50",
-            "10:55",
-            "11:00",
-            "11:05",
-            "11:10",
-            "11:15",
-            "11:20",
-            "11:25",
-            "11:30",
-            "11:35"
-          ]
-        },
-        {
-          "label": "font_size",
-          "name": "font_size",
-          "type": "select",
-          "options": [
-            "Very Small",
-            "Small",
-            "Medium",
-            "Large",
-            "Very Large"
-          ]
-        },
-        {
-          "label": "display_holes",
-          "name": "display_holes",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "display_res_name",
-          "name": "display_res_name",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "display_res_type",
-          "name": "display_res_type",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "display_handicap",
-          "name": "display_handicap",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "colour",
-          "name": "colour",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "timesheetMessages",
-          "name": "timesheetMessages",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "icons",
-          "name": "icons",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "showBuggyNumbers",
-          "name": "showBuggyNumbers",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "custom1Text",
-          "name": "custom1Text",
-          "type": "text",
-          "options": []
-        },
-        {
-          "label": "custom1Check",
-          "name": "custom1Check",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "custom2Text",
-          "name": "custom2Text",
-          "type": "text",
-          "options": []
-        },
-        {
-          "label": "custom2Check",
-          "name": "custom2Check",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "custom3Text",
-          "name": "custom3Text",
-          "type": "text",
-          "options": []
-        },
-        {
-          "label": "custom3Check",
-          "name": "custom3Check",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "condensed",
-          "name": "condensed",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "download",
-          "name": "download",
-          "type": "checkbox",
-          "options": []
-        },
-        {
-          "label": "pagesize",
-          "name": "pagesize",
-          "type": "select",
-          "options": [
-            "A4",
-            "US Letter"
-          ]
-        },
-        {
-          "label": "submit",
-          "name": "",
-          "type": "submit",
-          "options": []
-        }
-      ],
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
       "actions": [],
-      "tableHeaders": [
-        "Print Daily Timesheet",
-        "Start Time:",
-        "End Time:",
-        "Text Size:",
-        "Display",
-        "No. Holes:",
-        "Res. Name:",
-        "Res. Type:",
-        "Handicap / Club / CDH:",
-        "Membership Colours:",
-        "Timesheet Messages:",
-        "Graphical Icons:",
-        "Show Buggy Nos.:",
-        "Display Extra Columns",
-        "Print",
-        "Condensed:",
-        "Download as PDF"
-      ],
-      "pageEvidence": {
-        "headings": [],
-        "captions": [],
-        "helpText": []
-      },
+      "tableHeaders": [],
+      "pageEvidence": {},
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-30T11:10:26.867Z"
+      "lastObservedAt": "[redacted-phone]T11:10:26.867Z",
+      "summary": "Review required before chatbot use. Reason: incomplete-workflow-evidence.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "incomplete-workflow-evidence",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review",
+        "workflow-knowledge",
+        "incomplete-workflow-evidence",
+        "requires-human-review"
+      ]
     }
   ]
 }

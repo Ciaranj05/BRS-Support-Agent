@@ -33,3 +33,14 @@ test("flags record edit links and opaque identifiers as sensitive crawl data", (
   assert.equal(hasSensitiveData(contactUrl), true);
   assert.equal(hasSensitiveData(`Common ID ${identifier}`), true);
 });
+
+test("redacts demo club urls and names without treating reusable product text as sensitive", () => {
+  const text = "AMYS GOLF CLUB links to https://www.brsgolf.com/amysgolfclub/index.php and uses Amy Chambers GC consent text.";
+  const redacted = redactText(text);
+
+  assert.equal(
+    redacted,
+    "[redacted-club] links to [redacted-club-url] and uses [redacted-club] consent text.",
+  );
+  assert.equal(hasSensitiveData(redacted), false);
+});

@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import crypto from "crypto";
 import path from "path";
 import { hasIncompleteWorkflowEvidence } from "../lib/groundingGuards.js";
 import { normaliseKnowledgeEntry } from "../lib/knowledgeSources.js";
@@ -94,17 +95,79 @@ function hasEnoughReusableProductKnowledge(entry = {}) {
   return wordCount >= 8 && (hasUiShape || Boolean(entry.purpose || entry.content)) && !hasIncompleteWorkflowEvidence(entry);
 }
 
+function slugifyIdPart(value = "entry") {
+  return String(value || "entry")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 64) || "entry";
+}
+
+function buildNeutralSystemId(entry = {}, sourceType = "system") {
+  const existingId = String(entry.id || "");
+  if (new RegExp(`^${sourceType}:[a-z0-9-]+:[0-9a-f]{12}$`).test(existingId)) return existingId;
+  const title = entry.title || entry.workflow || entry.area || "entry";
+  const hashSeed = compactTextParts([
+    entry.id,
+    entry.sourceUrl,
+    entry.title,
+    entry.area,
+    entry.navigationPath,
+    entry.workflow,
+    entry.workflowFamily,
+  ]);
+  const hash = crypto.createHash("sha256").update(hashSeed || title).digest("hex").slice(0, 12);
+  return `${sourceType}:${slugifyIdPart(title)}:${hash}`;
+}
+
+function stripUnsafeReviewPayload(entry = {}, reason = "requires-human-review") {
+  return {
+    ...entry,
+    summary: `Review required before chatbot use. Reason: ${reason}.`,
+    purpose: null,
+    content: "",
+    helpText: [],
+    fields: [],
+    controls: [],
+    actions: [],
+    aliases: [],
+    steps: [],
+    routes: [],
+    variants: [],
+    relatedWorkflows: [],
+    writeActions: [],
+    tableHeaders: [],
+    pageEvidence: {},
+    workflow: null,
+    workflowFamily: null,
+    answerPattern: null,
+    userNeed: null,
+    reviewReason: reason,
+    reviewPayloadWithheld: true,
+  };
+}
+
 function prepareSystemEntry(entry = {}) {
   const sourceType = ["workflow", "brs-system-workflow", "brs-workflow-family"].includes(entry.sourceType) ? "workflow" : "system";
-  const redacted = redactValue({ ...entry, sourceType });
+  const redacted = redactValue({ ...entry, id: buildNeutralSystemId(entry, sourceType), sourceType });
   const reviewText = entryTextForReview(redacted);
   const tags = new Set([...(redacted.tags || []), "crawled-brs-system", "redacted-system-observation"]);
-  const safeForChatbot = hasEnoughReusableProductKnowledge(redacted)
+  const alreadyWithheld = redacted.reviewPayloadWithheld && redacted.reviewReason;
+  const safeForChatbot = !alreadyWithheld
+    && hasEnoughReusableProductKnowledge(redacted)
     && !redacted.containsClubSpecificData
     && !hasSensitiveData(reviewText);
+  const reviewReason = alreadyWithheld
+    ? redacted.reviewReason
+    : hasSensitiveData(reviewText)
+    ? "sensitive-or-live-crawl-data"
+    : hasIncompleteWorkflowEvidence(redacted)
+      ? "incomplete-workflow-evidence"
+      : "requires-human-review";
+  const safeEntry = safeForChatbot ? redacted : stripUnsafeReviewPayload(redacted, reviewReason);
 
   return {
-    ...redacted,
+    ...safeEntry,
     sourceUrl: null,
     clubId: undefined,
     clubScope: "template",
@@ -118,7 +181,7 @@ function prepareSystemEntry(entry = {}) {
   };
 }
 
-function prepareEntry(entry = {}) {
+export function prepareEntry(entry = {}) {
   if (isSystemEntry(entry)) return prepareSystemEntry(entry);
   return entry;
 }

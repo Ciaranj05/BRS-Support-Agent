@@ -1,8 +1,8 @@
 {
   "entries": [
     {
-      "id": "brs-relationship:membership-member-profile-create",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:create-a-member-profile-workflow-relationship-map:2d102cd0c44d",
+      "sourceType": "workflow",
       "title": "Create a member profile workflow relationship map",
       "area": "Memberships",
       "workflow": "Create a member profile",
@@ -48,7 +48,15 @@
           "type": "prerequisite-or-context",
           "reason": "A member profile may need a Membership Type before it can be created or correctly categorized.",
           "answerUse": "Pull this in when the question asks about the type/category/status/flex setup needed for the new member.",
-          "includeWhen": ["membership type", "member type", "category", "status", "flex", "flexi", "flexible"],
+          "includeWhen": [
+            "membership type",
+            "member type",
+            "category",
+            "status",
+            "flex",
+            "flexi",
+            "flexible"
+          ],
           "weight": 7
         },
         {
@@ -56,7 +64,14 @@
           "type": "billing-setup-context",
           "reason": "Default subscriptions and subscription application can affect the member after the profile exists.",
           "answerUse": "Pull this in when the user asks about subscriptions, subs, charges, fees, default subscriptions, or what the member should be billed for.",
-          "includeWhen": ["subscription", "subscriptions", "subs", "charge", "fee", "default"],
+          "includeWhen": [
+            "subscription",
+            "subscriptions",
+            "subs",
+            "charge",
+            "fee",
+            "default"
+          ],
           "weight": 6
         },
         {
@@ -64,7 +79,16 @@
           "type": "post-create-workflow",
           "reason": "Creating a member and billing that member are separate workflows that often happen together.",
           "answerUse": "Pull this in when the question asks how to bill, invoice, take payment, create bills, check unpaid bills, or review balances for the new member.",
-          "includeWhen": ["bill", "billing", "invoice", "payment", "owe", "owed", "balance", "unpaid"],
+          "includeWhen": [
+            "bill",
+            "billing",
+            "invoice",
+            "payment",
+            "owe",
+            "owed",
+            "balance",
+            "unpaid"
+          ],
           "weight": 7
         },
         {
@@ -72,7 +96,14 @@
           "type": "conditional-related-workflow",
           "reason": "Flexible membership profiles depend on flexible membership type setup and flexi wallet/account handling.",
           "answerUse": "Pull this in when the question mentions flex, flexi, flexible, wallet, points, balance, or account balance.",
-          "includeWhen": ["flex", "flexi", "flexible", "wallet", "points", "balance"],
+          "includeWhen": [
+            "flex",
+            "flexi",
+            "flexible",
+            "wallet",
+            "points",
+            "balance"
+          ],
           "weight": 7
         },
         {
@@ -80,7 +111,14 @@
           "type": "follow-up-workflow",
           "reason": "After creating or selecting members, staff may need to email or text selected members, membership types, or member groups.",
           "answerUse": "Pull this in when the question asks about notifying, emailing, texting, messaging, or selecting members.",
-          "includeWhen": ["email", "mail", "text", "sms", "message", "notify"],
+          "includeWhen": [
+            "email",
+            "mail",
+            "text",
+            "sms",
+            "message",
+            "notify"
+          ],
           "weight": 5
         },
         {
@@ -88,7 +126,15 @@
           "type": "alternative-route",
           "reason": "Bulk upload/import is a different route from creating a single member manually.",
           "answerUse": "Pull this in when the question asks about importing, uploading, CSV, spreadsheet, many members, or bulk member creation.",
-          "includeWhen": ["upload", "import", "csv", "spreadsheet", "bulk", "many members", "multiple members"],
+          "includeWhen": [
+            "upload",
+            "import",
+            "csv",
+            "spreadsheet",
+            "bulk",
+            "many members",
+            "multiple members"
+          ],
           "weight": 8
         },
         {
@@ -96,24 +142,61 @@
           "type": "confusable-but-separate",
           "reason": "Users > Add New creates or manages BRS user/login accounts and is not the normal route for adding a membership profile.",
           "answerUse": "Use only when the question explicitly says staff/admin/user/login/password/permissions or asks for a member login account.",
-          "includeWhen": ["staff", "admin", "user", "login", "password", "permission", "privilege", "read only", "user account"],
-          "excludeWhen": ["add a member", "create a member", "new member profile"],
+          "includeWhen": [
+            "staff",
+            "admin",
+            "user",
+            "login",
+            "password",
+            "permission",
+            "privilege",
+            "read only",
+            "user account"
+          ],
+          "excludeWhen": [
+            "add a member",
+            "create a member",
+            "new member profile"
+          ],
           "weight": 4
         }
       ],
       "confidence": "approved",
-      "tags": ["memberships", "member-profile", "relationship-map", "disambiguation", "workflow-knowledge"]
+      "tags": [
+        "memberships",
+        "member-profile",
+        "relationship-map",
+        "disambiguation",
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-relationship:user-account-login-management",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:user-account-and-login-workflow-relationship-map:70d1b8888d21",
+      "sourceType": "workflow",
       "title": "User account and login workflow relationship map",
       "area": "Users",
       "workflow": "Create or manage a BRS user account",
       "workflowFamily": "User account and login management",
       "navigationPath": "Users > Add New",
       "summary": "Use Users when the request is about staff/admin/member login accounts, user groups, usernames, passwords, enabling/disabling access, or privileges. Do not use Users > Add New as the answer for a normal membership-profile creation question unless the user explicitly asks about a login/user account.",
-      "aliases": ["add a user", "new user", "staff user", "admin user", "user account", "member login", "password", "permissions", "privileges"],
+      "aliases": [
+        "add a user",
+        "new user",
+        "staff user",
+        "admin user",
+        "user account",
+        "member login",
+        "password",
+        "permissions",
+        "privileges"
+      ],
       "routes": [
         {
           "name": "Create a BRS user or login account",
@@ -137,29 +220,62 @@
           "type": "confusable-but-separate",
           "reason": "A member profile in Memberships and a login user in Users are separate concepts.",
           "answerUse": "Use Memberships instead when the user asks about adding a member and does not mention login/access.",
-          "includeWhen": ["member", "membership profile", "member profile"],
-          "excludeWhen": ["staff", "admin", "login", "password", "permission", "privilege"],
+          "includeWhen": [
+            "member",
+            "membership profile",
+            "member profile"
+          ],
+          "excludeWhen": [
+            "staff",
+            "admin",
+            "login",
+            "password",
+            "permission",
+            "privilege"
+          ],
           "weight": 3
         }
       ],
       "confidence": "approved",
-      "tags": ["users", "login", "permissions", "relationship-map", "disambiguation", "workflow-knowledge"]
+      "tags": [
+        "users",
+        "login",
+        "permissions",
+        "relationship-map",
+        "disambiguation",
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-relationship:membership-type-setup",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:membership-type-setup-relationship-map:af4fa60ed539",
+      "sourceType": "workflow",
       "title": "Membership type setup relationship map",
       "area": "Memberships",
       "workflow": "Create or edit a membership type",
       "workflowFamily": "Membership type setup",
       "navigationPath": "Memberships > Membership Types > CREATE MEMBERSHIP TYPE",
       "summary": "Membership Types define categories such as full, junior, flex, or other club-defined member types. Observed controls include CREATE MEMBERSHIP TYPE, MEMBERSHIP TYPE CHANGES, Name*, Select Membership Type Status*, Flex, Next Chained Membership Type, subscription search, and default subscription columns.",
-      "aliases": ["membership type", "member type", "membership category", "flex membership type", "flexi membership type"],
+      "aliases": [
+        "membership type",
+        "member type",
+        "membership category",
+        "flex membership type",
+        "flexi membership type"
+      ],
       "routes": [
         {
           "name": "Create or edit a membership type",
           "actor": "BRS admin or club staff with Memberships setup access",
-          "preconditions": ["The request is about configuring the type/category itself, not assigning an existing type to one member."],
+          "preconditions": [
+            "The request is about configuring the type/category itself, not assigning an existing type to one member."
+          ],
           "steps": [
             "Open Memberships from the main navigation menu.",
             "Open Membership Types.",
@@ -176,7 +292,13 @@
           "type": "used-by",
           "reason": "Member profiles are assigned membership types.",
           "answerUse": "Pull member-profile evidence when a question asks how to apply the type to a member.",
-          "includeWhen": ["assign", "apply", "member", "profile", "give"],
+          "includeWhen": [
+            "assign",
+            "apply",
+            "member",
+            "profile",
+            "give"
+          ],
           "weight": 6
         },
         {
@@ -184,7 +306,14 @@
           "type": "configuration-neighbour",
           "reason": "Membership types can carry default subscriptions.",
           "answerUse": "Pull subscription setup when the question asks about default subscriptions or charges for a membership type.",
-          "includeWhen": ["subscription", "subscriptions", "subs", "default", "charge", "fee"],
+          "includeWhen": [
+            "subscription",
+            "subscriptions",
+            "subs",
+            "default",
+            "charge",
+            "fee"
+          ],
           "weight": 6
         },
         {
@@ -192,28 +321,57 @@
           "type": "conditional-related-workflow",
           "reason": "The Flex checkbox on a membership type changes how flexible members are managed.",
           "answerUse": "Pull flexi account/balance workflow when a question mentions flex/flexi/flexible account usage.",
-          "includeWhen": ["flex", "flexi", "flexible", "wallet", "points", "balance"],
+          "includeWhen": [
+            "flex",
+            "flexi",
+            "flexible",
+            "wallet",
+            "points",
+            "balance"
+          ],
           "weight": 7
         }
       ],
       "confidence": "approved",
-      "tags": ["memberships", "membership-types", "flexi", "relationship-map", "workflow-knowledge"]
+      "tags": [
+        "memberships",
+        "membership-types",
+        "flexi",
+        "relationship-map",
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-relationship:membership-subscription-setup",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:membership-subscription-setup-relationship-map:fb09f4f28f99",
+      "sourceType": "workflow",
       "title": "Membership subscription setup relationship map",
       "area": "Memberships",
       "workflow": "Create, apply, or remove membership subscriptions",
       "workflowFamily": "Membership subscription setup",
       "navigationPath": "Memberships > Subscriptions",
       "summary": "Subscriptions are configured separately from member creation and billing. Observed controls include APPLY/ REMOVE SUBSCRIPTION, CREATE NEW SUBSCRIPTION, Search, Filter Columns, Download CSV Subscriptions, Print, and subscription columns such as Name, Cost, Tax Rate, Status, Cycle, and Actions.",
-      "aliases": ["subscription", "subscriptions", "subs", "member fees", "membership fee", "default subscription"],
+      "aliases": [
+        "subscription",
+        "subscriptions",
+        "subs",
+        "member fees",
+        "membership fee",
+        "default subscription"
+      ],
       "routes": [
         {
           "name": "Create or apply membership subscriptions",
           "actor": "BRS admin or club staff with Memberships billing/setup access",
-          "preconditions": ["The request is about subscription setup, default subscriptions, or applying/removing subscriptions."],
+          "preconditions": [
+            "The request is about subscription setup, default subscriptions, or applying/removing subscriptions."
+          ],
           "steps": [
             "Open Memberships from the main navigation menu.",
             "Open Subscriptions.",
@@ -229,7 +387,12 @@
           "type": "configuration-neighbour",
           "reason": "Membership types can include default subscriptions.",
           "answerUse": "Pull membership type setup when a question asks where defaults are configured.",
-          "includeWhen": ["default", "membership type", "member type", "category"],
+          "includeWhen": [
+            "default",
+            "membership type",
+            "member type",
+            "category"
+          ],
           "weight": 6
         },
         {
@@ -237,7 +400,14 @@
           "type": "billing-workflow",
           "reason": "Subscriptions can be selected or billed through the billing workflow.",
           "answerUse": "Pull billing evidence when the user asks how to charge, bill, invoice, or collect payment.",
-          "includeWhen": ["bill", "billing", "invoice", "payment", "charge", "collect"],
+          "includeWhen": [
+            "bill",
+            "billing",
+            "invoice",
+            "payment",
+            "charge",
+            "collect"
+          ],
           "weight": 7
         },
         {
@@ -245,28 +415,57 @@
           "type": "applied-to",
           "reason": "Subscriptions can be attached to member records.",
           "answerUse": "Pull member-profile evidence when the user asks about one member's subscriptions.",
-          "includeWhen": ["member", "profile", "one member", "specific member"],
+          "includeWhen": [
+            "member",
+            "profile",
+            "one member",
+            "specific member"
+          ],
           "weight": 5
         }
       ],
       "confidence": "approved",
-      "tags": ["memberships", "subscriptions", "billing", "relationship-map", "workflow-knowledge"]
+      "tags": [
+        "memberships",
+        "subscriptions",
+        "billing",
+        "relationship-map",
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-relationship:membership-billing-payments",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:membership-billing-and-payments-relationship-map:1522b9597dda",
+      "sourceType": "workflow",
       "title": "Membership billing and payments relationship map",
       "area": "Memberships",
       "workflow": "Create and manage membership bills",
       "workflowFamily": "Membership billing and payments",
       "navigationPath": "Memberships > Billing/Payments",
       "summary": "Billing/Payments is for bills, payments, unpaid/overdue items, bill history, and exports. Observed controls include VIEW PAYMENTS, CREATE BILLS, View All Bills, Download CSV Bills, Print, From/To date filters, bill columns, Billing Reference, Due Date, SET BILL FILTERS, Who To Bill, Custom Bill Items, ADD ITEM, Payment Schemes, and PREVIEW.",
-      "aliases": ["membership bill", "bill", "billing", "payments", "invoice", "unpaid bills", "overdue bills", "payment scheme"],
+      "aliases": [
+        "membership bill",
+        "bill",
+        "billing",
+        "payments",
+        "invoice",
+        "unpaid bills",
+        "overdue bills",
+        "payment scheme"
+      ],
       "routes": [
         {
           "name": "Create or review membership bills",
           "actor": "BRS admin or club staff with Memberships billing access",
-          "preconditions": ["The request is about membership bills, payments, invoices, unpaid/overdue balances, or billing exports."],
+          "preconditions": [
+            "The request is about membership bills, payments, invoices, unpaid/overdue balances, or billing exports."
+          ],
           "steps": [
             "Open Memberships from the main navigation menu.",
             "Open Billing/Payments.",
@@ -282,7 +481,12 @@
           "type": "member-context",
           "reason": "Bills and payments are often checked for a specific member profile.",
           "answerUse": "Pull member-profile evidence when the question asks about billing one named/member record.",
-          "includeWhen": ["member", "profile", "one member", "specific member"],
+          "includeWhen": [
+            "member",
+            "profile",
+            "one member",
+            "specific member"
+          ],
           "weight": 5
         },
         {
@@ -290,7 +494,14 @@
           "type": "line-item-source",
           "reason": "Subscriptions are often the billable items in membership bills.",
           "answerUse": "Pull subscription evidence when the question asks what charges/subscriptions go on the bill.",
-          "includeWhen": ["subscription", "subscriptions", "subs", "charge", "fee", "line item"],
+          "includeWhen": [
+            "subscription",
+            "subscriptions",
+            "subs",
+            "charge",
+            "fee",
+            "line item"
+          ],
           "weight": 6
         },
         {
@@ -298,28 +509,56 @@
           "type": "audience-filter-context",
           "reason": "Bills may target members by cycle, period, or membership type/status.",
           "answerUse": "Pull membership type evidence when the billing question involves who to bill or membership categories.",
-          "includeWhen": ["who to bill", "membership type", "member type", "category", "audience"],
+          "includeWhen": [
+            "who to bill",
+            "membership type",
+            "member type",
+            "category",
+            "audience"
+          ],
           "weight": 5
         }
       ],
       "confidence": "approved",
-      "tags": ["memberships", "billing", "payments", "relationship-map", "workflow-knowledge"]
+      "tags": [
+        "memberships",
+        "billing",
+        "payments",
+        "relationship-map",
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-relationship:flexible-membership-account-management",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:flexible-membership-account-relationship-map:3f038199db4d",
+      "sourceType": "workflow",
       "title": "Flexible membership account relationship map",
       "area": "Memberships",
       "workflow": "Manage a flexible member or flexi balance",
       "workflowFamily": "Flexible membership account management",
       "navigationPath": "Memberships > Members / Memberships > Membership Types",
       "summary": "Flexible membership questions may require both Membership Type setup and an individual member profile/balance workflow. Do not answer flexi questions only with a generic member-profile route when the question asks to enable Flex on a type, and do not answer setup questions as if they are balance checks.",
-      "aliases": ["flexi", "flexible membership", "flex member", "flexi balance", "flex wallet", "flex points"],
+      "aliases": [
+        "flexi",
+        "flexible membership",
+        "flex member",
+        "flexi balance",
+        "flex wallet",
+        "flex points"
+      ],
       "routes": [
         {
           "name": "Set up or manage flexible membership",
           "actor": "BRS admin or club staff with Memberships access",
-          "preconditions": ["Use Membership Types when configuring the flexi type; use Members/member profile when managing an existing flexi member."],
+          "preconditions": [
+            "Use Membership Types when configuring the flexi type; use Members/member profile when managing an existing flexi member."
+          ],
           "steps": [
             "For flexible membership type setup, open Memberships > Membership Types and use CREATE MEMBERSHIP TYPE or edit the relevant type, then use the Flex checkbox.",
             "For an existing flexi member, open Memberships > Members, find the member, and open the member profile.",
@@ -334,7 +573,14 @@
           "type": "setup-prerequisite",
           "reason": "The Flex checkbox is on Membership Types setup.",
           "answerUse": "Pull membership type setup when the user asks how to create/enable a flexible membership type.",
-          "includeWhen": ["create", "enable", "set up", "setup", "type", "checkbox"],
+          "includeWhen": [
+            "create",
+            "enable",
+            "set up",
+            "setup",
+            "type",
+            "checkbox"
+          ],
           "weight": 8
         },
         {
@@ -342,7 +588,14 @@
           "type": "member-record-context",
           "reason": "Existing flexi member balances are managed from the member profile/list area.",
           "answerUse": "Pull member-profile evidence when the user asks about an existing flexi member or profile.",
-          "includeWhen": ["member", "profile", "existing", "balance", "wallet", "points"],
+          "includeWhen": [
+            "member",
+            "profile",
+            "existing",
+            "balance",
+            "wallet",
+            "points"
+          ],
           "weight": 7
         },
         {
@@ -350,28 +603,55 @@
           "type": "financial-context",
           "reason": "Flexi wallets/balances may overlap with billing and payment history questions.",
           "answerUse": "Pull billing evidence when the user asks about money, bill, payment, balance history, or transactions.",
-          "includeWhen": ["bill", "payment", "money", "balance history", "transaction"],
+          "includeWhen": [
+            "bill",
+            "payment",
+            "money",
+            "balance history",
+            "transaction"
+          ],
           "weight": 6
         }
       ],
       "confidence": "approved",
-      "tags": ["memberships", "flexi", "relationship-map", "workflow-knowledge"]
+      "tags": [
+        "memberships",
+        "flexi",
+        "relationship-map",
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-relationship:member-messaging",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:member-messaging-relationship-map:6444407db848",
+      "sourceType": "workflow",
       "title": "Member messaging relationship map",
       "area": "Messages",
       "workflow": "Email or text members",
       "workflowFamily": "Member messaging",
       "navigationPath": "Messages > Email Messages / Text Messages",
       "summary": "Messaging workflows overlap with member profile, membership type, member group, selected member, and timesheet audiences. The answer should choose the route based on the audience named in the question: membership type, membership group, selected members, timesheet contacts, all members, contacts, or SMS/text.",
-      "aliases": ["email members", "text members", "selected members", "membership type message", "member group message", "SMS members"],
+      "aliases": [
+        "email members",
+        "text members",
+        "selected members",
+        "membership type message",
+        "member group message",
+        "SMS members"
+      ],
       "routes": [
         {
           "name": "Email or text member audiences",
           "actor": "BRS admin or club staff with Messages access",
-          "preconditions": ["The request is about notifying members by email/text/SMS or choosing a member audience for a message."],
+          "preconditions": [
+            "The request is about notifying members by email/text/SMS or choosing a member audience for a message."
+          ],
           "steps": [
             "Open Messages from the main navigation menu.",
             "Choose the email or text/SMS area.",
@@ -387,7 +667,12 @@
           "type": "audience-source",
           "reason": "Selected member messaging depends on selecting members from the member list.",
           "answerUse": "Pull member-profile evidence when the user asks to message selected members or a specific member.",
-          "includeWhen": ["selected member", "specific member", "one member", "pick members"],
+          "includeWhen": [
+            "selected member",
+            "specific member",
+            "one member",
+            "pick members"
+          ],
           "weight": 5
         },
         {
@@ -395,28 +680,55 @@
           "type": "audience-source",
           "reason": "Email/Text Membership Types uses membership types as the audience.",
           "answerUse": "Pull membership type evidence when the question asks to message a membership category/type.",
-          "includeWhen": ["membership type", "member type", "category"],
+          "includeWhen": [
+            "membership type",
+            "member type",
+            "category"
+          ],
           "weight": 5
         }
       ],
       "confidence": "approved",
-      "tags": ["messages", "email", "sms", "members", "relationship-map", "workflow-knowledge"]
+      "tags": [
+        "messages",
+        "email",
+        "sms",
+        "members",
+        "relationship-map",
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     },
     {
-      "id": "brs-relationship:bulk-member-contact-upload",
-      "sourceType": "brs-workflow-family",
+      "id": "workflow:bulk-member-and-contact-upload-relationship-map:6edb80e85f54",
+      "sourceType": "workflow",
       "title": "Bulk member and contact upload relationship map",
       "area": "Tools",
       "workflow": "Upload members and contacts",
       "workflowFamily": "Bulk member and contact upload",
       "navigationPath": "Tools > Upload Members and Contacts",
       "summary": "Bulk upload/import is the related but separate route for adding many member or contact records at once. It should not be used for a single member unless the user asks about importing, uploading, CSV, spreadsheet, or bulk creation.",
-      "aliases": ["upload members", "import members", "CSV members", "bulk members", "upload contacts", "import contacts"],
+      "aliases": [
+        "upload members",
+        "import members",
+        "CSV members",
+        "bulk members",
+        "upload contacts",
+        "import contacts"
+      ],
       "routes": [
         {
           "name": "Upload members or contacts in bulk",
           "actor": "BRS admin or club staff with Tools access",
-          "preconditions": ["The request mentions upload, import, CSV, spreadsheet, bulk, or many records."],
+          "preconditions": [
+            "The request mentions upload, import, CSV, spreadsheet, bulk, or many records."
+          ],
           "steps": [
             "Open Tools from the main navigation menu.",
             "Open Upload Members and Contacts.",
@@ -432,13 +744,37 @@
           "type": "single-record-alternative",
           "reason": "Manual CREATE MEMBER is the single-record route.",
           "answerUse": "Use Memberships > Members > CREATE MEMBER when the user asks for one member and does not mention import/upload.",
-          "includeWhen": ["single", "one member", "create a member", "add a member"],
-          "excludeWhen": ["upload", "import", "csv", "bulk"],
+          "includeWhen": [
+            "single",
+            "one member",
+            "create a member",
+            "add a member"
+          ],
+          "excludeWhen": [
+            "upload",
+            "import",
+            "csv",
+            "bulk"
+          ],
           "weight": 4
         }
       ],
       "confidence": "approved",
-      "tags": ["tools", "upload", "members", "contacts", "relationship-map", "workflow-knowledge"]
+      "tags": [
+        "tools",
+        "upload",
+        "members",
+        "contacts",
+        "relationship-map",
+        "workflow-knowledge",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
     }
   ]
 }

@@ -16,7 +16,7 @@ The key conclusion is that write access is needed for complete workflow evidence
 
 ## Confirmed-entry audit
 
-The checked-in knowledge index currently reports 685 entries, with 554 approved and 131 needing review. However, "approved" currently mixes two different evidence types:
+The pre-repair checked-in knowledge index reported 685 entries, with 554 approved and 131 needing review. However, "approved" mixed two different evidence types:
 
 - complete or near-complete workflow knowledge, usually reviewed workflow-family entries or controlled demo explorations
 - page/field/action evidence snippets, useful for grounding labels but not sufficient as full process instructions
@@ -58,6 +58,32 @@ The redaction layer was also tightened to flag:
 - already-redacted sensitive markers in reviewed text
 
 The standalone sanitizer now uses the same sensitive-data checks.
+
+## Repair pass result
+
+The stricter builder was run against the full checked-in source corpus after applying the incomplete-workflow guard and review-payload withholding.
+
+Generated state:
+
+- 685 total generated knowledge entries
+- 103 approved entries
+- 582 needs-review entries
+- 582 review entries with `reviewPayloadWithheld: true`
+- 413 review entries reason-coded as `incomplete-workflow-evidence`
+- 168 review entries reason-coded as `sensitive-or-live-crawl-data`
+- 1 review entry reason-coded as `requires-human-review`
+
+The repair changed the status of the historical flagged/incomplete pages rather than pretending they were complete workflows. Entries without complete process evidence are no longer available to the chatbot as answer evidence. Their review payloads are reduced to a title, area, confidence, review reason, and a short stub message.
+
+The generated knowledge outputs were also tightened so they do not retain:
+
+- record edit links or record IDs
+- opaque UUID-like identifiers
+- live person/contact row values found during the old crawl
+- demo club URLs, demo club IDs, or demo club names in answerable generated content
+- source-derived live/demo URL fragments in generated system/workflow IDs
+
+This means the 393 previously flagged approved entries and the 131 pre-existing review entries have been processed through the stricter gate. The remaining 582 review entries should be treated as a safe backlog, not usable answer content. Completing them into approved workflow knowledge requires the targeted workflow drivers described below.
 
 ## Review-queue plan
 

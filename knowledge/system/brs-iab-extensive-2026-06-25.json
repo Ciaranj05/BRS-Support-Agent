@@ -3,14 +3,14 @@
   "sourceType": "brs-system",
   "entries": [
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:0-level-3:9193aed0ea12",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"0%\" [level=3]",
       "area": "BRS Golf - Tee Booking System",
       "navigationPath": "BRS Golf - Tee Booking System > \"0%\" [level=3]",
       "purpose": "\"0%\" [level=3] | \"0 Bookings\" [level=3] | \"0 Golfers\" [level=3] | \"Bookings\" [level=3] | \"Course Status\" [level=3] | \"Toolbox\" [level=3] | \"Version 15.28.0\" [level=3]",
-      "content": "link \"Dashboard\":\nlink \"Timesheet\":\nlink \"Messages\":\nlink \"Golf Plus New!\":\nlink \"Facilities\":\nlink \"Contacts\":\nlink \"Memberships\":\nlink \"Users\":\nlink \"Reports\":\nlink \"Search\":\nlink \"Tools\":\nlink \"Need Help?\":\ntab \"Today\" [expanded]\ntab \"Tomorrow\"\ntextbox\nheading \"0%\" [level=3]\nheading \"0 Bookings\" [level=3]\nheading \"0 Golfers\" [level=3]\nheading \"Bookings\" [level=3]\nlink \"All Bookings\":\nlink \"Visitor Bookings\":\nlink \"Reservation Types\":\nlink \"Tee Sheet Utilisation\":\nheading \"Course Status\" [level=3]\nlink \"Magenta Course\":\nlink \"Cyan Course\":\nheading \"Toolbox\" [level=3]\nlink \"Green Fees \":\nlink \"Member Competitions \":\nheading \"Version 15.28.0\" [level=3]\nlink \"Get Help\":",
+      "content": "link \"Dashboard\": link \"Timesheet\": link \"Messages\": link \"Golf Plus New!\": link \"Facilities\": link \"Contacts\": link \"Memberships\": link \"Users\": link \"Reports\": link \"Search\": link \"Tools\": link \"Need Help?\": tab \"Today\" [expanded] tab \"Tomorrow\" textbox heading \"0%\" [level=3] heading \"0 Bookings\" [level=3] heading \"0 Golfers\" [level=3] heading \"Bookings\" [level=3] link \"All Bookings\": link \"Visitor Bookings\": link \"Reservation Types\": link \"Tee Sheet Utilisation\": heading \"Course Status\" [level=3] link \"Magenta Course\": link \"Cyan Course\": heading \"Toolbox\" [level=3] link \"Green Fees \": link \"Member Competitions \": heading \"Version 15.28.0\" [level=3] link \"Get Help\":",
       "fields": [
         {
           "label": "\"Today\" [expanded]",
@@ -49,12 +49,19 @@
         "Get Help\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:57:48.548Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:57:48.548Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:timesheet:58b9c5152dd1",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Timesheet",
       "area": "Timesheet",
@@ -450,18 +457,25 @@
         "Cyan Course\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:57:51.827Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:57:51.827Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:brs-announcements-systems-messages-level-4:3066e0f84984",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"BRS Announcements & Systems Messages\" [level=4]",
       "area": "Messages",
       "navigationPath": "Messages > \"BRS Announcements & Systems Messages\" [level=4]",
       "purpose": "\"BRS Announcements & Systems Messages\" [level=4]",
-      "content": "link \"Dashboard\":\nlink \"Timesheet\":\nlink \"Messages\":\nlink \"Golf Plus New!\":\nlink \"Facilities\":\nlink \"Contacts\":\nlink \"Memberships\":\nlink \"Users\":\nlink \"Reports\":\nlink \"Search\":\nlink \"Tools\":\nlink \"Need Help?\":\nheading \"BRS Announcements & Systems Messages\" [level=4]\ncheckbox\ntextbox\nbutton \"Reset\"",
+      "content": "link \"Dashboard\": link \"Timesheet\": link \"Messages\": link \"Golf Plus New!\": link \"Facilities\": link \"Contacts\": link \"Memberships\": link \"Users\": link \"Reports\": link \"Search\": link \"Tools\": link \"Need Help?\": heading \"BRS Announcements & Systems Messages\" [level=4] checkbox textbox button \"Reset\"",
       "fields": [
         {
           "label": "checkbox",
@@ -493,18 +507,25 @@
         "Need Help?\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:57:53.883Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:57:53.883Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:golf-plus:a457e383a46b",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Golf Plus",
       "area": "Golf Plus",
       "navigationPath": "Golf Plus",
       "purpose": "Golf Plus",
-      "content": "link \"Dashboard\":\nlink \"Timesheet\":\nlink \"Messages\":\nlink \"Golf Plus New!\":\nlink \"Facilities\":\nlink \"Contacts\":\nlink \"Memberships\":\nlink \"Users\":\nlink \"Reports\":\nlink \"Search\":\nlink \"Tools\":\nlink \"Need Help?\":",
+      "content": "link \"Dashboard\": link \"Timesheet\": link \"Messages\": link \"Golf Plus New!\": link \"Facilities\": link \"Contacts\": link \"Memberships\": link \"Users\": link \"Reports\": link \"Search\": link \"Tools\": link \"Need Help?\":",
       "relatedAreas": [
         "Dashboard\":",
         "Timesheet\":",
@@ -520,12 +541,19 @@
         "Need Help?\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:57:55.871Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:57:55.871Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:timesheet:58b9c5152dd1",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Timesheet",
       "area": "Timesheet",
@@ -816,18 +844,25 @@
         "Booking\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:05.303Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:05.303Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:view-contacts-level-1:eb84cc9c29ed",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"View Contacts\" [level=1]",
       "area": "Contacts",
       "navigationPath": "Contacts > \"View Contacts\" [level=1]",
       "purpose": "\"View Contacts\" [level=1]",
-      "content": "link \"Dashboard\":\nlink \"Timesheet\":\nlink \"Messages\":\nlink \"Golf Plus New!\":\nlink \"Facilities\":\nlink \"Contacts\":\nlink \"Memberships\":\nlink \"Users\":\nlink \"Reports\":\nlink \"Search\":\nlink \"Tools\":\nlink \"Need Help?\":\ntextbox\nbutton \"Search\"\nheading \"View Contacts\" [level=1]\nlink \"Add New\":\nlink \"View All\":\ncolumnheader \"Category\"\ncolumnheader \"Number\"",
+      "content": "link \"Dashboard\": link \"Timesheet\": link \"Messages\": link \"Golf Plus New!\": link \"Facilities\": link \"Contacts\": link \"Memberships\": link \"Users\": link \"Reports\": link \"Search\": link \"Tools\": link \"Need Help?\": textbox button \"Search\" heading \"View Contacts\" [level=1] link \"Add New\": link \"View All\": columnheader \"Category\" columnheader \"Number\"",
       "fields": [
         {
           "label": "textbox",
@@ -861,125 +896,28 @@
         "View All\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:07.594Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:07.594Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:manage-users-level-1:dba70b7dfe9e",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"Manage Users\" [level=1]",
       "area": "Users",
       "navigationPath": "Users > \"Manage Users\" [level=1]",
-      "purpose": "\"Manage Users\" [level=1]",
-      "content": "link \"Dashboard\":\nlink \"Timesheet\":\nlink \"Messages\":\nlink \"Golf Plus New!\":\nlink \"Facilities\":\nlink \"Contacts\":\nlink \"Memberships\":\nlink \"Users\":\nlink \"Reports\":\nlink \"Search\":\nlink \"Tools\":\nlink \"Need Help?\":\nheading \"Manage Users\" [level=1]\nlink \"Add New\":\nlink \"User Privileges\":\ncolumnheader \"Retrieve Users\"\ncolumnheader \"User Group\"\ncolumnheader \"Member Type\"\ncolumnheader \"Search Text\"\noption [selected]\noption \"Admin\"\noption \"Staff\"\noption \"Member\"\noption \"Event\"\noption \"StaffReadOnly\"\noption \"5 Day\"\noption \"5 day flex\"\noption \"5-6 Day\"\noption \"7 Day\"\noption \"7 day flex\"\noption \"Corporate\"\noption \"Full\"\noption \"GOLD PREMIUM\"\noption \"Intermediate\"\noption \"Josh Membership\"\noption \"Life\"\noption \"Senior\"\noption \"TEST\"\ntextbox\ncheckbox \"Registered Users Only\"\ncheckbox \"Disabled Users Only\"\nbutton \"Find User\"\nbutton \"Clear\"\ncolumnheader \"No. of Users\"",
-      "fields": [
-        {
-          "label": "[selected]",
-          "type": "option"
-        },
-        {
-          "label": "\"Admin\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Staff\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Member\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Event\"",
-          "type": "option"
-        },
-        {
-          "label": "\"StaffReadOnly\"",
-          "type": "option"
-        },
-        {
-          "label": "\"5 Day\"",
-          "type": "option"
-        },
-        {
-          "label": "\"5 day flex\"",
-          "type": "option"
-        },
-        {
-          "label": "\"5-6 Day\"",
-          "type": "option"
-        },
-        {
-          "label": "\"7 Day\"",
-          "type": "option"
-        },
-        {
-          "label": "\"7 day flex\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Corporate\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Full\"",
-          "type": "option"
-        },
-        {
-          "label": "\"GOLD PREMIUM\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Intermediate\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Josh Membership\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Life\"",
-          "type": "option"
-        },
-        {
-          "label": "\"Senior\"",
-          "type": "option"
-        },
-        {
-          "label": "\"TEST\"",
-          "type": "option"
-        },
-        {
-          "label": "textbox",
-          "type": "textbox"
-        },
-        {
-          "label": "\"Registered Users Only\"",
-          "type": "checkbox"
-        },
-        {
-          "label": "\"Disabled Users Only\"",
-          "type": "checkbox"
-        }
-      ],
-      "actions": [
-        {
-          "label": "\"Find User\"",
-          "purpose": "action"
-        },
-        {
-          "label": "\"Clear\"",
-          "purpose": "action"
-        }
-      ],
-      "tableHeaders": [
-        "Retrieve Users",
-        "User Group",
-        "Member Type",
-        "Search Text",
-        "No. of Users"
-      ],
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "tableHeaders": [],
       "relatedAreas": [
         "Dashboard\":",
         "Timesheet\":",
@@ -998,11 +936,34 @@
       ],
       "containsClubSpecificData": false,
       "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:09.835Z"
+      "lastObservedAt": "[redacted-phone]T09:58:09.835Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "helpText": [],
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review",
+        "requires-human-review"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:reports-level-1:a7ef6216659a",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"Reports\" [level=1]",
       "area": "Reports",
@@ -1130,11 +1091,11 @@
           "type": "option"
         },
         {
-          "label": "\"Member Playing Statistics\"",
+          "label": "\"Member [redacted-name]\"",
           "type": "option"
         },
         {
-          "label": "\"Non Member Playing Statistics\"",
+          "label": "\"Non Member [redacted-name]\"",
           "type": "option"
         },
         {
@@ -1142,7 +1103,7 @@
           "type": "option"
         },
         {
-          "label": "\"Member Email Addresses for Outlook\"",
+          "label": "\"Member [redacted-name] for Outlook\"",
           "type": "option"
         },
         {
@@ -1256,18 +1217,25 @@
         "Need Help?\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:12.158Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:12.158Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:search-bookings-level-1:8a1c9edf6967",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"Search Bookings\" [level=1]",
       "area": "Search",
       "navigationPath": "Search > \"Search Bookings\" [level=1]",
       "purpose": "\"Search Bookings\" [level=1]",
-      "content": "link \"Dashboard\":\nlink \"Timesheet\":\nlink \"Messages\":\nlink \"Golf Plus New!\":\nlink \"Facilities\":\nlink \"Contacts\":\nlink \"Memberships\":\nlink \"Users\":\nlink \"Reports\":\nlink \"Search\":\nlink \"Tools\":\nlink \"Need Help?\":\nheading \"Search Bookings\" [level=1]\ncolumnheader \"Search\"\ntextbox\noption \"2018\"\noption \"2019\"\noption \"2020\"\noption \"2021\"\noption \"2022\"\noption \"2023\"\noption \"2024\"\noption \"2025\"\noption \"2026\" [selected]\noption \"2027\"\noption \"2028\"\noption \"2029\"\nbutton \"Search\"",
+      "content": "link \"Dashboard\": link \"Timesheet\": link \"Messages\": link \"Golf Plus New!\": link \"Facilities\": link \"Contacts\": link \"Memberships\": link \"Users\": link \"Reports\": link \"Search\": link \"Tools\": link \"Need Help?\": heading \"Search Bookings\" [level=1] columnheader \"Search\" textbox option \"2018\" option \"2019\" option \"2020\" option \"2021\" option \"2022\" option \"2023\" option \"2024\" option \"2025\" option \"2026\" [selected] option \"2027\" option \"2028\" option \"2029\" button \"Search\"",
       "fields": [
         {
           "label": "textbox",
@@ -1346,12 +1314,19 @@
         "Need Help?\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:14.431Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:14.431Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:system-tools-level-1:a7a50bddb5c6",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"System Tools\" [level=1]",
       "area": "Tools",
@@ -1406,12 +1381,19 @@
         "Setup Use this tool to set up BRS Payments.\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:16.713Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:16.713Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9icnNnb2xmLnplbmRlc2suY29tL2hj",
-      "sourceType": "brs-system",
+      "id": "system:flexible-membership-level-3:ba7cedb4ac9e",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"Flexible Membership\" [level=3]:",
       "area": "Knowledge Base – BRS Core",
@@ -1469,7 +1451,7 @@
         "Delete a Casual Booking Rule\":",
         "Member is Unable to Book Casual Round\":",
         "Enable Member Online Booking\":",
-        "Change How Many Days in Advance a Member Can Book\":",
+        "Change How Many Days in Advance a Member [redacted-name]\":",
         "Competition Purse\":",
         "What is the Competition Purse?\":",
         "Can a Member Book a Competition with Insufficient Funds in Their Account?\":",
@@ -1485,12 +1467,19 @@
         "Edit a User\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:27.727Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:27.727Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:competitions-for-2026-level-1:d74f6beebf4f",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"Competitions for 2026\" [level=1]",
       "area": "BRS Golf - Tee Booking System",
@@ -1917,18 +1906,25 @@
         "Add additional date\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:31.252Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:31.252Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly93d3cuYnJzZ29sZi5jb20vYW15c2dv",
-      "sourceType": "brs-system",
+      "id": "system:course-restriction-level-1:88216a03a1b2",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"Course Restriction\" [level=1]",
       "area": "BRS Golf - Tee Booking System",
       "navigationPath": "BRS Golf - Tee Booking System > \"Course Restriction\" [level=1]",
       "purpose": "\"Course Restriction\" [level=1]",
-      "content": "link \"Dashboard\":\nlink \"Timesheet\":\nlink \"Messages\":\nlink \"Golf Plus New!\":\nlink \"Facilities\":\nlink \"Contacts\":\nlink \"Memberships\":\nlink \"Users\":\nlink \"Reports\":\nlink \"Search\":\nlink \"Tools\":\nlink \"Need Help?\":\nheading \"Course Restriction\" [level=1]\ncheckbox \"Show expired Course Restrictions\"\ncolumnheader \"Message\"\ncolumnheader \"Actions\"\ncolumnheader \"Course Restriction\"\ntextbox:\noption \"Members & Visitors\" [selected]\noption \"Members\"\noption \"Visitors\"\noption [selected]\noption \"0\"\noption \"1\"\noption \"2\"\noption \"3\"\ntextbox\nbutton \"Add\"",
+      "content": "link \"Dashboard\": link \"Timesheet\": link \"Messages\": link \"Golf Plus New!\": link \"Facilities\": link \"Contacts\": link \"Memberships\": link \"Users\": link \"Reports\": link \"Search\": link \"Tools\": link \"Need Help?\": heading \"Course Restriction\" [level=1] checkbox \"Show expired Course Restrictions\" columnheader \"Message\" columnheader \"Actions\" columnheader \"Course Restriction\" textbox: option \"Members & Visitors\" [selected] option \"Members\" option \"Visitors\" option [selected] option \"0\" option \"1\" option \"2\" option \"3\" textbox button \"Add\"",
       "fields": [
         {
           "label": "\"Show expired Course Restrictions\"",
@@ -1997,18 +1993,25 @@
         "Need Help?\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:33.579Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:33.579Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:memberships:1aed7f4561e8",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Memberships",
       "area": "Memberships",
       "navigationPath": "Memberships",
       "purpose": "Memberships",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\nlink \"View all bills\":\nlink \"View all overdue bills\":\ntextbox \"Search\"\nbutton \"Filter Columns\":\nbutton \"Download CSV\" [disabled]:\nbutton \"Print\":\ncolumnheader:\n'columnheader \"Member: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Membership Status: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Bill: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Send / Download Date: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Resend / Re-Download Date: Not sorted. Activate to sort ascending.\"':\ncolumnheader \"Duration\"\nbutton \"10\":\ntextbox \"Rows per page:\"\nbutton \"Previous page\" [disabled]:\nbutton \"Next page\" [disabled]:\nlink \"View all payments\":\nbutton \"Filter Columns\" [disabled]:\nbutton \"Download CSV Failed Scheduled Payments\" [disabled]:\nbutton \"Print\" [disabled]:\n'columnheader \"Payment: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Date: Sorted descending. Activate to remove sorting.\"':\ncolumnheader \"Actions\"\nbutton \"Download CSV Flex Members\":\nbutton \"Print Flex Members\":\n'columnheader \"Email: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Membership Type: Not sorted. Activate to sort ascending.\"':\ncolumnheader \"Wallet Name(s)\"\ncolumnheader \"Points\"\nlink \"Edit Balance\":\nbutton \"Next page\":",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": link \"View all bills\": link \"View all overdue bills\": textbox \"Search\" button \"Filter Columns\": button \"Download CSV\" [disabled]: button \"Print\": columnheader: 'columnheader \"Member: Not sorted. Activate to sort ascending.\"': 'columnheader \"Membership Status: Not sorted. Activate to sort ascending.\"': 'columnheader \"Bill: Not sorted. Activate to sort ascending.\"': 'columnheader \"Send / Download Date: Not sorted. Activate to sort ascending.\"': 'columnheader \"Resend / Re-Download Date: Not sorted. Activate to sort ascending.\"': columnheader \"Duration\" button \"10\": textbox \"Rows per page:\" button \"Previous page\" [disabled]: button \"Next page\" [disabled]: link \"View all payments\": button \"Filter Columns\" [disabled]: button \"Download CSV Failed Scheduled Payments\" [disabled]: button \"Print\" [disabled]: 'columnheader \"Payment: Not sorted. Activate to sort ascending.\"': 'columnheader \"Date: Sorted descending. Activate to remove sorting.\"': columnheader \"Actions\" button \"Download CSV Flex Members\": button \"Print Flex Members\": 'columnheader \"Email: Not sorted. Activate to sort ascending.\"': 'columnheader \"Membership Type: Not sorted. Activate to sort ascending.\"': columnheader \"Wallet Name(s)\" columnheader \"Points\" link \"Edit Balance\": button \"Next page\":",
       "fields": [
         {
           "label": "\"Search\"",
@@ -2099,18 +2102,25 @@
         "Edit Balance\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:36.472Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:36.472Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:memberships:1aed7f4561e8",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Memberships",
       "area": "Memberships",
       "navigationPath": "Memberships",
       "purpose": "Memberships",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\nlink \"FLEX MEMBERS\":\nlink \"CREATE MEMBER\":\ntextbox \"Search\"\nbutton \"Filter Active Members\":\ntextbox \"Filter\"\nbutton \"Membership Type\":\ntextbox \"Membership Type\"\nbutton \"Filter Columns\":\nbutton \"Download CSV Members\":\nbutton \"Print Members\":\n'columnheader \"Title: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Email: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Membership Card Number: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Membership Type: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Membership Status: Not sorted. Activate to sort ascending.\"':\ncolumnheader \"Actions\"\nlink \"Edit Member\":\nbutton \"10\":\ntextbox \"Rows per page:\"\nbutton \"Previous page\" [disabled]:\nbutton \"Next page\":",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": link \"FLEX MEMBERS\": link \"CREATE MEMBER\": textbox \"Search\" button \"Filter Active Members\": textbox \"Filter\" button \"Membership Type\": textbox \"Membership Type\" button \"Filter Columns\": button \"Download CSV Members\": button \"Print Members\": 'columnheader \"Title: Not sorted. Activate to sort ascending.\"': 'columnheader \"Email: Not sorted. Activate to sort ascending.\"': 'columnheader \"Membership Card Number: Not sorted. Activate to sort ascending.\"': 'columnheader \"Membership Type: Not sorted. Activate to sort ascending.\"': 'columnheader \"Membership Status: Not sorted. Activate to sort ascending.\"': columnheader \"Actions\" link \"Edit Member\": button \"10\": textbox \"Rows per page:\" button \"Previous page\" [disabled]: button \"Next page\":",
       "fields": [
         {
           "label": "\"Search\"",
@@ -2184,18 +2194,25 @@
         "Edit Member\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:39.226Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:39.226Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:memberships:1aed7f4561e8",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Memberships",
       "area": "Memberships",
       "navigationPath": "Memberships",
       "purpose": "Memberships",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\nbutton \"MEMBERSHIP TYPE CHANGES\":\nbutton \"CREATE MEMBERSHIP TYPE\":\ntextbox \"Search\"\nbutton \"Filter Columns\":\nbutton \"Download CSV Membership Types\":\nbutton \"Print\":\n'columnheader \"Name: Sorted ascending. Activate to sort descending.\"':\n'columnheader \"Flex: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Status: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Next Chained Membership Type: Not sorted. Activate to sort ascending.\"':\ncolumnheader \"Default Subscriptions\"\ncolumnheader \"Actions\"\nbutton \"Subscriptions (3)\"\nbutton [disabled]:\nlink \"Corporate\":\nbutton \"10\":\ntextbox \"Rows per page:\"\nbutton \"Previous page\" [disabled]:\nbutton \"Next page\":",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": button \"MEMBERSHIP TYPE CHANGES\": button \"CREATE MEMBERSHIP TYPE\": textbox \"Search\" button \"Filter Columns\": button \"Download CSV Membership Types\": button \"Print\": 'columnheader \"Name: Sorted ascending. Activate to sort descending.\"': 'columnheader \"Flex: Not sorted. Activate to sort ascending.\"': 'columnheader \"Status: Not sorted. Activate to sort ascending.\"': 'columnheader \"Next Chained Membership Type: Not sorted. Activate to sort ascending.\"': columnheader \"Default Subscriptions\" columnheader \"Actions\" button \"Subscriptions (3)\" button [disabled]: link \"Corporate\": button \"10\": textbox \"Rows per page:\" button \"Previous page\" [disabled]: button \"Next page\":",
       "fields": [
         {
           "label": "\"Search\"",
@@ -2267,18 +2284,25 @@
         "Corporate\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:42.220Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:42.220Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:memberships:1aed7f4561e8",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Memberships",
       "area": "Memberships",
       "navigationPath": "Memberships",
       "purpose": "Memberships",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\ntextbox \"Name*\"\nbutton \"Select Membership Type Status*\":\ntextbox \"Select Membership Type Status*\"\ncheckbox \"Flex\"\nbutton \"Next Chained Membership Type\":\ntextbox \"Next Chained Membership Type\"\ntextbox \"Start typing to filter available subscriptions\"\ncolumnheader \"Subscriptions\":\ncolumnheader \"Membership Type Price\"\ncolumnheader\ntextbox [disabled]: \"30\"\nbutton \"Select\":\ntextbox [disabled]: \"150\"\ntextbox [disabled]: \"0\"\ntextbox [disabled]: \"20\"\ntextbox [disabled]: \"25\"\ntextbox [disabled]: \"40\"\ntextbox [disabled]: \"1000\"\nbutton \"10\":\ntextbox \"Rows per page:\"\nbutton \"Previous page\" [disabled]:\nbutton \"Next page\":\nbutton \"Next page\" [disabled]:\nbutton \"CREATE\":",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": textbox \"Name*\" button \"Select Membership Type Status*\": textbox \"Select Membership Type Status*\" checkbox \"Flex\" button \"Next Chained Membership Type\": textbox \"Next Chained Membership Type\" textbox \"Start typing to filter available subscriptions\" columnheader \"Subscriptions\": columnheader \"Membership Type Price\" columnheader textbox [disabled]: \"30\" button \"Select\": textbox [disabled]: \"150\" textbox [disabled]: \"0\" textbox [disabled]: \"20\" textbox [disabled]: \"25\" textbox [disabled]: \"40\" textbox [disabled]: \"1000\" button \"10\": textbox \"Rows per page:\" button \"Previous page\" [disabled]: button \"Next page\": button \"Next page\" [disabled]: button \"CREATE\":",
       "fields": [
         {
           "label": "\"Name*\"",
@@ -2382,18 +2406,25 @@
         "Accounts\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:52.826Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:52.826Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:memberships:1aed7f4561e8",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Memberships",
       "area": "Memberships",
       "navigationPath": "Memberships",
       "purpose": "Memberships",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\nbutton \"APPLY/ REMOVE SUBSCRIPTION\":\nbutton \"CREATE NEW SUBSCRIPTION\":\ntextbox \"Search\"\nbutton \"Filter Columns\":\nbutton \"Download CSV Subscriptions\":\nbutton \"Print\":\n'columnheader \"Name: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Cost: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Tax Rate: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Status: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Count Members: Not sorted. Activate to sort ascending.\"':\ncolumnheader \"Cycles\"\n'columnheader \"Count Subscriptions: Not sorted. Activate to sort ascending.\"':\ncolumnheader \"Actions\"\nlink \"6 month membership\":\nbutton \"(13)\"\nbutton \"Cycles (6)\"\nbutton [disabled]:\nbutton \"Cycles (7)\"\nbutton \"(9)\"\nbutton \"Cycles (12)\"\nlink \"Membership yearly rolling\":\nbutton \"(4)\"\nbutton \"Cycles (20)\"\nbutton \"Cycles (1)\"\nbutton \"Cycles (5)\"\nlink \"Annual Membership\":\nbutton \"10\":\ntextbox \"Rows per page:\"\nbutton \"Previous page\" [disabled]:\nbutton \"Next page\":",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": button \"APPLY/ REMOVE SUBSCRIPTION\": button \"CREATE NEW SUBSCRIPTION\": textbox \"Search\" button \"Filter Columns\": button \"Download CSV Subscriptions\": button \"Print\": 'columnheader \"Name: Not sorted. Activate to sort ascending.\"': 'columnheader \"Cost: Not sorted. Activate to sort ascending.\"': 'columnheader \"Tax Rate: Not sorted. Activate to sort ascending.\"': 'columnheader \"Status: Not sorted. Activate to sort ascending.\"': 'columnheader \"Count Members: Not sorted. Activate to sort ascending.\"': columnheader \"Cycles\" 'columnheader \"Count Subscriptions: Not sorted. Activate to sort ascending.\"': columnheader \"Actions\" link \"6 month membership\": button \"(13)\" button \"Cycles (6)\" button [disabled]: button \"Cycles (7)\" button \"(9)\" button \"Cycles (12)\" link \"Membership yearly rolling\": button \"(4)\" button \"Cycles (20)\" button \"Cycles (1)\" button \"Cycles (5)\" link \"Annual Membership\": button \"10\": textbox \"Rows per page:\" button \"Previous page\" [disabled]: button \"Next page\":",
       "fields": [
         {
           "label": "\"Search\"",
@@ -2501,18 +2532,25 @@
         "Annual Membership\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:55.496Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:55.496Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:memberships:1aed7f4561e8",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Memberships",
       "area": "Memberships",
       "navigationPath": "Memberships",
       "purpose": "Memberships",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\nlink \"VIEW PAYMENTS\":\nbutton \"CREATE BILLS\":\nbutton \"Filter Columns\":\nbutton \"Download CSV Bills\" [disabled]:\nbutton \"Print\":\ntextbox \"Search\"\nbutton \"View All Bills\":\ntextbox\nbutton \"From 2026\":\ntextbox \"From\"\ntextbox \"To\"\ncolumnheader \"Reference\":\ncolumnheader \"Bill Raised\":\ncolumnheader \"Bill Due\":\ncolumnheader \"Payment Status\":\ncolumnheader \"Publish Status\":\ncolumnheader \"Count\":\ncolumnheader \"Actions\"\nbutton \"10\":\ntextbox \"Rows per page:\"\nbutton \"Previous page\" [disabled]:\nbutton \"Next page\" [disabled]:",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": link \"VIEW PAYMENTS\": button \"CREATE BILLS\": button \"Filter Columns\": button \"Download CSV Bills\" [disabled]: button \"Print\": textbox \"Search\" button \"View All Bills\": textbox button \"From 2026\": textbox \"From\" textbox \"To\" columnheader \"Reference\": columnheader \"Bill Raised\": columnheader \"Bill Due\": columnheader \"Payment Status\": columnheader \"Publish Status\": columnheader \"Count\": columnheader \"Actions\" button \"10\": textbox \"Rows per page:\" button \"Previous page\" [disabled]: button \"Next page\" [disabled]:",
       "fields": [
         {
           "label": "\"Search\"",
@@ -2593,18 +2631,25 @@
         "VIEW PAYMENTS\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:58:58.044Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:58:58.044Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:financial-reports-level-2:55eab7c5b29b",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "\"FINANCIAL REPORTS\" [level=2]",
       "area": "Memberships",
       "navigationPath": "Memberships > \"FINANCIAL REPORTS\" [level=2]",
       "purpose": "\"FINANCIAL REPORTS\" [level=2] | \"Bill History\" [level=5] | \"Bill Projections\" [level=5] | \"Bills Batch Preview\" [level=5] | \"Bills Overview\" [level=5] | \"Overdue Bills\" [level=5] | \"Payments By Subscription Type\" [level=5] | \"Wallet Balances\" [level=5] | \"Wallet Transactions\" [level=5] | \"MEMBER REPORTS\" [level=2]",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\nheading \"FINANCIAL REPORTS\" [level=2]\nheading \"Bill History\" [level=5]\nheading \"Bill Projections\" [level=5]\nheading \"Bills Batch Preview\" [level=5]\nheading \"Bills Overview\" [level=5]\nheading \"Overdue Bills\" [level=5]\nheading \"Payments By Subscription Type\" [level=5]\nheading \"Wallet Balances\" [level=5]\nheading \"Wallet Transactions\" [level=5]\nheading \"MEMBER REPORTS\" [level=2]\nheading \"Member Categories\" [level=5]\nheading \"Member Notes\" [level=5]\nheading \"Member Status\" [level=5]\nheading \"Membership Retention\" [level=5]\nheading \"Members with/without Subscriptions\" [level=5]",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": heading \"FINANCIAL REPORTS\" [level=2] heading \"Bill History\" [level=5] heading \"Bill Projections\" [level=5] heading \"Bills Batch Preview\" [level=5] heading \"Bills Overview\" [level=5] heading \"Overdue Bills\" [level=5] heading \"Payments By Subscription Type\" [level=5] heading \"Wallet Balances\" [level=5] heading \"Wallet Transactions\" [level=5] heading \"MEMBER REPORTS\" [level=2] heading \"Member Categories\" [level=5] heading \"Member Notes\" [level=5] heading \"Member Status\" [level=5] heading \"Membership Retention\" [level=5] heading \"Members with/without Subscriptions\" [level=5]",
       "relatedAreas": [
         "Dashboard\":",
         "Members\":",
@@ -2615,18 +2660,25 @@
         "Accounts\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:59:00.443Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:59:00.443Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:memberships:1aed7f4561e8",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Memberships",
       "area": "Memberships",
       "navigationPath": "Memberships",
       "purpose": "Memberships",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\ntextbox \"Search\"\nbutton \"Filter Columns\":\nbutton \"Download CSV Accounts\":\nbutton \"Print Accounts\":\n'columnheader \"Account Name: Sorted ascending. Activate to sort descending.\"':\n'columnheader \"Units: Not sorted. Activate to sort ascending.\"':\n'columnheader \"Active: Not sorted. Activate to sort ascending.\"':\nlink \"Bar Wallet\":\nlink \"Corporate\":\nlink \"Flex Wallet Premium\":\nlink \"Membership Wallet\":\nbutton \"10\":\ntextbox \"Rows per page:\"\nbutton \"Previous page\" [disabled]:\nbutton \"Next page\" [disabled]:",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": textbox \"Search\" button \"Filter Columns\": button \"Download CSV Accounts\": button \"Print Accounts\": 'columnheader \"Account Name: Sorted ascending. Activate to sort descending.\"': 'columnheader \"Units: Not sorted. Activate to sort ascending.\"': 'columnheader \"Active: Not sorted. Activate to sort ascending.\"': link \"Bar Wallet\": link \"Corporate\": link \"Flex Wallet Premium\": link \"Membership Wallet\": button \"10\": textbox \"Rows per page:\" button \"Previous page\" [disabled]: button \"Next page\" [disabled]:",
       "fields": [
         {
           "label": "\"Search\"",
@@ -2682,18 +2734,25 @@
         "Membership Wallet\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:59:03.307Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:59:03.307Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     },
     {
-      "id": "brs-iab-extensive:aHR0cHM6Ly9lbWJlZGRlZC1tZW1iZXJzaGlwcy5i",
-      "sourceType": "brs-system",
+      "id": "system:memberships:1aed7f4561e8",
+      "sourceType": "system",
       "clubScope": "template",
       "title": "Memberships",
       "area": "Memberships",
       "navigationPath": "Memberships",
       "purpose": "Memberships",
-      "content": "link \"Dashboard\":\nlink \"Members\":\nlink \"Membership Types\":\nlink \"Subscriptions\":\nlink \"Billing/Payments\":\nlink \"Reports\":\nlink \"Accounts\":\ntab \"General\" [selected]\ntab \"Tax Settings\"\ntab \"Subscription Cycles\"\ntab \"Payment Schemes\"\ntab \"Payment Types\"\ntab \"Membership Statuses\"\ntab \"Wallets\"\ntab \"PDF Templates\"\ntab \"Email Templates\"\ntab \"Member Filters\"\ncheckbox \"Automatically deactivate players with outstanding bills past Grace Period\" [checked]\nspinbutton \"Number of Grace Period days before member is deactivated\": \"45\"\ncheckbox \"Automatically deactivate players with scheduled payments past Grace Period\" [checked]\nbutton \"Clear Failed scheduled payments; look back to bills created on or after:\":\nspinbutton \"Scheduled Payments Grace Period Days\": \"6\"\ncheckbox \"Display Flexible Wallets table on dashboard\" [checked]\nspinbutton \"Minimum amount that members can pay on a bill\": \"0\"\ncheckbox \"Send payment provider receipt email\" [checked]\ngeneric: Membership payment link checkout session time limit\ncheckbox \"Use Auto Generated BRS Username\"\nbutton \"Save\":",
+      "content": "link \"Dashboard\": link \"Members\": link \"Membership Types\": link \"Subscriptions\": link \"Billing/Payments\": link \"Reports\": link \"Accounts\": tab \"General\" [selected] tab \"Tax Settings\" tab \"Subscription Cycles\" tab \"Payment Schemes\" tab \"Payment Types\" tab \"Membership Statuses\" tab \"Wallets\" tab \"PDF Templates\" tab \"Email Templates\" tab \"Member Filters\" checkbox \"Automatically deactivate players with outstanding bills past Grace Period\" [checked] spinbutton \"Number of Grace Period days before member is deactivated\": \"45\" checkbox \"Automatically deactivate players with scheduled payments past Grace Period\" [checked] button \"Clear Failed scheduled payments; look back to bills created on or after:\": spinbutton \"Scheduled Payments Grace Period Days\": \"6\" checkbox \"Display Flexible Wallets table on dashboard\" [checked] spinbutton \"Minimum amount that members can pay on a bill\": \"0\" checkbox \"Send payment provider receipt email\" [checked] generic: Membership payment link checkout session time limit checkbox \"Use Auto Generated BRS Username\" button \"Save\":",
       "fields": [
         {
           "label": "\"General\" [selected]",
@@ -2788,8 +2847,15 @@
         "Accounts\":"
       ],
       "containsClubSpecificData": false,
-      "confidence": "needs-review",
-      "lastObservedAt": "2026-06-25T09:59:05.937Z"
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:59:05.937Z",
+      "sourceUrl": null,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction",
+        "auto-approved-after-redaction"
+      ]
     }
   ]
 }
