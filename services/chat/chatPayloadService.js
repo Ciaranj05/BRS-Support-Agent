@@ -1,7 +1,7 @@
 import { rewriteAddsUnsupportedDetails } from "../../lib/rewriteSafety.js";
 import { recordQaInteraction } from "../../lib/qaInteractionStore.js";
 import { applyAnswerQualityGate } from "../../lib/answerQuality.js";
-import { visualAidIds, visualAidsForAnswer } from "../../lib/visualAids.js";
+import { visualAidIds, visualAidOptionForAnswer } from "../../lib/visualAids.js";
 
 export function getSessionId(req) {
   return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
@@ -139,10 +139,10 @@ export async function prepareChatPayload({ client, payload, message, debug, debu
     nextPayload = gatedPayload;
   }
   if (nextPayload && typeof nextPayload === "object" && nextPayload.reply && !nextPayload.escalationReady) {
-    const images = Array.isArray(nextPayload.images) && nextPayload.images.length
-      ? nextPayload.images
-      : visualAidsForAnswer(nextPayload.reply, message);
-    if (images.length) nextPayload.images = images;
+    const options = Array.isArray(nextPayload.options) ? nextPayload.options : [];
+    const hasImages = Array.isArray(nextPayload.images) && nextPayload.images.length > 0;
+    const screenshotOption = !hasImages && !options.length ? visualAidOptionForAnswer(nextPayload.reply, message) : null;
+    if (screenshotOption) nextPayload.options = [screenshotOption];
   }
   if (nextPayload && req) {
     nextPayload.conversationHistory = buildResponseHistory(req, message, nextPayload);

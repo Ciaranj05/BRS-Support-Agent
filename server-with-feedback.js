@@ -10,7 +10,7 @@ import { answerFromKnowledge, answerFromLiveEvidence, isBRSWorkflowQuestion } fr
 import { answerFromObjectFirstRouting } from "./lib/objectFirstRouting.js";
 import { rewriteAddsUnsupportedDetails } from "./lib/rewriteSafety.js";
 import { enqueueWorkflowExploration } from "./lib/workflowExplorationQueue.js";
-import { isLiveLookupRuntimeConfigured, liveBrsLookup, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
+import { isLiveLookupRuntimeConfigured, liveBrsLookup, liveBrsScreenshot, shouldAttemptLiveBrsLookup } from "./lib/liveBrsLookup.js";
 import { saveLearnedWorkflowFromLiveAnswer } from "./lib/workflowLearning.js";
 import { isMemberBalanceReportQuestion } from "./lib/membershipWorkflowAnswers.js";
 import { contextualiseShortClarificationFollowUp, exhaustedWorkflowFollowUpPayload, repeatedWorkflowFollowUpPayload } from "./lib/repeatedWorkflowFollowUp.js";
@@ -19,6 +19,7 @@ import { runQaAnalysis } from "./lib/qaAnalysis.js";
 import { approvedStaticWorkflowReply, isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { attachmentMetadata, buildVisionContextFromAttachments, messageWithVisionContext } from "./lib/visionContext.js";
+import { buildVerifiedScreenshotContext, isVerifiedScreenshotRequest, screenshotUnavailableReply } from "./lib/verifiedScreenshotRequest.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
 import { runActionRequest, runTimesheetActionRequest } from "./services/timesheet/timesheetActionService.js";
@@ -378,6 +379,50 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
   return true;
 }
 
+async function verifiedScreenshotPayload(history = []) {
+  const context = buildVerifiedScreenshotContext(history);
+  const question = context.question || "Show the relevant BRS screen for the previous answer.";
+  const result = await liveBrsScreenshot(question, {
+    staticEvidence: context.answer,
+    knowledgeHints: [context.answer],
+  }).catch((error) => ({
+    successful: false,
+    attempted: true,
+    error: error.message || "Verified screenshot capture failed.",
+  }));
+
+  if (result?.successful && result.image?.url) {
+    return {
+      reply: "I captured this directly from the BRS demo system.",
+      escalationReady: false,
+      topic: "visual-aid",
+      options: [],
+      images: [result.image],
+      version: "verified-screenshot-v1",
+      liveLookup: {
+        attempted: true,
+        successful: true,
+        mode: result.mode || "verified-screenshot",
+        page: result.page ? { title: result.page.title || "", url: result.page.url || "" } : null,
+      },
+    };
+  }
+
+  return {
+    reply: screenshotUnavailableReply(result?.error),
+    escalationReady: false,
+    topic: "visual-aid",
+    options: [],
+    version: "verified-screenshot-unavailable-v1",
+    liveLookup: {
+      attempted: Boolean(result?.attempted),
+      successful: false,
+      mode: result?.mode || "verified-screenshot",
+      error: result?.error || null,
+    },
+  };
+}
+
 async function enhancedChatHandler(req, res, next) {
   const debugEnabled = wantsChatDebug(req);
   const debug = { entrypoint: "server-with-feedback", stages: [] };
@@ -393,6 +438,12 @@ async function enhancedChatHandler(req, res, next) {
     debug.stages.push({ name: "auth-context", matched: true, clubId: authContext.clubId, source: authContext.source, authRequired: authContext.authRequired });
     if (!originalMessage) {
       return res.json(withDebug({ reply: "Please enter a question or attach a screenshot.", escalationReady: false, options: [], version: "input-required-v1" }, debug, debugEnabled));
+    }
+
+    if (isVerifiedScreenshotRequest(originalMessage)) {
+      debug.stages.push({ name: "verified-screenshot-request", matched: true });
+      const payload = await verifiedScreenshotPayload(history);
+      return res.json(await prepareChatPayload({ client, payload, message: originalMessage, debug, debugEnabled, req }));
     }
 
     const visionContext = await buildVisionContextFromAttachments(client, imageAttachments, originalMessage);

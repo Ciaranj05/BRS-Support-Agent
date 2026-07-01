@@ -98,6 +98,9 @@ function redactSensitive(value = "") {
 function inferSearchPlan(question = "", knowledgeHints = []) {
   const text = normalise(`${question} ${knowledgeHints.join(" ")}`);
   const plan = [];
+  if (/unsuppress|suppressed|not receiving.*email|email.*not receiving|accepting emails?/.test(text) && /member|user|users/.test(text)) {
+    plan.push({ area: "User management", query: "users member email unsuppress suppressed", path: "/user_admin.php?stage=Retrieve" });
+  }
   if (/member|membership|bill|invoice|subscription|wallet|unpaid|outstanding/.test(text)) {
     plan.push({ area: "Membership reports", query: "membership reports billing bills unpaid outstanding", path: "/brs-memberships/" });
     plan.push({ area: "Memberships", query: "memberships members billing bills", path: "/brs-memberships/" });
@@ -195,6 +198,32 @@ async function collectPageEvidence(page) {
       .filter((control) => control.label)
       .slice(0, 120),
   };
+}
+
+async function redactPageForScreenshot(page) {
+  await page.evaluate(() => {
+    const redact = (value = "") => String(value)
+      .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[email]")
+      .replace(/\b\+?\d[\d\s().-]{7,}\b/g, "[phone]")
+      .replace(/[£€]\s?\d+(?:\.\d{2})?/g, "[amount]")
+      .replace(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g, "[date]");
+
+    const walker = document.createTreeWalker(document.body || document.documentElement, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    for (const node of nodes) {
+      const next = redact(node.nodeValue || "");
+      if (next !== node.nodeValue) node.nodeValue = next;
+    }
+
+    document.querySelectorAll("input, textarea").forEach((node) => {
+      if (node.value) node.value = redact(node.value);
+      ["value", "placeholder", "title", "aria-label"].forEach((attr) => {
+        const current = node.getAttribute(attr);
+        if (current) node.setAttribute(attr, redact(current));
+      });
+    });
+  }).catch(() => null);
 }
 
 function summariseError(error) {
@@ -334,6 +363,60 @@ async function runLookup(question, { staticEvidence = "", knowledgeHints = [] } 
   }
 }
 
+async function runScreenshot(question, { staticEvidence = "", knowledgeHints = [] } = {}) {
+  const plan = inferSearchPlan(question, [staticEvidence, ...knowledgeHints]);
+  const baseResult = {
+    enabled: true,
+    attempted: true,
+    successful: false,
+    mode: "verified-screenshot-worker",
+    plan,
+    image: null,
+    page: null,
+    error: null,
+  };
+  const timer = createTimer();
+  if (!BASE_URL) {
+    return { ...baseResult, timings: timer.stages, totalMs: timer.totalMs(), error: "BRS_BASE_URL or BRS_CLUB_ID must be configured with the target club system URL." };
+  }
+  if (!USERNAME || !PASSWORD) {
+    return { ...baseResult, timings: timer.stages, totalMs: timer.totalMs(), error: "BRS worker credentials are not configured. Set BRS_USERNAME and BRS_PASSWORD on the worker service." };
+  }
+  let browser;
+  try {
+    browser = await timer.step("launch-browser", () => chromium.launch({ headless: process.env.BRS_WORKER_HEADLESS !== "false" }), Math.min(STAGE_TIMEOUT_MS, 8000));
+    const context = await timer.step("new-context", () => browser.newContext({ viewport: { width: 1365, height: 768 } }));
+    const page = await timer.step("new-page", () => context.newPage());
+    await timer.step("login", () => tryLogin(page));
+    await timer.step("install-read-only-guard", () => installReadOnlyGuard(page));
+    const routeUrl = unique(plan.map((item) => plannedRouteUrl(item.path)).filter(Boolean), 4)[0] || BASE_URL;
+    await timer.step("open-planned-route", () => page.goto(routeUrl, { waitUntil: "domcontentloaded", timeout: STAGE_TIMEOUT_MS }).catch(() => null));
+    await page.waitForLoadState("domcontentloaded", { timeout: STAGE_TIMEOUT_MS }).catch(() => null);
+    const pageEvidence = await timer.step("collect-page-evidence", () => collectPageEvidence(page));
+    await timer.step("redact-page", () => redactPageForScreenshot(page));
+    const png = await timer.step("capture-screenshot", () => page.screenshot({ type: "png", fullPage: false }));
+    return {
+      ...baseResult,
+      successful: true,
+      page: pageEvidence,
+      image: {
+        id: `verified-screenshot-${Date.now()}`,
+        title: pageEvidence.title || "BRS demo system screenshot",
+        source: "verified-screenshot",
+        url: `data:image/png;base64,${png.toString("base64")}`,
+        alt: `Verified BRS demo system screenshot from ${pageEvidence.title || pageEvidence.url || "the selected page"}.`,
+        capturedUrl: pageEvidence.url,
+      },
+      timings: timer.stages,
+      totalMs: timer.totalMs(),
+    };
+  } catch (error) {
+    return { ...baseResult, timings: timer.stages, totalMs: timer.totalMs(), error: summariseError(error) };
+  } finally {
+    if (browser) await browser.close().catch(() => null);
+  }
+}
+
 app.get("/health", (req, res) => {
   res.json({
     ok: true,
@@ -348,6 +431,16 @@ app.post("/lookup", checkSecret, async (req, res) => {
   const question = compact(req.body?.question);
   if (!question) return res.status(400).json({ error: "Missing question." });
   const result = await runLookup(question, {
+    staticEvidence: req.body?.staticEvidence || "",
+    knowledgeHints: Array.isArray(req.body?.knowledgeHints) ? req.body.knowledgeHints : [],
+  });
+  return res.status(result.error ? 502 : 200).json(result);
+});
+
+app.post("/screenshot", checkSecret, async (req, res) => {
+  const question = compact(req.body?.question);
+  if (!question) return res.status(400).json({ error: "Missing question." });
+  const result = await runScreenshot(question, {
     staticEvidence: req.body?.staticEvidence || "",
     knowledgeHints: Array.isArray(req.body?.knowledgeHints) ? req.body.knowledgeHints : [],
   });

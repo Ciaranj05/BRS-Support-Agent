@@ -4,6 +4,8 @@ This is the free/low-cost browser runtime for live BRS workflow lookup.
 
 The main Vercel chatbot should stay on Vercel. This worker should run somewhere that can install and launch Chromium, such as Render, Railway, Fly.io, or a small VPS. The worker only performs read-only browsing and blocks non-GET browser requests.
 
+The worker also powers the chatbot's opt-in "Still can't find it?" screenshot button. Screenshots are captured directly from the configured BRS demo system after login. The worker redacts obvious emails, phone numbers, amounts, and dates before returning the screenshot. The chatbot should not use static SVG mock-ups or generated illustrative images for BRS UI guidance.
+
 ## Render setup
 
 1. Create a new Render Web Service from this repo.
@@ -53,3 +55,13 @@ https://your-render-service.onrender.com/health
 ```
 
 You should see `ok: true` and `credentialsConfigured: true`.
+
+## Verified screenshot endpoint
+
+The chatbot calls this endpoint when a user opts in to a screenshot:
+
+```text
+POST /screenshot
+```
+
+It uses the same `x-brs-live-worker-secret` header as `/lookup`.

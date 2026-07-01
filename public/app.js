@@ -108,7 +108,7 @@ function renderVisualAids(visualAids = []) {
     <a class="visual-aid-card" href="${esc(aid.url)}" target="_blank" rel="noopener noreferrer">
       <div class="visual-aid-copy">
         <div class="visual-aid-title">${esc(aid.title || "Visual guide")}</div>
-        <div class="visual-aid-source">${aid.source === "verified-screenshot" ? "Annotated screenshot" : "Annotated visual guide"}</div>
+        <div class="visual-aid-source">${aid.source === "verified-screenshot" ? "Verified BRS screenshot" : "Visual guide"}</div>
       </div>
       <img src="${esc(aid.url)}" alt="${esc(aid.alt || aid.title || "Annotated visual guide")}">
     </a>
