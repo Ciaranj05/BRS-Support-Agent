@@ -3,6 +3,7 @@ import test from "node:test";
 import { validateChatInput } from "../lib/middleware/security.js";
 import { normaliseImageAttachments, redactVisionSummary, messageWithVisionContext } from "../lib/visionContext.js";
 import { visualAidsForAnswer } from "../lib/visualAids.js";
+import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
 import { prepareChatPayload } from "../services/chat/chatPayloadService.js";
 
 const tinyPng = `data:image/png;base64,${Buffer.from("png").toString("base64")}`;
@@ -81,4 +82,19 @@ test("member export answers include text-first visual aid metadata", async () =>
   assert.equal(payload.images[0].id, "member-data-export-guide");
   assert.equal(payload.images[0].source, "visual-guide");
   assert.match(payload.reply, /Create a Filtered Member Data Export/);
+});
+
+test("member email delivery troubleshooting does not attach export visual aids", async () => {
+  const message = "Can you please check on an email address from one of our members which doesn't seem to be accepting emails from BRS.";
+  const reply = approvedStaticWorkflowReply(message);
+  const payload = await prepareChatPayload({
+    client: null,
+    payload: { reply, escalationReady: false, options: [], version: "approved-static-delivery-troubleshooting-v1" },
+    message,
+    debug: { stages: [] },
+    debugEnabled: false,
+  });
+
+  assert.match(payload.reply, /Check Why a Member Is Not Receiving BRS Emails/);
+  assert.equal(payload.images, undefined);
 });
