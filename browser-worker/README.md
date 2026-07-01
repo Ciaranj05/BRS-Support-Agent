@@ -65,3 +65,5 @@ POST /screenshot
 ```
 
 It uses the same `x-brs-live-worker-secret` header as `/lookup`.
+
+If the main chatbot has demo-system credentials and the worker endpoint is not available yet, it can fall back to direct screenshot capture. Set `BRS_VERIFIED_SCREENSHOT_ALLOW_DIRECT=false` on the main chatbot if you want screenshots to require the worker only.
