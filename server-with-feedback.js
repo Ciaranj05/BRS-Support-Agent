@@ -426,7 +426,7 @@ async function enhancedChatHandler(req, res, next) {
     }
 
     const approvedStaticReply = approvedStaticWorkflowReply(routingMessage);
-    if (approvedStaticReply?.startsWith("Check Why a Recipient Is Not Receiving BRS Messages")) {
+    if (/^Check Why .+ Is Not Receiving (a )?BRS (Email|Emails|Text Messages|Message)/.test(approvedStaticReply || "")) {
       debug.stages.push({ name: "approved-static-delivery-troubleshooting", matched: true });
       return res.json(await prepareChatPayload({
         client,
