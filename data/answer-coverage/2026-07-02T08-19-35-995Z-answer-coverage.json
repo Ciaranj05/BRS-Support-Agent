@@ -1,0 +1,558 @@
+{
+  "generatedAt": "2026-07-02T08:19:35.995Z",
+  "sourceReviewRunGeneratedAt": "2026-07-01T16:21:31.924Z",
+  "totalFamilies": 16,
+  "summary": {
+    "byCoverageStatus": {
+      "mixed-static-heavy": 10,
+      "static-only": 4,
+      "mixed-static-and-dynamic": 1,
+      "evidence-gap": 1
+    },
+    "byPriority": {
+      "high": 14,
+      "normal": 1,
+      "highest": 1
+    },
+    "totalReviewBacklog": 582,
+    "totalStaticAnswerPrompts": 37,
+    "totalApprovedEvidenceMatches": 43
+  },
+  "families": [
+    {
+      "family": "competitions",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I create a competition?",
+        "How do I set up an open competition?",
+        "How do I open the competition draw?"
+      ],
+      "staticAnswerCount": 3,
+      "staticAnswerPrompts": [
+        "How do I create a competition?",
+        "How do I set up an open competition?",
+        "How do I open the competition draw?"
+      ],
+      "approvedEvidence": {
+        "count": 2,
+        "byType": {
+          "system": 2
+        },
+        "titles": [
+          "Member competition charging and waiting list settings",
+          "Open competition course setup"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 46,
+        "queued": 46,
+        "blocked": 0,
+        "byTier": {
+          "read-and-draft-only": 46
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "contact-records",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I add a visitor contact?",
+        "How do I view contacts?",
+        "How do I filter contacts by category?"
+      ],
+      "staticAnswerCount": 2,
+      "staticAnswerPrompts": [
+        "How do I add a visitor contact?",
+        "How do I filter contacts by category?"
+      ],
+      "approvedEvidence": {
+        "count": 10,
+        "byType": {
+          "system": 9,
+          "workflow": 1
+        },
+        "titles": [
+          "Add Contact",
+          "Create and delete a temporary contact",
+          "Contacts summary",
+          "\"View Contacts\" [level=1]",
+          "View Contacts"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 35,
+        "queued": 35,
+        "blocked": 0,
+        "byTier": {
+          "safe-test-record-with-rollback": 35
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "contact-setup",
+      "coverageStatus": "static-only",
+      "priority": "high",
+      "promptsChecked": [
+        "Where do I manage contact categories?",
+        "How do I make a new contact type?"
+      ],
+      "staticAnswerCount": 2,
+      "staticAnswerPrompts": [
+        "Where do I manage contact categories?",
+        "How do I make a new contact type?"
+      ],
+      "approvedEvidence": {
+        "count": 0,
+        "byType": {},
+        "titles": []
+      },
+      "reviewBacklog": {
+        "total": 5,
+        "queued": 5,
+        "blocked": 0,
+        "byTier": {
+          "read-and-draft-only": 5
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "dashboard-navigation",
+      "coverageStatus": "mixed-static-and-dynamic",
+      "priority": "normal",
+      "promptsChecked": [
+        "How do I see today's bookings on the dashboard?",
+        "How do I open Golf Plus?"
+      ],
+      "staticAnswerCount": 2,
+      "staticAnswerPrompts": [
+        "How do I see today's bookings on the dashboard?",
+        "How do I open Golf Plus?"
+      ],
+      "approvedEvidence": {
+        "count": 1,
+        "byType": {
+          "system": 1
+        },
+        "titles": [
+          "Dashboard overview"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 1,
+        "queued": 1,
+        "blocked": 0,
+        "byTier": {
+          "read-only-complete": 1
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "golf-events",
+      "coverageStatus": "static-only",
+      "priority": "high",
+      "promptsChecked": [
+        "What is a golf event in BRS?",
+        "How do I set up a golf event?",
+        "How do I add an event organiser reservation?"
+      ],
+      "staticAnswerCount": 3,
+      "staticAnswerPrompts": [
+        "What is a golf event in BRS?",
+        "How do I set up a golf event?",
+        "How do I add an event organiser reservation?"
+      ],
+      "approvedEvidence": {
+        "count": 0,
+        "byType": {},
+        "titles": []
+      },
+      "reviewBacklog": {
+        "total": 8,
+        "queued": 8,
+        "blocked": 0,
+        "byTier": {
+          "read-and-draft-only": 8
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "manual-review",
+      "coverageStatus": "evidence-gap",
+      "priority": "highest",
+      "promptsChecked": [
+        "Review the BRS workflow for Untitled knowledge entry.",
+        "Review the BRS workflow for 0% - 0%.",
+        "Review the BRS workflow for 0% - 0%."
+      ],
+      "staticAnswerCount": 0,
+      "staticAnswerPrompts": [],
+      "approvedEvidence": {
+        "count": 0,
+        "byType": {},
+        "titles": []
+      },
+      "reviewBacklog": {
+        "total": 9,
+        "queued": 0,
+        "blocked": 9,
+        "byTier": {
+          "manual-review": 9
+        }
+      },
+      "note": "No static fallback dependency detected for the sampled prompts."
+    },
+    {
+      "family": "memberships",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I create a membership bill?",
+        "How do I create a payment scheme?",
+        "How do I find members with outstanding bills?"
+      ],
+      "staticAnswerCount": 3,
+      "staticAnswerPrompts": [
+        "How do I create a membership bill?",
+        "How do I create a payment scheme?",
+        "How do I find members with outstanding bills?"
+      ],
+      "approvedEvidence": {
+        "count": 6,
+        "byType": {
+          "workflow": 6
+        },
+        "titles": [
+          "Create a member profile workflow relationship map",
+          "Observed workflow: create or edit a flexible membership type",
+          "Membership type setup relationship map",
+          "Membership subscription setup relationship map",
+          "Flexible membership account relationship map",
+          "Workflow family: Find membership billing balances"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 20,
+        "queued": 20,
+        "blocked": 0,
+        "byTier": {
+          "read-and-draft-only": 20
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "messaging-setup",
+      "coverageStatus": "static-only",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I set up an email template?",
+        "How do I change the message at the top of the tee sheet?",
+        "How do I set up member groups for messaging?"
+      ],
+      "staticAnswerCount": 3,
+      "staticAnswerPrompts": [
+        "How do I set up an email template?",
+        "How do I change the message at the top of the tee sheet?",
+        "How do I set up member groups for messaging?"
+      ],
+      "approvedEvidence": {
+        "count": 0,
+        "byType": {},
+        "titles": []
+      },
+      "reviewBacklog": {
+        "total": 22,
+        "queued": 22,
+        "blocked": 0,
+        "byTier": {
+          "read-and-draft-only": 22
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "online-booking",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "What is online booking in BRS?",
+        "How do I check online tee bookings?",
+        "How do I configure online booking rules?"
+      ],
+      "staticAnswerCount": 2,
+      "staticAnswerPrompts": [
+        "What is online booking in BRS?",
+        "How do I configure online booking rules?"
+      ],
+      "approvedEvidence": {
+        "count": 2,
+        "byType": {
+          "system": 2
+        },
+        "titles": [
+          "Online Tee Bookings / Reservations"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 7,
+        "queued": 7,
+        "blocked": 0,
+        "byTier": {
+          "read-only-complete": 7
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "reports-search",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I find a booking by reference?",
+        "How do I run a visitor booking report?",
+        "Where do I download a VAT report?"
+      ],
+      "staticAnswerCount": 3,
+      "staticAnswerPrompts": [
+        "How do I find a booking by reference?",
+        "How do I run a visitor booking report?",
+        "Where do I download a VAT report?"
+      ],
+      "approvedEvidence": {
+        "count": 5,
+        "byType": {
+          "system": 5
+        },
+        "titles": [
+          "Reports",
+          "Reports course selector and Flex Points usage",
+          "\"Reports\" [level=1]",
+          "Reports index"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 34,
+        "queued": 34,
+        "blocked": 0,
+        "byTier": {
+          "read-only-complete": 34
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "restricted-outbound-messaging",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I send an email to members?",
+        "How do I text selected members?"
+      ],
+      "staticAnswerCount": 2,
+      "staticAnswerPrompts": [
+        "How do I send an email to members?",
+        "How do I text selected members?"
+      ],
+      "approvedEvidence": {
+        "count": 5,
+        "byType": {
+          "workflow": 1,
+          "system": 4
+        },
+        "titles": [
+          "Member messaging relationship map",
+          "Email Messaging",
+          "Email messaging options",
+          "Send an Email",
+          "Text messaging options"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 42,
+        "queued": 0,
+        "blocked": 42,
+        "byTier": {
+          "restricted": 42
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "restricted-payments",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I check BRS Payments transactions?",
+        "How do I set up payment methods?"
+      ],
+      "staticAnswerCount": 2,
+      "staticAnswerPrompts": [
+        "How do I check BRS Payments transactions?",
+        "How do I set up payment methods?"
+      ],
+      "approvedEvidence": {
+        "count": 2,
+        "byType": {
+          "workflow": 2
+        },
+        "titles": [
+          "Membership billing and payments relationship map",
+          "Observed workflow: create membership bills"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 18,
+        "queued": 0,
+        "blocked": 18,
+        "byTier": {
+          "restricted": 18
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "restricted-upload-import",
+      "coverageStatus": "static-only",
+      "priority": "high",
+      "promptsChecked": [
+        "Where do I upload members or contacts?",
+        "How do I upload a timesheet?"
+      ],
+      "staticAnswerCount": 2,
+      "staticAnswerPrompts": [
+        "Where do I upload members or contacts?",
+        "How do I upload a timesheet?"
+      ],
+      "approvedEvidence": {
+        "count": 0,
+        "byType": {},
+        "titles": []
+      },
+      "reviewBacklog": {
+        "total": 10,
+        "queued": 0,
+        "blocked": 10,
+        "byTier": {
+          "restricted": 10
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "restricted-users-permissions",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I add a staff user?",
+        "How do I change a staff user permission?"
+      ],
+      "staticAnswerCount": 2,
+      "staticAnswerPrompts": [
+        "How do I add a staff user?",
+        "How do I change a staff user permission?"
+      ],
+      "approvedEvidence": {
+        "count": 3,
+        "byType": {
+          "workflow": 1,
+          "system": 2
+        },
+        "titles": [
+          "User account and login workflow relationship map",
+          "User management summary",
+          "Manage Users"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 14,
+        "queued": 0,
+        "blocked": 14,
+        "byTier": {
+          "restricted": 14
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "settings-setup",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I set up reservation types and colours?",
+        "How do I set up booking statuses?",
+        "How do I set up green fee rates?"
+      ],
+      "staticAnswerCount": 3,
+      "staticAnswerPrompts": [
+        "How do I set up reservation types and colours?",
+        "How do I set up booking statuses?",
+        "How do I set up green fee rates?"
+      ],
+      "approvedEvidence": {
+        "count": 4,
+        "byType": {
+          "system": 4
+        },
+        "titles": [
+          "System Tools",
+          "Reservation type online booking control",
+          "Green Fee Rates advanced structure"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 134,
+        "queued": 134,
+        "blocked": 0,
+        "byTier": {
+          "read-and-draft-only": 134
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    },
+    {
+      "family": "timesheet-bookings",
+      "coverageStatus": "mixed-static-heavy",
+      "priority": "high",
+      "promptsChecked": [
+        "How do I add a single tee time booking?",
+        "How do I open booking details from the timesheet?",
+        "How do I cancel a tee time booking?"
+      ],
+      "staticAnswerCount": 3,
+      "staticAnswerPrompts": [
+        "How do I add a single tee time booking?",
+        "How do I open booking details from the timesheet?",
+        "How do I cancel a tee time booking?"
+      ],
+      "approvedEvidence": {
+        "count": 3,
+        "byType": {
+          "workflow": 2,
+          "system": 1
+        },
+        "titles": [
+          "Workflow family: Create a tee sheet booking",
+          "Workflow family: Move a tee sheet booking",
+          "Public and member online booking pages"
+        ]
+      },
+      "reviewBacklog": {
+        "total": 177,
+        "queued": 177,
+        "blocked": 0,
+        "byTier": {
+          "safe-test-record-with-rollback": 177
+        }
+      },
+      "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
+    }
+  ],
+  "sourceReviewRunPath": "data\\review-driver-runs\\2026-07-01T16-21-31-908Z-review-driver-run.json"
+}

@@ -961,6 +961,24 @@ test("verified rules legal rates and copy answers use exact demo labels", () => 
   assert.match(copyReply, /To Year/i);
 });
 
+test("golf events and competitions remain separate answer areas", () => {
+  const eventDefinition = approvedStaticWorkflowReply("What is a golf event in BRS?");
+  const eventSetup = approvedStaticWorkflowReply("How do I set up a golf event?");
+  const competitionDefinition = approvedStaticWorkflowReply("What is a competition in BRS?");
+  const competitionSetup = approvedStaticWorkflowReply("How do I set up an open competition?");
+  const genericOrganiserBooking = approvedStaticWorkflowReply("How do I handle an organiser booking?");
+
+  assert.match(eventDefinition, /Golf Events in BRS is a separate area from Competitions/i);
+  assert.match(eventSetup, /Open "Golf Events"/i);
+  assert.doesNotMatch(eventSetup, /Open Competitions/i);
+
+  assert.match(competitionDefinition, /Competitions in BRS are used for competition setup/i);
+  assert.match(competitionSetup, /Open Competitions/i);
+  assert.doesNotMatch(competitionSetup, /Open Golf Events/i);
+
+  assert.doesNotMatch(genericOrganiserBooking || "", /Open Golf Events/i);
+});
+
 test("candidate help guides must match the question object, not just the action", () => {
   assert.equal(
     candidateGuideMatchesQuestion("how do I add a member in the system", {
