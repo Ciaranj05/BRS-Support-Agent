@@ -185,6 +185,9 @@ function handleRefundClarificationFlow(message = "", history = [], { includeInit
     const reply = isNonBrsPaymentAnswer(message) ? approvedOfflineRefundReply() : approvedRefundReply(latestRefundType(history));
     return { reply, escalationReady: false, topic: "payments", options: [], version: "audience-aware-clarification-routing-v3" };
   }
+  if (includeInitialPrompt && /\brefund\b/.test(lower) && isNonBrsPaymentAnswer(message)) {
+    return { reply: approvedOfflineRefundReply(), escalationReady: false, topic: "payments", options: [], version: "audience-aware-clarification-routing-v3" };
+  }
   if (includeInitialPrompt && isBroadRefundRequest(lower)) {
     return { reply: "Is this a full refund or partial refund?", escalationReady: false, topic: "payments", options: fullPartialRefundOptions, version: "audience-aware-clarification-routing-v3" };
   }

@@ -821,6 +821,36 @@ test("expanded employee phrasing still reaches the right approved workflow", asy
 test("expanded live-review misses now route to protected answers", async () => {
   const cases = [
     [
+      "Where do I change the legal/privacy wording people agree to when they book online?",
+      /Set Up Legal Messages/i,
+      /Legal Messages[\s\S]*Privacy Policy|Visitor Terms and Conditions/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
+      "The tee sheet has a frost delay notice needed for tomorrow morning. Where do I put the message?",
+      /Message on the Timesheet|Messages on the Timesheet/i,
+      /Message on the Timesheet[\s\S]*Start Date[\s\S]*End Date/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
+      "Can I download a spreadsheet of junior member names and emails, not send them a message?",
+      /Create a Filtered Member Data Export|Export Member Email Addresses/i,
+      /Download CSV Members|Member Email Addresses for Outlook/i,
+      /Email Members in a Membership Type/i,
+    ],
+    [
+      "I need to show the committee how busy each reservation type was over the summer and maybe print it. What report do I use?",
+      /Run Tee Time Usage by Reservation Type/i,
+      /Start Date[\s\S]*End Date[\s\S]*Submit/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
+      "how do i txt all members about a frost delay?",
+      /Text Members in a Membership Type or Group/i,
+      /Text Messaging[\s\S]*SMS credit/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
       "who still owes subs money",
       /View Members Who Owe Membership Money|Find members with unpaid or outstanding membership balances/i,
       /Memberships[\s\S]*Reports[\s\S]*unpaid membership bills|outstanding balances/i,
@@ -863,10 +893,52 @@ test("expanded live-review misses now route to protected answers", async () => {
       /I don't have enough confirmed information/i,
     ],
     [
+      "how do i run a visitors revenew report for online bookins?",
+      /Run Visitor Booking Reports|Run a Visitor Report/i,
+      /Revenue From Visitor Online Bookings|visitor online booking revenue/i,
+      /Check Visitor Online Booking Availability/i,
+    ],
+    [
+      "How do I set visitor green fee prices for online booking?",
+      /Set Visitor Booking Rates|Set Up Green Fee Rates/i,
+      /Green Fee Rates|Visitor/i,
+      /Check Visitor Online Booking Availability/i,
+    ],
+    [
+      "Is a member account balance the same as a visitor booking payment?",
+      /Distinguish Member Billing from Tee Booking Payments/i,
+      /membership bill[\s\S]*tee-time or visitor booking payment/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
+      "A staff member can log in but cannot see reports. Where do I check access?",
+      /Check Staff User Report Access/i,
+      /User Group[\s\S]*permissions/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
+      "Where do I change facility booking terms?",
+      /Set Up Legal Messages/i,
+      /Facility Booking Terms and Conditions/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
+      "Can dashboard show today, and reports show last month? Which is which?",
+      /Dashboard vs Reports/i,
+      /Dashboard[\s\S]*Reports[\s\S]*last month/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
       "i need to chnage a users passwrod and also they cant see rpeorts",
       /Check a User Password and Report Access/i,
       /"?Password"? access and report visibility are separate checks/i,
       /Create a New User/i,
+    ],
+    [
+      "how do i serch for a bookng with only mob number",
+      /Search for a Booking/i,
+      /Search Text[\s\S]*Mobile/i,
+      /I don't have enough confirmed information/i,
     ],
     [
       "Morning, can u tell me why Johns booking isnt on the sheet?",
@@ -883,6 +955,15 @@ test("expanded live-review misses now route to protected answers", async () => {
     assert.match(result.reply, alsoExpected);
     assert.doesNotMatch(result.reply, forbidden);
   }
+});
+
+test("refund clarification handles known non-BRS payment methods before full-partial prompt", () => {
+  const source = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
+
+  const offlineBranch = "if (includeInitialPrompt && /\\brefund\\b/.test(lower) && isNonBrsPaymentAnswer(message))";
+  const broadBranch = "if (includeInitialPrompt && isBroadRefundRequest(lower))";
+  assert.notEqual(source.indexOf(offlineBranch), -1);
+  assert.ok(source.indexOf(offlineBranch) < source.indexOf(broadBranch));
 });
 
 test("static workflow answers use customer-facing wording and demo labels", () => {
