@@ -718,6 +718,20 @@ test("verified answer registry protects scoretest failures and partials from dyn
       /complete verified BRS workflow|Open the VAT report area/i,
     ],
     [
+      "A customer says they booked but I only caught half his surname. Where can I look them up?",
+      "search-booking",
+      /Search for a Booking/i,
+      /Search Bookings[\s\S]*Search Text[\s\S]*Reservation "?Name"?[\s\S]*Booking Ref\. Number/i,
+      /complete verified BRS workflow|I don't have enough confirmed information|escalate/i,
+    ],
+    [
+      "We need to stop 4 balls after 3pm on Fridays for visitors and members. Is that booking status or something else?",
+      "course-restriction-group-size",
+      /Configure Course Restrictions/i,
+      /Start Time[\s\S]*End Time[\s\S]*Player Types[\s\S]*Max Group Size/i,
+      /Set Up Booking Statuses|complete verified BRS workflow|I don't have enough confirmed information/i,
+    ],
+    [
       "We need a new contact type for society organisers. Is that in contacts or tools?",
       "contact-categories",
       /Set Up Contact Categories/i,
@@ -761,6 +775,42 @@ test("verified answer registry protects scoretest failures and partials from dyn
     const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
     assert.equal(result.route, "locked-static-safety");
     assert.equal(result.answerComposition.mode, "locked-static");
+    assert.match(result.reply, expected);
+    assert.match(result.reply, alsoExpected);
+    assert.doesNotMatch(result.reply, forbidden);
+  }
+});
+
+test("expanded employee phrasing still reaches the right approved workflow", async () => {
+  const cases = [
+    [
+      "cust says hes booked but i only caught half his surname, where do i find the tee time?",
+      /Search for a Booking/i,
+      /Search Text[\s\S]*Reservation "?Name"?[\s\S]*4 Player Names/i,
+      /I don't have enough confirmed information|escalate/i,
+    ],
+    [
+      "soz, we need to stop groups of four after 3pm for visitors - is that a booking status thing?",
+      /Configure Course Restrictions/i,
+      /Max Group Size[\s\S]*"?Booking Statuses"? are for tracking the booking lifecycle/i,
+      /Set Up Booking Statuses|I don't have enough confirmed information/i,
+    ],
+    [
+      "The society organiser wants buggy hire and hire clubs added to their tee booking. Where does that live?",
+      /Add Services to a Booking/i,
+      /Booking Details[\s\S]*buggy[\s\S]*club hire[\s\S]*main navigation menu[\s\S]*Tools[\s\S]*Services/i,
+      /Green Fee Rates|Contact Categories/i,
+    ],
+    [
+      "Captain says visitors cant see the open comp online yet - where should I set that up?",
+      /Set Up an Open Competition for Visitors/i,
+      /Open Competitions for Visitors[\s\S]*Booking Available Date[\s\S]*Booking Available Time/i,
+      /Reports Search|Golf Events/i,
+    ],
+  ];
+
+  for (const [question, expected, alsoExpected, forbidden] of cases) {
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
     assert.match(result.reply, expected);
     assert.match(result.reply, alsoExpected);
     assert.doesNotMatch(result.reply, forbidden);
