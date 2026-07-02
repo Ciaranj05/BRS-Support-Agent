@@ -477,6 +477,7 @@ test("hard-mode precedence keeps specific workflows ahead of generic routes", ()
   assert.match(openCompReply, /competition/i);
   assert.match(openCompReply, /charges/i);
   assert.equal(routeActionRequest("add warning note on tee sheet"), null);
+  assert.equal(routeActionRequest("Visitors say no tee times are showing on the website for next month. What setup should I check?"), null);
 });
 
 test("uploads and ambiguous grace periods do not fall through to model fallback", async () => {
