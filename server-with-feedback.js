@@ -17,6 +17,7 @@ import { contextualiseShortClarificationFollowUp, exhaustedWorkflowFollowUpPaylo
 import { routeActionRequest } from "./lib/actionRouter.js";
 import { runQaAnalysis } from "./lib/qaAnalysis.js";
 import { approvedStaticWorkflowReply, isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
+import { verifiedStaticReplyMatch } from "./lib/verifiedAnswerRegistry.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
@@ -427,12 +428,33 @@ async function enhancedChatHandler(req, res, next) {
     }
 
     const approvedStaticReply = approvedStaticWorkflowReply(routingMessage);
+    const verifiedStaticMatch = verifiedStaticReplyMatch(routingMessage, approvedStaticReply);
     debug.stages.push({
       name: "approved-static-precheck",
       matched: Boolean(approvedStaticReply),
-      directReturn: false,
-      reason: approvedStaticReply ? "static snippets are now evidence for the knowledge synthesis path" : null,
+      directReturn: Boolean(verifiedStaticMatch),
+      verifiedRule: verifiedStaticMatch?.id || null,
+      reason: verifiedStaticMatch
+        ? "verified static answer has priority before object-first clarification"
+        : approvedStaticReply
+          ? "static snippets are now evidence for the knowledge synthesis path"
+          : null,
     });
+
+    if (verifiedStaticMatch) {
+      const handled = await respondFromKnowledge({
+        req,
+        res,
+        message: routingMessage,
+        originalMessage,
+        debug,
+        debugEnabled,
+        routeLabel: "verified-static-precheck",
+        allowDynamicKnowledge: false,
+        queueKnowledgeGaps: false,
+      });
+      if (handled) return;
+    }
 
     if (isMemberBalanceLookup(routingMessage)) {
       debug.stages.push({ name: "direct-member-balance-intent", matched: true });

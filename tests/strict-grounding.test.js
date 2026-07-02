@@ -11,6 +11,7 @@ import { approvedStaticWorkflowReply, isSuperuserCreateRequest } from "../lib/st
 import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/relatedGuides.js";
 import { approvedRefundReply, approvedOfflineRefundReply } from "../server.js";
 import { applyAnswerQualityGate } from "../lib/answerQuality.js";
+import { verifiedStaticReplyMatch } from "../lib/verifiedAnswerRegistry.js";
 
 test("classifies operational BRS questions as workflow questions", () => {
   assert.equal(isBRSWorkflowQuestion("how do I add a buggy to a booking"), true);
@@ -72,6 +73,14 @@ test("production chat route can skip dynamic knowledge before stateful clarifica
 test("production chat route returns specific object-first answers before model fallback", () => {
   const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
 
+  assert.match(serverSource, /verifiedStaticReplyMatch/);
+  assert.match(serverSource, /routeLabel: "verified-static-precheck"/);
+  assert.match(serverSource, /allowDynamicKnowledge: false/);
+  assert.match(serverSource, /queueKnowledgeGaps: false/);
+  assert.ok(
+    serverSource.search(/const verifiedStaticMatch = verifiedStaticReplyMatch\(routingMessage, approvedStaticReply\)/) <
+    serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(routingMessage\)/)
+  );
   assert.match(serverSource, /objectFirstReply\?\.routeStrength === "specific"/);
   assert.ok(
     serverSource.search(/const objectFirstReply = answerFromObjectFirstRouting\(routingMessage\)/) <
@@ -693,6 +702,65 @@ test("second-round accuracy regressions use locked verified routes", async () =>
   for (const [question, expected, alsoExpected, forbidden] of cases) {
     const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
     assert.equal(result.route, "locked-static-safety");
+    assert.match(result.reply, expected);
+    assert.match(result.reply, alsoExpected);
+    assert.doesNotMatch(result.reply, forbidden);
+  }
+});
+
+test("verified answer registry protects scoretest failures and partials from dynamic or object-first overrides", async () => {
+  const cases = [
+    [
+      "The manager wants a VAT report for the month. Where do I download it?",
+      "brs-payments-vat-report",
+      /Download a BRS Payments VAT Report/i,
+      /VAT Reports[\s\S]*invoice period month and year[\s\S]*PDF or CSV/i,
+      /complete verified BRS workflow|Open the VAT report area/i,
+    ],
+    [
+      "We need a new contact type for society organisers. Is that in contacts or tools?",
+      "contact-categories",
+      /Set Up Contact Categories/i,
+      /Tools[\s\S]*Contact Categories[\s\S]*contact records/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "The captain is asking about terms and conditions on the all Ireland open competition search bit. Is that part of reports search or open comps?",
+      "open-competition-terms",
+      /Set Open Competition Terms and Conditions/i,
+      /Legal Messages[\s\S]*All Ireland Open Competitions "?Search"? Facility/i,
+      /Run a Report|complete verified BRS workflow/i,
+    ],
+    [
+      "A member says they paid a bill but I also see BRS Payments transactions. Where should I check first?",
+      "member-bill-brs-payments-reconciliation",
+      /Check a Member Bill Payment Against BRS Payments/i,
+      /member's Billing area[\s\S]*BRS Payments[\s\S]*Transactions/i,
+      /What are you trying to do for the member|unpaid or outstanding membership balances/i,
+    ],
+    [
+      "We have a corporate day and the organiser needs some tee times blocked out. Is that Golf Events and how do I start?",
+      "golf-event-organiser-reservation",
+      /Set Up a Golf Event Organiser Reservation/i,
+      /Event Date[\s\S]*Event "?Start Time"?[\s\S]*Event "?End Time"?[\s\S]*Event "?Username"?/i,
+      /Open Competitions|Create a Competition/i,
+    ],
+    [
+      "I forgot my own BRS password. Is there a change password area?",
+      "user-password",
+      /Change or Reset a User Password/i,
+      /Forgot password[\s\S]*Change My "?Password"?[\s\S]*Current "?Password"?[\s\S]*New "?Password"?[\s\S]*Confirm "?Password"?/i,
+      /Create a New User/i,
+    ],
+  ];
+
+  for (const [question, expectedRule, expected, alsoExpected, forbidden] of cases) {
+    const staticReply = approvedStaticWorkflowReply(question);
+    assert.equal(verifiedStaticReplyMatch(question, staticReply)?.id, expectedRule);
+
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
+    assert.equal(result.route, "locked-static-safety");
+    assert.equal(result.answerComposition.mode, "locked-static");
     assert.match(result.reply, expected);
     assert.match(result.reply, alsoExpected);
     assert.doesNotMatch(result.reply, forbidden);
