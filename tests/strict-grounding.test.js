@@ -887,6 +887,12 @@ test("expanded live-review misses now route to protected answers", async () => {
       /Search for a Booking\n/i,
     ],
     [
+      "Visitors can enter the open competition, but the legal wording and the visitor fee both look wrong. What areas are involved?",
+      /Check an Open Competition Visitor Query Across Areas/i,
+      /Open Competitions for Visitors[\s\S]*visitor fee[\s\S]*Legal Messages/i,
+      /complete verified BRS workflow|For visitor or open competition charging/i,
+    ],
+    [
       "We have a hotel partner sending guests. Where should their company record live?",
       /Add a New Contact/i,
       /Contacts[\s\S]*Add New[\s\S]*Company \/ Group Name[\s\S]*Contact Category/i,
@@ -941,6 +947,12 @@ test("expanded live-review misses now route to protected answers", async () => {
       /Check Visitor Online Booking Availability/i,
     ],
     [
+      "A customer owes a non-booking balance. Can I send them a payment link?",
+      /Create a General Payment Request/i,
+      /BRS Payments[\s\S]*General Payment Requests[\s\S]*non-booking balance/i,
+      /Check Payments on a Booking|Booking Details/i,
+    ],
+    [
       "Is a member account balance the same as a visitor booking payment?",
       /Distinguish Member Billing from Tee Booking Payments/i,
       /membership bill[\s\S]*tee-time or visitor booking payment/i,
@@ -975,6 +987,12 @@ test("expanded live-review misses now route to protected answers", async () => {
       /Search for a Booking/i,
       /Search Text[\s\S]*Mobile/i,
       /I don't have enough confirmed information/i,
+    ],
+    [
+      "opne comp visotrs cant book online but members can see the comp",
+      /Set Up an Open Competition for Visitors/i,
+      /Open Competitions for Visitors[\s\S]*Booking Available Date[\s\S]*Booking Available Time/i,
+      /complete verified BRS workflow|Golf Events/i,
     ],
     [
       "Morning, can u tell me why Johns booking isnt on the sheet?",
