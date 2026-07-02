@@ -57,6 +57,7 @@ test("lets action-led membership questions use approved knowledge instead of cat
     "add a bill for a member",
     "how do I cancel a subscription",
     "set up a payment scheme",
+    "can I put a member on instalments",
     "change a member invoice",
   ];
 

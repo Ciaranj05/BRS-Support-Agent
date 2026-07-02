@@ -301,6 +301,8 @@ test("approved membership bill creation questions do not fall through to unknown
   const balanceReply = approvedStaticWorkflowReply("How do I find members with outstanding bills?");
 
   assert.equal(isMemberBalanceReportQuestion("How do I create a membership bill?"), false);
+  assert.equal(isMemberBalanceReportQuestion("What are bills?"), false);
+  assert.equal(isMemberBalanceReportQuestion("How do I charge members for a competition?"), false);
   assert.equal(isMemberBalanceReportQuestion("How do I find members with outstanding bills?"), true);
 
   for (const reply of [directBillReply, plainBillReply, membershipBillReply, addBillReply, invoiceReply]) {
@@ -549,6 +551,79 @@ test("broad live-failure regressions keep specific routes ahead of generic ones"
   assert.match(sheetMessageReply, /Messages on the Timesheet/i);
   assert.doesNotMatch(sheetMessageReply, /Email the Timesheet/i);
   assert.match(vatReply, /BRS Payments VAT Report/i);
+});
+
+test("employee accuracy scoretest regressions route to the specific workflow object", async () => {
+  const titleReply = approvedStaticWorkflowReply("Where do I change the title that appears on a Saturday tee sheet?");
+  const sheetNoticeReply = approvedStaticWorkflowReply("I need a frost delay notice on the tee sheet");
+  const outlookReply = approvedStaticWorkflowReply("I need email addresses for Outlook, not to send email in BRS");
+  const bookingSearchReply = approvedStaticWorkflowReply("How do I find someone who booked this morning if I only have part of their name?");
+  const contactLookupReply = approvedStaticWorkflowReply("Where do I look up a contact record?");
+  const groupSetupReply = approvedStaticWorkflowReply("I need to make a group first so later we can email or text them, not sending yet");
+  const smsReply = approvedStaticWorkflowReply("How do I text all members about a frost delay?");
+  const clubMessageReply = approvedStaticWorkflowReply("Where do I send a club app message to everyone?");
+  const openCompTermsReply = approvedStaticWorkflowReply("Where do I change the terms for an open competition?");
+  const competitionChargesReply = await answerFromKnowledge("How do I charge members for a competition?", { allowDynamic: false });
+  const billsReply = await answerFromKnowledge("What are bills?", { allowDynamic: false });
+  const paymentPlanReply = approvedStaticWorkflowReply("Can I put a member on instalments?");
+  const uploadReply = approvedStaticWorkflowReply("I need to upload a spreadsheet of members");
+  const transactionsReply = approvedStaticWorkflowReply("I need a CSV of card payments taken online");
+  const legalReply = approvedStaticWorkflowReply("Where do I set the privacy policy that appears in the app?");
+  const courseRestrictionReply = approvedStaticWorkflowReply("Where do I stop members booking four-balls on one course?");
+  const tourOperatorReply = approvedStaticWorkflowReply("How do I set tour operator prices for online booking?");
+
+  assert.match(titleReply, /Title for Each Day/i);
+  assert.doesNotMatch(titleReply, /Members Booking App/i);
+
+  assert.match(sheetNoticeReply, /Message on the Timesheet|Messages on the Timesheet/i);
+  assert.doesNotMatch(sheetNoticeReply, /Email the Timesheet|Schedule a Message/i);
+
+  assert.match(outlookReply, /Member Email Addresses for Outlook/i);
+  assert.doesNotMatch(outlookReply, /Email Members|Email Messaging/i);
+
+  assert.match(bookingSearchReply, /Search for a Booking/i);
+  assert.match(bookingSearchReply, /Search Bookings/i);
+
+  assert.match(contactLookupReply, /Contact Record/i);
+  assert.doesNotMatch(contactLookupReply, /Memberships/i);
+
+  assert.match(groupSetupReply, /Member Groups for Messaging/i);
+  assert.doesNotMatch(groupSetupReply, /Schedule a Message/i);
+
+  assert.match(smsReply, /Text Members in a Membership Type or Group/i);
+  assert.doesNotMatch(smsReply, /Schedule a Message/i);
+
+  assert.match(clubMessageReply, /Club Message to All Members/i);
+  assert.doesNotMatch(clubMessageReply, /Members Booking App/i);
+
+  assert.match(openCompTermsReply, /Open Competition Terms|Legal Messages/i);
+  assert.doesNotMatch(openCompTermsReply, /Run a Report/i);
+
+  assert.match(competitionChargesReply, /Competition Charges|Member Competition Charges/i);
+  assert.match(competitionChargesReply, /competition purse|purse\/payment/i);
+  assert.doesNotMatch(competitionChargesReply, /unpaid membership bills|Overdue Bills|membership balances/i);
+
+  assert.match(billsReply, /Bills in BRS are membership billing records/i);
+  assert.doesNotMatch(billsReply, /Overdue Bills|unpaid or outstanding membership balances/i);
+
+  assert.match(paymentPlanReply, /Payment Scheme to a Membership Bill/i);
+  assert.doesNotMatch(paymentPlanReply, /What are you trying to do/i);
+
+  assert.match(uploadReply, /Upload Members or Contacts/i);
+  assert.doesNotMatch(uploadReply, /Download CSV Members|Filtered Member Data Export/i);
+
+  assert.match(transactionsReply, /BRS Payments Transactions/i);
+  assert.doesNotMatch(transactionsReply, /complete verified BRS workflow/i);
+
+  assert.match(legalReply, /Legal Messages/i);
+  assert.doesNotMatch(legalReply, /Members Booking App/i);
+
+  assert.match(courseRestrictionReply, /Course Restrictions/i);
+  assert.match(courseRestrictionReply, /Max Group Size/i);
+  assert.doesNotMatch(courseRestrictionReply, /Booking Statuses/i);
+
+  assert.match(tourOperatorReply, /Tour Operator Booking Rates/i);
+  assert.match(tourOperatorReply, /Green Fee Rates for Visitors/i);
 });
 
 test("static workflow answers use customer-facing wording and demo labels", () => {
