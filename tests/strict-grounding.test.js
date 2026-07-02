@@ -817,6 +817,73 @@ test("expanded employee phrasing still reaches the right approved workflow", asy
   }
 });
 
+test("expanded live-review misses now route to protected answers", async () => {
+  const cases = [
+    [
+      "who still owes subs money",
+      /View Members Who Owe Membership Money|Find members with unpaid or outstanding membership balances/i,
+      /Memberships[\s\S]*Reports[\s\S]*unpaid membership bills|outstanding balances/i,
+      /complete verified BRS workflow|I don't have enough confirmed information/i,
+    ],
+    [
+      "how do i make a new contct cat for tour opperators?",
+      /Set Up Contact Categories/i,
+      /Tools[\s\S]*Contact Categories[\s\S]*contact records/i,
+      /What is the customer trying to do/i,
+    ],
+    [
+      "Can I export contact email addresses for tour operators without emailing them?",
+      /Run a Contact Report/i,
+      /export\/download control[\s\S]*email-sending workflow only when you want to send/i,
+      /Email Contacts\n|Email Messaging/i,
+    ],
+    [
+      "SMS has stopped sending. Where do I check credits?",
+      /Buy Text Messaging Credit|Check Why a Recipient Is Not Receiving BRS Text Messages/i,
+      /Text Messaging|SMS credit/i,
+      /complete verified BRS workflow|I don't have enough confirmed information/i,
+    ],
+    [
+      "Where do I change the terms on the all Ireland open competition search page?",
+      /Set Open Competition Terms and Conditions/i,
+      /Legal Messages[\s\S]*All Ireland Open Competitions/i,
+      /Set Up an Open Competition for Visitors/i,
+    ],
+    [
+      "Can you just make the booking for me if I give you the customer name?",
+      /Chatbot Guidance for Live BRS Records/i,
+      /cannot create, edit, or look up live BRS records[\s\S]*staff must make or change bookings directly in BRS/i,
+      /Search for a Booking\n/i,
+    ],
+    [
+      "Visitors say no tee times are showing on the website for next month. What setup should I check?",
+      /Check Visitor Online Booking Availability/i,
+      /Green Fee Rates[\s\S]*Course Restriction[\s\S]*advance-booking window/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
+      "i need to chnage a users passwrod and also they cant see rpeorts",
+      /Check a User Password and Report Access/i,
+      /"?Password"? access and report visibility are separate checks/i,
+      /Create a New User/i,
+    ],
+    [
+      "Morning, can u tell me why Johns booking isnt on the sheet?",
+      /Find a Booking That Is Not Showing on the Timesheet/i,
+      /Search Bookings[\s\S]*date, course, player\/customer, and reference/i,
+      /I don't have enough confirmed information/i,
+    ],
+  ];
+
+  for (const [question, expected, alsoExpected, forbidden] of cases) {
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
+    assert.equal(result.route, "locked-static-safety");
+    assert.match(result.reply, expected);
+    assert.match(result.reply, alsoExpected);
+    assert.doesNotMatch(result.reply, forbidden);
+  }
+});
+
 test("static workflow answers use customer-facing wording and demo labels", () => {
   const replies = [
     approvedStaticWorkflowReply("where do i change club email address"),
