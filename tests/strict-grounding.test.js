@@ -244,7 +244,7 @@ test("approved static workflows avoid misleading safety and routing wording", ()
   assert.match(refundReply, /Booking Details/i);
   assert.match(refundReply, /Payments/i);
   assert.match(refundReply, /Click "?Refund"? beside the correct payment/i);
-  assert.match(refundReply, /Processed refunds can be found under "?Tools"? > "?BRS Payments"? > "?Refunds"?/i);
+  assert.match(refundReply, /After processing[\s\S]*"?Tools"? > "?BRS Payments"? > "?Refunds"?/i);
   assert.doesNotMatch(refundReply, /use the "?BRS Payments"? refund route/i);
   assert.match(memberBillRefundReply, /taken through "?BRS Payments"?/i);
   assert.match(memberBillRefundReply, /non-BRS method/i);
@@ -763,7 +763,7 @@ test("verified answer registry protects scoretest failures and partials from dyn
     [
       "I forgot my own BRS password. Is there a change password area?",
       "user-password",
-      /Change or Reset a User Password/i,
+      /Change or Reset a User Password|Change or Reset Your Own BRS Password/i,
       /Forgot password[\s\S]*Change My "?Password"?[\s\S]*Current "?Password"?[\s\S]*New "?Password"?[\s\S]*Confirm "?Password"?/i,
       /Create a New User/i,
     ],
@@ -1011,6 +1011,132 @@ test("expanded live-review misses now route to protected answers", async () => {
   }
 });
 
+test("release-readiness blocker questions route to verified final answers", async () => {
+  const cases = [
+    [
+      "The course is shut for hollow coring next Tuesday morning. Do I block the tee times or use a restriction?",
+      "course-closure-restriction",
+      /Close or Restrict Tee Times for Course Work/i,
+      /"?Course"? Restrictions[\s\S]*Do not use "?Booking Statuses"?/i,
+      /Create a Competition|Golf Events/i,
+    ],
+    [
+      "Can you move the 9:20 Smith booking to 10:10 for me?",
+      "live-booking-change-guardrail",
+      /Chatbot Guidance for Live Booking Changes|Move a booking/i,
+      /cannot move(?:, edit, cancel, or delete)? a live BRS booking[\s\S]*Cut[\s\S]*Paste/i,
+      /I moved|I have moved/i,
+    ],
+    [
+      "I need a printable report of cancelled tee times for last weekend. What report should I use?",
+      "cancelled-bookings-report",
+      /Run a Cancelled Bookings Report/i,
+      /Reports[\s\S]*Cancelled Bookings[\s\S]*Print Report/i,
+      /I don't have enough confirmed information/i,
+    ],
+    [
+      "A visitor paid online for a tee time and cancelled. How do I refund the card payment and check it later?",
+      "online-tee-time-refund",
+      /Refund an Online Tee-Time Booking Payment/i,
+      /Booking Details[\s\S]*Refund[\s\S]*Tools[\s\S]*BRS Payments[\s\S]*Refunds/i,
+      /Visitor Booking Availability|Green Fee Rates/i,
+    ],
+    [
+      "A member has wallet credit but also an unpaid renewal bill. Are those the same balance?",
+      "wallet-vs-membership-bill",
+      /Distinguish Member Wallet Credit from an Unpaid Membership Bill/i,
+      /not the same[\s\S]*wallet\/account balance[\s\S]*Billing/i,
+      /Renew Memberships for the New Year/i,
+    ],
+    [
+      "I need to change a member from intermediate to full member. Is that a user login change?",
+      "membership-category-change",
+      /Change a Member's Membership Category/i,
+      /Membership Type[\s\S]*not the same as changing[\s\S]*BRS login user/i,
+      /Add a User|Create new user/i,
+    ],
+    [
+      "A local hotel sends visitors to us. Where do I store the hotel company details?",
+      "add-contact-company-record",
+      /Add a New Contact/i,
+      /Contacts[\s\S]*Company \/ Group Name[\s\S]*Contact Category/i,
+      /Memberships/i,
+    ],
+    [
+      "Where do I send a club app push message to members?",
+      "club-message-members",
+      /Send a Club Message to All Members/i,
+      /Club Messaging[\s\S]*"?Message"? All "?Members"?/i,
+      /Text Messaging|Email Messaging/i,
+    ],
+    [
+      "i need to reset my own brs passwrd",
+      "user-password",
+      /Change or Reset Your Own BRS Password/i,
+      /Forgot password[\s\S]*Change My "?Password"?/i,
+      /report access|Create a New User/i,
+    ],
+    [
+      "Corporate outing, no scoring or draw, just reserved tee times for an organiser. Is that a competition?",
+      "golf-events-vs-competitions",
+      /Golf Events vs Competitions/i,
+      /Use Golf Events[\s\S]*use Competitions when/i,
+      /Close or Restrict Tee Times for Course Work/i,
+    ],
+    [
+      "Where do I change the terms people agree to for room bookings?",
+      "facility-booking-terms",
+      /Set Up Legal Messages/i,
+      /Facility Booking Terms and Conditions/i,
+      /Find a Facility Reservation|Search Bookings/i,
+    ],
+    [
+      "What does online booking mean in BRS compared with bookings staff enter in the shop?",
+      "online-vs-staff-bookings",
+      /Online vs Staff-Entered Bookings/i,
+      /made by members, visitors, or other eligible users[\s\S]*staff-entered bookings/i,
+      /Check Visitor Online Booking Availability/i,
+    ],
+    [
+      "Can I delete all visitor bookings for tomorrow in one go?",
+      "unsafe-bulk-booking-change",
+      /bulk-delete or bulk-cancellation instructions/i,
+      /confirm the date range[\s\S]*payment status[\s\S]*customer notifications/i,
+      /Click "?Delete"?|delete the selected bookings/i,
+    ],
+    [
+      "Where do I add a new no-show reason?",
+      "no-show-reasons",
+      /Set Up No Show Reasons/i,
+      /Tools[\s\S]*No Show Reasons[\s\S]*Name[\s\S]*Supported/i,
+      /No Shows report/i,
+    ],
+    [
+      "How do I change the booking confirmation email template?",
+      "booking-confirmation-template",
+      /Set Up Email and Letter Templates/i,
+      /Booking Confirmation[\s\S]*TAG values/i,
+      /Search for a Booking/i,
+    ],
+  ];
+
+  for (const [question, expectedRule, expected, alsoExpected, forbidden] of cases) {
+    const staticReply = approvedStaticWorkflowReply(question);
+    assert.equal(verifiedStaticReplyMatch(question, staticReply)?.id, expectedRule);
+
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
+    if (expectedRule === "live-booking-change-guardrail") {
+      assert.ok(["locked-static-safety", "locked-move-booking"].includes(result.route));
+    } else {
+      assert.equal(result.route, "locked-static-safety");
+    }
+    assert.equal(result.answerComposition.mode, "locked-static");
+    assert.match(result.reply, expected);
+    assert.match(result.reply, alsoExpected);
+    assert.doesNotMatch(result.reply, forbidden);
+  }
+});
+
 test("refund clarification handles known non-BRS payment methods before full-partial prompt", () => {
   const source = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
 
@@ -1018,6 +1144,8 @@ test("refund clarification handles known non-BRS payment methods before full-par
   const broadBranch = "if (includeInitialPrompt && isBroadRefundRequest(lower))";
   assert.notEqual(source.indexOf(offlineBranch), -1);
   assert.ok(source.indexOf(offlineBranch) < source.indexOf(broadBranch));
+  assert.match(source, /lower\.includes\("card terminal"\)/);
+  assert.match(source, /lower\.includes\("shop terminal"\)/);
 });
 
 test("static workflow answers use customer-facing wording and demo labels", () => {

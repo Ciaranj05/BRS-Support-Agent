@@ -164,7 +164,16 @@ function isBrsPaymentAnswer(message = "") {
 
 function isNonBrsPaymentAnswer(message = "") {
   const lower = normaliseMessage(message);
-  return lower.includes("not taken through brs") || lower.includes("other payment") || lower.includes("cash") || lower.includes("pdq") || lower.includes("cheque") || lower === "no";
+  return lower.includes("not taken through brs") ||
+    lower.includes("other payment") ||
+    lower.includes("cash") ||
+    lower.includes("pdq") ||
+    lower.includes("cheque") ||
+    lower.includes("card terminal") ||
+    lower.includes("shop terminal") ||
+    lower.includes("terminal in the shop") ||
+    lower.includes("external terminal") ||
+    lower === "no";
 }
 
 function latestRefundType(history = []) {
