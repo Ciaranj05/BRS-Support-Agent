@@ -10,7 +10,7 @@ test("blocks high-risk payment messaging user and import workflows", () => {
   const cases = [
     ["Process Competition Charges", "restricted-payments"],
     ["Send an Email confirmed BRS page evidence", "restricted-outbound-messaging"],
-    ["Member [redacted-name] for Email and Text", "restricted-outbound-messaging"],
+    ["Text Messages confirmed BRS page evidence", "restricted-outbound-messaging"],
     ["Manage Users confirmed BRS page evidence", "restricted-users-permissions"],
     ["Upload Timesheet confirmed BRS page evidence", "restricted-upload-import"],
   ];
@@ -53,6 +53,8 @@ test("keeps setup and report areas out of broad booking or payment families", ()
   });
   const waitingList = classifyReviewEntryForDriver({ title: "Add member to waiting list workflow" });
   const onlineBooking = classifyReviewEntryForDriver({ title: "Book Tee Times Online at [redacted-club] confirmed BRS page evidence" });
+  const membershipMessagingGroup = classifyReviewEntryForDriver({ title: "Member [redacted-name] for Email and Text" });
+  const openCompetitionTerms = classifyReviewEntryForDriver({ title: "Terms and Conditions - All Ireland Open Competitions Search Facility confirmed BRS page evidence" });
 
   assert.equal(greenFees.driverFamily, "settings-setup");
   assert.equal(bookingStatuses.driverFamily, "settings-setup");
@@ -62,6 +64,9 @@ test("keeps setup and report areas out of broad booking or payment families", ()
   assert.equal(systemTools.driverFamily, "settings-setup");
   assert.equal(waitingList.driverFamily, "competitions");
   assert.equal(onlineBooking.driverFamily, "online-booking");
+  assert.equal(membershipMessagingGroup.driverFamily, "messaging-setup");
+  assert.equal(membershipMessagingGroup.driverTier, "read-and-draft-only");
+  assert.equal(openCompetitionTerms.driverFamily, "competitions");
 });
 
 test("keeps Golf Events separate from Competitions", () => {

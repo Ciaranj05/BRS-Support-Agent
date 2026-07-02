@@ -5,6 +5,13 @@ import { classifyReviewEntryForDriver } from "../lib/reviewEntryDrivers.js";
 
 const REVIEW_QUEUE_PATH = path.join(process.cwd(), "knowledge", "review-queue.json");
 const OUTPUT_PATH = path.join(process.cwd(), "knowledge", "workflows", "review-backlog-completions-2026-07-02.json");
+const SAFE_SENSITIVE_COMPLETION_TITLE_KEYS = new Set([
+  "add member to waiting list",
+  "demo explored workflow routes",
+  "member redacted name for email and text",
+  "terms and conditions all ireland open competitions search facility",
+  "text messages",
+]);
 
 function slugify(value = "workflow") {
   return String(value || "workflow")
@@ -23,6 +30,8 @@ function cleanTitle(value = "") {
     .replace(/\s+confirmed BRS page evidence$/i, "")
     .replace(/\s+workflow surface$/i, "")
     .replace(/\s+workflow$/i, "")
+    .replace(/\s*\[level=\d+\]/ig, "")
+    .replace(/^["']|["']$/g, "")
     .replace(/\s+for\s+20\d{2}$/i, "")
     .replace(/\s+for\s+[A-Z][a-z]{2}\s+20\d{2}$/i, "")
     .replace(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\[redacted-date\]\s+/i, "")
@@ -32,9 +41,11 @@ function cleanTitle(value = "") {
 }
 
 function subjectFor(entry = {}) {
-  const text = `${cleanTitle(entry.title || "")} ${cleanTitle(entry.area || "")}`.toLowerCase();
+  const titleText = cleanTitle(entry.title || "").toLowerCase();
+  const areaText = cleanTitle(entry.area || "").toLowerCase();
+  const text = `${titleText} ${areaText}`;
   if (/\bbrs page\b|^setup workflow\b/.test(text)) return "System Tools";
-  if (/\b0%\b|tee booking system|^bookings\b/.test(text)) return "Timesheet";
+  if (/demo explored.*routes|brs demo workflow exploration/.test(text)) return "Timesheet";
   if (/\bbooking details\b/.test(text)) return "Booking Details";
   if (/\bsqueeze tee time\b/.test(text)) return "Squeeze Tee Time";
   if (/\b(january|february|march|april|may|june|july|august|september|october|november|december)\s+20\d{2}\b|\bcalendar\b/.test(text)) return "Calendar";
@@ -52,21 +63,45 @@ function subjectFor(entry = {}) {
   if (/casual booking rules/.test(text)) return "Casual Booking Rules";
   if (/day ticket rates/.test(text)) return "Day Ticket Rates for Visitors";
   if (/system configuration/.test(text)) return "System Configuration";
-  if (/membership groups/.test(text)) return "Membership Groups for Email and Text";
+  if (/course restriction/.test(text)) return "System Tools";
+  if (/member\s+\[redacted-name\]\s+for email and text|membership groups/.test(text)) return "Membership Groups for Email and Text";
   if (/service reminder email/.test(text)) return "Service Reminder Email";
-  if (/send a text/.test(text)) return "Send a Text";
+  if (/text messages|send a text/.test(text)) return "Send a Text";
   if (/purchase sms/.test(text)) return "Purchase SMS Text Messaging Credit";
   if (/enter club message|club message detail/.test(text)) return "Club Messages";
   if (/view \/ update user details/.test(text)) return "View / Update User Details";
   if (/change my password/.test(text)) return "Change My Password";
   if (/create a new user/.test(text)) return "Create a New User";
-  if (/open competitions/.test(text)) return "Open Competitions";
+  if (/add member to waiting list/.test(text)) return "Add member to waiting list";
+  if (/terms and conditions.*open competitions|open competitions.*terms and conditions|open competitions/.test(text)) return "Open Competitions";
   if (/golf events/.test(text)) return "Golf Events";
   if (/vat reports/.test(text)) return "VAT Reports";
   if (/balance transactions/.test(text)) return "Balance Transactions";
   if (/create payment request/.test(text)) return "Create Payment Request";
   if (/edit contact/.test(text)) return "Edit Contact";
+  if (/\b0%\b|tee booking system|^bookings\b/.test(titleText) || (!titleText && /tee booking system|^bookings\b/.test(areaText))) return "Timesheet";
   return cleanTitle(entry.title || entry.area || "Workflow");
+}
+
+function isNonActionableCompletionSource(entry = {}) {
+  const title = normalisedCompletionTitle(entry);
+  return ["0", "0%", "untitled knowledge entry"].includes(title);
+}
+
+function normalisedCompletionTitle(entry = {}) {
+  return cleanTitle(entry.title || entry.area || "")
+    .toLowerCase()
+    .replace(/\[level=\d+\]/g, " ")
+    .replace(/[^a-z0-9%]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function canUseForCompletion(entry = {}) {
+  if (isNonActionableCompletionSource(entry)) return false;
+  if (entry.reviewReason === "incomplete-workflow-evidence") return true;
+  if (entry.reviewReason !== "sensitive-or-live-crawl-data") return false;
+  return SAFE_SENSITIVE_COMPLETION_TITLE_KEYS.has(normalisedCompletionTitle(entry));
 }
 
 function controls(...labels) {
@@ -435,6 +470,25 @@ const SUBJECT_TEMPLATES = {
     controls: controls("Competition Date", "Start Time", "End Time", "Competition Name", "Booking Format", "Playing Format", "Member Green Fee", "Visitor Green Fee", "Booking Available"),
     actions: actions(["Add", "create/update"], ["Edit", "open/run"], ["Save", "create/update"]),
   },
+  "Add member to waiting list": {
+    area: "Competitions",
+    workflowFamily: "Competition waiting list",
+    routes: [{
+      name: "Competition waiting-list route",
+      steps: [
+        "Open the relevant member or open competition.",
+        "Open the entrant, booking, or waiting-list management area for that competition.",
+        "Search for and select the member to be added.",
+        "Add the member to the waiting list only when the club has authorised the change.",
+        "Verify the member appears on the waiting list with the expected competition, position, and status.",
+      ],
+      outcome: "The selected member is recorded on the competition waiting list.",
+      verification: ["Check the competition identity, member identity, waiting-list status, and any position or notification indicators."],
+    }],
+    controls: controls("Competition", "Member", "Waiting List", "Position", "Status"),
+    actions: actions(["Search", "filter/search"], ["Add member to waiting list", "create/update"], ["Save", "create/update"]),
+    writeActions: [{ name: "Add member to competition waiting list", riskTier: "read-and-draft-only", allowedAutomatically: false, rollbackPlan: "Only complete manually after approval; if a test entry is ever created, remove the member from the waiting list and verify the list returns to its original state." }],
+  },
   "Golf Events": {
     area: "Golf Events",
     workflowFamily: "Golf Events",
@@ -558,10 +612,10 @@ function buildEntry(subject, matchedTitles = []) {
 async function main() {
   const queue = JSON.parse(await fs.readFile(REVIEW_QUEUE_PATH, "utf-8"));
   const reviewCandidates = [...queue.entries || [], ...queue.retiredEntries || []];
-  const incomplete = reviewCandidates.filter((entry) => entry.reviewReason === "incomplete-workflow-evidence");
+  const completionCandidates = reviewCandidates.filter(canUseForCompletion);
   const grouped = new Map();
 
-  for (const entry of incomplete) {
+  for (const entry of completionCandidates) {
     const assignment = classifyReviewEntryForDriver(entry);
     const subject = SUBJECT_TEMPLATES[subjectFor(entry)]
       ? subjectFor(entry)
@@ -585,7 +639,7 @@ async function main() {
   console.log(JSON.stringify({
     outputPath: path.relative(process.cwd(), OUTPUT_PATH),
     completedSubjects: entries.length,
-    sourceIncompleteEntries: incomplete.length,
+    sourceReviewEntries: completionCandidates.length,
     subjects: entries.map((entry) => entry.workflow),
   }, null, 2));
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T09:31:36.157Z",
+  "generatedAt": "2026-07-02T09:55:53.828Z",
   "entries": [
     {
       "id": "system:multi-course-admin-navigation:f55bd86fe30e",
@@ -43603,6 +43603,93 @@
       "reviewPayloadWithheld": false
     },
     {
+      "id": "workflow:review-backlog-completion-add-member-to-waiting-list:c467b8d8bc13",
+      "sourceType": "workflow",
+      "title": "Add member to waiting list workflow",
+      "area": "Competitions",
+      "navigationPath": null,
+      "sourceUrl": null,
+      "confidence": "approved",
+      "lastObservedAt": null,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "content": "Completed workflow coverage for review backlog placeholders: Add member to waiting list; Add member to waiting list.\nWorkflow: Add member to waiting list\nWorkflow family: Competition waiting list\nAliases: Add member to waiting list\nRoute 1: Competition waiting-list route\nRoute 1 step 1: Open the relevant member or open competition.\nRoute 1 step 2: Open the entrant, booking, or waiting-list management area for that competition.\nRoute 1 step 3: Search for and select the member to be added.\nRoute 1 step 4: Add the member to the waiting list only when the club has authorised the change.\nRoute 1 step 5: Verify the member appears on the waiting list with the expected competition, position, and status.\nRoute 1 outcome: The selected member is recorded on the competition waiting list.\nRoute 1 verification: Check the competition identity, member identity, waiting-list status, and any position or notification indicators.\nWrite action 1: Add member to competition waiting list\nWrite action 1 risk tier: read-and-draft-only\nWrite action 1 automatic use: blocked\nWrite action 1 rollback plan: Only complete manually after approval; if a test entry is ever created, remove the member from the waiting list and verify the list returns to its original state.\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Competition: captured-control\nControl: Member: captured-control\nControl: Waiting List: captured-control\nControl: Position: captured-control\nControl: Status: captured-control\nAction: Search: filter/search\nAction: Add member to waiting list: create/update\nAction: Save: create/update\nSearch: filter/search\nAdd member to waiting list: create/update\nSave: create/update",
+      "workflow": "Add member to waiting list",
+      "workflowFamily": "Competition waiting list",
+      "aliases": [
+        "Add member to waiting list"
+      ],
+      "variants": [],
+      "relatedWorkflows": [],
+      "controls": [
+        {
+          "label": "Competition",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Member",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Waiting List",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Position",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Status",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Search",
+          "purpose": "filter/search"
+        },
+        {
+          "label": "Add member to waiting list",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "routes": [
+        {
+          "name": "Competition waiting-list route",
+          "steps": [
+            "Open the relevant member or open competition.",
+            "Open the entrant, booking, or waiting-list management area for that competition.",
+            "Search for and select the member to be added.",
+            "Add the member to the waiting list only when the club has authorised the change.",
+            "Verify the member appears on the waiting list with the expected competition, position, and status."
+          ],
+          "outcome": "The selected member is recorded on the competition waiting list.",
+          "verification": [
+            "Check the competition identity, member identity, waiting-list status, and any position or notification indicators."
+          ]
+        }
+      ],
+      "tableHeaders": [],
+      "reviewReason": null,
+      "reviewPayloadWithheld": false
+    },
+    {
       "id": "workflow:review-backlog-completion-balance-transactions:26323a6de0e8",
       "sourceType": "workflow",
       "title": "Balance Transactions workflow",
@@ -43617,7 +43704,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -43701,7 +43787,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -43780,7 +43865,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -43873,7 +43957,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -43973,7 +44056,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44066,7 +44148,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44149,7 +44230,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44223,15 +44303,14 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
-      "content": "Completed workflow coverage for review backlog placeholders: \"BRS Announcements & Systems Messages\" [level=4]; Email Messaging; Club Messaging; Send an Email; Enter Club Message; Club Message Detail; Email Messaging; Admin Messages.\nWorkflow: Club Messages\nWorkflow family: Club app messages\nAliases: \"BRS Announcements & Systems Messages\" [level=4]; Email Messaging; Club Messaging; Send an Email; Enter Club Message; Club Message Detail; Admin Messages\nRoute 1: Club message draft route\nRoute 1 step 1: Open Club Messages.\nRoute 1 step 2: Choose the audience or message detail.\nRoute 1 step 3: Enter or review the message title and body.\nRoute 1 step 4: Preview the message where the page provides a preview.\nRoute 1 step 5: Send manually only after audience and content approval.\nRoute 1 outcome: The club message is drafted or reviewed.\nRoute 1 verification: Check audience, title, body, delivery channel, and recipient count before sending.\nWrite action 1: Send club message\nWrite action 1 risk tier: restricted\nWrite action 1 automatic use: blocked\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Audience: captured-control\nControl: Title: captured-control\nControl: Message: captured-control\nAction: Preview: open/run\nAction: Send: send\nPreview: open/run\nSend: send",
+      "content": "Completed workflow coverage for review backlog placeholders: BRS Announcements & Systems Messages; Email Messaging; Club Messaging; Send an Email; Enter Club Message; Club Message Detail; Email Messaging; Admin Messages.\nWorkflow: Club Messages\nWorkflow family: Club app messages\nAliases: BRS Announcements & Systems Messages; Email Messaging; Club Messaging; Send an Email; Enter Club Message; Club Message Detail; Admin Messages\nRoute 1: Club message draft route\nRoute 1 step 1: Open Club Messages.\nRoute 1 step 2: Choose the audience or message detail.\nRoute 1 step 3: Enter or review the message title and body.\nRoute 1 step 4: Preview the message where the page provides a preview.\nRoute 1 step 5: Send manually only after audience and content approval.\nRoute 1 outcome: The club message is drafted or reviewed.\nRoute 1 verification: Check audience, title, body, delivery channel, and recipient count before sending.\nWrite action 1: Send club message\nWrite action 1 risk tier: restricted\nWrite action 1 automatic use: blocked\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Audience: captured-control\nControl: Title: captured-control\nControl: Message: captured-control\nAction: Preview: open/run\nAction: Send: send\nPreview: open/run\nSend: send",
       "workflow": "Club Messages",
       "workflowFamily": "Club app messages",
       "aliases": [
-        "\"BRS Announcements & Systems Messages\" [level=4]",
+        "BRS Announcements & Systems Messages",
         "Email Messaging",
         "Club Messaging",
         "Send an Email",
@@ -44303,7 +44382,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44397,7 +44475,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44471,7 +44548,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44560,7 +44636,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44648,7 +44723,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44732,16 +44806,14 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
-      "content": "Completed workflow coverage for review backlog placeholders: View Contacts; \"View Contacts\" [level=1]; View Contacts; Add Contact; Edit Contact; View Contacts; Add Contact.\nWorkflow: Edit Contact\nWorkflow family: Contact record management\nAliases: View Contacts; \"View Contacts\" [level=1]; Add Contact; Edit Contact\nRoute 1: Edit contact route\nRoute 1 step 1: Open Contacts.\nRoute 1 step 2: Search for the contact record.\nRoute 1 step 3: Open Edit Contact.\nRoute 1 step 4: Update contact fields only for an authorised record or temporary test contact.\nRoute 1 step 5: Save and verify the contact list shows the updated value.\nRoute 1 outcome: The contact record is reviewed or updated.\nRoute 1 verification: Check contact identity, changed fields, and rollback for test contacts.\nWrite action 1: Edit contact\nWrite action 1 risk tier: safe-test-record-with-rollback\nWrite action 1 rollback plan: Use a temporary contact or restore the original values and verify the contact after saving.\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Name: captured-control\nControl: Email: captured-control\nControl: Phone: captured-control\nControl: Category: captured-control\nControl: Notes: captured-control\nAction: Search: filter/search\nAction: Edit: open/run\nAction: Save: create/update\nSearch: filter/search\nEdit: open/run\nSave: create/update",
+      "content": "Completed workflow coverage for review backlog placeholders: View Contacts; View Contacts; View Contacts; Add Contact; Edit Contact; View Contacts; Add Contact.\nWorkflow: Edit Contact\nWorkflow family: Contact record management\nAliases: View Contacts; Add Contact; Edit Contact\nRoute 1: Edit contact route\nRoute 1 step 1: Open Contacts.\nRoute 1 step 2: Search for the contact record.\nRoute 1 step 3: Open Edit Contact.\nRoute 1 step 4: Update contact fields only for an authorised record or temporary test contact.\nRoute 1 step 5: Save and verify the contact list shows the updated value.\nRoute 1 outcome: The contact record is reviewed or updated.\nRoute 1 verification: Check contact identity, changed fields, and rollback for test contacts.\nWrite action 1: Edit contact\nWrite action 1 risk tier: safe-test-record-with-rollback\nWrite action 1 rollback plan: Use a temporary contact or restore the original values and verify the contact after saving.\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Name: captured-control\nControl: Email: captured-control\nControl: Phone: captured-control\nControl: Category: captured-control\nControl: Notes: captured-control\nAction: Search: filter/search\nAction: Edit: open/run\nAction: Save: create/update\nSearch: filter/search\nEdit: open/run\nSave: create/update",
       "workflow": "Edit Contact",
       "workflowFamily": "Contact record management",
       "aliases": [
         "View Contacts",
-        "\"View Contacts\" [level=1]",
         "Add Contact",
         "Edit Contact"
       ],
@@ -44823,7 +44895,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -44921,7 +44992,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45037,7 +45107,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45126,7 +45195,7 @@
       "reviewPayloadWithheld": false
     },
     {
-      "id": "workflow:membership-groups-for-email-and-text-workflow:cfce80591a4f",
+      "id": "workflow:review-backlog-completion-membership-groups-for-email-and-text:d45398bc4f8b",
       "sourceType": "workflow",
       "title": "Membership Groups for Email and Text workflow",
       "area": "Tools",
@@ -45140,14 +45209,14 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
-      "content": "Completed workflow coverage for review backlog placeholders: Membership Groups for Email and Text.\nWorkflow: Membership Groups for Email and Text\nWorkflow family: Messaging groups\nAliases: Membership Groups for Email and Text\nRoute 1: Membership group setup route\nRoute 1 step 1: Open Tools > Membership Groups for Messaging.\nRoute 1 step 2: Create or edit the group name.\nRoute 1 step 3: Assign members to the group.\nRoute 1 step 4: Save only authorised group changes.\nRoute 1 step 5: Verify the group appears as a selectable audience for email or text messaging.\nRoute 1 outcome: A membership group is available for targeted communication.\nRoute 1 verification: Check group name and member assignment count before using the group.\nRollback policy: No write action is required for this completed workflow evidence.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Group Name: captured-control\nControl: Members: captured-control\nAction: Add: create/update\nAction: Edit: open/run\nAction: Save: create/update\nAdd: create/update\nEdit: open/run\nSave: create/update",
+      "content": "Completed workflow coverage for review backlog placeholders: Member [redacted-name] for Email and Text; Membership Groups for Email and Text.\nWorkflow: Membership Groups for Email and Text\nWorkflow family: Messaging groups\nAliases: Member [redacted-name] for Email and Text; Membership Groups for Email and Text\nRoute 1: Membership group setup route\nRoute 1 step 1: Open Tools > Membership Groups for Messaging.\nRoute 1 step 2: Create or edit the group name.\nRoute 1 step 3: Assign members to the group.\nRoute 1 step 4: Save only authorised group changes.\nRoute 1 step 5: Verify the group appears as a selectable audience for email or text messaging.\nRoute 1 outcome: A membership group is available for targeted communication.\nRoute 1 verification: Check group name and member assignment count before using the group.\nRollback policy: No write action is required for this completed workflow evidence.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Group Name: captured-control\nControl: Members: captured-control\nAction: Add: create/update\nAction: Edit: open/run\nAction: Save: create/update\nAdd: create/update\nEdit: open/run\nSave: create/update",
       "workflow": "Membership Groups for Email and Text",
       "workflowFamily": "Messaging groups",
       "aliases": [
+        "Member [redacted-name] for Email and Text",
         "Membership Groups for Email and Text"
       ],
       "variants": [],
@@ -45213,7 +45282,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45298,7 +45366,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45357,7 +45424,7 @@
       "reviewPayloadWithheld": false
     },
     {
-      "id": "workflow:review-backlog-completion-open-competitions:1afc4316e0df",
+      "id": "workflow:review-backlog-completion-open-competitions:67143e026966",
       "sourceType": "workflow",
       "title": "Open Competitions workflow",
       "area": "Competitions",
@@ -45371,16 +45438,16 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
-      "content": "Completed workflow coverage for review backlog placeholders: Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions.\nWorkflow: Open Competitions\nWorkflow family: Open competition setup\nAliases: Competitions; Open Competitions\nRoute 1: Open competition setup route\nRoute 1 step 1: Open Tools > Open Competitions for Visitors.\nRoute 1 step 2: Create or edit the open competition.\nRoute 1 step 3: Set competition date, times, course, name, booking format, playing format, holes, fees, mixed-team rules, and booking available date/time.\nRoute 1 step 4: Save only authorised competition setup changes.\nRoute 1 step 5: Check the open competition entry flow before publishing.\nRoute 1 outcome: The open competition is configured for visitor or mixed entry.\nRoute 1 verification: Check date, times, format, fees, availability date, and online entry visibility.\nRollback policy: No write action is required for this completed workflow evidence.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Competition Date: captured-control\nControl: Start Time: captured-control\nControl: End Time: captured-control\nControl: Competition Name: captured-control\nControl: Booking Format: captured-control\nControl: Playing Format: captured-control\nControl: Member Green Fee: captured-control\nControl: Visitor Green Fee: captured-control\nControl: Booking Available: captured-control\nAction: Add: create/update\nAction: Edit: open/run\nAction: Save: create/update\nAdd: create/update\nEdit: open/run\nSave: create/update",
+      "content": "Completed workflow coverage for review backlog placeholders: Competitions; Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions.\nWorkflow: Open Competitions\nWorkflow family: Open competition setup\nAliases: Competitions; Open Competitions; Terms and Conditions - All Ireland Open Competitions Search Facility\nRoute 1: Open competition setup route\nRoute 1 step 1: Open Tools > Open Competitions for Visitors.\nRoute 1 step 2: Create or edit the open competition.\nRoute 1 step 3: Set competition date, times, course, name, booking format, playing format, holes, fees, mixed-team rules, and booking available date/time.\nRoute 1 step 4: Save only authorised competition setup changes.\nRoute 1 step 5: Check the open competition entry flow before publishing.\nRoute 1 outcome: The open competition is configured for visitor or mixed entry.\nRoute 1 verification: Check date, times, format, fees, availability date, and online entry visibility.\nRollback policy: No write action is required for this completed workflow evidence.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Competition Date: captured-control\nControl: Start Time: captured-control\nControl: End Time: captured-control\nControl: Competition Name: captured-control\nControl: Booking Format: captured-control\nControl: Playing Format: captured-control\nControl: Member Green Fee: captured-control\nControl: Visitor Green Fee: captured-control\nControl: Booking Available: captured-control\nAction: Add: create/update\nAction: Edit: open/run\nAction: Save: create/update\nAdd: create/update\nEdit: open/run\nSave: create/update",
       "workflow": "Open Competitions",
       "workflowFamily": "Open competition setup",
       "aliases": [
         "Competitions",
-        "Open Competitions"
+        "Open Competitions",
+        "Terms and Conditions - All Ireland Open Competitions Search Facility"
       ],
       "variants": [],
       "relatedWorkflows": [],
@@ -45480,7 +45547,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45540,7 +45606,7 @@
       "reviewPayloadWithheld": false
     },
     {
-      "id": "workflow:review-backlog-completion-send-a-text:735abb053547",
+      "id": "workflow:review-backlog-completion-send-a-text:fa0c1fb2fda3",
       "sourceType": "workflow",
       "title": "Send a Text workflow",
       "area": "Text Messaging",
@@ -45554,14 +45620,14 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
-      "content": "Completed workflow coverage for review backlog placeholders: Send a Text.\nWorkflow: Send a Text\nWorkflow family: Outbound SMS messaging\nAliases: Send a Text\nRoute 1: SMS draft route\nRoute 1 step 1: Open Text Messaging.\nRoute 1 step 2: Choose the recipient audience.\nRoute 1 step 3: Enter the SMS message.\nRoute 1 step 4: Check credit, sender setup, and recipient count.\nRoute 1 step 5: Send manually only after approval.\nRoute 1 outcome: The SMS is drafted for the chosen audience.\nRoute 1 verification: Check audience, recipient count, message text, sender setup, and credit before sending.\nWrite action 1: Send SMS\nWrite action 1 risk tier: restricted\nWrite action 1 automatic use: blocked\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Audience: captured-control\nControl: Message: captured-control\nControl: Recipients: captured-control\nAction: Preview: open/run\nAction: Send: send\nPreview: open/run\nSend: send",
+      "content": "Completed workflow coverage for review backlog placeholders: Text Messages; Text Messages; Send a Text; Text Messages.\nWorkflow: Send a Text\nWorkflow family: Outbound SMS messaging\nAliases: Text Messages; Send a Text\nRoute 1: SMS draft route\nRoute 1 step 1: Open Text Messaging.\nRoute 1 step 2: Choose the recipient audience.\nRoute 1 step 3: Enter the SMS message.\nRoute 1 step 4: Check credit, sender setup, and recipient count.\nRoute 1 step 5: Send manually only after approval.\nRoute 1 outcome: The SMS is drafted for the chosen audience.\nRoute 1 verification: Check audience, recipient count, message text, sender setup, and credit before sending.\nWrite action 1: Send SMS\nWrite action 1 risk tier: restricted\nWrite action 1 automatic use: blocked\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Audience: captured-control\nControl: Message: captured-control\nControl: Recipients: captured-control\nAction: Preview: open/run\nAction: Send: send\nPreview: open/run\nSend: send",
       "workflow": "Send a Text",
       "workflowFamily": "Outbound SMS messaging",
       "aliases": [
+        "Text Messages",
         "Send a Text"
       ],
       "variants": [],
@@ -45628,7 +45694,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45707,7 +45772,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45795,7 +45859,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45874,7 +45937,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -45934,7 +45996,7 @@
       "reviewPayloadWithheld": false
     },
     {
-      "id": "workflow:review-backlog-completion-system-tools:9cc59a04c249",
+      "id": "workflow:review-backlog-completion-system-tools:df3b1f2f07c2",
       "sourceType": "workflow",
       "title": "System Tools workflow",
       "area": "Tools",
@@ -45948,21 +46010,19 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
-      "content": "Completed workflow coverage for review backlog placeholders: BRS page; System Tools; Golf Plus; \"System Tools\" [level=1]; \"Flexible Membership\" [level=3]:; Memberships; System Tools; Course Restriction.\nWorkflow: System Tools\nWorkflow family: System Tools\nAliases: BRS page; System Tools; Golf Plus; \"System Tools\" [level=1]; \"Flexible Membership\" [level=3]:; Memberships; Course Restriction; Reservation Types; Booking Statuses; Contact Categories; Upload Timesheet; Import/Update Members or Contacts - Step 1/4.; Membership Types; Club News; Brs Memberships; Setup; Club Systems Membership Data Preview; Club Systems Membership Category Mapping\nRoute 1: System Tools navigation route\nRoute 1 step 1: Open Tools.\nRoute 1 step 2: Choose the setup area that matches the task, such as System Configuration, Configure Timesheet, Green Fee Rates, Reservation Types, Booking Statuses, Services, Messaging, Competitions, Golf Events, or BRS Payments.\nRoute 1 step 3: Open the selected setup page.\nRoute 1 step 4: Follow the specific workflow for that setup area.\nRoute 1 outcome: The user reaches the correct setup or administration area.\nRoute 1 verification: Confirm the page heading and selected setup area before making changes.\nRollback policy: No write action is required for this completed workflow evidence.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: System Configuration: captured-control\nControl: Configure Timesheet: captured-control\nControl: Green Fee Rates: captured-control\nControl: Reservation Types: captured-control\nControl: Booking Statuses: captured-control\nControl: Golf Events: captured-control\nControl: BRS Payments: captured-control\nAction: Open setup area: open/run\nOpen setup area: open/run",
+      "content": "Completed workflow coverage for review backlog placeholders: System Tools; Golf Plus; System Tools; Flexible Membership\":; Course Restriction; Memberships; System Tools; Course Restriction.\nWorkflow: System Tools\nWorkflow family: System Tools\nAliases: System Tools; Golf Plus; Flexible Membership\":; Course Restriction; Memberships; BRS page; Reservation Types; Booking Statuses; Contact Categories; Upload Timesheet; Import/Update Members or Contacts - Step 1/4.; Membership Types; Club News; Brs Memberships; Setup; Club Systems Membership Data Preview; Club Systems Membership Category Mapping\nRoute 1: System Tools navigation route\nRoute 1 step 1: Open Tools.\nRoute 1 step 2: Choose the setup area that matches the task, such as System Configuration, Configure Timesheet, Green Fee Rates, Reservation Types, Booking Statuses, Services, Messaging, Competitions, Golf Events, or BRS Payments.\nRoute 1 step 3: Open the selected setup page.\nRoute 1 step 4: Follow the specific workflow for that setup area.\nRoute 1 outcome: The user reaches the correct setup or administration area.\nRoute 1 verification: Confirm the page heading and selected setup area before making changes.\nRollback policy: No write action is required for this completed workflow evidence.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: System Configuration: captured-control\nControl: Configure Timesheet: captured-control\nControl: Green Fee Rates: captured-control\nControl: Reservation Types: captured-control\nControl: Booking Statuses: captured-control\nControl: Golf Events: captured-control\nControl: BRS Payments: captured-control\nAction: Open setup area: open/run\nOpen setup area: open/run",
       "workflow": "System Tools",
       "workflowFamily": "System Tools",
       "aliases": [
-        "BRS page",
         "System Tools",
         "Golf Plus",
-        "\"System Tools\" [level=1]",
-        "\"Flexible Membership\" [level=3]:",
-        "Memberships",
+        "Flexible Membership\":",
         "Course Restriction",
+        "Memberships",
+        "BRS page",
         "Reservation Types",
         "Booking Statuses",
         "Contact Categories",
@@ -46040,7 +46100,7 @@
       "reviewPayloadWithheld": false
     },
     {
-      "id": "workflow:review-backlog-completion-timesheet:57c639053e18",
+      "id": "workflow:review-backlog-completion-timesheet:dab2b4cea28e",
       "sourceType": "workflow",
       "title": "Timesheet workflow",
       "area": "Timesheet",
@@ -46054,11 +46114,10 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
-      "content": "Completed workflow coverage for review backlog placeholders: BRS Golf - Tee Booking System; \"0%\" [level=3]; Timesheet; \"Competitions for 2026\" [level=1]; \"Course Restriction\" [level=1]; Bookings; Tee Booking System; BRS Golf - Tee Booking System.\nWorkflow: Timesheet\nWorkflow family: Timesheet booking management\nAliases: BRS Golf - Tee Booking System; Tee Booking System; daily tee sheet; bookings; \"0%\" [level=3]; Timesheet; \"Competitions for 2026\" [level=1]; \"Course Restriction\" [level=1]; Bookings; Print Daily Booking Sheet\nRoute 1: Daily tee sheet workflow\nRoute 1 actor: Admin or staff user\nRoute 1 preconditions: The user has access to the Timesheet.\nRoute 1 step 1: Open Timesheet from the main navigation.\nRoute 1 step 2: Select the date, course, and view.\nRoute 1 step 3: Tick a tee-time checkbox before using Add, Modify, Delete, Cut, Paste, or Squeeze Tee Time.\nRoute 1 step 4: Enter reservation name, reservation type, player, buggy, repeat, and green-fee values on the labelled tee-time row.\nRoute 1 step 5: Save only authorised booking changes.\nRoute 1 outcome: The tee sheet displays the chosen date and the booking row reflects the saved change.\nRoute 1 verification: Refresh or reopen the tee time and confirm the row status, players, buggies, and payment indicators.\nWrite action 1: Create, edit, move, or delete a tee-sheet booking\nWrite action 1 risk tier: safe-test-record-with-rollback\nWrite action 1 rollback plan: Use only a temporary test booking, delete or move it back, then verify the tee time returns to its original state.\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Date: captured-control\nControl: Course: captured-control\nControl: Reservation Name: captured-control\nControl: Reservation Type: captured-control\nControl: Player 1: captured-control\nControl: Buggies: captured-control\nControl: Green Fee: captured-control\nAction: Add: create/update\nAction: Modify: open/run\nAction: Delete: delete\nAction: Cut: move\nAction: Paste: move\nAction: Squeeze Tee Time: create/update\nAdd: create/update\nModify: open/run\nDelete: delete\nCut: move\nPaste: move\nSqueeze Tee Time: create/update",
+      "content": "Completed workflow coverage for review backlog placeholders: BRS Golf - Tee Booking System; Timesheet; Bookings; Tee Booking System; BRS Golf - Tee Booking System; Tee Booking System; Tee Booking System; Tee Booking System.\nWorkflow: Timesheet\nWorkflow family: Timesheet booking management\nAliases: BRS Golf - Tee Booking System; Tee Booking System; daily tee sheet; bookings; Timesheet; Bookings; Print Daily Booking Sheet; Demo explored workflow routes\nRoute 1: Daily tee sheet workflow\nRoute 1 actor: Admin or staff user\nRoute 1 preconditions: The user has access to the Timesheet.\nRoute 1 step 1: Open Timesheet from the main navigation.\nRoute 1 step 2: Select the date, course, and view.\nRoute 1 step 3: Tick a tee-time checkbox before using Add, Modify, Delete, Cut, Paste, or Squeeze Tee Time.\nRoute 1 step 4: Enter reservation name, reservation type, player, buggy, repeat, and green-fee values on the labelled tee-time row.\nRoute 1 step 5: Save only authorised booking changes.\nRoute 1 outcome: The tee sheet displays the chosen date and the booking row reflects the saved change.\nRoute 1 verification: Refresh or reopen the tee time and confirm the row status, players, buggies, and payment indicators.\nWrite action 1: Create, edit, move, or delete a tee-sheet booking\nWrite action 1 risk tier: safe-test-record-with-rollback\nWrite action 1 rollback plan: Use only a temporary test booking, delete or move it back, then verify the tee time returns to its original state.\nRollback policy: Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Date: captured-control\nControl: Course: captured-control\nControl: Reservation Name: captured-control\nControl: Reservation Type: captured-control\nControl: Player 1: captured-control\nControl: Buggies: captured-control\nControl: Green Fee: captured-control\nAction: Add: create/update\nAction: Modify: open/run\nAction: Delete: delete\nAction: Cut: move\nAction: Paste: move\nAction: Squeeze Tee Time: create/update\nAdd: create/update\nModify: open/run\nDelete: delete\nCut: move\nPaste: move\nSqueeze Tee Time: create/update",
       "workflow": "Timesheet",
       "workflowFamily": "Timesheet booking management",
       "aliases": [
@@ -46066,12 +46125,10 @@
         "Tee Booking System",
         "daily tee sheet",
         "bookings",
-        "\"0%\" [level=3]",
         "Timesheet",
-        "\"Competitions for 2026\" [level=1]",
-        "\"Course Restriction\" [level=1]",
         "Bookings",
-        "Print Daily Booking Sheet"
+        "Print Daily Booking Sheet",
+        "Demo explored workflow routes"
       ],
       "variants": [],
       "relatedWorkflows": [],
@@ -46177,7 +46234,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -46265,7 +46321,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
@@ -46339,19 +46394,16 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],
-      "content": "Completed workflow coverage for review backlog placeholders: Reports; \"Reports\" [level=1]; \"Search Bookings\" [level=1]; \"FINANCIAL REPORTS\" [level=2]; Reports; Search Bookings; VAT Reports.\nWorkflow: VAT Reports\nWorkflow family: VAT reports\nAliases: Reports; \"Reports\" [level=1]; \"Search Bookings\" [level=1]; \"FINANCIAL REPORTS\" [level=2]; Search Bookings; VAT Reports\nRoute 1: VAT report route\nRoute 1 step 1: Open BRS Payments > VAT Reports.\nRoute 1 step 2: Select the date range and report filters.\nRoute 1 step 3: Run or export the VAT report.\nRoute 1 step 4: Verify the report period and columns before sharing.\nRoute 1 outcome: The VAT report is generated or exported.\nRoute 1 verification: Check report period, totals, and export file.\nRollback policy: No write action is required for this completed workflow evidence.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Start Date: captured-control\nControl: End Date: captured-control\nControl: Report Type: captured-control\nAction: Run: open/run\nAction: Export: download/export\nAction: Download: download/export\nRun: open/run\nExport: download/export\nDownload: download/export",
+      "content": "Completed workflow coverage for review backlog placeholders: Reports; Reports; Search Bookings; FINANCIAL REPORTS; Reports; Search Bookings; VAT Reports.\nWorkflow: VAT Reports\nWorkflow family: VAT reports\nAliases: Reports; Search Bookings; FINANCIAL REPORTS; VAT Reports\nRoute 1: VAT report route\nRoute 1 step 1: Open BRS Payments > VAT Reports.\nRoute 1 step 2: Select the date range and report filters.\nRoute 1 step 3: Run or export the VAT report.\nRoute 1 step 4: Verify the report period and columns before sharing.\nRoute 1 outcome: The VAT report is generated or exported.\nRoute 1 verification: Check report period, totals, and export file.\nRollback policy: No write action is required for this completed workflow evidence.\nExploration status: completed-from-authenticated-demo-crawl-and-reviewed-backlog\nControl: Start Date: captured-control\nControl: End Date: captured-control\nControl: Report Type: captured-control\nAction: Run: open/run\nAction: Export: download/export\nAction: Download: download/export\nRun: open/run\nExport: download/export\nDownload: download/export",
       "workflow": "VAT Reports",
       "workflowFamily": "VAT reports",
       "aliases": [
         "Reports",
-        "\"Reports\" [level=1]",
-        "\"Search Bookings\" [level=1]",
-        "\"FINANCIAL REPORTS\" [level=2]",
         "Search Bookings",
+        "FINANCIAL REPORTS",
         "VAT Reports"
       ],
       "variants": [],
@@ -46421,7 +46473,6 @@
         "authenticated-demo-evidence",
         "crawled-brs-system",
         "redacted-system-observation",
-        "auto-approved-after-redaction",
         "workflow-knowledge",
         "auto-approved-after-redaction"
       ],

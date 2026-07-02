@@ -1,11 +1,99 @@
 {
-  "generatedAt": "2026-07-02T09:28:15.765Z",
+  "generatedAt": "2026-07-02T09:55:43.567Z",
   "sourceType": "brs-system-workflow",
   "note": "Canonical completed workflow entries generated from the incomplete review queue after authenticated demo crawl. High-risk sends/payments/users/imports remain manual-only final actions.",
   "entries": [
     {
+      "id": "workflow:review-backlog-completion-add-member-to-waiting-list:c467b8d8bc13",
+      "sourceType": "brs-system-workflow",
+      "title": "Add member to waiting list workflow",
+      "area": "Competitions",
+      "workflow": "Add member to waiting list",
+      "workflowFamily": "Competition waiting list",
+      "aliases": [
+        "Add member to waiting list"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Add member to waiting list; Add member to waiting list.",
+      "routes": [
+        {
+          "name": "Competition waiting-list route",
+          "steps": [
+            "Open the relevant member or open competition.",
+            "Open the entrant, booking, or waiting-list management area for that competition.",
+            "Search for and select the member to be added.",
+            "Add the member to the waiting list only when the club has authorised the change.",
+            "Verify the member appears on the waiting list with the expected competition, position, and status."
+          ],
+          "outcome": "The selected member is recorded on the competition waiting list.",
+          "verification": [
+            "Check the competition identity, member identity, waiting-list status, and any position or notification indicators."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Competition",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Member",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Waiting List",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Position",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Status",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Search",
+          "purpose": "filter/search"
+        },
+        {
+          "label": "Add member to waiting list",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Add member to competition waiting list",
+          "riskTier": "read-and-draft-only",
+          "allowedAutomatically": false,
+          "rollbackPlan": "Only complete manually after approval; if a test entry is ever created, remove the member from the waiting list and verify the list returns to its original state."
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "needs-review",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence"
+      ]
+    },
+    {
       "id": "workflow:review-backlog-completion-balance-transactions:26323a6de0e8",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Balance Transactions workflow",
       "area": "Payments",
       "workflow": "Balance Transactions",
@@ -78,23 +166,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-book-tee-times-online:b7431b5bebed",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Book Tee Times Online workflow",
       "area": "Online Booking",
       "workflow": "Book Tee Times Online",
@@ -156,23 +238,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-booking-details:9401ada9b3ec",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Booking Details workflow",
       "area": "Timesheet",
       "workflow": "Booking Details",
@@ -255,23 +331,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-calendar:c74084b62b7f",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Calendar workflow",
       "area": "Timesheet",
       "workflow": "Calendar",
@@ -354,23 +424,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-casual-booking-rules:1154b96d4eec",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Casual Booking Rules workflow",
       "area": "Tools",
       "workflow": "Casual Booking Rules",
@@ -446,23 +510,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-catering-refreshments:ecc38fce780d",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Catering / Refreshments workflow",
       "area": "Tools",
       "workflow": "Catering / Refreshments",
@@ -528,23 +586,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-change-my-password:125236fe1b66",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Change My Password workflow",
       "area": "Users",
       "workflow": "Change My Password",
@@ -607,29 +659,23 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-club-messages:eacc6bb2eca6",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Club Messages workflow",
       "area": "Club Messages",
       "workflow": "Club Messages",
       "workflowFamily": "Club app messages",
       "aliases": [
-        "\"BRS Announcements & Systems Messages\" [level=4]",
+        "BRS Announcements & Systems Messages",
         "Email Messaging",
         "Club Messaging",
         "Send an Email",
@@ -637,7 +683,7 @@
         "Club Message Detail",
         "Admin Messages"
       ],
-      "summary": "Completed workflow coverage for review backlog placeholders: \"BRS Announcements & Systems Messages\" [level=4]; Email Messaging; Club Messaging; Send an Email; Enter Club Message; Club Message Detail; Email Messaging; Admin Messages.",
+      "summary": "Completed workflow coverage for review backlog placeholders: BRS Announcements & Systems Messages; Email Messaging; Club Messaging; Send an Email; Enter Club Message; Club Message Detail; Email Messaging; Admin Messages.",
       "routes": [
         {
           "name": "Club message draft route",
@@ -692,23 +738,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-configure-timesheet:f608ad5a30fb",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Configure Timesheet workflow",
       "area": "Tools",
       "workflow": "Configure Timesheet",
@@ -792,23 +832,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-copy-services-catering-or-green-fees:b0031c03212f",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Copy Services, Catering or Green Fees workflow",
       "area": "Tools",
       "workflow": "Copy Services, Catering or Green Fees",
@@ -865,23 +899,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-create-a-new-user:24e3f377df49",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Create a New User workflow",
       "area": "Users",
       "workflow": "Create a New User",
@@ -959,23 +987,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-create-payment-request:6cef5ced0c81",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Create Payment Request workflow",
       "area": "Payments",
       "workflow": "Create Payment Request",
@@ -1052,23 +1074,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-day-ticket-rates-for-visitors:6e95bb669293",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Day Ticket Rates for Visitors workflow",
       "area": "Visitor Booking",
       "workflow": "Day Ticket Rates for Visitors",
@@ -1135,34 +1151,27 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-edit-contact:2b210dbdab62",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Edit Contact workflow",
       "area": "Contacts",
       "workflow": "Edit Contact",
       "workflowFamily": "Contact record management",
       "aliases": [
         "View Contacts",
-        "\"View Contacts\" [level=1]",
         "Add Contact",
         "Edit Contact"
       ],
-      "summary": "Completed workflow coverage for review backlog placeholders: View Contacts; \"View Contacts\" [level=1]; View Contacts; Add Contact; Edit Contact; View Contacts; Add Contact.",
+      "summary": "Completed workflow coverage for review backlog placeholders: View Contacts; View Contacts; View Contacts; Add Contact; Edit Contact; View Contacts; Add Contact.",
       "routes": [
         {
           "name": "Edit contact route",
@@ -1232,23 +1241,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-golf-events:508a8a2b1b87",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Golf Events workflow",
       "area": "Golf Events",
       "workflow": "Golf Events",
@@ -1335,23 +1338,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-green-fee-rates:2dce46ccf0ec",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Green Fee Rates workflow",
       "area": "Tools",
       "workflow": "Green Fee Rates",
@@ -1450,23 +1447,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-green-fee-rates-for-visitors-tour-operators-tee-time-agents:7d811fd6ceb2",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Green Fee Rates for Visitors / Tour Operators / Tee Time Agents workflow",
       "area": "Visitor Booking",
       "workflow": "Green Fee Rates for Visitors / Tour Operators / Tee Time Agents",
@@ -1552,31 +1543,26 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
-      "id": "workflow:review-backlog-completion-membership-groups-for-email-and-text:1b[redacted-phone]",
-      "sourceType": "workflow",
+      "id": "workflow:review-backlog-completion-membership-groups-for-email-and-text:d45398bc4f8b",
+      "sourceType": "brs-system-workflow",
       "title": "Membership Groups for Email and Text workflow",
       "area": "Tools",
       "workflow": "Membership Groups for Email and Text",
       "workflowFamily": "Messaging groups",
       "aliases": [
+        "Member [redacted-name] for Email and Text",
         "Membership Groups for Email and Text"
       ],
-      "summary": "Completed workflow coverage for review backlog placeholders: Membership Groups for Email and Text.",
+      "summary": "Completed workflow coverage for review backlog placeholders: Member [redacted-name] for Email and Text; Membership Groups for Email and Text.",
       "routes": [
         {
           "name": "Membership group setup route",
@@ -1624,23 +1610,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-messages-on-the-timesheet:1d7f57457d0c",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Messages on the Timesheet workflow",
       "area": "Tools",
       "workflow": "Messages on the Timesheet",
@@ -1708,23 +1688,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-no-show-reasons:f4f517d7dea1",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "No Show Reasons workflow",
       "area": "Tools",
       "workflow": "No Show Reasons",
@@ -1780,32 +1754,27 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
-      "id": "workflow:review-backlog-completion-open-competitions:1afc4316e0df",
-      "sourceType": "workflow",
+      "id": "workflow:review-backlog-completion-open-competitions:67143e026966",
+      "sourceType": "brs-system-workflow",
       "title": "Open Competitions workflow",
       "area": "Competitions",
       "workflow": "Open Competitions",
       "workflowFamily": "Open competition setup",
       "aliases": [
         "Competitions",
-        "Open Competitions"
+        "Open Competitions",
+        "Terms and Conditions - All Ireland Open Competitions Search Facility"
       ],
-      "summary": "Completed workflow coverage for review backlog placeholders: Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions.",
+      "summary": "Completed workflow coverage for review backlog placeholders: Competitions; Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions.",
       "routes": [
         {
           "name": "Open competition setup route",
@@ -1888,23 +1857,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-purchase-sms-text-messaging-credit:55fa61f53136",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Purchase SMS Text Messaging Credit workflow",
       "area": "Text Messaging",
       "workflow": "Purchase SMS Text Messaging Credit",
@@ -1967,31 +1930,26 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
-      "id": "workflow:review-backlog-completion-send-a-text:735abb053547",
-      "sourceType": "workflow",
+      "id": "workflow:review-backlog-completion-send-a-text:fa0c1fb2fda3",
+      "sourceType": "brs-system-workflow",
       "title": "Send a Text workflow",
       "area": "Text Messaging",
       "workflow": "Send a Text",
       "workflowFamily": "Outbound SMS messaging",
       "aliases": [
+        "Text Messages",
         "Send a Text"
       ],
-      "summary": "Completed workflow coverage for review backlog placeholders: Send a Text.",
+      "summary": "Completed workflow coverage for review backlog placeholders: Text Messages; Text Messages; Send a Text; Text Messages.",
       "routes": [
         {
           "name": "SMS draft route",
@@ -2046,23 +2004,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-service-reminder-email:6efce11de3db",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Service Reminder Email workflow",
       "area": "Messages",
       "workflow": "Service Reminder Email",
@@ -2130,23 +2082,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-services:2993efb90854",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Services workflow",
       "area": "Tools",
       "workflow": "Services",
@@ -2217,23 +2163,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-squeeze-tee-time:85e36a24d41f",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Squeeze Tee Time workflow",
       "area": "Timesheet",
       "workflow": "Squeeze Tee Time",
@@ -2302,23 +2242,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-system-configuration:b5e0d22c3079",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "System Configuration workflow",
       "area": "Tools",
       "workflow": "System Configuration",
@@ -2375,35 +2309,28 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
-      "id": "workflow:review-backlog-completion-system-tools:9cc59a04c249",
-      "sourceType": "workflow",
+      "id": "workflow:review-backlog-completion-system-tools:df3b1f2f07c2",
+      "sourceType": "brs-system-workflow",
       "title": "System Tools workflow",
       "area": "Tools",
       "workflow": "System Tools",
       "workflowFamily": "System Tools",
       "aliases": [
-        "BRS page",
         "System Tools",
         "Golf Plus",
-        "\"System Tools\" [level=1]",
-        "\"Flexible Membership\" [level=3]:",
-        "Memberships",
+        "Flexible Membership\":",
         "Course Restriction",
+        "Memberships",
+        "BRS page",
         "Reservation Types",
         "Booking Statuses",
         "Contact Categories",
@@ -2416,7 +2343,7 @@
         "Club Systems Membership Data Preview",
         "Club Systems Membership Category Mapping"
       ],
-      "summary": "Completed workflow coverage for review backlog placeholders: BRS page; System Tools; Golf Plus; \"System Tools\" [level=1]; \"Flexible Membership\" [level=3]:; Memberships; System Tools; Course Restriction.",
+      "summary": "Completed workflow coverage for review backlog placeholders: System Tools; Golf Plus; System Tools; Flexible Membership\":; Course Restriction; Memberships; System Tools; Course Restriction.",
       "routes": [
         {
           "name": "System Tools navigation route",
@@ -2480,23 +2407,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
-      "id": "workflow:review-backlog-completion-timesheet:57c639053e18",
-      "sourceType": "workflow",
+      "id": "workflow:review-backlog-completion-timesheet:dab2b4cea28e",
+      "sourceType": "brs-system-workflow",
       "title": "Timesheet workflow",
       "area": "Timesheet",
       "workflow": "Timesheet",
@@ -2506,14 +2427,12 @@
         "Tee Booking System",
         "daily tee sheet",
         "bookings",
-        "\"0%\" [level=3]",
         "Timesheet",
-        "\"Competitions for 2026\" [level=1]",
-        "\"Course Restriction\" [level=1]",
         "Bookings",
-        "Print Daily Booking Sheet"
+        "Print Daily Booking Sheet",
+        "Demo explored workflow routes"
       ],
-      "summary": "Completed workflow coverage for review backlog placeholders: BRS Golf - Tee Booking System; \"0%\" [level=3]; Timesheet; \"Competitions for 2026\" [level=1]; \"Course Restriction\" [level=1]; Bookings; Tee Booking System; BRS Golf - Tee Booking System.",
+      "summary": "Completed workflow coverage for review backlog placeholders: BRS Golf - Tee Booking System; Timesheet; Bookings; Tee Booking System; BRS Golf - Tee Booking System; Tee Booking System; Tee Booking System; Tee Booking System.",
       "routes": [
         {
           "name": "Daily tee sheet workflow",
@@ -2609,23 +2528,17 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-timesheet-templates:df783d99929e",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Timesheet Templates workflow",
       "area": "Tools",
       "workflow": "Timesheet Templates",
@@ -2696,23 +2609,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-title-for-each-day:39bc8e13fb55",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "Title for Each Day workflow",
       "area": "Tools",
       "workflow": "Title for Each Day",
@@ -2769,36 +2676,28 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-vat-reports:e02020a8a7ee",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "VAT Reports workflow",
       "area": "BRS Payments",
       "workflow": "VAT Reports",
       "workflowFamily": "VAT reports",
       "aliases": [
         "Reports",
-        "\"Reports\" [level=1]",
-        "\"Search Bookings\" [level=1]",
-        "\"FINANCIAL REPORTS\" [level=2]",
         "Search Bookings",
+        "FINANCIAL REPORTS",
         "VAT Reports"
       ],
-      "summary": "Completed workflow coverage for review backlog placeholders: Reports; \"Reports\" [level=1]; \"Search Bookings\" [level=1]; \"FINANCIAL REPORTS\" [level=2]; Reports; Search Bookings; VAT Reports.",
+      "summary": "Completed workflow coverage for review backlog placeholders: Reports; Reports; Search Bookings; FINANCIAL REPORTS; Reports; Search Bookings; VAT Reports.",
       "routes": [
         {
           "name": "VAT report route",
@@ -2850,23 +2749,17 @@
       "writeActions": [],
       "rollbackPolicy": "No write action is required for this completed workflow evidence.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     },
     {
       "id": "workflow:review-backlog-completion-view-update-user-details:a940eef2d8f1",
-      "sourceType": "workflow",
+      "sourceType": "brs-system-workflow",
       "title": "View / Update User Details workflow",
       "area": "Users",
       "workflow": "View / Update User Details",
@@ -2938,19 +2831,13 @@
       ],
       "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
       "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
-      "confidence": "approved",
+      "confidence": "needs-review",
       "containsClubSpecificData": false,
       "tags": [
         "review-backlog-completion",
         "workflow-knowledge",
-        "authenticated-demo-evidence",
-        "crawled-brs-system",
-        "redacted-system-observation",
-        "workflow-knowledge",
-        "auto-approved-after-redaction"
-      ],
-      "sourceUrl": null,
-      "clubScope": "template"
+        "authenticated-demo-evidence"
+      ]
     }
   ]
 }
