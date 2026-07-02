@@ -887,6 +887,42 @@ test("expanded live-review misses now route to protected answers", async () => {
       /Search for a Booking\n/i,
     ],
     [
+      "We have a hotel partner sending guests. Where should their company record live?",
+      /Add a New Contact/i,
+      /Contacts[\s\S]*Add New[\s\S]*Company \/ Group Name[\s\S]*Contact Category/i,
+      /complete verified BRS workflow|Memberships/i,
+    ],
+    [
+      "How do I email all members in one membership type?",
+      /Email Members in a Membership Type/i,
+      /Email Messaging[\s\S]*Email Membership Types/i,
+      /Member Email Addresses for Outlook|complete verified BRS workflow/i,
+    ],
+    [
+      "How do I add a new staff user?",
+      /Add a User/i,
+      /Users[\s\S]*Add New[\s\S]*User Group\*[\s\S]*Create new user/i,
+      /complete verified BRS workflow|Memberships member profile/i,
+    ],
+    [
+      "new pro shop assitant needs brs acsess, how do i add them?",
+      /Add a User/i,
+      /Users[\s\S]*Add New[\s\S]*User Group\*[\s\S]*Create new user/i,
+      /complete verified BRS workflow|Memberships member profile/i,
+    ],
+    [
+      "At other clubs visitors only get certain slots and members get priority. In our demo club, where would I check the rules that control when visitors can book?",
+      /Check Member and Visitor Online Booking Rules/i,
+      /Member Casual Booking Rules[\s\S]*visitor online availability[\s\S]*Green Fee Rates/i,
+      /complete verified BRS workflow|only one setting/i,
+    ],
+    [
+      "We want members only before noon and visitors after noon. What settings might be involved?",
+      /Check Member and Visitor Online Booking Rules/i,
+      /Member Casual Booking Rules[\s\S]*visitor online availability[\s\S]*Course Restrictions/i,
+      /complete verified BRS workflow|only one setting/i,
+    ],
+    [
       "Visitors say no tee times are showing on the website for next month. What setup should I check?",
       /Check Visitor Online Booking Availability/i,
       /Green Fee Rates[\s\S]*Course Restriction[\s\S]*advance-booking window/i,
