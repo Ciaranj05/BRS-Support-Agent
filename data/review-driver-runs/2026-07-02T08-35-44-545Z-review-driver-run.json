@@ -1,43 +1,42 @@
 {
-  "generatedAt": "2026-07-01T16:21:31.924Z",
+  "generatedAt": "2026-07-02T08:35:44.571Z",
   "sourceReviewQueue": "knowledge\\review-queue.json",
   "mode": "classification-and-queue",
   "note": "This runner processes every review entry through a safety tier. It does not perform high-risk writes. Queued safe-test entries still require a workflow-specific driver that verifies rollback before promotion.",
   "summary": {
-    "total": 582,
+    "total": 482,
     "byStatus": {
       "blocked": 93,
-      "queued": 489
+      "queued": 389
     },
     "byTier": {
       "restricted": 84,
-      "safe-test-record-with-rollback": 212,
-      "read-only-complete": 42,
-      "read-and-draft-only": 235,
+      "safe-test-record-with-rollback": 187,
+      "read-only-complete": 18,
+      "read-and-draft-only": 184,
       "manual-review": 9
     },
     "byFamily": {
       "restricted-users-permissions": 14,
-      "timesheet-bookings": 177,
-      "reports-search": 34,
-      "memberships": 20,
-      "messaging-setup": 22,
-      "competitions": 46,
-      "contact-records": 35,
-      "settings-setup": 134,
+      "timesheet-bookings": 174,
+      "reports-search": 16,
+      "memberships": 7,
+      "messaging-setup": 17,
+      "competitions": 37,
+      "contact-records": 13,
+      "settings-setup": 110,
       "restricted-upload-import": 10,
       "restricted-outbound-messaging": 42,
       "golf-events": 8,
       "restricted-payments": 18,
       "manual-review": 9,
       "contact-setup": 5,
-      "dashboard-navigation": 1,
-      "online-booking": 7
+      "online-booking": 2
     },
-    "safeMutationCandidateCount": 212,
+    "safeMutationCandidateCount": 187,
     "blockedCount": 93,
-    "queuedCount": 489,
-    "normalizedAt": "2026-07-01T16:21:31.923Z"
+    "queuedCount": 389,
+    "normalizedAt": "2026-07-02T08:35:44.569Z"
   },
   "tasks": [
     {
@@ -820,25 +819,6 @@
       }
     },
     {
-      "id": "system:view-contacts:1d1d79fc2281",
-      "question": "Test the BRS workflow for View Contacts - View Contacts using only temporary data and verified rollback.",
-      "title": "View Contacts",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "system:brs-golf-tee-booking-system:d1cb765e2a68",
       "question": "Test the BRS workflow for BRS Golf - Tee Booking System - BRS Golf - Tee Booking System using only temporary data and verified rollback.",
       "title": "BRS Golf - Tee Booking System",
@@ -877,25 +857,6 @@
       }
     },
     {
-      "id": "system:reports:85dba8c35d83",
-      "question": "Verify the read-only BRS workflow for Reports - Reports.",
-      "title": "Reports",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "system:search-bookings:0b9368c172d1",
       "question": "Verify the read-only BRS workflow for Search Bookings - Search Bookings.",
       "title": "Search Bookings",
@@ -903,25 +864,6 @@
       "reviewReason": "sensitive-or-live-crawl-data",
       "driverFamily": "reports-search",
       "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "system:system-tools:50bc61d4e42a",
-      "question": "Open and draft the BRS workflow for System Tools - System Tools without saving changes.",
-      "title": "System Tools",
-      "area": "System Tools",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
       "status": "queued",
       "safeMutationAllowed": false,
       "requiresRollback": false,
@@ -1770,25 +1712,6 @@
       }
     },
     {
-      "id": "workflow:timesheet-workflow-surface:1e8ead0efcf9",
-      "question": "Test the BRS workflow for Timesheet - Timesheet workflow surface using only temporary data and verified rollback.",
-      "title": "Timesheet workflow surface",
-      "area": "Timesheet",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "timesheet-bookings",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:brs-announcements-systems-messages-level-4-workflow-surface:a4f004fb2676",
       "question": "Review the BRS workflow for Messages - \"BRS Announcements & Systems Messages\" [level=4] workflow surface.",
       "title": "\"BRS Announcements & Systems Messages\" [level=4] workflow surface",
@@ -1808,63 +1731,6 @@
       }
     },
     {
-      "id": "workflow:golf-plus-workflow-surface:87df9cbb3556",
-      "question": "Verify the read-only BRS workflow for Golf Plus - Golf Plus workflow surface.",
-      "title": "Golf Plus workflow surface",
-      "area": "Golf Plus",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "dashboard-navigation",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:timesheet-workflow-surface:1e8ead0efcf9",
-      "question": "Test the BRS workflow for Timesheet - Timesheet workflow surface using only temporary data and verified rollback.",
-      "title": "Timesheet workflow surface",
-      "area": "Timesheet",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "timesheet-bookings",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-level-1-workflow-surface:7b13820d71a7",
-      "question": "Test the BRS workflow for Contacts - \"View Contacts\" [level=1] workflow surface using only temporary data and verified rollback.",
-      "title": "\"View Contacts\" [level=1] workflow surface",
-      "area": "Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:manage-users-level-1-workflow-surface:0f01869fff44",
       "question": "Review the BRS workflow for Users - \"Manage Users\" [level=1] workflow surface.",
       "title": "\"Manage Users\" [level=1] workflow surface",
@@ -1876,291 +1742,6 @@
       "safeMutationAllowed": false,
       "requiresRollback": false,
       "blockReason": "User, password, permission, and staff-access changes require manual approval and a dedicated rollback design.",
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-level-1-workflow-surface:f7bb13ba3f13",
-      "question": "Verify the read-only BRS workflow for Reports - \"Reports\" [level=1] workflow surface.",
-      "title": "\"Reports\" [level=1] workflow surface",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:search-bookings-level-1-workflow-surface:bb73d7213c1e",
-      "question": "Verify the read-only BRS workflow for Search - \"Search Bookings\" [level=1] workflow surface.",
-      "title": "\"Search Bookings\" [level=1] workflow surface",
-      "area": "Search",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:system-tools-level-1-workflow-surface:13862a496b22",
-      "question": "Open and draft the BRS workflow for Tools - \"System Tools\" [level=1] workflow surface without saving changes.",
-      "title": "\"System Tools\" [level=1] workflow surface",
-      "area": "Tools",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:flexible-membership-level-3-workflow-surface:26fe99d485cf",
-      "question": "Open and draft the BRS workflow for Knowledge Base – BRS Core - \"Flexible Membership\" [level=3]: workflow surface without saving changes.",
-      "title": "\"Flexible Membership\" [level=3]: workflow surface",
-      "area": "Knowledge Base – BRS Core",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:competitions-for-2026-level-1-workflow-surface:ebb2e1ff1803",
-      "question": "Open and draft the BRS workflow for BRS Golf - Tee Booking System - \"Competitions for 2026\" [level=1] workflow surface without saving changes.",
-      "title": "\"Competitions for 2026\" [level=1] workflow surface",
-      "area": "BRS Golf - Tee Booking System",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-level-1-workflow-surface:cf4f8a9dc696",
-      "question": "Open and draft the BRS workflow for BRS Golf - Tee Booking System - \"Course Restriction\" [level=1] workflow surface without saving changes.",
-      "title": "\"Course Restriction\" [level=1] workflow surface",
-      "area": "BRS Golf - Tee Booking System",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:memberships-workflow-surface:86fe9e67307e",
-      "question": "Open and draft the BRS workflow for Memberships - Memberships workflow surface without saving changes.",
-      "title": "Memberships workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:memberships-workflow-surface:86fe9e67307e",
-      "question": "Open and draft the BRS workflow for Memberships - Memberships workflow surface without saving changes.",
-      "title": "Memberships workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:memberships-workflow-surface:86fe9e67307e",
-      "question": "Open and draft the BRS workflow for Memberships - Memberships workflow surface without saving changes.",
-      "title": "Memberships workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:memberships-workflow-surface:86fe9e67307e",
-      "question": "Open and draft the BRS workflow for Memberships - Memberships workflow surface without saving changes.",
-      "title": "Memberships workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:memberships-workflow-surface:86fe9e67307e",
-      "question": "Open and draft the BRS workflow for Memberships - Memberships workflow surface without saving changes.",
-      "title": "Memberships workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:memberships-workflow-surface:86fe9e67307e",
-      "question": "Open and draft the BRS workflow for Memberships - Memberships workflow surface without saving changes.",
-      "title": "Memberships workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:financial-reports-level-2-workflow-surface:05aa77b71cad",
-      "question": "Verify the read-only BRS workflow for Memberships - \"FINANCIAL REPORTS\" [level=2] workflow surface.",
-      "title": "\"FINANCIAL REPORTS\" [level=2] workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:memberships-workflow-surface:86fe9e67307e",
-      "question": "Open and draft the BRS workflow for Memberships - Memberships workflow surface without saving changes.",
-      "title": "Memberships workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:memberships-workflow-surface:86fe9e67307e",
-      "question": "Open and draft the BRS workflow for Memberships - Memberships workflow surface without saving changes.",
-      "title": "Memberships workflow surface",
-      "area": "Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
       "policy": {
         "allowWriteActions": false,
         "requireRollbackVerification": false,
@@ -2264,25 +1845,6 @@
       }
     },
     {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:58eededb30c0",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:brs-golf-tee-booking-system-confirmed-brs-page-evidence:ea95ddc4859a",
       "question": "Test the BRS workflow for BRS Golf - Tee Booking System - BRS Golf - Tee Booking System confirmed BRS page evidence using only temporary data and verified rollback.",
       "title": "BRS Golf - Tee Booking System confirmed BRS page evidence",
@@ -2313,63 +1875,6 @@
       "safeMutationAllowed": false,
       "requiresRollback": false,
       "blockReason": "User, password, permission, and staff-access changes require manual approval and a dedicated rollback design.",
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:fac42f66b893",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:search-bookings-confirmed-brs-page-evidence:30c7f67f1852",
-      "question": "Verify the read-only BRS workflow for Search Bookings - Search Bookings confirmed BRS page evidence.",
-      "title": "Search Bookings confirmed BRS page evidence",
-      "area": "Search Bookings",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:system-tools-confirmed-brs-page-evidence:2d369fb25e33",
-      "question": "Open and draft the BRS workflow for System Tools - System Tools confirmed BRS page evidence without saving changes.",
-      "title": "System Tools confirmed BRS page evidence",
-      "area": "System Tools",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
       "policy": {
         "allowWriteActions": false,
         "requireRollbackVerification": false,
@@ -2411,25 +1916,6 @@
       "policy": {
         "allowWriteActions": true,
         "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:6ec2b9534342",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
         "blockSettingsMutationWithoutSpecificRollback": true,
         "blockPaymentsMessagingUsersImports": true
       }
@@ -2606,44 +2092,6 @@
       }
     },
     {
-      "id": "workflow:online-tee-bookings-reservations-confirmed-brs-page-evidence:914a2fae4036",
-      "question": "Verify the read-only BRS workflow for Online Tee Bookings / Reservations - Online Tee Bookings / Reservations confirmed BRS page evidence.",
-      "title": "Online Tee Bookings / Reservations confirmed BRS page evidence",
-      "area": "Online Tee Bookings / Reservations",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "online-booking",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:competitions-for-2026-confirmed-brs-page-evidence:dc7fbf99426c",
-      "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 confirmed BRS page evidence without saving changes.",
-      "title": "Competitions for 2026 confirmed BRS page evidence",
-      "area": "Competitions for 2026",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:bookings-confirmed-brs-page-evidence:155594f7fa09",
       "question": "Test the BRS workflow for Bookings - Bookings confirmed BRS page evidence using only temporary data and verified rollback.",
       "title": "Bookings confirmed BRS page evidence",
@@ -2677,44 +2125,6 @@
       "policy": {
         "allowWriteActions": true,
         "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:online-tee-bookings-reservations-confirmed-brs-page-evidence:bae01c9c0abb",
-      "question": "Verify the read-only BRS workflow for Online Tee Bookings / Reservations - Online Tee Bookings / Reservations confirmed BRS page evidence.",
-      "title": "Online Tee Bookings / Reservations confirmed BRS page evidence",
-      "area": "Online Tee Bookings / Reservations",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "online-booking",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:competitions-for-2026-confirmed-brs-page-evidence:d42419fa2a05",
-      "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 confirmed BRS page evidence without saving changes.",
-      "title": "Competitions for 2026 confirmed BRS page evidence",
-      "area": "Competitions for 2026",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
         "blockSettingsMutationWithoutSpecificRollback": true,
         "blockPaymentsMessagingUsersImports": true
       }
@@ -2772,25 +2182,6 @@
       "policy": {
         "allowWriteActions": true,
         "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:system-tools-confirmed-brs-page-evidence:63463695b422",
-      "question": "Open and draft the BRS workflow for System Tools - System Tools confirmed BRS page evidence without saving changes.",
-      "title": "System Tools confirmed BRS page evidence",
-      "area": "System Tools",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
         "blockSettingsMutationWithoutSpecificRollback": true,
         "blockPaymentsMessagingUsersImports": true
       }
@@ -3176,177 +2567,6 @@
       }
     },
     {
-      "id": "workflow:add-contact-confirmed-brs-page-evidence:4b6b2198e260",
-      "question": "Test the BRS workflow for Add Contact - Add Contact confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "Add Contact confirmed BRS page evidence",
-      "area": "Add Contact",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:44050b1c29ef",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:7abf4caf6603",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:7fc09eb368aa",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:e668e91d98c0",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:8295ff8ba6dc",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:9f2829a93550",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:e910ff1ac95d",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:01ba050da47d",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:create-a-new-user-add-a-member-confirmed-brs-page-evidence:1dd5302097eb",
       "question": "Review the BRS workflow for Create a New User / Add a Member - Create a New User / Add a Member confirmed BRS page evidence.",
       "title": "Create a New User / Add a Member confirmed BRS page evidence",
@@ -3613,25 +2833,6 @@
       }
     },
     {
-      "id": "workflow:email-and-letter-templates-confirmed-brs-page-evidence:fcad5d6a9d74",
-      "question": "Open and draft the BRS workflow for Email and Letter Templates - Email and Letter Templates confirmed BRS page evidence without saving changes.",
-      "title": "Email and Letter Templates confirmed BRS page evidence",
-      "area": "Email and Letter Templates",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "messaging-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:upload-timesheet-confirmed-brs-page-evidence:6fdd3569ee49",
       "question": "Review the BRS workflow for Upload Timesheet - Upload Timesheet confirmed BRS page evidence.",
       "title": "Upload Timesheet confirmed BRS page evidence",
@@ -3708,50 +2909,12 @@
       }
     },
     {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:3c2a4471bb9b",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:membership-groups-for-email-and-text-confirmed-brs-page-evidence:cbe1488ff6a0",
       "question": "Open and draft the BRS workflow for Membership Groups for Email and Text - Membership Groups for Email and Text confirmed BRS page evidence without saving changes.",
       "title": "Membership Groups for Email and Text confirmed BRS page evidence",
       "area": "Membership Groups for Email and Text",
       "reviewReason": "incomplete-workflow-evidence",
       "driverFamily": "messaging-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:club-news-confirmed-brs-page-evidence:7ffc4f145184",
-      "question": "Open and draft the BRS workflow for Club News - Club News confirmed BRS page evidence without saving changes.",
-      "title": "Club News confirmed BRS page evidence",
-      "area": "Club News",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
       "allowedTier": "read-and-draft-only",
       "status": "queued",
       "safeMutationAllowed": false,
@@ -3969,158 +3132,6 @@
       "policy": {
         "allowWriteActions": true,
         "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:8cdcd582b5df",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:8fa09028ae8a",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:ed4dbfe38096",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:33ca1343b322",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:24ba0d18d1df",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:a3e1a9cd3ad0",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:4bd65b462568",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:course-restriction-confirmed-brs-page-evidence:8532062c69b2",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction confirmed BRS page evidence without saving changes.",
-      "title": "Course Restriction confirmed BRS page evidence",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
         "blockSettingsMutationWithoutSpecificRollback": true,
         "blockPaymentsMessagingUsersImports": true
       }
@@ -5304,68 +4315,11 @@
       }
     },
     {
-      "id": "workflow:reports-confirmed-brs-page-evidence:1c9ed1b218d5",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:reports-confirmed-brs-page-evidence:fa59293cce46",
       "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
       "title": "Reports confirmed BRS page evidence",
       "area": "Reports",
       "reviewReason": "sensitive-or-live-crawl-data",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:6dc53f930212",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:4e7071fff40c",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
       "driverFamily": "reports-search",
       "allowedTier": "read-only-complete",
       "status": "queued",
@@ -5399,106 +4353,11 @@
       }
     },
     {
-      "id": "workflow:reports-confirmed-brs-page-evidence:e2f9f81c6608",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:5bc5da4f4470",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:17aeb5bb6d2f",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:be28b03a72e1",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:reports-confirmed-brs-page-evidence:ea7983f7d5ca",
       "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
       "title": "Reports confirmed BRS page evidence",
       "area": "Reports",
       "reviewReason": "sensitive-or-live-crawl-data",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:6c2c6d1cb697",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
       "driverFamily": "reports-search",
       "allowedTier": "read-only-complete",
       "status": "queued",
@@ -5619,63 +4478,6 @@
       "safeMutationAllowed": false,
       "requiresRollback": false,
       "blockReason": "Outbound email, text, SMS, and club-message workflows must not be sent automatically.",
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:2ed666846b97",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:a1b5b001f2c2",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:03148db7a5d1",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
       "policy": {
         "allowWriteActions": false,
         "requireRollbackVerification": false,
@@ -5923,25 +4725,6 @@
       "safeMutationAllowed": false,
       "requiresRollback": false,
       "blockReason": "Outbound email, text, SMS, and club-message workflows must not be sent automatically.",
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:reports-confirmed-brs-page-evidence:731d21ba58d5",
-      "question": "Verify the read-only BRS workflow for Reports - Reports confirmed BRS page evidence.",
-      "title": "Reports confirmed BRS page evidence",
-      "area": "Reports",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "reports-search",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
       "policy": {
         "allowWriteActions": false,
         "requireRollbackVerification": false,
@@ -6368,25 +5151,6 @@
       }
     },
     {
-      "id": "workflow:competitions-for-2026-confirmed-brs-page-evidence:d9c863db000e",
-      "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 confirmed BRS page evidence without saving changes.",
-      "title": "Competitions for 2026 confirmed BRS page evidence",
-      "area": "Competitions for 2026",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:competitions-for-2027-confirmed-brs-page-evidence:8b59ef6b2c95",
       "question": "Open and draft the BRS workflow for Competitions for 2027 - Competitions for 2027 confirmed BRS page evidence without saving changes.",
       "title": "Competitions for 2027 confirmed BRS page evidence",
@@ -6444,25 +5208,6 @@
       }
     },
     {
-      "id": "workflow:competitions-for-2026-confirmed-brs-page-evidence:6a11b87b2966",
-      "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 confirmed BRS page evidence without saving changes.",
-      "title": "Competitions for 2026 confirmed BRS page evidence",
-      "area": "Competitions for 2026",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:fri-redacted-date-tee-booking-system-confirmed-brs-page-evidence:586a0113e139",
       "question": "Test the BRS workflow for Fri [redacted-date] Tee Booking System - Fri [redacted-date] Tee Booking System confirmed BRS page evidence using only temporary data and verified rollback.",
       "title": "Fri [redacted-date] Tee Booking System confirmed BRS page evidence",
@@ -6501,44 +5246,6 @@
       }
     },
     {
-      "id": "workflow:competitions-for-2026-confirmed-brs-page-evidence:f5a38f05ad5f",
-      "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 confirmed BRS page evidence without saving changes.",
-      "title": "Competitions for 2026 confirmed BRS page evidence",
-      "area": "Competitions for 2026",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:competitions-for-2026-confirmed-brs-page-evidence:1495a577ab60",
-      "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 confirmed BRS page evidence without saving changes.",
-      "title": "Competitions for 2026 confirmed BRS page evidence",
-      "area": "Competitions for 2026",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:tue-redacted-date-tee-booking-system-confirmed-brs-page-evidence:fc56c8247716",
       "question": "Test the BRS workflow for Tue [redacted-date] Tee Booking System - Tue [redacted-date] Tee Booking System confirmed BRS page evidence using only temporary data and verified rollback.",
       "title": "Tue [redacted-date] Tee Booking System confirmed BRS page evidence",
@@ -6569,44 +5276,6 @@
       "safeMutationAllowed": false,
       "requiresRollback": false,
       "blockReason": "Payments, refunds, payouts, payment requests, and wallet mutations must not be automatically changed by a crawl driver.",
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:competitions-for-2026-confirmed-brs-page-evidence:d7fd474cfccd",
-      "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 confirmed BRS page evidence without saving changes.",
-      "title": "Competitions for 2026 confirmed BRS page evidence",
-      "area": "Competitions for 2026",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:competitions-for-2026-confirmed-brs-page-evidence:d318bfadb5cd",
-      "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 confirmed BRS page evidence without saving changes.",
-      "title": "Competitions for 2026 confirmed BRS page evidence",
-      "area": "Competitions for 2026",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "competitions",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
       "policy": {
         "allowWriteActions": false,
         "requireRollbackVerification": false,
@@ -7356,63 +6025,6 @@
       }
     },
     {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:e64391422ecd",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:d48d4b48492b",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:51b4ed357f3b",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:edit-contact-confirmed-brs-page-evidence:e6f311383f34",
       "question": "Test the BRS workflow for Edit Contact - Edit Contact confirmed BRS page evidence using only temporary data and verified rollback.",
       "title": "Edit Contact confirmed BRS page evidence",
@@ -7455,82 +6067,6 @@
       "question": "Test the BRS workflow for Edit Contact - Edit Contact confirmed BRS page evidence using only temporary data and verified rollback.",
       "title": "Edit Contact confirmed BRS page evidence",
       "area": "Edit Contact",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:201d6a946932",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:107ac6310d94",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:1a3cbd448485",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-confirmed-brs-page-evidence:90d37a91a142",
-      "question": "Test the BRS workflow for View Contacts - View Contacts confirmed BRS page evidence using only temporary data and verified rollback.",
-      "title": "View Contacts confirmed BRS page evidence",
-      "area": "View Contacts",
       "reviewReason": "incomplete-workflow-evidence",
       "driverFamily": "contact-records",
       "allowedTier": "safe-test-record-with-rollback",
@@ -7869,44 +6405,6 @@
       }
     },
     {
-      "id": "workflow:email-and-letter-templates-confirmed-brs-page-evidence:7095fd2204ab",
-      "question": "Open and draft the BRS workflow for Email and Letter Templates - Email and Letter Templates confirmed BRS page evidence without saving changes.",
-      "title": "Email and Letter Templates confirmed BRS page evidence",
-      "area": "Email and Letter Templates",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "messaging-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:email-and-letter-templates-confirmed-brs-page-evidence:c136d2fecf88",
-      "question": "Open and draft the BRS workflow for Email and Letter Templates - Email and Letter Templates confirmed BRS page evidence without saving changes.",
-      "title": "Email and Letter Templates confirmed BRS page evidence",
-      "area": "Email and Letter Templates",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "messaging-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:upload-timesheet-confirmed-brs-page-evidence:0f02474a53a7",
       "question": "Review the BRS workflow for Upload Timesheet - Upload Timesheet confirmed BRS page evidence.",
       "title": "Upload Timesheet confirmed BRS page evidence",
@@ -8006,25 +6504,6 @@
       "question": "Open and draft the BRS workflow for Timesheet Templates - Timesheet Templates confirmed BRS page evidence without saving changes.",
       "title": "Timesheet Templates confirmed BRS page evidence",
       "area": "Timesheet Templates",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:club-news-confirmed-brs-page-evidence:0183f1117f3f",
-      "question": "Open and draft the BRS workflow for Club News - Club News confirmed BRS page evidence without saving changes.",
-      "title": "Club News confirmed BRS page evidence",
-      "area": "Club News",
       "reviewReason": "incomplete-workflow-evidence",
       "driverFamily": "settings-setup",
       "allowedTier": "read-and-draft-only",
@@ -9560,25 +8039,6 @@
       }
     },
     {
-      "id": "workflow:email-and-letter-templates-confirmed-brs-page-evidence:3848df5f24db",
-      "question": "Open and draft the BRS workflow for Email and Letter Templates - Email and Letter Templates confirmed BRS page evidence without saving changes.",
-      "title": "Email and Letter Templates confirmed BRS page evidence",
-      "area": "Email and Letter Templates",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "messaging-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:upload-timesheet-confirmed-brs-page-evidence:06c147a22dc7",
       "question": "Review the BRS workflow for Upload Timesheet - Upload Timesheet confirmed BRS page evidence.",
       "title": "Upload Timesheet confirmed BRS page evidence",
@@ -9590,44 +8050,6 @@
       "safeMutationAllowed": false,
       "requiresRollback": false,
       "blockReason": "Uploads/imports can bulk-change live data, so the automated driver may inspect only after a fixture and rollback plan exist.",
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:club-news-confirmed-brs-page-evidence:8cc80f68e694",
-      "question": "Open and draft the BRS workflow for Club News - Club News confirmed BRS page evidence without saving changes.",
-      "title": "Club News confirmed BRS page evidence",
-      "area": "Club News",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:club-news-confirmed-brs-page-evidence:edd5dedf4391",
-      "question": "Open and draft the BRS workflow for Club News - Club News confirmed BRS page evidence without saving changes.",
-      "title": "Club News confirmed BRS page evidence",
-      "area": "Club News",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
       "policy": {
         "allowWriteActions": false,
         "requireRollbackVerification": false,
@@ -9788,25 +8210,6 @@
       }
     },
     {
-      "id": "workflow:view-contacts-workflow:7a338b8bf666",
-      "question": "Test the BRS workflow for View Contacts - View Contacts workflow using only temporary data and verified rollback.",
-      "title": "View Contacts workflow",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:brs-golf-tee-booking-system-workflow:6e0213377e6b",
       "question": "Test the BRS workflow for BRS Golf - Tee Booking System - BRS Golf - Tee Booking System workflow using only temporary data and verified rollback.",
       "title": "BRS Golf - Tee Booking System workflow",
@@ -9871,25 +8274,6 @@
       "reviewReason": "sensitive-or-live-crawl-data",
       "driverFamily": "reports-search",
       "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:system-tools-workflow:9e7450a1d926",
-      "question": "Open and draft the BRS workflow for System Tools - System Tools workflow without saving changes.",
-      "title": "System Tools workflow",
-      "area": "System Tools",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
       "status": "queued",
       "safeMutationAllowed": false,
       "requiresRollback": false,
@@ -9997,25 +8381,6 @@
       }
     },
     {
-      "id": "workflow:online-tee-bookings-reservations-workflow:0920dd0fe23d",
-      "question": "Verify the read-only BRS workflow for Online Tee Bookings / Reservations - Online Tee Bookings / Reservations workflow.",
-      "title": "Online Tee Bookings / Reservations workflow",
-      "area": "Online Tee Bookings / Reservations",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "online-booking",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:bookings-workflow:9cc90787551d",
       "question": "Test the BRS workflow for Bookings - Bookings workflow using only temporary data and verified rollback.",
       "title": "Bookings workflow",
@@ -10111,69 +8476,12 @@
       }
     },
     {
-      "id": "workflow:online-tee-bookings-reservations-workflow:90044dbf8c94",
-      "question": "Verify the read-only BRS workflow for Online Tee Bookings / Reservations - Online Tee Bookings / Reservations workflow.",
-      "title": "Online Tee Bookings / Reservations workflow",
-      "area": "Online Tee Bookings / Reservations",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "online-booking",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:tee-booking-system-workflow:d15dd875db43",
       "question": "Test the BRS workflow for Tee Booking System - Tee Booking System workflow using only temporary data and verified rollback.",
       "title": "Tee Booking System workflow",
       "area": "Tee Booking System",
       "reviewReason": "sensitive-or-live-crawl-data",
       "driverFamily": "timesheet-bookings",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:view-contacts-workflow:bff3f12d0bfa",
-      "question": "Test the BRS workflow for View Contacts - View Contacts workflow using only temporary data and verified rollback.",
-      "title": "View Contacts workflow",
-      "area": "View Contacts",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:add-contact-workflow:fd902e551d31",
-      "question": "Test the BRS workflow for Add Contact - Add Contact workflow using only temporary data and verified rollback.",
-      "title": "Add Contact workflow",
-      "area": "Add Contact",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "contact-records",
       "allowedTier": "safe-test-record-with-rollback",
       "status": "queued",
       "safeMutationAllowed": true,
@@ -10201,25 +8509,6 @@
       "policy": {
         "allowWriteActions": true,
         "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:brs-memberships-workflow:4472e6d86bba",
-      "question": "Open and draft the BRS workflow for Brs Memberships - Brs Memberships workflow without saving changes.",
-      "title": "Brs Memberships workflow",
-      "area": "Brs Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
         "blockSettingsMutationWithoutSpecificRollback": true,
         "blockPaymentsMessagingUsersImports": true
       }
@@ -10270,25 +8559,6 @@
       "reviewReason": "sensitive-or-live-crawl-data",
       "driverFamily": "reports-search",
       "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:system-tools-workflow:e49333743c88",
-      "question": "Open and draft the BRS workflow for System Tools - System Tools workflow without saving changes.",
-      "title": "System Tools workflow",
-      "area": "System Tools",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
       "status": "queued",
       "safeMutationAllowed": false,
       "requiresRollback": false,
@@ -10567,25 +8837,6 @@
       }
     },
     {
-      "id": "workflow:email-and-letter-templates-workflow:4cbbd152037d",
-      "question": "Open and draft the BRS workflow for Email and Letter Templates - Email and Letter Templates workflow without saving changes.",
-      "title": "Email and Letter Templates workflow",
-      "area": "Email and Letter Templates",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "messaging-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:email-messaging-workflow:cc2ea78203c2",
       "question": "Review the BRS workflow for Email Messaging - Email Messaging workflow.",
       "title": "Email Messaging workflow",
@@ -10654,25 +8905,6 @@
       "safeMutationAllowed": false,
       "requiresRollback": false,
       "blockReason": "Outbound email, text, SMS, and club-message workflows must not be sent automatically.",
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:club-news-workflow:3de3d3655e47",
-      "question": "Open and draft the BRS workflow for Club News - Club News workflow without saving changes.",
-      "title": "Club News workflow",
-      "area": "Club News",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
       "policy": {
         "allowWriteActions": false,
         "requireRollbackVerification": false,
@@ -10776,25 +9008,6 @@
       }
     },
     {
-      "id": "workflow:course-restriction-workflow:ef57975d2489",
-      "question": "Open and draft the BRS workflow for Course Restriction - Course Restriction workflow without saving changes.",
-      "title": "Course Restriction workflow",
-      "area": "Course Restriction",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:competitions-for-2026-workflow:c8919f6140d5",
       "question": "Open and draft the BRS workflow for Competitions for 2026 - Competitions for 2026 workflow without saving changes.",
       "title": "Competitions for 2026 workflow",
@@ -10871,44 +9084,6 @@
       }
     },
     {
-      "id": "workflow:club-systems-membership-data-preview-workflow:13e571b3e368",
-      "question": "Open and draft the BRS workflow for Club Systems Membership Data Preview - Club Systems Membership Data Preview workflow without saving changes.",
-      "title": "Club Systems Membership Data Preview workflow",
-      "area": "Club Systems Membership Data Preview",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:club-systems-membership-category-mapping-workflow:e82f55a21616",
-      "question": "Open and draft the BRS workflow for Club Systems Membership Category Mapping - Club Systems Membership Category Mapping workflow without saving changes.",
-      "title": "Club Systems Membership Category Mapping workflow",
-      "area": "Club Systems Membership Category Mapping",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:legal-messages-workflow:0d286efe78f9",
       "question": "Open and draft the BRS workflow for Legal Messages - Legal Messages workflow without saving changes.",
       "title": "Legal Messages workflow",
@@ -10966,87 +9141,11 @@
       }
     },
     {
-      "id": "workflow:online-tee-bookings-reservations-workflow:90044dbf8c94",
-      "question": "Verify the read-only BRS workflow for Online Tee Bookings / Reservations - Online Tee Bookings / Reservations workflow.",
-      "title": "Online Tee Bookings / Reservations workflow",
-      "area": "Online Tee Bookings / Reservations",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "online-booking",
-      "allowedTier": "read-only-complete",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:brs-memberships-workflow:4472e6d86bba",
-      "question": "Open and draft the BRS workflow for Brs Memberships - Brs Memberships workflow without saving changes.",
-      "title": "Brs Memberships workflow",
-      "area": "Brs Memberships",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "memberships",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:system-tools-workflow:ec0d2c5ee39f",
-      "question": "Open and draft the BRS workflow for System Tools - System Tools workflow without saving changes.",
-      "title": "System Tools workflow",
-      "area": "System Tools",
-      "reviewReason": "incomplete-workflow-evidence",
-      "driverFamily": "settings-setup",
-      "allowedTier": "read-and-draft-only",
-      "status": "queued",
-      "safeMutationAllowed": false,
-      "requiresRollback": false,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": false,
-        "requireRollbackVerification": false,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
       "id": "workflow:squeeze-tee-time-workflow:d32c126727e8",
       "question": "Test the BRS workflow for Squeeze Tee Time - Squeeze Tee Time workflow using only temporary data and verified rollback.",
       "title": "Squeeze Tee Time workflow",
       "area": "Squeeze Tee Time",
       "reviewReason": "sensitive-or-live-crawl-data",
-      "driverFamily": "timesheet-bookings",
-      "allowedTier": "safe-test-record-with-rollback",
-      "status": "queued",
-      "safeMutationAllowed": true,
-      "requiresRollback": true,
-      "blockReason": null,
-      "policy": {
-        "allowWriteActions": true,
-        "requireRollbackVerification": true,
-        "blockSettingsMutationWithoutSpecificRollback": true,
-        "blockPaymentsMessagingUsersImports": true
-      }
-    },
-    {
-      "id": "workflow:print-daily-booking-sheet-workflow:63b95e5e8ae7",
-      "question": "Test the BRS workflow for Print Daily Booking Sheet - Print Daily Booking Sheet workflow using only temporary data and verified rollback.",
-      "title": "Print Daily Booking Sheet workflow",
-      "area": "Print Daily Booking Sheet",
-      "reviewReason": "incomplete-workflow-evidence",
       "driverFamily": "timesheet-bookings",
       "allowedTier": "safe-test-record-with-rollback",
       "status": "queued",

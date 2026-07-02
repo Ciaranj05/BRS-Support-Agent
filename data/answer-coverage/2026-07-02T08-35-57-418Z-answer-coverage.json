@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-07-02T08:19:35.995Z",
-  "sourceReviewRunGeneratedAt": "2026-07-01T16:21:31.924Z",
+  "generatedAt": "2026-07-02T08:35:57.418Z",
+  "sourceReviewRunGeneratedAt": "2026-07-02T08:35:44.571Z",
   "totalFamilies": 16,
   "summary": {
     "byCoverageStatus": {
-      "mixed-static-heavy": 10,
+      "mixed-static-heavy": 9,
       "static-only": 4,
-      "mixed-static-and-dynamic": 1,
+      "mixed-static-and-dynamic": 2,
       "evidence-gap": 1
     },
     "byPriority": {
-      "high": 14,
-      "normal": 1,
+      "high": 13,
+      "normal": 2,
       "highest": 1
     },
-    "totalReviewBacklog": 582,
+    "totalReviewBacklog": 482,
     "totalStaticAnswerPrompts": 37,
     "totalApprovedEvidenceMatches": 43
   },
@@ -45,11 +45,11 @@
         ]
       },
       "reviewBacklog": {
-        "total": 46,
-        "queued": 46,
+        "total": 37,
+        "queued": 37,
         "blocked": 0,
         "byTier": {
-          "read-and-draft-only": 46
+          "read-and-draft-only": 37
         }
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
@@ -83,11 +83,11 @@
         ]
       },
       "reviewBacklog": {
-        "total": 35,
-        "queued": 35,
+        "total": 13,
+        "queued": 13,
         "blocked": 0,
         "byTier": {
-          "safe-test-record-with-rollback": 35
+          "safe-test-record-with-rollback": 13
         }
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
@@ -143,12 +143,10 @@
         ]
       },
       "reviewBacklog": {
-        "total": 1,
-        "queued": 1,
+        "total": 0,
+        "queued": 0,
         "blocked": 0,
-        "byTier": {
-          "read-only-complete": 1
-        }
+        "byTier": {}
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
     },
@@ -238,11 +236,11 @@
         ]
       },
       "reviewBacklog": {
-        "total": 20,
-        "queued": 20,
+        "total": 7,
+        "queued": 7,
         "blocked": 0,
         "byTier": {
-          "read-and-draft-only": 20
+          "read-and-draft-only": 7
         }
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
@@ -268,19 +266,19 @@
         "titles": []
       },
       "reviewBacklog": {
-        "total": 22,
-        "queued": 22,
+        "total": 17,
+        "queued": 17,
         "blocked": 0,
         "byTier": {
-          "read-and-draft-only": 22
+          "read-and-draft-only": 17
         }
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
     },
     {
       "family": "online-booking",
-      "coverageStatus": "mixed-static-heavy",
-      "priority": "high",
+      "coverageStatus": "mixed-static-and-dynamic",
+      "priority": "normal",
       "promptsChecked": [
         "What is online booking in BRS?",
         "How do I check online tee bookings?",
@@ -301,11 +299,11 @@
         ]
       },
       "reviewBacklog": {
-        "total": 7,
-        "queued": 7,
+        "total": 2,
+        "queued": 2,
         "blocked": 0,
         "byTier": {
-          "read-only-complete": 7
+          "read-only-complete": 2
         }
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
@@ -338,11 +336,11 @@
         ]
       },
       "reviewBacklog": {
-        "total": 34,
-        "queued": 34,
+        "total": 16,
+        "queued": 16,
         "blocked": 0,
         "byTier": {
-          "read-only-complete": 34
+          "read-only-complete": 16
         }
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
@@ -507,11 +505,11 @@
         ]
       },
       "reviewBacklog": {
-        "total": 134,
-        "queued": 134,
+        "total": 110,
+        "queued": 110,
         "blocked": 0,
         "byTier": {
-          "read-and-draft-only": 134
+          "read-and-draft-only": 110
         }
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
@@ -544,15 +542,15 @@
         ]
       },
       "reviewBacklog": {
-        "total": 177,
-        "queued": 177,
+        "total": 174,
+        "queued": 174,
         "blocked": 0,
         "byTier": {
-          "safe-test-record-with-rollback": 177
+          "safe-test-record-with-rollback": 174
         }
       },
       "note": "Static fallback coverage exists; use queued review-driver evidence to replace or support static wording before approving more dynamic answers."
     }
   ],
-  "sourceReviewRunPath": "data\\review-driver-runs\\2026-07-01T16-21-31-908Z-review-driver-run.json"
+  "sourceReviewRunPath": "data\\review-driver-runs\\2026-07-02T08-35-44-545Z-review-driver-run.json"
 }

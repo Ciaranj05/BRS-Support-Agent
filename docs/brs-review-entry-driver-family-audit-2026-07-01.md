@@ -6,10 +6,13 @@ Classify every current review entry into a workflow-driver family without collap
 
 This pass does not approve incomplete entries. It creates the execution queue and safety tier for targeted drivers.
 
+Updated on 2026-07-02: duplicate placeholder review entries already covered by approved same-family knowledge are now retired from the actionable queue, while remaining recorded in `knowledge/review-queue.json`.
+
 ## Result
 
-- 582 review entries processed
-- 489 queued for a safe driver tier
+- 482 actionable review entries processed
+- 100 duplicate placeholder review entries retired as superseded by approved same-family knowledge
+- 389 queued for a safe driver tier
 - 93 blocked from automated execution
 - 9 left as manual review because they have no usable title or area
 
@@ -17,16 +20,16 @@ This pass does not approve incomplete entries. It creates the execution queue an
 
 | Driver family | Entries | Tier | Notes |
 | --- | ---: | --- | --- |
-| timesheet-bookings | 177 | safe-test-record-with-rollback | Tee sheet, booking, calendar/month, squeeze tee time, and booking-route entries only. Setup pages such as Configure Timesheet and Booking Statuses are not included here. |
-| contact-records | 35 | safe-test-record-with-rollback | View/Add/Edit Contact record workflows only. Contact Categories is separate setup. |
+| timesheet-bookings | 174 | safe-test-record-with-rollback | Tee sheet, booking, calendar/month, squeeze tee time, and booking-route entries only. Setup pages such as Configure Timesheet and Booking Statuses are not included here. |
+| contact-records | 13 | safe-test-record-with-rollback | View/Add/Edit Contact record workflows only. Contact Categories is separate setup. |
 | facilities | 0 | safe-test-record-with-rollback | No current review entries landed here after the sanitized queue rebuild. |
-| reports-search | 34 | read-only-complete | Reports, Search Bookings, VAT Reports, export/download/search surfaces. Waiting-list mutation entries are not treated as read-only reports. |
-| dashboard-navigation | 1 | read-only-complete | Explicit Dashboard/Golf Plus navigation surfaces only. Bare `0%` and generic `BRS page` labels are not inferred as dashboard pages. |
-| online-booking | 7 | read-only-complete | Online booking entry pages are kept separate from admin Timesheet bookings. |
-| settings-setup | 134 | read-and-draft-only | Reservation Types, Green Fee Rates, Configure Timesheet, Course Restriction, Booking Statuses, Timesheet Templates, Casual Booking Rules, Services, Catering, No Show Reasons, Club News, System Tools. |
-| messaging-setup | 22 | read-and-draft-only | Messages on the Timesheet, Legal Messages, Email and Letter Templates, Membership Groups for Email and Text, Service Reminder Email. |
-| memberships | 20 | read-and-draft-only | Memberships, member profiles, Membership Types, Club Systems membership mapping/data-preview surfaces. Member email/text sending surfaces are not included here. |
-| competitions | 46 | read-and-draft-only | Competitions, Open Competitions, competition dates, and Add member to waiting list. |
+| reports-search | 16 | read-only-complete | Reports, Search Bookings, VAT Reports, export/download/search surfaces. Waiting-list mutation entries are not treated as read-only reports. |
+| dashboard-navigation | 0 | read-only-complete | Explicit Dashboard/Golf Plus navigation surfaces only. Bare `0%` and generic `BRS page` labels are not inferred as dashboard pages. |
+| online-booking | 2 | read-only-complete | Online booking entry pages are kept separate from admin Timesheet bookings. |
+| settings-setup | 110 | read-and-draft-only | Reservation Types, Green Fee Rates, Configure Timesheet, Course Restriction, Booking Statuses, Timesheet Templates, Casual Booking Rules, Services, Catering, No Show Reasons, Club News, System Tools. |
+| messaging-setup | 17 | read-and-draft-only | Messages on the Timesheet, Legal Messages, Email and Letter Templates, Membership Groups for Email and Text, Service Reminder Email. |
+| memberships | 7 | read-and-draft-only | Memberships, member profiles, Membership Types, Club Systems membership mapping/data-preview surfaces. Member email/text sending surfaces are not included here. |
+| competitions | 37 | read-and-draft-only | Competitions, Open Competitions, competition dates, and Add member to waiting list. |
 | golf-events | 8 | read-and-draft-only | Golf Events is kept separate from Competitions. |
 | contact-setup | 5 | read-and-draft-only | Contact Categories only. |
 | restricted-outbound-messaging | 42 | restricted | Send Email, Send Text, Club Messaging, Club Message Detail, SMS credit, admin messages, and member email/text sending contexts. |
@@ -50,5 +53,5 @@ This pass does not approve incomplete entries. It creates the execution queue an
 
 ## Generated Artifacts
 
-- `data/review-driver-runs/2026-07-01T16-21-31-908Z-review-driver-run.json`
-- `data/review-driver-runs/2026-07-01T16-21-31-908Z-review-driver-tasks.jsonl`
+- `data/review-driver-runs/2026-07-02T08-35-44-545Z-review-driver-run.json`
+- `data/review-driver-runs/2026-07-02T08-35-44-545Z-review-driver-tasks.jsonl`

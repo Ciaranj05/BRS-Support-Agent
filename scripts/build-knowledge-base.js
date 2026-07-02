@@ -4,6 +4,7 @@ import path from "path";
 import { hasIncompleteWorkflowEvidence } from "../lib/groundingGuards.js";
 import { normaliseKnowledgeEntry } from "../lib/knowledgeSources.js";
 import { hasSensitiveData, redactText } from "../lib/knowledgeRedaction.js";
+import { resolveReviewQueue } from "../lib/reviewQueueResolution.js";
 
 const KNOWLEDGE_DIR = path.join(process.cwd(), "knowledge");
 const OUTPUT_PATH = path.join(KNOWLEDGE_DIR, "knowledge-index.json");
@@ -236,17 +237,22 @@ export async function buildKnowledgeBase({ knowledgeDir = KNOWLEDGE_DIR, outputP
   ];
 
   const entries = sources.map(prepareEntry).map(normaliseKnowledgeEntry);
-  const reviewQueue = entries.filter((entry) => entry.confidence !== "approved");
+  const { reviewQueue, retiredReviewEntries, summary: reviewResolutionSummary } = resolveReviewQueue(entries);
 
   await fs.mkdir(knowledgeDir, { recursive: true });
   await fs.writeFile(outputPath, JSON.stringify({ generatedAt: new Date().toISOString(), entries }, null, 2));
-  await fs.writeFile(path.join(knowledgeDir, "review-queue.json"), JSON.stringify({ generatedAt: new Date().toISOString(), entries: reviewQueue }, null, 2));
-  return { entries, reviewQueue };
+  await fs.writeFile(path.join(knowledgeDir, "review-queue.json"), JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    entries: reviewQueue,
+    retiredEntries: retiredReviewEntries,
+    reviewResolutionSummary,
+  }, null, 2));
+  return { entries, reviewQueue, retiredReviewEntries, reviewResolutionSummary };
 }
 
 async function main() {
-  const { entries, reviewQueue } = await buildKnowledgeBase();
-  console.log(`Built knowledge index with ${entries.length} entries. ${reviewQueue.length} entries need review.`);
+  const { entries, reviewQueue, retiredReviewEntries } = await buildKnowledgeBase();
+  console.log(`Built knowledge index with ${entries.length} entries. ${reviewQueue.length} entries need review. ${retiredReviewEntries.length} duplicate placeholder review entries retired.`);
 }
 
 if (process.argv[1] && process.argv[1].endsWith("build-knowledge-base.js")) {

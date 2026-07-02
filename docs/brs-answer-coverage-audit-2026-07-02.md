@@ -8,10 +8,11 @@ This report does not approve review entries. It identifies where crawler/driver 
 
 ## Result
 
-- Source review run: `data/review-driver-runs/2026-07-01T16-21-31-908Z-review-driver-run.json`
-- Coverage report: `data/answer-coverage/2026-07-02T08-19-35-995Z-answer-coverage.json`
+- Source review run: `data/review-driver-runs/2026-07-02T08-35-44-545Z-review-driver-run.json`
+- Coverage report: `data/answer-coverage/2026-07-02T08-35-57-418Z-answer-coverage.json`
 - Families analysed: 16
-- Review backlog represented: 582 entries
+- Review backlog represented: 482 actionable entries
+- Retired duplicate placeholder entries: 100
 - Same-family approved evidence matches: 43
 - Static answer prompts found: 37
 
@@ -19,19 +20,21 @@ This report does not approve review entries. It identifies where crawler/driver 
 
 | Coverage status | Families |
 | --- | ---: |
-| mixed-static-heavy | 10 |
+| mixed-static-heavy | 9 |
 | static-only | 4 |
-| mixed-static-and-dynamic | 1 |
+| mixed-static-and-dynamic | 2 |
 | evidence-gap | 1 |
 
 | Priority | Families |
 | --- | ---: |
 | highest | 1 |
-| high | 14 |
-| normal | 1 |
+| high | 13 |
+| normal | 2 |
 
 ## Content Fixes Made
 
+- 100 incomplete placeholder review entries were retired from the actionable queue because they are superseded by approved same-family knowledge.
+- Sensitive/live-data entries and restricted-family entries remain in review even when titles overlap with approved guidance.
 - Golf Events and Competitions are separated in the answer layer, not only in the driver classifier.
 - "What is a golf event?" now explains that Golf Events is separate from Competitions.
 - "How do I set up a golf event?" routes to Golf Events and does not mention opening Competitions.
@@ -44,6 +47,6 @@ The most useful next crawl/driver work is now visible from the coverage report:
 
 - `golf-events` is static-only with 8 queued review entries.
 - `contact-setup` is static-only with 5 queued review entries.
-- `online-booking` is static-only with 7 queued review entries.
+- `online-booking` is static-only with 2 queued review entries.
 - Restricted families must remain blocked for automated mutation, even when static answers exist.
 - `manual-review` contains 9 placeholder entries with no reliable page identity and should not be promoted automatically.
