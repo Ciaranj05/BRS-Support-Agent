@@ -1,0 +1,5574 @@
+{
+  "generatedAt": "2026-07-02T09:11:06.798Z",
+  "sourceType": "brs-system-workflow",
+  "entries": [
+    {
+      "id": "workflow:system-tools-workflow:e49333743c88",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "System Tools workflow",
+      "area": "System Tools",
+      "workflow": "System Tools",
+      "navigationPath": "System Tools > System Configuration > Configure Timesheet > Green Fee Rates > Reservation Types > Booking Statuses > Payment Methods > Contact Categories > Catering / Refreshments > No Show Reasons > Services > Copy Services, Catering or Green Fees",
+      "sourceUrl": null,
+      "purpose": "System Tools | System Configuration | Configure Timesheet | Green Fee Rates | Reservation Types | Booking Statuses | Payment Methods | Contact Categories",
+      "steps": [
+        "Open \"System Tools > System Configuration > Configure Timesheet > Green Fee Rates > Reservation Types > Booking Statuses > Payment Methods > Contact Categories > Catering / Refreshments > No Show Reasons > Services > Copy Services, Catering or Green Fees\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\", \"Club News Create club news articles which can be viewed by members and the public.\", \"Member Casual Booking Rules Set up the dates and times when members can view the timesheet and book casual golf on-line through the club website.\", \"Open Competitions for Visitors Set up open competitions for visitors to book on-line through the club website.\", \"Update Club Website Update Fixture List, Club News and Competition Reports on the club website. It also allows you to collect and manage member and visitor feedback.\", \"Payouts View Payout Schedule.\", \"Transactions View all transactions.\", \"Refunds View Refunds.\".",
+        "Download or export the result with: \"VAT Reports Export VAT Reports.\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"System Configuration Set up system parameters, eg. club address and email, and enable / disable certain features of the system.\", \"Services Set up Services offered by the club such as Buggies, Caddies, Club Hire, Room Hire, Trolleys and Course Set Up.\", \"Club News Create club news articles which can be viewed by members and the public.\", \"Update Club Website Update Fixture List, Club News and Competition Reports on the club website. It also allows you to collect and manage member and visitor feedback.\", \"FAQs Additional Help.\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\"."
+      ],
+      "controls": [],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "System Configuration Set up system parameters, eg. club address and email, and enable / disable certain features of the system.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Configure Timesheet Set up Tee Times and Tee Time Intervals for individual days, months and years.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Green Fee Rates Set up Green Fee Categories and Rates for Visitors, Societies, Member Guests, etc.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reservation Types Set up the Reservation Types and choose their colours.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Booking Statuses Set up the Booking Statuses supported.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Payment Methods Set up the Payment Methods supported.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contact Categories Set up the Contact Categories supported.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Catering / Refreshments Set up Catering and Refreshments.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "No Show Reasons Set up reasons a player may not show for a booking.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Services Set up Services offered by the club such as Buggies, Caddies, Club Hire, Room Hire, Trolleys and Course Set Up.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Copy Services, Catering or Green Fees Copy Services, Catering or Green Fees from one year to another year.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Title for Each Day Set up a title for each day of the year which is displayed at the top of the timesheet pages.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages on the Timesheet Set up messages that get displayed on the timesheet.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Email and Letter Templates Set up a number of email and letter templates for sending to members and visitors, e.g. confirmation of booking, thank you message, etc.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Upload Timesheet Upload a timesheet for any given day including the player names and membership number.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Upload Members and Contacts Upload member and contact data files into the system.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Membership Types Set up membership types such as full, 6-day, 5-day, senior, junior, honorary and country members.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Legal Messages Set up Marketing Preferences, Privacy Policy, Member Terms and Conditions and Visitor Terms and Conditions.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Course Restriction Restrict course bookings to limited group sizes.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Email Messaging Send emails to your members and contacts.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Text Messaging Send text messages to your members and contacts.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Membership Groups for Messaging Set up membership groups and assign members to those groups.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Club News Create club news articles which can be viewed by members and the public.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Club Messages Send club messages to members who are using the BRS Members App or New Members Website.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Member Casual Booking Rules Set up the dates and times when members can view the timesheet and book casual golf on-line through the club website.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Member Competitions Set up competitions for members to book on-line through the club website.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Set this PC as Club House PC Set up / remove this PC as being Club House PC. This enables certain features within the club house.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Green Fee Rates for Visitors / Agents Set up green fee rates for visitors to book on-line through the club website. It is also for setting up rates for 3rd Party Tee Time Agents.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Day Ticket Rates for Visitors Set up green fee rates for visitors playing 2 rounds on the same day to book on-line through the club website.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Open Competitions for Visitors Set up open competitions for visitors to book on-line through the club website.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Events Set up part of the timesheet for the organiser of an event to populate. This can be used for a member event, a corporate day etc.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Green Fee Rates for Tour Operator Set up green fee rates for tour operators to book on-line through the club website.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Process Competition Charges Process competition charges for each member.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Update Club Website Update Fixture List, Club News and Competition Reports on the club website. It also allows you to collect and manage member and visitor feedback.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Payouts View Payout Schedule.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "FAQs Additional Help.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Transactions View all transactions.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Refunds View Refunds.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Booking Payment Requests View the status of your Booking Payment Requests.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "General Payment Requests View the status of your General Payment Requests.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "VAT Reports Export VAT Reports.",
+          "purpose": "download/export",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Setup Use this tool to set up BRS Payments.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [],
+      "pageEvidence": {
+        "headings": [
+          "System Tools",
+          "System Configuration",
+          "Configure Timesheet",
+          "Green Fee Rates",
+          "Reservation Types",
+          "Booking Statuses",
+          "Payment Methods",
+          "Contact Categories",
+          "Catering / Refreshments",
+          "No Show Reasons",
+          "Services",
+          "Copy Services, Catering or Green Fees"
+        ],
+        "captions": [],
+        "helpText": [
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:11:16.255Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:system-configuration-workflow:afd3cf885b2d",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "System Configuration workflow",
+      "area": "System Configuration",
+      "workflow": null,
+      "navigationPath": "System Configuration",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:11:20.965Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:configure-timesheet-workflow:2afbd0f57bb5",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Configure Timesheet workflow",
+      "area": "Configure Timesheet",
+      "workflow": null,
+      "navigationPath": "Configure Timesheet > Magenta Course > Cyan Course",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:11:25.490Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:green-fee-rates-for-2026-workflow:632ba7625f8b",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Green Fee Rates for 2026 workflow",
+      "area": "Green Fee Rates for 2026",
+      "workflow": "Green Fee Rates for 2026",
+      "navigationPath": "Green Fee Rates for 2026 > Magenta Course > Cyan Course",
+      "sourceUrl": null,
+      "purpose": "Green Fee Rates for 2026 | Magenta Course | Cyan Course",
+      "steps": [
+        "Open \"Green Fee Rates for 2026 > Magenta Course > Cyan Course\".",
+        "Select or enter values in the captured fields for this workflow: \"idFilter\", \"Search...\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\", \"Filter Category\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add Green Fees\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Select a Year\", \"2026\", \"Key\", \"Category\", \"Sub Category\", \"Holes\", \"Start Date\", \"End Date\", \"Rates\", \"Mem Types\", \"Default\", \"Global\", \"Actions\"."
+      ],
+      "controls": [
+        {
+          "label": "idFilter",
+          "name": "idFilter",
+          "type": "select",
+          "options": [
+            "Competition",
+            "Complimentary",
+            "Corporate",
+            "Guest",
+            "Hotel",
+            "Member",
+            "Member Guest",
+            "Other",
+            "Resident",
+            "Society",
+            "Tour Operator",
+            "Visitor",
+            "Voucher"
+          ]
+        },
+        {
+          "label": "Search...",
+          "name": "",
+          "type": "input",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2023",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2024",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2025",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2026",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2027",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2028",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2029",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Jan",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Feb",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Mar",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Apr",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "May",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Jun",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Jul",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Aug",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sep",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Oct",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Nov",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dec",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add Green Fees",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Filter Category",
+          "purpose": "filter/search",
+          "title": "Filter Category",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Select a Year",
+        "2026",
+        "Key",
+        "Category",
+        "Sub Category",
+        "Holes",
+        "Start Date",
+        "End Date",
+        "Rates",
+        "Mem Types",
+        "Default",
+        "Global",
+        "Actions"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Green Fee Rates for 2026",
+          "Magenta Course",
+          "Cyan Course"
+        ],
+        "captions": [],
+        "helpText": [
+          "Filter Category",
+          "Last modified by user brs_arowan on 22-Oct-2025 14:41:57 PM",
+          "Member Flex Member 18 18 [redacted-date] [redacted-date] 2 3 × Member Types 5 day flex (5) 7 day flex (11) Flex Premium (5) No No",
+          "Close",
+          "Last modified by user brs_arowan on 02-Sep-2025 14:24:47 PM",
+          "Member Member 18 18 [redacted-date] 2 Sep [redacted-phone] × Member Types Staff (1) Full (47) 5-6 Day (6) TEST (1) 7 Day (37) 5 Day (22) Tim Test (4) Green Lifestyle (0) Elgin Test (0) Ariel Test (2) GOLD PREMIUM (1) Josh Membership (1) Test Loyalty (1) Intermediate (0) Life (1) Senior (0) Corporate (2) No No",
+          "Last modified by user brs_arowan on 19-May-2026 10:18:49 AM",
+          "Member Tester Member 18 [redacted-date] [redacted-date] 2 1 × Member [redacted-name] (1) No No",
+          "Last modified by user brs_arowan on 09-Apr-2026 16:24:43 PM",
+          "Member Guest Flex Member Guest 18 18 [redacted-date] [redacted-date] 2 3 × Member Types 5 day flex (5) 7 day flex (11) Flex Premium (5) No No",
+          "Last modified by user brs_arowan on 09-Apr-2026 16:32:15 PM",
+          "Member Guest Member Guest 18 [redacted-date] 31 Dec [redacted-phone] × Member Types Staff (1) Full (47) 5-6 Day (6) TEST (1) 7 Day (37) 5 Day (22) Tim Test (4) Green Lifestyle (0) Elgin Test (0) Ariel Test (2) GOLD PREMIUM (1) Josh Membership (1) Test Loyalty (1) Intermediate (0) Life (1) Senior (0) Corporate (2) Tester Type (1) No No",
+          "Last modified by user brs_tchambers on 09-Dec-2025 14:58:27 PM",
+          "Society Visitor 18 Holes 18 [redacted-date] [redacted-date] 1 - No No",
+          "Last modified by user brs_arowan on 13-Mar-2024 11:45:20 AM",
+          "Tour Operator Tour Op 18 Holes 18 [redacted-date] [redacted-date] 1 - No No",
+          "Last modified by user brs_jcleland on 10-Sep-2025 13:27:16 PM",
+          "Visitor Visitor 18 Holes 18 [redacted-date] [redacted-date] 5 - No No",
+          "Last modified by user brs_mf on 13-Apr-2024 14:38:35 PM",
+          "Member Flex 18 G 18 [redacted-date] [redacted-date] 4 3 × Member Types 5 day flex (5) 7 day flex (11) Flex Premium (5) No No",
+          "Last modified by user brs_mf on 13-Apr-2024 14:38:25 PM",
+          "Member Flex 9 G 9 [redacted-date] [redacted-date] 4 3 × Member Types 5 day flex (5) 7 day flex (11) Flex Premium (5) No No",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:11:30.102Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:green-fee-rates-for-visitors-tour-operators-tee-time-agents-work:9c[redacted-phone]e",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Green Fee Rates for Visitors / Tour Operators / Tee Time Agents workflow",
+      "area": "Green Fee Rates for Visitors / Tour Operators / Tee Time Agents",
+      "workflow": null,
+      "navigationPath": "Green Fee Rates for Visitors / Tour Operators / Tee Time Agents > Magenta Course - All Channels > 18 Hole Golf Only Rates > 18 Hole Golf Package Rates > 9 Hole Golf Package Rates > Cyan Course - All Channels",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:11:34.690Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:reservation-types-workflow:cac0ff5a06f5",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Reservation Types workflow",
+      "area": "Reservation Types",
+      "workflow": "Reservation Types",
+      "navigationPath": "Reservation Types",
+      "sourceUrl": null,
+      "purpose": "Reservation Types",
+      "steps": [
+        "Open \"Reservation Types\".",
+        "Select or enter values in the captured fields for this workflow: \"text\", \"rtName\", \"rtCode\", \"rtSupported\", \"rtAbilityToBookOnline\", \"rtDefault\", \"opSubmit\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Name\", \"Code\", \"Supported\", \"Allow Online Bookings\", \"Default\", \"Colour\", \"Actions\", \"Reservation Types\", \"Name:\", \"Code:\", \"Supported:\", \"Allow Online Bookings:\", \"Set As Default:\", \"Colour:\"."
+      ],
+      "controls": [
+        {
+          "label": "text",
+          "name": "",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "rtName",
+          "name": "rtName",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "rtCode",
+          "name": "rtCode",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "rtSupported",
+          "name": "rtSupported",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "rtAbilityToBookOnline",
+          "name": "rtAbilityToBookOnline",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "rtDefault",
+          "name": "rtDefault",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "opSubmit",
+          "name": "opSubmit",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iCopy",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iEdit",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iDelete",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Name",
+        "Code",
+        "Supported",
+        "Allow Online Bookings",
+        "Default",
+        "Colour",
+        "Actions",
+        "Reservation Types",
+        "Name:",
+        "Code:",
+        "Supported:",
+        "Allow Online Bookings:",
+        "Set As Default:",
+        "Colour:"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Reservation Types"
+        ],
+        "captions": [],
+        "helpText": [
+          "Last modified by brs_achambers on [redacted-phone]:33:13",
+          "10th tee C",
+          "Last modified by brs_achambers on [redacted-phone]:32:58",
+          "1st tee C",
+          "Last modified by install_script on [redacted-phone]:48:33",
+          "Classic L",
+          "Closed X",
+          "Competition C",
+          "Corporate P",
+          "Last modified by brs_achambers on [redacted-phone]:45:01",
+          "Course Maintenance Z",
+          "Guest/Member G",
+          "Last modified by brs_achambers on [redacted-phone]:28:05",
+          "Lady Members M",
+          "Last modified by Robert on [redacted-phone]:58:28",
+          "Local Resident Z",
+          "Last modified by brs_bj on [redacted-phone]:19:01",
+          "Member M",
+          "Last modified by brs_achambers on [redacted-phone]:52:42",
+          "Members Roll Up M",
+          "Last modified by brs_achambers on [redacted-phone]:28:16",
+          "Men Members M",
+          "Last modified by brs_tchambers on [redacted-phone]:19:00",
+          "Online O",
+          "Open Competition O",
+          "Reserved R",
+          "Reserved For Members M",
+          "Reserved For Visitors V",
+          "Society S",
+          "Last modified by brs_achambers on [redacted-phone]:02:28",
+          "Special Offer E",
+          "Team T",
+          "Last modified by Robert on [redacted-phone]:35:20",
+          "Tour Operator Y",
+          "Last modified by brs_achambers on [redacted-phone]:54:46",
+          "Visitor V",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:11:39.182Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:booking-statuses-workflow:b6bd32f9cee2",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Booking Statuses workflow",
+      "area": "Booking Statuses",
+      "workflow": "Booking Statuses",
+      "navigationPath": "Booking Statuses",
+      "sourceUrl": null,
+      "purpose": "Booking Statuses",
+      "steps": [
+        "Open \"Booking Statuses\".",
+        "Select or enter values in the captured fields for this workflow: \"bsName\", \"bsSupported\", \"opSubmit\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Name\", \"Supported\", \"Actions\", \"Booking Status\", \"Name:\", \"Supported:\"."
+      ],
+      "controls": [
+        {
+          "label": "bsName",
+          "name": "bsName",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "bsSupported",
+          "name": "bsSupported",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "opSubmit",
+          "name": "opSubmit",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iCopy",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iEdit",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Name",
+        "Supported",
+        "Actions",
+        "Booking Status",
+        "Name:",
+        "Supported:"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Booking Statuses"
+        ],
+        "captions": [],
+        "helpText": [
+          "Last modified by user install_script on [redacted-phone]:48:33",
+          "Booking Taken",
+          "Closed",
+          "Confirmed",
+          "Deposit Cleared",
+          "Deposit Paid Bank",
+          "Deposit Received",
+          "Deposit Requested",
+          "Full Payment Received",
+          "Letter Sent",
+          "Outstanding Balance",
+          "Part Payment",
+          "Provisional",
+          "Visitor Request",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:11:43.405Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:contact-categories-workflow:5c4ed7018b85",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Contact Categories workflow",
+      "area": "Contact Categories",
+      "workflow": "Contact Categories",
+      "navigationPath": "Contact Categories",
+      "sourceUrl": null,
+      "purpose": "Contact Categories",
+      "steps": [
+        "Open \"Contact Categories\".",
+        "Select or enter values in the captured fields for this workflow: \"ccName\", \"ccSupported\", \"opSubmit\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Name\", \"Supported\", \"Actions\", \"Contact Category\", \"Name:\", \"Supported:\"."
+      ],
+      "controls": [
+        {
+          "label": "ccName",
+          "name": "ccName",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "ccSupported",
+          "name": "ccSupported",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "opSubmit",
+          "name": "opSubmit",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iCopy",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iEdit",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Name",
+        "Supported",
+        "Actions",
+        "Contact Category",
+        "Name:",
+        "Supported:"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Contact Categories"
+        ],
+        "captions": [],
+        "helpText": [
+          "Last modified by user install_script on 03-Apr-2018 09:48:33 AM",
+          "Company",
+          "Hotel",
+          "Other",
+          "Society",
+          "Tour Operator",
+          "Visitor",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:11:47.736Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:services-for-2026-workflow:05f72f24f1a3",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Services for 2026 workflow",
+      "area": "Services for 2026",
+      "workflow": null,
+      "navigationPath": "Services for 2026",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:11:52.019Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:catering-refreshments-for-2026-workflow:[redacted-phone]a2",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Catering / Refreshments for 2026 workflow",
+      "area": "Catering / Refreshments for 2026",
+      "workflow": null,
+      "navigationPath": "Catering / Refreshments for 2026",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:11:56.272Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:timesheet-templates-workflow:28737641fac8",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Timesheet Templates workflow",
+      "area": "Timesheet Templates",
+      "workflow": null,
+      "navigationPath": "Timesheet Templates",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:12:00.594Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:messages-on-the-timesheet-for-2026-workflow:1155ef6c6bac",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Messages on the Timesheet for 2026 workflow",
+      "area": "Messages on the Timesheet for 2026",
+      "workflow": null,
+      "navigationPath": "Messages on the Timesheet for 2026",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:12:04.904Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:membership-types-workflow:1d3e79218fd7",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Membership Types workflow",
+      "area": "Membership Types",
+      "workflow": "Membership Types",
+      "navigationPath": "Membership Types",
+      "sourceUrl": null,
+      "purpose": "Membership Types",
+      "steps": [
+        "Open \"Membership Types\".",
+        "Select or enter values in the captured fields for this workflow: \"text\", \"mem_type\", \"flex_membership\", \"submit\", \"clear\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\", \"Clear\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Name\", \"Num Members\", \"Common ID\", \"Colour\", \"Flex Membership\", \"Actions\", \"Membership Types\", \"Name:\", \"Flex Membership:\", \"Colour:\"."
+      ],
+      "controls": [
+        {
+          "label": "text",
+          "name": "",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "mem_type",
+          "name": "mem_type",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "flex_membership",
+          "name": "flex_membership",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "submit",
+          "name": "",
+          "type": "submit",
+          "options": []
+        },
+        {
+          "label": "clear",
+          "name": "clear",
+          "type": "button",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iCopy",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iEdit",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iDelete",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Clear",
+          "purpose": "reset filters",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Name",
+        "Num Members",
+        "Common ID",
+        "Colour",
+        "Flex Membership",
+        "Actions",
+        "Membership Types",
+        "Name:",
+        "Flex Membership:",
+        "Colour:"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Membership Types"
+        ],
+        "captions": [],
+        "helpText": [
+          "Last modified by user brs_smcauley on 10-Nov-2020 11:06:34 AM",
+          "5 Day 22 [redacted-id]",
+          "Last modified by user brs_achambers on 13-Nov-2020 10:13:18 AM",
+          "5 day flex 5 d995ab[redacted-phone]eb-a190-44a84244660f",
+          "Last modified by user install_script on 03-Apr-2018 09:48:33 AM",
+          "5-6 Day 6 92ede[redacted-phone]e9-bd14-1866da94d423",
+          "7 Day 36 [redacted-id]",
+          "Last modified by user brs_bj on 19-Jul-2021 14:46:07 PM",
+          "7 day flex 11 [redacted-id]",
+          "Last modified by user brs_syncconnector on 20-Apr-2022 09:41:02 AM",
+          "Ariel Test 2 [redacted-id]",
+          "Last modified by user brs_arowan on 02-Sep-2025 14:19:21 PM",
+          "Corporate 2 [redacted-id]",
+          "Last modified by user brs_arowan on 01-Dec-2023 14:38:43 PM",
+          "Elgin Test 0 [redacted-id]",
+          "Last modified by user brs_mf on 14-Jun-2022 09:30:11 AM",
+          "Flex Premium 5 [redacted-id]",
+          "Last modified by user brs_lw on 26-May-2025 11:47:28 AM",
+          "Full 47 [redacted-id]",
+          "Last modified by user brs_mf on 06-Feb-2023 17:10:32 PM",
+          "GOLD PREMIUM 1 [redacted-id]",
+          "Last modified by user brs_arowan on 01-Dec-2023 14:38:12 PM",
+          "Green Lifestyle 0 [redacted-id]",
+          "Last modified by user brs_syncconnector on 14-Feb-2025 15:08:32 PM",
+          "Intermediate 0 [redacted-id]",
+          "Last modified by user brs_syncconnector on 04-Apr-2023 10:47:53 AM",
+          "Josh Membership 1 [redacted-id]",
+          "Last modified by user brs_syncconnector on 14-Feb-2025 15:20:43 PM",
+          "Life 1 [redacted-id]",
+          "Last modified by user brs_syncconnector on 08-Jun-2026 08:51:32 AM",
+          "Rolling Monthly Test 2 42749e4f-[redacted-phone]-b191-208de4db0d5a",
+          "Last modified by user brs_syncconnector on 14-Feb-2025 15:24:05 PM",
+          "Senior 0 [redacted-id]",
+          "Staff 16 92edbc[redacted-phone]e9-bd14-1866da94d423",
+          "Last modified by user on 30-Nov--0001 00:00:00 AM",
+          "TEST 2 [redacted-id]",
+          "Last modified by user brs_arowan on 12-Dec-2023 12:29:18 PM",
+          "Test Loyalty 1 [redacted-id]",
+          "Last modified by user brs_arowan on 07-Apr-2026 12:05:08 PM",
+          "Tester Type 1 a3e9b4a[redacted-phone]f1-85ff-1a85f2047eba",
+          "Last modified by user brs_tchambers on 21-Dec-2020 10:29:28 AM",
+          "Tim Test 4 67f[redacted-phone]eb-a190-44a84244660f",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:12:09.431Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:casual-booking-rules-workflow:cabab02e2449",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Casual Booking Rules workflow",
+      "area": "Casual Booking Rules",
+      "workflow": null,
+      "navigationPath": "Casual Booking Rules > Magenta Course > Cyan Course",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:12:13.774Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:course-restriction-workflow:ef57975d2489",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Course Restriction workflow",
+      "area": "Course Restriction",
+      "workflow": "Course Restriction",
+      "navigationPath": "Course Restriction",
+      "sourceUrl": null,
+      "purpose": "Course Restriction",
+      "steps": [
+        "Open \"Course Restriction\".",
+        "Select or enter values in the captured fields for this workflow: \"Show expired Course Restrictions\", \"YYYY-MM-DD\", \"HH:MM\", \"courserestriction[type]\", \"courserestriction[maxGroupSize]\", \"courserestriction[message]\", \"submit\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Start Date\", \"End Date\", \"Start Time\", \"End Time\", \"Player Types\", \"Max Group Size\", \"Message\", \"Actions\", \"Course Restriction\", \"Start Date:\", \"End Date:\", \"Start Time:\", \"End Time:\", \"Player Types:\", \"Max Group Size:\", \"Message:\"."
+      ],
+      "controls": [
+        {
+          "label": "Show expired Course Restrictions",
+          "name": "",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "YYYY-MM-DD",
+          "name": "courserestriction[startDate]",
+          "type": "date",
+          "options": []
+        },
+        {
+          "label": "HH:MM",
+          "name": "courserestriction[startTime]",
+          "type": "time",
+          "options": []
+        },
+        {
+          "label": "courserestriction[type]",
+          "name": "courserestriction[type]",
+          "type": "select",
+          "options": [
+            "Members & Visitors",
+            "Members",
+            "Visitors"
+          ]
+        },
+        {
+          "label": "courserestriction[maxGroupSize]",
+          "name": "courserestriction[maxGroupSize]",
+          "type": "select",
+          "options": []
+        },
+        {
+          "label": "courserestriction[message]",
+          "name": "courserestriction[message]",
+          "type": "textarea",
+          "options": []
+        },
+        {
+          "label": "submit",
+          "name": "",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iCopy",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Start Date",
+        "End Date",
+        "Start Time",
+        "End Time",
+        "Player Types",
+        "Max Group Size",
+        "Message",
+        "Actions",
+        "Course Restriction",
+        "Start Date:",
+        "End Date:",
+        "Start Time:",
+        "End Time:",
+        "Player Types:",
+        "Max Group Size:",
+        "Message:"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Course Restriction"
+        ],
+        "captions": [],
+        "helpText": [
+          "Last modified by user brs_achambers on 20-May-2020 02:13:29 pm",
+          "20-May-2020 31-May-2020 06:00 21:00 Members & Visitors 2 Covid 19 - 2 ball social dist...",
+          "Last modified by user brs_achambers on 04-Aug-2022 12:35:15 pm",
+          "18-Aug-2022 18-Aug-2022 06:00 22:00 Members & Visitors 0 Course maintenance",
+          "Last modified by user brs_lw on 30-Apr-2024 04:53:35 pm",
+          "01-May-2024 01-May-2024 08:00 23:59 Members & Visitors 0 Course Closed",
+          "Last modified by user brs_lw on 13-Aug-2024 03:49:23 pm",
+          "15-Aug-2024 15-Aug-2024 08:00 23:00 Members & Visitors 0 Course Closed all day for Hol...",
+          "Last modified by user brs_arowan on 18-Nov-2025 01:40:30 pm",
+          "18-Nov-2025 19-Nov-2025 05:00 19:00 Members & Visitors 0 Testing date format",
+          "Last modified by user brs_tchambers on 05-Dec-2025 12:48:05 pm",
+          "05-Dec-2025 07-Dec-2025 09:00 09:59 Members & Visitors 2 test",
+          "Last modified by user brs_tchambers on 05-Dec-2025 12:48:16 pm",
+          "05-Dec-2025 07-Dec-2025 10:00 10:59 Members 2 member test",
+          "Last modified by user brs_tchambers on 05-Dec-2025 12:48:35 pm",
+          "05-Dec-2025 07-Dec-2025 11:00 11:59 Visitors 2 visitor test",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:12:18.166Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:bookings-workflow:1f0bf1ac3202",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Bookings workflow",
+      "area": "Bookings",
+      "workflow": null,
+      "navigationPath": "0% > 0 Bookings > 0 Golfers > Bookings > Course Status > Toolbox > Version 15.28.0",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:12:22.792Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:bookings-workflow:1f0bf1ac3202",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Bookings workflow",
+      "area": "Bookings",
+      "workflow": null,
+      "navigationPath": "0% > 0 Bookings > 0 Golfers > Bookings > Course Status > Toolbox > Version 15.28.0",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:12:27.282Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:add-member-to-waiting-list-workflow:c06993a89490",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Add member to waiting list workflow",
+      "area": "Add member to waiting list",
+      "workflow": null,
+      "navigationPath": "Add member to waiting list",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:12:31.987Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:calendar-for-2026-workflow:4fca4c230fc6",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Calendar for 2026 workflow",
+      "area": "Calendar for 2026",
+      "workflow": "Calendar for 2026",
+      "navigationPath": "Calendar for 2026 > Magenta Course > Cyan Course",
+      "sourceUrl": null,
+      "purpose": "Calendar for 2026 | Magenta Course | Cyan Course",
+      "steps": [
+        "Open \"Calendar for 2026 > Magenta Course > Cyan Course\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\", \"Month\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Select a Year\", \"Mo\", \"Tu\", \"We\", \"Th\", \"Fr\", \"Sa\", \"Su\", \"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\"."
+      ],
+      "controls": [],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Magenta",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Summary",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "4 Week",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Cyan",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Both",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Month",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Year",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2023",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2024",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2025",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2026",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2027",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2028",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2029",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Jan",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "10",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "11",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "12",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "13",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "14",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "15",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "16",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "17",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "18",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "19",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "20",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "21",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "22",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "23",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "24",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "25",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "26",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "27",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "28",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "29",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "30",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "31",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Feb",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Mar",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Apr",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "May",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Jun",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Jul",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Aug",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sep",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Oct",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Nov",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dec",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Select a Year",
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa",
+        "Su",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Calendar for 2026",
+          "Magenta Course",
+          "Cyan Course"
+        ],
+        "captions": [
+          "Magenta Course",
+          "Cyan Course"
+        ],
+        "helpText": [
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:12:36.575Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:july-2026-workflow:d2adeace69e0",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "July 2026 workflow",
+      "area": "July 2026",
+      "workflow": null,
+      "navigationPath": "July 2026",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:12:40.228Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:online-tee-bookings-reservations-workflow:90044dbf8c94",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Online Tee Bookings / Reservations workflow",
+      "area": "Online Tee Bookings / Reservations",
+      "workflow": "Online Tee Bookings / Reservations",
+      "navigationPath": "Online Tee Bookings / Reservations > Member On-line Booking > Visitor On-line Booking > Open Days / Competitions > Golf Event Bookings",
+      "sourceUrl": null,
+      "purpose": "Online Tee Bookings / Reservations | Member On-line Booking | Visitor On-line Booking | Open Days / Competitions | Golf Event Bookings",
+      "steps": [
+        "Open \"Online Tee Bookings / Reservations > Member On-line Booking > Visitor On-line Booking > Open Days / Competitions > Golf Event Bookings\".",
+        "Open or run the selected record/report with: \"If you are a member or visitor and would like to book a tee time for one of our Open Competitions, click here\", \"Visitors Click Here For Open Days\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club]\", \"HOME\", \"If you are a member and would like to book a tee time through our web site, click here\", \"Members Click Here\", \"If you are a visitor and would like to book a tee time through our web site, click here\", \"Visitors Click Here\", \"If you are a golf event organiser and have been assigned a username and password to manage the timesheet for your event, click here\", \"Event Organisers Click Here\", \"Online Booking Software provided by BRS Golf\"."
+      ],
+      "controls": [],
+      "actions": [
+        {
+          "label": "[redacted-club]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "[redacted-club]"
+        },
+        {
+          "label": "HOME",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "If you are a member and would like to book a tee time through our web site, click here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Members Click Here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "Members Click Here"
+        },
+        {
+          "label": "If you are a visitor and would like to book a tee time through our web site, click here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Visitors Click Here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "Visitors Click Here"
+        },
+        {
+          "label": "If you are a member or visitor and would like to book a tee time for one of our Open Competitions, click here",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Visitors Click Here For Open Days",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "Visitors Click Here For Open Days"
+        },
+        {
+          "label": "If you are a golf event organiser and have been assigned a username and password to manage the timesheet for your event, click here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Event Organisers Click Here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "Event Organisers Click Here"
+        },
+        {
+          "label": "Online Booking Software provided by BRS Golf",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [],
+      "pageEvidence": {
+        "headings": [
+          "Online Tee Bookings / Reservations",
+          "Member On-line Booking",
+          "Visitor On-line Booking",
+          "Open Days / Competitions",
+          "Golf Event Bookings"
+        ],
+        "captions": [
+          "Online Tee Bookings / Reservations",
+          "Member On-line Booking",
+          "Visitor On-line Booking",
+          "Open Days / Competitions",
+          "Golf Event Bookings"
+        ],
+        "helpText": []
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:12:43.553Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:tee-booking-system-workflow:d15dd875db43",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Tee Booking System workflow",
+      "area": "Tee Booking System",
+      "workflow": null,
+      "navigationPath": null,
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:12:47.821Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:view-contacts-workflow:bff3f12d0bfa",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "View Contacts workflow",
+      "area": "View Contacts",
+      "workflow": "View Contacts",
+      "navigationPath": "View Contacts",
+      "sourceUrl": null,
+      "purpose": "View Contacts",
+      "steps": [
+        "Open \"View Contacts\".",
+        "Select or enter values in the captured fields for this workflow: \"search_text\", \"Submit\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\", \"View All\", \"Company\", \"Hotel\", \"Other\", \"Society\", \"Tour Operator\", \"Visitor\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add New\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Category\", \"Number\"."
+      ],
+      "controls": [
+        {
+          "label": "search_text",
+          "name": "search_text",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Submit",
+          "name": "Submit",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add New",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "View All",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Company",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Hotel",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Other",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Society",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tour Operator",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Visitor",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "[not set]",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Category",
+        "Number"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "View Contacts"
+        ],
+        "captions": [],
+        "helpText": [
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:12:52.117Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:add-contact-workflow:fd902e551d31",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Add Contact workflow",
+      "area": "Add Contact",
+      "workflow": "Add Contact",
+      "navigationPath": "Add Contact",
+      "sourceUrl": null,
+      "purpose": "Add Contact",
+      "steps": [
+        "Open \"Add Contact\".",
+        "Select or enter values in the captured fields for this workflow: \"search_text\", \"Submit\", \"CompanyName\", \"Category\", \"Disabled\", \"Title1\", \"Firstname1\", \"Initials1\", \"Surname1\", \"Position1\", \"Email1\", \"TelephoneHome1\", \"TelephoneWork1\", \"Mobile1\", \"Fax\", \"Address1\", \"Address2\", \"TownCity\", \"County\", \"Country\", \"PostcodeZip\", \"Issuing_Auth\", \"Handicap\", \"CDH_id\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\", \"View All\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add New\", \"Add\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"General Information\", \"Company / Group Name:\", \"Contact Category:\", \"Disable\", \"Contact\", \"Title:\", \"First Name:\", \"Initials:\", \"Last Name:\", \"Position:\", \"Email:\", \"Telephone (Home):\", \"Telephone (Work):\", \"Mobile:\", \"Fax:\", \"Address Information:\", \"Address (line 1):\", \"Address (line 2):\"."
+      ],
+      "controls": [
+        {
+          "label": "search_text",
+          "name": "search_text",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Submit",
+          "name": "Submit",
+          "type": "submit",
+          "options": []
+        },
+        {
+          "label": "CompanyName",
+          "name": "CompanyName",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Category",
+          "name": "Category",
+          "type": "select",
+          "options": [
+            "Company",
+            "Hotel",
+            "Other",
+            "Society",
+            "Tour Operator",
+            "Visitor"
+          ]
+        },
+        {
+          "label": "Disabled",
+          "name": "Disabled",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "Title1",
+          "name": "Title1",
+          "type": "select",
+          "options": [
+            "Mr",
+            "Mrs",
+            "Miss",
+            "Ms",
+            "Dr",
+            "Prof",
+            "Sir",
+            "Lady",
+            "Lord",
+            "Dame",
+            "Col",
+            "Capt",
+            "Rev",
+            "Fr",
+            "Major",
+            "Master"
+          ]
+        },
+        {
+          "label": "Firstname1",
+          "name": "Firstname1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Initials1",
+          "name": "Initials1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Surname1",
+          "name": "Surname1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Position1",
+          "name": "Position1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Email1",
+          "name": "Email1",
+          "type": "email",
+          "options": []
+        },
+        {
+          "label": "TelephoneHome1",
+          "name": "TelephoneHome1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "TelephoneWork1",
+          "name": "TelephoneWork1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Mobile1",
+          "name": "Mobile1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Fax",
+          "name": "Fax",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Address1",
+          "name": "Address1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Address2",
+          "name": "Address2",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "TownCity",
+          "name": "TownCity",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "County",
+          "name": "County",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Country",
+          "name": "Country",
+          "type": "select",
+          "options": [
+            "Argentina",
+            "Austria",
+            "Australia",
+            "Bahrain",
+            "Barbados",
+            "Belgium",
+            "Bermuda",
+            "Canada",
+            "China",
+            "Denmark",
+            "England",
+            "Finland",
+            "France",
+            "Germany",
+            "Iceland",
+            "India",
+            "Ireland",
+            "Isle of Man",
+            "Israel",
+            "Italy",
+            "Japan",
+            "Kuwait",
+            "Lebanon",
+            "Malaysia",
+            "Malta",
+            "Mexico",
+            "Netherlands",
+            "New Zealand",
+            "Norway",
+            "Northern Ireland",
+            "Oman",
+            "Papua New Guinea",
+            "Poland",
+            "Portugal",
+            "Qatar",
+            "Saudi Arabia",
+            "Scotland",
+            "Singapore",
+            "South Africa",
+            "South Korea",
+            "Spain",
+            "Sweden",
+            "Switzerland",
+            "Thailand",
+            "United Arab Emirates",
+            "United Kingdom",
+            "United States",
+            "Wales",
+            "Other"
+          ]
+        },
+        {
+          "label": "PostcodeZip",
+          "name": "PostcodeZip",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Issuing_Auth",
+          "name": "Issuing_Auth",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Handicap",
+          "name": "Handicap",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "CDH_id",
+          "name": "CDH_id",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Email",
+          "name": "marketingConsentEmail",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "Text Message",
+          "name": "marketingConsentSms",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "Post",
+          "name": "marketingConsentPost",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "Phone",
+          "name": "marketingConsentPhone",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "The contact has read and accepted the Privacy Policy and Visitor Terms and Conditions.",
+          "name": "privacyTermsConsent",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "CustomerNotes",
+          "name": "CustomerNotes",
+          "type": "textarea",
+          "options": []
+        },
+        {
+          "label": "EmailSmsGroup",
+          "name": "EmailSmsGroup",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "TourOperatorCommission",
+          "name": "TourOperatorCommission",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "TourOperatorTier",
+          "name": "TourOperatorTier",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "button",
+          "name": "",
+          "type": "button",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add New",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "View All",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Preferences",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Delete",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "General Information",
+        "Company / Group Name:",
+        "Contact Category:",
+        "Disable",
+        "Contact",
+        "Title:",
+        "First Name:",
+        "Initials:",
+        "Last Name:",
+        "Position:",
+        "Email:",
+        "Telephone (Home):",
+        "Telephone (Work):",
+        "Mobile:",
+        "Fax:",
+        "Address Information:",
+        "Address (line 1):",
+        "Address (line 2):",
+        "Town / City:",
+        "County / State:",
+        "Country:",
+        "Postcode / Zip:",
+        "Club Details:",
+        "Club Name:",
+        "Handicap:",
+        "CDH:",
+        "Marketing Preferences:",
+        "Privacy Policy and Visitor Terms and Conditions:",
+        "Other Information:",
+        "Customer Notes:",
+        "Email / SMS Group:",
+        "Tour Operator Commission:",
+        "Tour Operator / Hotel Tier:"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Add Contact"
+        ],
+        "captions": [],
+        "helpText": [
+          "I agree to receive information, newsletters, promotions and offers from [redacted-club]. V2",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:12:56.549Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:view-contacts-workflow:[redacted-phone]",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "View Contacts workflow",
+      "area": "View Contacts",
+      "workflow": "View Contacts",
+      "navigationPath": "View Contacts",
+      "sourceUrl": null,
+      "purpose": "View Contacts",
+      "steps": [
+        "Open \"View Contacts\".",
+        "Select or enter values in the captured fields for this workflow: \"search_text\", \"Submit\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\", \"Company / Group Name\", \"Category\", \"Primary Contact\".",
+        "Open or run the selected record/report with: \"Reports\", \"View All\".",
+        "For authorised write workflows, click the captured write control only after checking the draft values: \"Add New\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"ID\", \"Company / Group Name\", \"Category\", \"Primary Contact\", \"Telephone\", \"Mobile\", \"Common ID\", \"Action\"."
+      ],
+      "controls": [
+        {
+          "label": "search_text",
+          "name": "search_text",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Submit",
+          "name": "Submit",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add New",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "View All",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Company / Group Name",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Category",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Primary Contact",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "78",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "108",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "104",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "31",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "30",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "53",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "70",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "18",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "79",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "74",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "80",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "117",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "38",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "23",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "76",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "47",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "24",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "42",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "48",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "116",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "123",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "43",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "46",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "105",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "129",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "12",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "93",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "69",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "96",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "86",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "49",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "121",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "51",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "57",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "22",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "118",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "34",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "33",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "73",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "102",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "95",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "29",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "131",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "20",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "84",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "21",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "103",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "128",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "91",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "94",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "88",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "87",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "54",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "82",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "72",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "92",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "126",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "130",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "32",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "107",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "119",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "89",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "40",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "26",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "98",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "19",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "25",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "75",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "17",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "99",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "109",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "120",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "132",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "15",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "124",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "85",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "39",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "122",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "113",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "97",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "27",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "ID",
+        "Company / Group Name",
+        "Category",
+        "Primary Contact",
+        "Telephone",
+        "Mobile",
+        "Common ID",
+        "Action"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "View Contacts"
+        ],
+        "captions": [],
+        "helpText": [
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:13:00.967Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:brs-memberships-workflow:4472e6d86bba",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Brs Memberships workflow",
+      "area": "Brs Memberships",
+      "workflow": "Brs Memberships",
+      "navigationPath": null,
+      "sourceUrl": null,
+      "purpose": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Help Button Launcher......",
+      "steps": [
+        "Open \"Brs Memberships\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\"."
+      ],
+      "controls": [],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [],
+      "pageEvidence": {
+        "headings": [],
+        "captions": [],
+        "helpText": [
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:13:05.871Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:manage-users-workflow:215210e86812",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Manage Users workflow",
+      "area": "Manage Users",
+      "workflow": null,
+      "navigationPath": "Manage Users",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:13:10.279Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:reports-workflow:407c5cddb171",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Reports workflow",
+      "area": "Reports",
+      "workflow": null,
+      "navigationPath": "Reports",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:13:14.679Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:search-bookings-workflow:07f12eb9621b",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Search Bookings workflow",
+      "area": "Search Bookings",
+      "workflow": null,
+      "navigationPath": "Search Bookings",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:13:19.001Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:copy-services-catering-or-green-fees-workflow:df6df87cdd23",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Copy Services, Catering or Green Fees workflow",
+      "area": "Copy Services, Catering or Green Fees",
+      "workflow": null,
+      "navigationPath": "Copy Services, Catering or Green Fees",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:13:23.299Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:upload-timesheet-workflow:d1fd146facb2",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Upload Timesheet workflow",
+      "area": "Upload Timesheet",
+      "workflow": "Upload Timesheet",
+      "navigationPath": "Upload Timesheet",
+      "sourceUrl": null,
+      "purpose": "Upload Timesheet",
+      "steps": [
+        "Open \"Upload Timesheet\".",
+        "Select or enter values in the captured fields for this workflow: \"upload_timesheet_fourballs\", \"upload_timesheet_select_members_from_db\", \"Upload\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Select a Year\", \"Key\", \"Mo\", \"Tu\", \"We\", \"Th\", \"Fr\", \"Sa\", \"Su\", \"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\"."
+      ],
+      "controls": [
+        {
+          "label": "upload_timesheet_fourballs",
+          "name": "upload_timesheet_fourballs",
+          "type": "textarea",
+          "options": []
+        },
+        {
+          "label": "upload_timesheet_select_members_from_db",
+          "name": "upload_timesheet_select_members_from_db",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "Upload",
+          "name": "Upload",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2023",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2024",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2025",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2026",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2027",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2028",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "2029",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "10",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "11",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "12",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "13",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "14",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "15",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "16",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "17",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "18",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "19",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "20",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "21",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "22",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "23",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "24",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "25",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "26",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "27",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "28",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "29",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "30",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "31",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Upload Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Select a Year",
+        "Key",
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa",
+        "Su",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+        "Upload Timesheet",
+        "Select Names FromMembership Database:"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Upload Timesheet"
+        ],
+        "captions": [],
+        "helpText": [
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:13:27.669Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:import-update-members-or-contacts-step-1-4-workflow:604d92e620e2",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Import/Update Members or Contacts - Step 1/4. workflow",
+      "area": "Import/Update Members or Contacts - Step 1/4.",
+      "workflow": "Import/Update Members or Contacts - Step 1/4.",
+      "navigationPath": "Import/Update Members or Contacts - Step 1/4.",
+      "sourceUrl": null,
+      "purpose": "Import/Update Members or Contacts - Step 1/4.",
+      "steps": [
+        "Open \"Import/Update Members or Contacts - Step 1/4.\".",
+        "Select or enter values in the captured fields for this workflow: \"data_format\", \"uploadedfile\", \"update_existing\", \"next\".",
+        "Click the filter/search control to apply the selected criteria: \"Search\".",
+        "Open or run the selected record/report with: \"Reports\".",
+        "Use these captured secondary controls for this workflow: \"[redacted-club-url]\", \"Dashboard\", \"Timesheet\", \"Messages\", \"Golf Plus NEW!\", \"Facilities\", \"Contacts\", \"Memberships\", \"Users\", \"Tools\", \"Need Help?\", \"Sign Out\".",
+        "Verify the displayed records or report output against these captured columns: \"Import Preparation\"."
+      ],
+      "controls": [
+        {
+          "label": "data_format",
+          "name": "data_format",
+          "type": "select",
+          "options": [
+            "Members",
+            "Contacts"
+          ]
+        },
+        {
+          "label": "uploadedfile",
+          "name": "uploadedfile",
+          "type": "file",
+          "options": []
+        },
+        {
+          "label": "update_existing",
+          "name": "update_existing",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "next",
+          "name": "next",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Next",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "tableHeaders": [
+        "Import Preparation"
+      ],
+      "pageEvidence": {
+        "headings": [
+          "Import/Update Members or Contacts - Step 1/4."
+        ],
+        "captions": [],
+        "helpText": [
+          "Help Button Launcher......"
+        ]
+      },
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:13:31.969Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "workflow:membership-groups-for-email-and-text-workflow:c31609d819fd",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Membership Groups for Email and Text workflow",
+      "area": "Membership Groups for Email and Text",
+      "workflow": null,
+      "navigationPath": "Membership Groups for Email and Text",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:13:36.231Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:competitions-for-2026-workflow:c8919f6140d5",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Competitions for 2026 workflow",
+      "area": "Competitions for 2026",
+      "workflow": null,
+      "navigationPath": "Competitions for 2026 > Magenta Course > Cyan Course > Competition Dates",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:13:40.805Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "workflow:open-competitions-for-2026-workflow:8f704ce8c52c",
+      "sourceType": "workflow",
+      "clubScope": "template",
+      "title": "Open Competitions for 2026 workflow",
+      "area": "Open Competitions for 2026",
+      "workflow": null,
+      "navigationPath": "Open Competitions for 2026 > Magenta Course > Cyan Course",
+      "sourceUrl": null,
+      "purpose": null,
+      "steps": [],
+      "controls": [],
+      "actions": [],
+      "tableHeaders": [],
+      "pageEvidence": {},
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:13:45.156Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "content": "",
+      "helpText": [],
+      "fields": [],
+      "aliases": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "requires-human-review"
+      ]
+    }
+  ]
+}

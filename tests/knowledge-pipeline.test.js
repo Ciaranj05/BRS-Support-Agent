@@ -358,6 +358,86 @@ test("broad crawl confirmed page evidence stays in review until converted into a
   assert.equal(reviewQueue.length, 1);
 });
 
+test("approved canonical workflows retire historical year/date placeholder captures", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "canonical.json"), JSON.stringify({
+    entries: [
+      {
+        sourceType: "brs-system-workflow",
+        title: "Green Fee Rates workflow",
+        area: "Green Fee Rates",
+        workflow: "Green Fee Rates",
+        steps: ["Open Green Fee Rates.", "Select the year.", "Click Filter.", "Review the rate table."],
+        controls: [{ label: "Year", type: "select" }, { label: "Month", type: "select" }],
+        actions: [{ label: "Filter", purpose: "filter/search" }, { label: "Edit", purpose: "open/run" }],
+        tableHeaders: ["Category", "Sub Category", "Holes", "Rates"],
+        confidence: "needs-review",
+        containsClubSpecificData: false,
+      },
+      {
+        sourceType: "brs-system-workflow",
+        title: "Green Fee Rates for 2024 confirmed BRS page evidence",
+        area: "Green Fee Rates for 2024",
+        steps: ["Use the confirmed fields/filters on this screen: Year, Month."],
+        confidence: "needs-review",
+        containsClubSpecificData: false,
+      },
+    ],
+  }));
+
+  const { entries, reviewQueue, retiredReviewEntries } = await buildKnowledgeBase({
+    knowledgeDir,
+    outputPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+
+  assert.equal(entries.find((entry) => entry.title === "Green Fee Rates workflow").confidence, "approved");
+  assert.equal(reviewQueue.length, 0);
+  assert.equal(retiredReviewEntries.length, 1);
+  assert.equal(retiredReviewEntries[0].title, "Green Fee Rates for 2024 confirmed BRS page evidence");
+});
+
+test("approved restricted-safe workflows can retire matching restricted placeholders", async () => {
+  const knowledgeDir = await makeKnowledgeDir();
+  await fs.writeFile(path.join(knowledgeDir, "workflows", "messaging.json"), JSON.stringify({
+    entries: [
+      {
+        sourceType: "brs-system-workflow",
+        title: "Send an Email workflow",
+        area: "Email Messaging",
+        workflow: "Draft an email message",
+        steps: [
+          "Open Email Messaging.",
+          "Select the recipient audience.",
+          "Enter the subject and message body.",
+          "Preview or check the recipient list before any authorised manual send.",
+        ],
+        controls: [{ label: "Subject", type: "text" }, { label: "Message", type: "textarea" }],
+        actions: [{ label: "Preview", purpose: "open/run" }],
+        writeActions: [{ name: "Send email", riskTier: "restricted", allowedAutomatically: false }],
+        confidence: "needs-review",
+        containsClubSpecificData: false,
+      },
+      {
+        sourceType: "brs-system-workflow",
+        title: "Send an Email confirmed BRS page evidence",
+        area: "Send an Email",
+        steps: ["Use the visible action controls on this page as needed for the task."],
+        confidence: "needs-review",
+        containsClubSpecificData: false,
+      },
+    ],
+  }));
+
+  const { reviewQueue, retiredReviewEntries } = await buildKnowledgeBase({
+    knowledgeDir,
+    outputPath: path.join(knowledgeDir, "knowledge-index.json"),
+  });
+
+  assert.equal(reviewQueue.length, 0);
+  assert.equal(retiredReviewEntries.length, 1);
+  assert.equal(retiredReviewEntries[0].resolution, "superseded-by-approved-same-family-knowledge");
+});
+
 test("unsafe review entries with live record data are withheld from generated knowledge files", async () => {
   const knowledgeDir = await makeKnowledgeDir();
   await fs.writeFile(path.join(knowledgeDir, "system", "contact-list.json"), JSON.stringify({

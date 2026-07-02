@@ -38,7 +38,7 @@ test("retires incomplete placeholders already covered by approved same-family kn
   assert.equal(result.retiredReviewEntries[0].approvedMatch.title, "View Contacts");
 });
 
-test("keeps sensitive and restricted duplicate entries actionable", () => {
+test("keeps sensitive entries actionable while retiring covered restricted placeholders", () => {
   const result = resolveReviewQueue([
     {
       id: "approved:send-email",
@@ -61,8 +61,10 @@ test("keeps sensitive and restricted duplicate entries actionable", () => {
     }),
   ]);
 
-  assert.equal(result.retiredReviewEntries.length, 0);
-  assert.equal(result.reviewQueue.length, 2);
+  assert.equal(result.retiredReviewEntries.length, 1);
+  assert.equal(result.retiredReviewEntries[0].title, "Send an Email confirmed BRS page evidence");
+  assert.equal(result.reviewQueue.length, 1);
+  assert.equal(result.reviewQueue[0].reviewReason, "sensitive-or-live-crawl-data");
 });
 
 test("does not retire generic placeholder labels", () => {

@@ -1,0 +1,4065 @@
+{
+  "generatedAt": "2026-07-02T09:14:49.089Z",
+  "sourceType": "brs-system",
+  "entries": [
+    {
+      "id": "system:golf-events-for-2026:984aa9e6f437",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Golf Events for 2026",
+      "area": "Golf Events for 2026",
+      "navigationPath": "Golf Events for 2026",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:14:58.353Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:competitions-for-2026:6971feeb87b1",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Competitions for 2026",
+      "area": "Competitions for 2026",
+      "navigationPath": "Competitions for 2026 > Magenta Course > Cyan Course > Competition Dates",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:03.070Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:open-competitions-for-2026:53816ead7ae5",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Open Competitions for 2026",
+      "area": "Open Competitions for 2026",
+      "navigationPath": "Open Competitions for 2026 > Magenta Course > Cyan Course",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:07.481Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:competitions-for-2026:6971feeb87b1",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Competitions for 2026",
+      "area": "Competitions for 2026",
+      "navigationPath": "Competitions for 2026 > Magenta Course > Cyan Course > Competition Dates",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:11.988Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:process-competition-charges:c500b8c0dc43",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Process Competition Charges",
+      "area": "Process Competition Charges",
+      "navigationPath": "Process Competition Charges > Competitions set up to use Competition Charging",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:16.263Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:email-messaging:e2784872d14a",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Email Messaging",
+      "area": "Email Messaging",
+      "navigationPath": "Email Messaging > Email Membership Types > Email Membership Groups > Email Selected Members > Email the Timesheet > Email Contacts > Member [redacted-name] > BRS Registration Reminder > Golf Plus Reminder > Recently Sent Messages",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:20.645Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:text-messages:1cb7a0907f37",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Text Messages",
+      "area": "Text Messages",
+      "navigationPath": "Text Messages > Text Message Membership Types > Text Message Membership Groups > Text Message Selected Members > Text Message the Timesheet > Text Message Contacts > Purchase Text Messaging Credit > Recently Sent Messages",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:24.890Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:admin-messages:f649093ee2c0",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Admin Messages",
+      "area": "Admin Messages",
+      "navigationPath": null,
+      "sourceUrl": null,
+      "purpose": "",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out BRS Announcements & Systems Messages Here you will find information about new features, general news applicable to your club, scheduled system maintenance, downtime or updates on critical errors Favourites Announcements System Messages Start Date End Date Reset « Previous Previous Next » Next Help Button Launcher...... BRS Announcements & Systems Messages Here you will find information about new features, general news applicable to your club, scheduled system maintenance, downtime or updates on critical errors Favourites Announcements System Messages Start Date End Date Reset « Previous Previous Next » Next",
+      "fields": [
+        {
+          "label": "Favourites"
+        },
+        {
+          "label": "Announcements"
+        },
+        {
+          "label": "System Messages"
+        },
+        {
+          "label": "Start Date"
+        },
+        {
+          "label": "End Date"
+        },
+        {
+          "label": "Search",
+          "name": "",
+          "type": "search",
+          "options": []
+        },
+        {
+          "label": "date",
+          "name": "",
+          "type": "date",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reset",
+          "purpose": "reset filters",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "« Previous",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "Previous",
+          "iconText": ""
+        },
+        {
+          "label": "Previous",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Next",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "» Next",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "Next",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Search",
+        "Page navigation example",
+        "« Previous Previous Next » Next",
+        "Previous",
+        "« Previous",
+        "Next",
+        "» Next",
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:15:29.408Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:club-messaging:2e89a3ddc9d1",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Club Messaging",
+      "area": "Club Messaging",
+      "navigationPath": "Club Messaging > Message Membership Types > Message Membership Groups > Message Selected Members > Message The Timesheet > Message The Course > Message All Members > Recently Sent Club Messages",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:33.752Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:club-news:c6aabfc99cbc",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Club News",
+      "area": "Club News",
+      "navigationPath": "Club News",
+      "sourceUrl": null,
+      "purpose": "Club News",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Club News From: To: Visibility: All Public Members Only Status: All Draft Published Archived Apply Click on a column header to sort. Created By Created Date Title Summary Visibility Article Available Online Date/Time Status Actions brs_arowan 14-Nov-2025 Test 2 Test 2 Members Only 14-Nov-2025 10:33 Published brs_arowan 04-Nov-2025 Test Club news message This is a message to test the Club News feature Public 04-Jun-2026 09:00 Published Non-members can access any Public article that you publish using an RSS feed. Copy URL Click Here to view the RSS Feed This tool is used to create club news articles that you want to post to the public or to club members. Create an Article Title: Summary: Body: Date: Article Available Online Date/Time: Visibility: Public Members only Status: Save as Draft Publish Archive Help Button Launcher...... Club News From: To: Visibility: All Public Members Only Status: All Draft Published Archived Apply Click on a column header to sort. Created By Created Date Title Summary Visibility Article Available Online Date/Time Status Actions brs_arowan 14-Nov-2025 Test 2 Test 2 Members Only 14-Nov-2025 10:33 Published brs_arowan 04-Nov-2025 Test Club news message This is a message to test the Club News feature Public 04-Jun-2026 09:00 Published Non-members can access any Public article that you publish using an RSS feed. Copy URL Click Here to view the RSS Feed This tool is used to create club news articles that you want to post to the public or to club members. Create an Article Title: Summary: Body: Date: Article Available Online Date/Time: Visibility: Public Members only Status: Save as Draft Publish Archive",
+      "fields": [
+        {
+          "label": "From:"
+        },
+        {
+          "label": "To:"
+        },
+        {
+          "label": "Visibility:"
+        },
+        {
+          "label": "Status:"
+        },
+        {
+          "label": "Created By"
+        },
+        {
+          "label": "Created Date"
+        },
+        {
+          "label": "Title"
+        },
+        {
+          "label": "Summary"
+        },
+        {
+          "label": "Visibility"
+        },
+        {
+          "label": "Article Available Online Date/Time"
+        },
+        {
+          "label": "Status"
+        },
+        {
+          "label": "Actions"
+        },
+        {
+          "label": "Create an Article"
+        },
+        {
+          "label": "Title:"
+        },
+        {
+          "label": "Summary:"
+        },
+        {
+          "label": "Body:"
+        },
+        {
+          "label": "Date:"
+        },
+        {
+          "label": "Article Available Online Date/Time:"
+        },
+        {
+          "label": "clubnewsfilter[status]",
+          "name": "clubnewsfilter[status]",
+          "type": "select",
+          "options": [
+            "All",
+            "Draft",
+            "Published",
+            "Archived"
+          ]
+        },
+        {
+          "label": "text",
+          "name": "",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "clubnews[title]",
+          "name": "clubnews[title]",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "clubnews[summary]",
+          "name": "clubnews[summary]",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "clubnews[body]",
+          "name": "clubnews[body]",
+          "type": "textarea",
+          "options": []
+        },
+        {
+          "label": "clubnews[dateCreated]",
+          "name": "clubnews[dateCreated]",
+          "type": "date",
+          "options": []
+        },
+        {
+          "label": "clubnews[publishedDate]",
+          "name": "clubnews[publishedDate]",
+          "type": "date",
+          "options": []
+        },
+        {
+          "label": "clubnews[publishedTime]",
+          "name": "clubnews[publishedTime]",
+          "type": "time",
+          "options": []
+        },
+        {
+          "label": "clubnews[members_only]",
+          "name": "clubnews[members_only]",
+          "type": "select",
+          "options": [
+            "Public",
+            "Members only"
+          ]
+        },
+        {
+          "label": "clubnews[status]",
+          "name": "clubnews[status]",
+          "type": "select",
+          "options": [
+            "Save as Draft",
+            "Publish",
+            "Archive"
+          ]
+        },
+        {
+          "label": "submit",
+          "name": "",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Apply",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Created By",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Created Date",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Title",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Summary",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Visibility",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Article Available Online Date/Time",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Status",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Test 2",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iView",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iEdit",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iDelete",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Test Club news message",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Copy URL",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Click Here to view the RSS Feed",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "fa fa-rss-square"
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Last modified by user brs_arowan at 14-Nov-2025 10:33:55",
+        "brs_arowan 14-Nov-2025 Test 2 Test 2 Members Only 14-Nov-2025 10:33 Published",
+        "Last modified by user brs_arowan at 04-Jun-2026 15:46:35",
+        "brs_arowan 04-Nov-2025 Test Club news message This is a message to test the Club News feature Public 04-Jun-2026 09:00 Published",
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [
+        "Created By",
+        "Created Date",
+        "Title",
+        "Summary",
+        "Visibility",
+        "Article Available Online Date/Time",
+        "Status",
+        "Actions",
+        "Create an Article",
+        "Title:",
+        "Summary:",
+        "Body:",
+        "Date:",
+        "Article Available Online Date/Time:",
+        "Visibility:",
+        "Status:"
+      ],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:15:38.133Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:email-and-letter-templates:8865e6c8b661",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Email and Letter Templates",
+      "area": "Email and Letter Templates",
+      "navigationPath": "Email and Letter Templates",
+      "sourceUrl": null,
+      "purpose": "Email and Letter Templates",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Email and Letter Templates Category Type Description Text Actions Golf Email Booking Conf- Societies- AC Dear R_FIRSTNAME, We are delighted that ... Golf Email Booking Confirmation Dear R_TITLE R_SURNAME, We are delighted that ... Golf Email Booking Invoice R_RESERVATIONNAME R_DATE Invoice No: ... Golf Email Booking Reminder Dear R_TITLE R_SURNAME, With reference to your ... Golf Email Deposit Received Dear R_TITLE R_SURNAME, R_RESERVATIONNAME, ... Golf Email Thank you / Customer care Dear R_TITLE R_SURNAME, It was a pleasure to welcome ... Golf Letter Booking Confirmation R_TODAYSDATE Dear R_TITLE R_SURNAME, We ... Golf Letter Booking Invoice R_RESERVATIONNAME R_DATE Invoice No: ... Golf Letter Booking Reminder Dear R_TITLE R_SURNAME, With reference to your ... Golf Letter Deposit Received Dear R_TITLE R_SURNAME, R_RESERVATIONNAME, ... Golf Letter Thank you / Customer care Dear R_TITLE R_SURNAME, It was a pleasure to welcome ... PaymentRequest Email Payment Request R_RESERVATIONNAME R_DATE Amount: R_CURRENCY ... Room Email Booking Confirmation Dear Sir/Madam, Thank you for booking your function ... Room Email Facility test Please <a ... This tool is used to create a number of standard email and letter templates. e.g. confirmation of booking, confirmation that the deposit was received, thank you message, etc. Email and Letter Templates Category: Golf Room Payment Request Type: Email Letter Description: Text: The following tags apply to emails and letters for Golf bookings only. They are not supported for Room/Facility bookings. Click on the field names below to enter values at the current cursor position within the text of the letter or email. Please enter the tags exactly as they appear in the table below i.e. use UPPERCASE with no spaces. To automatically add the text such as 'Dear Mr Smith' to the start of the letter, you will need to add the text 'Dear R_TITLE R_SURNAME'. TAG Description R_LOGGEDINUSER Logged in User R_TITLE Mr, Mrs, Ms, Dr, etc R_FIRSTNAME Firstname R_SURNAME Lastname / Surname R_CLUBNAME Club Name R_COURSENAME Course Name (only applicable if 2 or more courses) R_DATE Date of booking in format 'Mon. 19th Feb. 2007' R_FULL_DATE Date of booking in format 'Monday 19th February 2007' R_TODAYSDATE Todays Date in format '19-Feb-2007' R_STARTTIME Start Time in format 09:20 R_ENDTIME End Time in format 11:20 (Applies to block bookings only) R_STARTTEE Name of the Start Tee, e.g. \"1st\", \"10th\", \"Red 9\", \"Blue 9\" (applies to 2 tee start and 27 hole courses only) R_BACK9_TEE Name of the 2nd 9 Tee, e.g. \"1st\", \"10th\", \"Red 9\", \"Blue 9\" (applies to 2 tee start and 27 hole courses only) R_BACK9_STARTTIME Start Time on the back 9 in format 09:20 (applies to 9, 2 tee start and 27 hole courses only) R_BACK9_ENDTIME End Time on the back 9 in format 11:20 (applies to 9, 2 tee start and 27 hole courses only) R_REFERENCENUMBER System Reference Number R_CLUBREFERENCENUMBER Club Reference Number R_NUMBERTEETIMES Number of Tee Times R_NUMBERROUNDS Number of Rounds R_COMPANYNAME Company / Group Name R_RESERVATIONNAME Reservation Name R_CONTACTONTHEDAY Contact of the Day R_CURRENCY Currency Symbol R_TOTALPRICE Total Price R_DEPOSIT Deposit Requested R_TOTALPAYMENTS Total Payments R_OUTSTANDINGBALANCE Outstanding Balance R_EMAIL Email Address R_TELEPHONE_WORK Telephone (Work) R_TELEPHONE_HOME Telephone (Home) R_MOBILE Mobile R_FAX Fax R_ADDRESS1 Address R_ADDRESS2 Address (Cont) R_TOWN_CITY Town / City R_COUNTY County R_COUNTRY Country R_POSTCODE_ZIP Postcode / Zip Help Button Launcher...... Email and Letter Templates Category Type Description Text Actions Golf Email Booking Conf- Societies- AC Dear R_FIRSTNAME, We are delighted that ... Golf Email Booking Confirmation Dear R_TITLE R_SURNAME, We are delighted that ... Golf Email Booking Invoice R_RESERVATIONNAME R_DATE Invoice No: ... Golf Email Booking Reminder Dear R_TITLE R_SURNAME, With reference to your ... Golf Email Deposit Received Dear R_TITLE R_SURNAME, R_RESERVATIONNAME, ... Golf Email Thank you / Customer care Dear R_TITLE R_SURNAME, It was a pleasure to welcome ... Golf Letter Booking Confirmation R_TODAYSDATE Dear R_TITLE R_SURNAME, We ... Golf Letter Booking Invoice R_RESERVATIONNAME R_DATE Invoice No: ... Golf Letter Booking Reminder Dear R_TITLE R_SURNAME, With reference to your ... Golf Letter Deposit Received Dear R_TITLE R_SURNAME, R_RESERVATIONNAME, ... Golf Letter Thank you / Customer care Dear R_TITLE R_SURNAME, It was a pleasure to welcome ... PaymentRequest Email Payment Request R_RESERVATIONNAME R_DATE Amount: R_CURRENCY ... Room Email Booking Confirmation Dear Sir/Madam, Thank you for booking your function ... Room Email Facility test Please <a ... This tool is used to create a number of standard email and letter templates. e.g. confirmation of booking, confirmation that the deposit was received, thank you message, etc. Email and Letter Templates Category: Golf Room Payment Request Type: Email Letter Description: Text: The following tags apply to emails and letters for Golf bookings only. They are not supported for Room/Facility bookings. Click on the field names below to enter values at the current cursor position within the text of the letter or email. Please enter the tags exactly as they appear in the table below i.e. use UPPERCASE with no spaces. To automatically add the text such as 'Dear Mr Smith' to the start of the letter, you will need to add the text 'Dear R_TITLE R_SURNAME'. TAG Description R_LOGGEDINUSER Logged in User R_TITLE Mr, Mrs, Ms, Dr, etc R_FIRSTNAME Firstname R_SURNAME Lastname / Surname R_CLUBNAME Club Name R_COURSENAME Course Name (only applicable if 2 or more courses) R_DATE Date of booking in format 'Mon. 19th Feb. 2007' R_FULL_DATE Date of booking in format 'Monday 19th February 2007' R_TODAYSDATE Todays Date in format '19-Feb-2007' R_STARTTIME Start Time in format 09:20 R_ENDTIME End Time in format 11:20 (Applies to block bookings only) R_STARTTEE Name of the Start Tee, e.g. \"1st\", \"10th\", \"Red 9\", \"Blue 9\" (applies to 2 tee start and 27 hole courses only) R_BACK9_TEE Name of the 2nd 9 Tee, e.g. \"1st\", \"10th\", \"Red 9\", \"Blue 9\" (applies to 2 tee start and 27 hole courses only) R_BACK9_STARTTIME Start Time on the back 9 in format 09:20 (applies to 9, 2 tee start and 27 hole courses only) R_BACK9_ENDTIME End Time on the back 9 in format 11:20 (applies to 9, 2 tee start and 27 hole courses only) R_REFERENCENUMBER System Reference Number R_CLUBREFERENCENUMBER Club Reference Number R_NUMBERTEETIMES Number of Tee Times R_NUMBERROUNDS Number of Rounds R_COMPANYNAME Company / Group Name R_RESERVATIONNAME Reservation Name R_CONTACTONTHEDAY Contact of the Day R_CURRENCY Currency Symbol R_TOTALPRICE Total Price R_DEPOSIT Deposit Requested R_TOTALPAYMENTS Total Payments R_OUTSTANDINGBALANCE Outstanding Balance R_EMAIL Email Address R_TELEPHONE_WORK Telephone (Work) R_TELEPHONE_HOME Telephone (Home) R_MOBILE Mobile R_FAX Fax R_ADDRESS1 Address R_ADDRESS2 Address (Cont) R_TOWN_CITY Town / City R_COUNTY County R_COUNTRY Country R_POSTCODE_ZIP Postcode / Zip",
+      "fields": [
+        {
+          "label": "Category"
+        },
+        {
+          "label": "Type"
+        },
+        {
+          "label": "Description"
+        },
+        {
+          "label": "Text"
+        },
+        {
+          "label": "Actions"
+        },
+        {
+          "label": "Email and Letter Templates"
+        },
+        {
+          "label": "Category:"
+        },
+        {
+          "label": "Type:"
+        },
+        {
+          "label": "Description:"
+        },
+        {
+          "label": "Text:"
+        },
+        {
+          "label": "TAG"
+        },
+        {
+          "label": "lettergolfroom",
+          "name": "lettergolfroom",
+          "type": "select",
+          "options": [
+            "Golf",
+            "Room",
+            "Payment Request"
+          ]
+        },
+        {
+          "label": "lettertype",
+          "name": "lettertype",
+          "type": "select",
+          "options": [
+            "Email",
+            "Letter"
+          ]
+        },
+        {
+          "label": "letterdescription",
+          "name": "letterdescription",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "lettertext",
+          "name": "lettertext",
+          "type": "textarea",
+          "options": []
+        },
+        {
+          "label": "submit",
+          "name": "",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Last updated by user brs_achambers on 20-Jun-2018 11:53:48 AM",
+        "Golf Email Booking Conf- Societies- AC Dear R_FIRSTNAME, We are delighted that ...",
+        "Last updated by user brs_achambers on 13-Jun-2019 11:53:32 AM",
+        "Golf Email Booking Confirmation Dear R_TITLE R_SURNAME, We are delighted that ...",
+        "Last updated by user install_script on 03-Apr-2018 09:48:33 AM",
+        "Golf Email Booking Invoice R_RESERVATIONNAME R_DATE Invoice No: ...",
+        "Golf Email Booking Reminder Dear R_TITLE R_SURNAME, With reference to your ...",
+        "Golf Email Deposit Received Dear R_TITLE R_SURNAME, R_RESERVATIONNAME, ...",
+        "Last updated by user brs_arowan on 14-May-2026 10:33:41 AM",
+        "Golf Email Thank you / Customer care Dear R_TITLE R_SURNAME, It was a pleasure to welcome ...",
+        "Last updated by user brs_achambers on 03-Apr-2018 11:13:11 AM",
+        "Golf Letter Booking Confirmation R_TODAYSDATE Dear R_TITLE R_SURNAME, We ...",
+        "Golf Letter Booking Invoice R_RESERVATIONNAME R_DATE Invoice No: ...",
+        "Golf Letter Booking Reminder Dear R_TITLE R_SURNAME, With reference to your ...",
+        "Golf Letter Deposit Received Dear R_TITLE R_SURNAME, R_RESERVATIONNAME, ...",
+        "Golf Letter Thank you / Customer care Dear R_TITLE R_SURNAME, It was a pleasure to welcome ...",
+        "Last updated by user brs_sr on 18-Mar-2024 14:26:32 PM",
+        "PaymentRequest Email Payment Request R_RESERVATIONNAME R_DATE Amount: R_CURRENCY ...",
+        "Room Email Booking Confirmation Dear Sir/Madam, Thank you for booking your function ...",
+        "Last updated by user brs_achambers on 16-Nov-2018 10:14:16 AM",
+        "Room Email Facility test Please <a ...",
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [
+        "Category",
+        "Type",
+        "Description",
+        "Text",
+        "Actions",
+        "Email and Letter Templates",
+        "Category:",
+        "Type:",
+        "Description:",
+        "Text:",
+        "TAG"
+      ],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:15:42.447Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:legal-messages:e501a4f1e0b4",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Legal Messages",
+      "area": "Legal Messages",
+      "navigationPath": "Legal Messages",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:46.645Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:payment-methods:3ca669c06add",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Payment Methods",
+      "area": "Payment Methods",
+      "navigationPath": "Payment Methods",
+      "sourceUrl": null,
+      "purpose": "Payment Methods",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Payment Methods Name Supported Actions BACS Cash Cheque Credit Card Debit Card Inclusive Invoice Membership Card Online Room Charge Voucher This tool is used to set up the different payment methods used in the booking detail screen. Payment Method Name: Supported: Help Button Launcher...... Payment Methods Name Supported Actions BACS Cash Cheque Credit Card Debit Card Inclusive Invoice Membership Card Online Room Charge Voucher This tool is used to set up the different payment methods used in the booking detail screen. Payment Method Name: Supported:",
+      "fields": [
+        {
+          "label": "Name"
+        },
+        {
+          "label": "Supported"
+        },
+        {
+          "label": "Actions"
+        },
+        {
+          "label": "Payment Method"
+        },
+        {
+          "label": "Name:"
+        },
+        {
+          "label": "Supported:"
+        },
+        {
+          "label": "pmName",
+          "name": "pmName",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "pmSupported",
+          "name": "pmSupported",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "opSubmit",
+          "name": "opSubmit",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iCopy",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "i16 iEdit",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Last modified by user install_script on 03-Apr-2018 09:48:33 AM",
+        "BACS",
+        "Cash",
+        "Cheque",
+        "Credit Card",
+        "Debit Card",
+        "Inclusive",
+        "Invoice",
+        "Membership Card",
+        "Online",
+        "Room Charge",
+        "Voucher",
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [
+        "Name",
+        "Supported",
+        "Actions",
+        "Payment Method",
+        "Name:",
+        "Supported:"
+      ],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:15:51.090Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:payouts:4f7b073cf2af",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Payouts",
+      "area": "Payouts",
+      "navigationPath": "Payouts",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:15:56.629Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:transactions:9d24c3e304d9",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Transactions",
+      "area": "Transactions",
+      "navigationPath": "Transactions",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:01.924Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:refunds:a0578ff0ba49",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Refunds",
+      "area": "Refunds",
+      "navigationPath": "Refunds",
+      "sourceUrl": null,
+      "purpose": "Refunds",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Back Help Refunds Start Date: End Date: Apply There are no results in the selected date range. Help Button Launcher...... Back Help Refunds Start Date: End Date: Apply There are no results in the selected date range.",
+      "fields": [
+        {
+          "label": "Start Date:"
+        },
+        {
+          "label": "Start Date"
+        },
+        {
+          "label": "End Date:"
+        },
+        {
+          "label": "End Date"
+        },
+        {
+          "label": "text",
+          "name": "",
+          "type": "text",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Back",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Help",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Apply",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Please enter a start date.",
+        "Start Date",
+        "Please enter a end date.",
+        "End Date",
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [
+        "Start Date:",
+        "End Date:"
+      ],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:16:07.416Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:payment-requests:4a15743c0cbf",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Payment Requests",
+      "area": "Payment Requests",
+      "navigationPath": "Payment Requests",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:11.838Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:payment-requests:c3e3b818f888",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Payment Requests",
+      "area": "Payment Requests",
+      "navigationPath": "Payment Requests",
+      "sourceUrl": null,
+      "purpose": "Payment Requests",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Back Help Payment Requests Create Payment Request Start Date: End Date: Apply There are no results in the selected date range. Help Button Launcher...... Back Help Payment Requests Create Payment Request Start Date: End Date: Apply There are no results in the selected date range.",
+      "fields": [
+        {
+          "label": "Start Date:"
+        },
+        {
+          "label": "Start Date"
+        },
+        {
+          "label": "End Date:"
+        },
+        {
+          "label": "End Date"
+        },
+        {
+          "label": "text",
+          "name": "",
+          "type": "text",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Back",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Help",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Create Payment Request",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Apply",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Please enter a start date.",
+        "Start Date",
+        "Please enter a end date.",
+        "End Date",
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [
+        "Start Date:",
+        "End Date:"
+      ],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:16:16.318Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:vat-reports:ef0f80b5200f",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "VAT Reports",
+      "area": "VAT Reports",
+      "navigationPath": "VAT Reports",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:20.788Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:setup:fc0c691fbd17",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Setup",
+      "area": "Setup",
+      "navigationPath": null,
+      "sourceUrl": null,
+      "purpose": "",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Back Help Account Set Up Complete. Your payments will now be processed by BRS Payments. Your first transactions will appear in your Transactions Page. Your account will be eligible for Payouts once we have verified your account details. To find out more information about our Payments module, please visit our Payments FAQ. < Back to Tools. Help Button Launcher...... Back Help Account Set Up Complete. Your payments will now be processed by BRS Payments. Your first transactions will appear in your Transactions Page. Your account will be eligible for Payouts once we have verified your account details. To find out more information about our Payments module, please visit our Payments FAQ. < Back to Tools.",
+      "fields": [],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Back",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Help",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Transactions Page",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Payments FAQ",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "< Back to Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:16:25.789Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:bookings:0afe86b1d9c3",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Bookings",
+      "area": "Bookings",
+      "navigationPath": "0% > 0 Bookings > 0 Golfers > Bookings > Course Status > Toolbox > Version 15.28.0",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:30.701Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:bookings:0afe86b1d9c3",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Bookings",
+      "area": "Bookings",
+      "navigationPath": "0% > 0 Bookings > 0 Golfers > Bookings > Course Status > Toolbox > Version 15.28.0",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:35.279Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:add-member-to-waiting-list:2ca26ed4e546",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Add member to waiting list",
+      "area": "Add member to waiting list",
+      "navigationPath": "Add member to waiting list",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:40.326Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:calendar-for-2026:7e56e14bec93",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Calendar for 2026",
+      "area": "Calendar for 2026",
+      "navigationPath": "Calendar for 2026 > Magenta Course > Cyan Course",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:45.178Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:july-2026:58737457a258",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "July 2026",
+      "area": "July 2026",
+      "navigationPath": "July 2026",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:49.212Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:online-tee-bookings-reservations:754caebffc06",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Online Tee Bookings / Reservations",
+      "area": "Online Tee Bookings / Reservations",
+      "navigationPath": "Online Tee Bookings / Reservations > Member On-line Booking > Visitor On-line Booking > Open Days / Competitions > Golf Event Bookings",
+      "sourceUrl": null,
+      "purpose": "Online Tee Bookings / Reservations | Member On-line Booking | Visitor On-line Booking | Open Days / Competitions | Golf Event Bookings",
+      "content": "[redacted-club] HOME Online Tee Bookings / Reservations [redacted-club] have installed an Internet Tee Reservation System which allows golfers to book tee times through the club website 24/7. Member On-line Booking If you are a member and would like to book a tee time through our web site, click here. Visitor On-line Booking If you are a visitor and would like to book a tee time through our web site, click here. Online Booking Software provided by BRS Golf",
+      "fields": [],
+      "actions": [
+        {
+          "label": "[redacted-club]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "[redacted-club]"
+        },
+        {
+          "label": "HOME",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "If you are a member and would like to book a tee time through our web site, click here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Members Click Here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "Members Click Here"
+        },
+        {
+          "label": "If you are a visitor and would like to book a tee time through our web site, click here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Visitors Click Here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "Visitors Click Here"
+        },
+        {
+          "label": "If you are a member or visitor and would like to book a tee time for one of our Open Competitions, click here",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Visitors Click Here For Open Days",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "Visitors Click Here For Open Days"
+        },
+        {
+          "label": "If you are a golf event organiser and have been assigned a username and password to manage the timesheet for your event, click here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Event Organisers Click Here",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": "Event Organisers Click Here"
+        },
+        {
+          "label": "Online Booking Software provided by BRS Golf",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:16:52.616Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:tee-booking-system:7a2828b504aa",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Tee Booking System",
+      "area": "Tee Booking System",
+      "navigationPath": null,
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:16:57.139Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:view-contacts:63116f64440c",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "View Contacts",
+      "area": "View Contacts",
+      "navigationPath": "View Contacts",
+      "sourceUrl": null,
+      "purpose": "View Contacts",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out View Contacts Add New View All Category Number Company 0 Hotel 0 Other 4 Society 7 Tour Operator 4 Visitor 65 [not set] 31 Total 111 Help Button Launcher...... View Contacts Add New View All Category Number Company 0 Hotel 0 Other 4 Society 7 Tour Operator 4 Visitor 65 [not set] 31 Total 111",
+      "fields": [
+        {
+          "label": "Category"
+        },
+        {
+          "label": "Number"
+        },
+        {
+          "label": "search_text",
+          "name": "search_text",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Submit",
+          "name": "Submit",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add New",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "View All",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Company",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Hotel",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Other",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Society",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tour Operator",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Visitor",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "[not set]",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [
+        "Category",
+        "Number"
+      ],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:17:01.527Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:add-contact:2071fe89a07c",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Add Contact",
+      "area": "Add Contact",
+      "navigationPath": "Add Contact",
+      "sourceUrl": null,
+      "purpose": "Add Contact",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Add Contact Add New View All General Information Company / Group Name: Contact Category: Company Hotel Other Society Tour Operator Visitor [redacted-name]: Mr Mrs Miss Ms Dr Prof Sir Lady Lord Dame Col Capt Rev Fr Major Master First Name: Initials: Last Name: Position: Email: Telephone (Home): Telephone (Work): Mobile: Fax: Address Information: Address (line 1): Address (line 2): Town / City: County / State: Country: Argentina Austria Australia Bahrain Barbados Belgium Bermuda Canada China Denmark England Finland France Germany Iceland India Ireland Isle of Man Israel Italy Japan Kuwait Lebanon Malaysia Malta Mexico Netherlands New Zealand Norway Northern Ireland Oman Papua New Guinea Poland Portugal Qatar Saudi Arabia Scotland Singapore South Africa South Korea Spain Sweden Switzerland Thailand United Arab Emirates United Kingdom United States Wales Other Postcode / Zip: Club Details: Club Name: Handicap: CDH: Marketing Preferences: Email Text Message Post Phone I have made the contact aware of the Marketing Consent message Privacy Policy and Visitor Terms and Conditions: The contact has read and accepted the Privacy Policy and Visitor Terms and Conditions. Other Information: Customer Notes: Email / SMS Group: Tour Operator Commission: Tour Operator / Hotel Tier: Help Button Launcher...... Add Contact Add New View All General Information Company / Group Name: Contact Category: Company Hotel Other Society Tour Operator Visitor [redacted-name]: Mr Mrs Miss Ms Dr Prof Sir Lady Lord Dame Col Capt Rev Fr Major Master First Name: Initials: Last Name: Position: Email: Telephone (Home): Telephone (Work): Mobile: Fax: Address Information: Address (line 1): Address (line 2): Town / City: County / State: Country: Argentina Austria Australia Bahrain Barbados Belgium Bermuda Canada China Denmark England Finland France Germany Iceland India Ireland Isle of Man Israel Italy Japan Kuwait Lebanon Malaysia Malta Mexico Netherlands New Zealand Norway Northern Ireland Oman Papua New Guinea Poland Portugal Qatar Saudi Arabia Scotland Singapore South Africa South Korea Spain Sweden Switzerland Thailand United Arab Emirates United Kingdom United States Wales Other Postcode / Zip: Club Details: Club Name: Handicap: CDH: Marketing Preferences: Email Text Message Post Phone I have made the contact aware of the Marketing Consent message Privacy Policy and Visitor Terms and Conditions: The contact has read and accepted the Privacy Policy and Visitor Terms and Conditions. Other Information: Customer Notes: Email / SMS Group: Tour Operator Commission: Tour Operator / Hotel Tier:",
+      "fields": [
+        {
+          "label": "General Information"
+        },
+        {
+          "label": "Company / Group Name:"
+        },
+        {
+          "label": "Contact Category:"
+        },
+        {
+          "label": "Disable"
+        },
+        {
+          "label": "Contact"
+        },
+        {
+          "label": "Title:"
+        },
+        {
+          "label": "First Name:"
+        },
+        {
+          "label": "Initials:"
+        },
+        {
+          "label": "Last Name:"
+        },
+        {
+          "label": "Position:"
+        },
+        {
+          "label": "Email:"
+        },
+        {
+          "label": "Telephone (Home):"
+        },
+        {
+          "label": "Telephone (Work):"
+        },
+        {
+          "label": "Mobile:"
+        },
+        {
+          "label": "Fax:"
+        },
+        {
+          "label": "Address Information:"
+        },
+        {
+          "label": "Address (line 1):"
+        },
+        {
+          "label": "Address (line 2):"
+        },
+        {
+          "label": "Town / City:"
+        },
+        {
+          "label": "County / State:"
+        },
+        {
+          "label": "Country:"
+        },
+        {
+          "label": "Postcode / Zip:"
+        },
+        {
+          "label": "Club Details:"
+        },
+        {
+          "label": "Club Name:"
+        },
+        {
+          "label": "Handicap:"
+        },
+        {
+          "label": "CDH:"
+        },
+        {
+          "label": "Marketing Preferences:"
+        },
+        {
+          "label": "Email"
+        },
+        {
+          "label": "Text Message"
+        },
+        {
+          "label": "Post"
+        },
+        {
+          "label": "Phone"
+        },
+        {
+          "label": "Privacy Policy and Visitor Terms and Conditions:"
+        },
+        {
+          "label": "The contact has read and accepted the Privacy Policy and Visitor Terms and Conditions."
+        },
+        {
+          "label": "Other Information:"
+        },
+        {
+          "label": "Customer Notes:"
+        },
+        {
+          "label": "Email / SMS Group:"
+        },
+        {
+          "label": "Tour Operator Commission:"
+        },
+        {
+          "label": "Tour Operator / Hotel Tier:"
+        },
+        {
+          "label": "search_text",
+          "name": "search_text",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Submit",
+          "name": "Submit",
+          "type": "submit",
+          "options": []
+        },
+        {
+          "label": "CompanyName",
+          "name": "CompanyName",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Category",
+          "name": "Category",
+          "type": "select",
+          "options": [
+            "Company",
+            "Hotel",
+            "Other",
+            "Society",
+            "Tour Operator",
+            "Visitor"
+          ]
+        },
+        {
+          "label": "Disabled",
+          "name": "Disabled",
+          "type": "checkbox",
+          "options": []
+        },
+        {
+          "label": "Title1",
+          "name": "Title1",
+          "type": "select",
+          "options": [
+            "Mr",
+            "Mrs",
+            "Miss",
+            "Ms",
+            "Dr",
+            "Prof",
+            "Sir",
+            "Lady",
+            "Lord",
+            "Dame",
+            "Col",
+            "Capt",
+            "Rev",
+            "Fr",
+            "Major",
+            "Master"
+          ]
+        },
+        {
+          "label": "Firstname1",
+          "name": "Firstname1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Initials1",
+          "name": "Initials1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Surname1",
+          "name": "Surname1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Position1",
+          "name": "Position1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Email1",
+          "name": "Email1",
+          "type": "email",
+          "options": []
+        },
+        {
+          "label": "TelephoneHome1",
+          "name": "TelephoneHome1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "TelephoneWork1",
+          "name": "TelephoneWork1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Mobile1",
+          "name": "Mobile1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Fax",
+          "name": "Fax",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Address1",
+          "name": "Address1",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Address2",
+          "name": "Address2",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "TownCity",
+          "name": "TownCity",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "County",
+          "name": "County",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Country",
+          "name": "Country",
+          "type": "select",
+          "options": [
+            "Argentina",
+            "Austria",
+            "Australia",
+            "Bahrain",
+            "Barbados",
+            "Belgium",
+            "Bermuda",
+            "Canada",
+            "China",
+            "Denmark",
+            "England",
+            "Finland",
+            "France",
+            "Germany",
+            "Iceland",
+            "India",
+            "Ireland",
+            "Isle of Man",
+            "Israel",
+            "Italy",
+            "Japan",
+            "Kuwait",
+            "Lebanon",
+            "Malaysia",
+            "Malta",
+            "Mexico",
+            "Netherlands",
+            "New Zealand",
+            "Norway",
+            "Northern Ireland",
+            "Oman",
+            "Papua New Guinea",
+            "Poland",
+            "Portugal",
+            "Qatar",
+            "Saudi Arabia",
+            "Scotland",
+            "Singapore",
+            "South Africa",
+            "South Korea",
+            "Spain",
+            "Sweden",
+            "Switzerland",
+            "Thailand",
+            "United Arab Emirates",
+            "United Kingdom",
+            "United States",
+            "Wales",
+            "Other"
+          ]
+        },
+        {
+          "label": "PostcodeZip",
+          "name": "PostcodeZip",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Issuing_Auth",
+          "name": "Issuing_Auth",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "Handicap",
+          "name": "Handicap",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "CDH_id",
+          "name": "CDH_id",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "CustomerNotes",
+          "name": "CustomerNotes",
+          "type": "textarea",
+          "options": []
+        },
+        {
+          "label": "EmailSmsGroup",
+          "name": "EmailSmsGroup",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "TourOperatorCommission",
+          "name": "TourOperatorCommission",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "TourOperatorTier",
+          "name": "TourOperatorTier",
+          "type": "text",
+          "options": []
+        },
+        {
+          "label": "button",
+          "name": "",
+          "type": "button",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add New",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "View All",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Add",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Preferences",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Delete",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "I agree to receive information, newsletters, promotions and offers from [redacted-club]. V2",
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [
+        "General Information",
+        "Company / Group Name:",
+        "Contact Category:",
+        "Disable",
+        "Contact",
+        "Title:",
+        "First Name:",
+        "Initials:",
+        "Last Name:",
+        "Position:",
+        "Email:",
+        "Telephone (Home):",
+        "Telephone (Work):",
+        "Mobile:",
+        "Fax:",
+        "Address Information:",
+        "Address (line 1):",
+        "Address (line 2):",
+        "Town / City:",
+        "County / State:",
+        "Country:",
+        "Postcode / Zip:",
+        "Club Details:",
+        "Club Name:",
+        "Handicap:",
+        "CDH:",
+        "Marketing Preferences:",
+        "Privacy Policy and Visitor Terms and Conditions:",
+        "Other Information:",
+        "Customer Notes:",
+        "Email / SMS Group:",
+        "Tour Operator Commission:",
+        "Tour Operator / Hotel Tier:"
+      ],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:17:05.978Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:view-contacts:94fa07352924",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "View Contacts",
+      "area": "View Contacts",
+      "navigationPath": "View Contacts",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:17:10.589Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:brs-memberships:9677d2b8d11c",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Brs Memberships",
+      "area": "Brs Memberships",
+      "navigationPath": null,
+      "sourceUrl": null,
+      "purpose": "",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Help Button Launcher...... $(window).on('load', function () { iFrameResize({ log: false }, '#memberships-iframe'); });",
+      "fields": [],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:17:17.011Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:manage-users:54c821acaaef",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Manage Users",
+      "area": "Manage Users",
+      "navigationPath": "Manage Users",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:17:21.589Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:reports:8407cbc077e9",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Reports",
+      "area": "Reports",
+      "navigationPath": "Reports",
+      "sourceUrl": null,
+      "purpose": "Reports",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out Reports Course: Both Courses Magenta Course Cyan Course Start Date: End Date: Type of Report: Tee Time Usage by Time and Day Tee Time Usage by Reservation Type Utilisation (by Number of Players) Arrivals Report Booking Details Full Flex Points Usage Revenue Report (Summary) Revenue Report (Monthly Summary) Revenue Report (Daily Summary) Revenue Report (Day of Week Summary) Revenue Report (Detail) Outstanding Balance Revenue / Rounds by Green Fee Category Revenue by Green Fee (Monthly Summary) Revenue by Service (Buggies, etc) Revenue From Catering Revenue by Tour Operator / Hotel Revenue by Customer Contact Booking Report Revenue - Actual vs Projected Green Fees Revenue From Visitor Online Bookings Revenue From Online Merchant Payments Payments by Payment Date Payments by Transaction Date/Time & User Booking Transactions by Date Booked Booking Transactions by Date Playing Number of Bookings by User Number of Bookings by Date Cancelled Bookings Playing Schedule / Fixtures / Events Caddy Master Report List of Contact Details Users / Members Details Member Playing Statistics Non Member Playing Statistics Contact Email Addresses for Outlook Member [redacted-name] for Outlook Booking / Payment Status Booking Details Full Booking Details Booking, Payment and Staff [redacted-name] of Visitors by Country Catering Report Buggy, Caddy and Club Hire Report Players, Payment, Buggies and Caddies Kilkenny Report Email Message Summary Report Text Message Summary Report Text Message Account Transactions Club Message Summary Report Competition Purse Balance Competition Purse Transactions Competition Purse Summary Room/Facility Detail Report Room/Facility Summary Report Room/Facility Reservation Type Report Golf/Room/Facility Daily Activity Report Room/Facility Email Addresses For Outlook Print Report Help Button Launcher...... Reports Course: Both Courses Magenta Course Cyan Course Start Date: End Date: Type of Report: Tee Time Usage by Time and Day Tee Time Usage by Reservation Type Utilisation (by Number of Players) Arrivals Report Booking Details Full Flex Points Usage Revenue Report (Summary) Revenue Report (Monthly Summary) Revenue Report (Daily Summary) Revenue Report (Day of Week Summary) Revenue Report (Detail) Outstanding Balance Revenue / Rounds by Green Fee Category Revenue by Green Fee (Monthly Summary) Revenue by Service (Buggies, etc) Revenue From Catering Revenue by Tour Operator / Hotel Revenue by Customer Contact Booking Report Revenue - Actual vs Projected Green Fees Revenue From Visitor Online Bookings Revenue From Online Merchant Payments Payments by Payment Date Payments by Transaction Date/Time & User Booking Transactions by Date Booked Booking Transactions by Date Playing Number of Bookings by User Number of Bookings by Date Cancelled Bookings Playing Schedule / Fixtures / Events Caddy Master Report List of Contact Details Users / Members Details Member Playing Statistics Non Member Playing Statistics Contact Email Addresses for Outlook Member [redacted-name] for Outlook Booking / Payment Status Booking Details Full Booking Details Booking, Payment and Staff [redacted-name] of Visitors by Country Catering Report Buggy, Caddy and Club Hire Report Players, Payment, Buggies and Caddies Kilkenny Report Email Message Summary Report Text Message Summary Report Text Message Account Transactions Club Message Summary Report Competition Purse Balance Competition Purse Transactions Competition Purse Summary Room/Facility Detail Report Room/Facility Summary Report Room/Facility Reservation Type Report Golf/Room/Facility Daily Activity Report Room/Facility Email Addresses For Outlook Print Report",
+      "fields": [
+        {
+          "label": "Course:"
+        },
+        {
+          "label": "Start Date:"
+        },
+        {
+          "label": "End Date:"
+        },
+        {
+          "label": "Type of Report:"
+        },
+        {
+          "label": "rep_course_id",
+          "name": "rep_course_id",
+          "type": "select",
+          "options": [
+            "Both Courses",
+            "Magenta Course",
+            "Cyan Course"
+          ]
+        },
+        {
+          "label": "Start_Date",
+          "name": "Start_Date",
+          "type": "date",
+          "options": []
+        },
+        {
+          "label": "End_Date",
+          "name": "End_Date",
+          "type": "date",
+          "options": []
+        },
+        {
+          "label": "Report_Type",
+          "name": "Report_Type",
+          "type": "select",
+          "options": [
+            "Tee Time Usage by Time and Day",
+            "Tee Time Usage by Reservation Type",
+            "Utilisation (by Number of Players)",
+            "Arrivals Report",
+            "Booking Details Full",
+            "Flex Points Usage",
+            "Revenue Report (Summary)",
+            "Revenue Report (Monthly Summary)",
+            "Revenue Report (Daily Summary)",
+            "Revenue Report (Day of Week Summary)",
+            "Revenue Report (Detail)",
+            "Outstanding Balance",
+            "Revenue / Rounds by Green Fee Category",
+            "Revenue by Green Fee (Monthly Summary)",
+            "Revenue by Service (Buggies, etc)",
+            "Revenue From Catering",
+            "Revenue by Tour Operator / Hotel",
+            "Revenue by Customer",
+            "Contact Booking Report",
+            "Revenue - Actual vs Projected Green Fees",
+            "Revenue From Visitor Online Bookings",
+            "Revenue From Online Merchant Payments",
+            "Payments by Payment Date",
+            "Payments by Transaction Date/Time & User",
+            "Booking Transactions by Date Booked",
+            "Booking Transactions by Date Playing",
+            "Number of Bookings by User",
+            "Number of Bookings by Date",
+            "Cancelled Bookings",
+            "Playing Schedule / Fixtures / Events",
+            "Caddy Master Report",
+            "List of Contact Details",
+            "Users / Members Details",
+            "Member [redacted-name]",
+            "Non Member [redacted-name]",
+            "Contact Email Addresses for Outlook",
+            "Member [redacted-name] for Outlook",
+            "Booking / Payment Status",
+            "Booking Details",
+            "Full Booking Details",
+            "Booking, Payment and Staff Notes",
+            "No Shows",
+            "Shows",
+            "Number of Visitors by Country",
+            "Catering Report",
+            "Buggy, Caddy and Club Hire Report",
+            "Players, Payment, Buggies and Caddies",
+            "Kilkenny Report",
+            "Email Message Summary Report",
+            "Text Message Summary Report",
+            "Text Message Account Transactions",
+            "Club Message Summary Report",
+            "Competition Purse Balance",
+            "Competition Purse Transactions",
+            "Competition Purse Summary",
+            "Room/Facility Detail Report",
+            "Room/Facility Summary Report",
+            "Room/Facility Reservation Type Report",
+            "Golf/Room/Facility Daily Activity Report",
+            "Room/Facility Email Addresses For Outlook"
+          ]
+        },
+        {
+          "label": "Display_Report",
+          "name": "Display_Report",
+          "type": "submit",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Submit",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Print Report",
+          "purpose": "print",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [
+        "Course:",
+        "Start Date:",
+        "End Date:",
+        "Type of Report:"
+      ],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:17:26.128Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    },
+    {
+      "id": "system:search-bookings:8efe7ce267b5",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "Search Bookings",
+      "area": "Search Bookings",
+      "navigationPath": "Search Bookings",
+      "sourceUrl": null,
+      "purpose": null,
+      "content": "",
+      "fields": [],
+      "actions": [],
+      "helpText": [],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "needs-review",
+      "lastObservedAt": "[redacted-phone]T09:17:30.527Z",
+      "summary": "Review required before chatbot use. Reason: sensitive-or-live-crawl-data.",
+      "controls": [],
+      "aliases": [],
+      "steps": [],
+      "routes": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "writeActions": [],
+      "pageEvidence": {},
+      "workflow": null,
+      "workflowFamily": null,
+      "answerPattern": null,
+      "userNeed": null,
+      "reviewReason": "sensitive-or-live-crawl-data",
+      "reviewPayloadWithheld": true,
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "requires-human-review"
+      ]
+    },
+    {
+      "id": "system:system-tools:b44ec80ae50f",
+      "sourceType": "system",
+      "clubScope": "template",
+      "title": "System Tools",
+      "area": "System Tools",
+      "navigationPath": "System Tools > System Configuration > Configure Timesheet > Green Fee Rates > Reservation Types > Booking Statuses > Payment Methods > Contact Categories > Catering / Refreshments > No Show Reasons > Services > Copy Services, Catering or Green Fees",
+      "sourceUrl": null,
+      "purpose": "System Tools | System Configuration | Configure Timesheet | Green Fee Rates | Reservation Types | Booking Statuses | Payment Methods | Contact Categories",
+      "content": "[redacted-club] Dashboard Timesheet Messages Golf Plus NEW! Facilities Contacts Memberships Users Reports Search Tools Need Help? brs chatbot Sign Out System Tools Basic Set Up Requirements System Configuration Set up system parameters, eg. club address and email, and enable / disable certain features of the system. Configure Timesheet Set up Tee Times and Tee Time Intervals for individual days, months and years. Green Fee Rates Set up Green Fee Categories and Rates for Visitors, Societies, Member Guests, etc. Reservation Types Set up the Reservation Types and choose their colours. Booking Statuses Set up the Booking Statuses supported. Payment Methods Set up the Payment Methods supported. Contact Categories Set up the Contact Categories supported. Catering / Refreshments Set up Catering and Refreshments. No Show Reasons Set up reasons a player may not show for a booking. Services Set up Services offered by the club such as Buggies, Caddies, Club Hire, Room Hire, Trolleys and Course Set Up. Additional Set Up Requirements Copy Services, Catering or Green Fees Copy Services, Catering or Green Fees from one year to another year. Title for Each Day Set up a title for each day of the year which is displayed at the top of the timesheet pages. Messages on the Timesheet Set up messages that get displayed on the timesheet. Email and Letter Templates Set up a number of email and letter templates for sending to members and visitors, e.g. confirmation of booking, thank you message, etc. Upload Timesheet Upload a timesheet for any given day including the player names and membership number. Upload Members and Contacts Upload member and contact data files into the system. Membership Types Set up membership types such as full, 6-day, 5-day, senior, junior, honorary and country members. Legal Messages Set up Marketing Preferences, Privacy Policy, Member Terms and Conditions and Visitor Terms and Conditions. Course Restriction Restrict course bookings to limited group sizes. Messaging Email Messaging Send emails to your members and contacts. Text Messaging Send text messages to your members and contacts. Membership Groups for Messaging Set up membership groups and assign members to those groups. Club News Create club news articles which can be viewed by members and the public. Club Messages Send club messages to members who are using the BRS Members App or New Members Website. Members Booking Member Casual Booking Rules Set up the dates and times when members can view the timesheet and book casual golf on-line through the club website. Member Competitions Set up competitions for members to book on-line through the club website. Set this PC as Club House PC Set up / remove this PC as being Club House PC. This enables certain features within the club house. Visitor Booking Green Fee Rates for Visitors / Agents Set up green fee rates for visitors to book on-line through the club website. It is also for setting up rates for 3rd Party Tee Time Agents. Day Ticket Rates for Visitors Set up green fee rates for visitors playing 2 rounds on the same day to book on-line through the club website. Open Competitions for Visitors Set up open competitions for visitors to book on-line through the club website. Golf Events Set up part of the timesheet for the organiser of an event to populate. This can be used for a member event, a corporate day etc. Tour Operator Booking Green Fee Rates for Tour Operator Set up green fee rates for tour operators to book on-line through the club website. Competition Charging Process Competition Charges Process competition charges for each member. Club Website Update Club Website Update Fixture List, Club News and Competition Reports on the club website. It also allows you to collect and manage member and visitor feedback. BRS Payments Payouts View Payout Schedule. FAQs Additional Help. Transactions View all transactions. Refunds View Refunds. Booking Payment Requests View the status of your Booking Payment Requests. General Payment Requests View the status of your General Payment Requests. VAT Reports Export VAT Reports. Setup Use this tool to set up BRS Payments. Help Button Launcher...... System Tools Basic Set Up Requirements System Configuration Set up system parameters, eg. club address and email, and enable / disable certain features of the system. Configure Timesheet Set up Tee Times and Tee Time Intervals for individual days, months and years. Green Fee Rates Set up Green Fee Categories and Rates for Visitors, Societies, Member Guests, etc. Reservation Types Set up the Reservation Types and choose their colours. Booking Statuses Set up the Booking Statuses supported. Payment Methods Set up the Payment Methods supported. Contact Categories Set up the Contact Categories supported. Catering / Refreshments Set up Catering and Refreshments. No Show Reasons Set up reasons a player may not show for a booking. Services Set up Services offered by the club such as Buggies, Caddies, Club Hire, Room Hire, Trolleys and Course Set Up. Additional Set Up Requirements Copy Services, Catering or Green Fees Copy Services, Catering or Green Fees from one year to another year. Title for Each Day Set up a title for each day of the year which is displayed at the top of the timesheet pages. Messages on the Timesheet Set up messages that get displayed on the timesheet. Email and Letter Templates Set up a number of email and letter templates for sending to members and visitors, e.g. confirmation of booking, thank you message, etc. Upload Timesheet Upload a timesheet for any given day including the player names and membership number. Upload Members and Contacts Upload member and contact data files into the system. Membership Types Set up membership types such as full, 6-day, 5-day, senior, junior, honorary and country members. Legal Messages Set up Marketing Preferences, Privacy Policy, Member Terms and Conditions and Visitor Terms and Conditions. Course Restriction Restrict course bookings to limited group sizes. Messaging Email Messaging Send emails to your members and contacts. Text Messaging Send text messages to your members and contacts. Membership Groups for Messaging Set up membership groups and assign members to those groups. Club News Create club news articles which can be viewed by members and the public. Club Messages Send club messages to members who are using the BRS Members App or New Members Website. Members Booking Member Casual Booking Rules Set up the dates and times when members can view the timesheet and book casual golf on-line through the club website. Member Competitions Set up competitions for members to book on-line through the club website. Set this PC as Club House PC Set up / remove this PC as being Club House PC. This enables certain features within the club house. Visitor Booking Green Fee Rates for Visitors / Agents Set up green fee rates for visitors to book on-line through the club website. It is also for setting up rates for 3rd Party Tee Time Agents. Day Ticket Rates for Visitors Set up green fee rates for visitors playing 2 rounds on the same day to book on-line through the club website. Open Competitions for Visitors Set up open competitions for visitors to book on-line through the club website. Golf Events Set up part of the timesheet for the organiser of an event to populate. This can be used for a member event, a corporate day etc. Tour Operator Booking Green Fee Rates for Tour Operator Set up green fee rates for tour operators to book on-line through the club website. Competition Charging Process Competition Charges Process competition charges for each member. Club Website Update Club Website Update Fixture List, Club News and Competition Reports on the club website. It also allows you to collect and manage member and visitor feedback. BRS Payments Payouts View Payout Schedule. FAQs Additional Help. Transactions View all transactions. Refunds View Refunds. Booking Payment Requests View the status of your Booking Payment Requests. General Payment Requests View the status of your General Payment Requests. VAT Reports Export VAT Reports. Setup Use this tool to set up BRS Payments.",
+      "fields": [],
+      "actions": [
+        {
+          "label": "[redacted-club-url]",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Dashboard",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Timesheet",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Plus NEW!",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Facilities",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contacts",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Memberships",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Users",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reports",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Search",
+          "purpose": "filter/search",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Tools",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Need Help?",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Sign Out",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "System Configuration Set up system parameters, eg. club address and email, and enable / disable certain features of the system.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Configure Timesheet Set up Tee Times and Tee Time Intervals for individual days, months and years.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Green Fee Rates Set up Green Fee Categories and Rates for Visitors, Societies, Member Guests, etc.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Reservation Types Set up the Reservation Types and choose their colours.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Booking Statuses Set up the Booking Statuses supported.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Payment Methods Set up the Payment Methods supported.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Contact Categories Set up the Contact Categories supported.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Catering / Refreshments Set up Catering and Refreshments.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "No Show Reasons Set up reasons a player may not show for a booking.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Services Set up Services offered by the club such as Buggies, Caddies, Club Hire, Room Hire, Trolleys and Course Set Up.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Copy Services, Catering or Green Fees Copy Services, Catering or Green Fees from one year to another year.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Title for Each Day Set up a title for each day of the year which is displayed at the top of the timesheet pages.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Messages on the Timesheet Set up messages that get displayed on the timesheet.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Email and Letter Templates Set up a number of email and letter templates for sending to members and visitors, e.g. confirmation of booking, thank you message, etc.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Upload Timesheet Upload a timesheet for any given day including the player names and membership number.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Upload Members and Contacts Upload member and contact data files into the system.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Membership Types Set up membership types such as full, 6-day, 5-day, senior, junior, honorary and country members.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Legal Messages Set up Marketing Preferences, Privacy Policy, Member Terms and Conditions and Visitor Terms and Conditions.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Course Restriction Restrict course bookings to limited group sizes.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Email Messaging Send emails to your members and contacts.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Text Messaging Send text messages to your members and contacts.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Membership Groups for Messaging Set up membership groups and assign members to those groups.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Club News Create club news articles which can be viewed by members and the public.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Club Messages Send club messages to members who are using the BRS Members App or New Members Website.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Member Casual Booking Rules Set up the dates and times when members can view the timesheet and book casual golf on-line through the club website.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Member Competitions Set up competitions for members to book on-line through the club website.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Set this PC as Club House PC Set up / remove this PC as being Club House PC. This enables certain features within the club house.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Green Fee Rates for Visitors / Agents Set up green fee rates for visitors to book on-line through the club website. It is also for setting up rates for 3rd Party Tee Time Agents.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Day Ticket Rates for Visitors Set up green fee rates for visitors playing 2 rounds on the same day to book on-line through the club website.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Open Competitions for Visitors Set up open competitions for visitors to book on-line through the club website.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Golf Events Set up part of the timesheet for the organiser of an event to populate. This can be used for a member event, a corporate day etc.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Green Fee Rates for Tour Operator Set up green fee rates for tour operators to book on-line through the club website.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Process Competition Charges Process competition charges for each member.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Update Club Website Update Fixture List, Club News and Competition Reports on the club website. It also allows you to collect and manage member and visitor feedback.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Payouts View Payout Schedule.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "FAQs Additional Help.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Transactions View all transactions.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Refunds View Refunds.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Booking Payment Requests View the status of your Booking Payment Requests.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "General Payment Requests View the status of your General Payment Requests.",
+          "purpose": "open/run",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "VAT Reports Export VAT Reports.",
+          "purpose": "download/export",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        },
+        {
+          "label": "Setup Use this tool to set up BRS Payments.",
+          "purpose": "action",
+          "title": "",
+          "ariaLabel": "",
+          "iconText": ""
+        }
+      ],
+      "helpText": [
+        "Help Button Launcher......"
+      ],
+      "tableHeaders": [],
+      "relatedAreas": [],
+      "containsClubSpecificData": false,
+      "confidence": "approved",
+      "lastObservedAt": "[redacted-phone]T09:17:35.008Z",
+      "tags": [
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "auto-approved-after-redaction"
+      ]
+    }
+  ]
+}

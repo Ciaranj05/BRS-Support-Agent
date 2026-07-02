@@ -46,6 +46,9 @@ const ALLOWED_NAVIGATION_TEXT = [
   /reports/i,
   /search/i,
   /competitions/i,
+  /golf events?/i,
+  /club news/i,
+  /club messages?/i,
   /members?/i,
   /memberships?/i,
   /subscriptions?/i,
@@ -114,10 +117,17 @@ const DEFAULT_SEED_PATHS = [
   "/visitorgreenfee/add/",
   "/reservationtype/",
   "/bookingstatus/",
+  "/paymentmethod/",
   "/contactcategory/",
   "/course-restriction/",
   "/competitions/member/",
+  "/golf_event_admin.php",
   "/competition_purse.php",
+  "/payment/payouts",
+  "/payment/transactions",
+  "/payment/refunds",
+  "/payment/booking/list/requests",
+  "/payment/general/list/requests",
   "/payment/account/reports",
   "/payment/account/setup",
   "/membershipdatamerge/view/",
@@ -271,16 +281,34 @@ function joinQuoted(values = [], limit = 18) {
   return useful.map((value) => `"${value}"`).join(", ");
 }
 
+function actionLabelsForPurpose(actions = [], pattern, limit = 8) {
+  return joinQuoted(actions
+    .filter((action) => pattern.test(`${action.label || ""} ${action.purpose || ""}`))
+    .map((action) => action.label), limit);
+}
+
 function buildWorkflowSteps({ titleText, navigationPath, formControls = [], actions = [], tableHeaders = [] } = {}) {
   const steps = [
     navigationPath ? `Open "${navigationPath}".` : `Open "${titleText}".`,
   ];
   const fieldLabels = joinQuoted(formControls.map((control) => control.label), 24);
-  if (fieldLabels) steps.push(`Use the visible field, filter, and selector labels on this page: ${fieldLabels}.`);
-  const actionLabels = joinQuoted(actions.map((action) => action.label), 24);
-  if (actionLabels) steps.push(`Use the visible action controls on this page as needed for the task: ${actionLabels}.`);
+  if (fieldLabels) steps.push(`Select or enter values in the captured fields for this workflow: ${fieldLabels}.`);
+  const filterActions = actionLabelsForPurpose(actions, /filter|search|apply/i);
+  if (filterActions) steps.push(`Click the filter/search control to apply the selected criteria: ${filterActions}.`);
+  const runActions = actionLabelsForPurpose(actions, /open|run|view|details|report/i);
+  if (runActions) steps.push(`Open or run the selected record/report with: ${runActions}.`);
+  const exportActions = actionLabelsForPurpose(actions, /download|export/i);
+  if (exportActions) steps.push(`Download or export the result with: ${exportActions}.`);
+  const printActions = actionLabelsForPurpose(actions, /print/i);
+  if (printActions) steps.push(`Print the result with: ${printActions}.`);
+  const writeActions = actionLabelsForPurpose(actions, /add|create|save|update|submit/i);
+  if (writeActions) steps.push(`For authorised write workflows, click the captured write control only after checking the draft values: ${writeActions}.`);
+  const otherActions = joinQuoted(actions
+    .filter((action) => !/filter|search|apply|open|run|view|details|report|download|export|print|add|create|save|update|submit/i.test(`${action.label || ""} ${action.purpose || ""}`))
+    .map((action) => action.label), 12);
+  if (otherActions) steps.push(`Use these captured secondary controls for this workflow: ${otherActions}.`);
   const tableLabels = joinQuoted(tableHeaders, 18);
-  if (tableLabels) steps.push(`Check the visible table columns for the result or record details: ${tableLabels}.`);
+  if (tableLabels) steps.push(`Verify the displayed records or report output against these captured columns: ${tableLabels}.`);
   return steps;
 }
 

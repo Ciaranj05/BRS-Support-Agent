@@ -1,0 +1,2956 @@
+{
+  "generatedAt": "2026-07-02T09:28:15.765Z",
+  "sourceType": "brs-system-workflow",
+  "note": "Canonical completed workflow entries generated from the incomplete review queue after authenticated demo crawl. High-risk sends/payments/users/imports remain manual-only final actions.",
+  "entries": [
+    {
+      "id": "workflow:review-backlog-completion-balance-transactions:26323a6de0e8",
+      "sourceType": "workflow",
+      "title": "Balance Transactions workflow",
+      "area": "Payments",
+      "workflow": "Balance Transactions",
+      "workflowFamily": "Balance transactions",
+      "aliases": [
+        "Payment Methods",
+        "Process Competition Charges",
+        "Payouts",
+        "Transactions",
+        "Payment Requests",
+        "Balance Transactions"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Payment Methods; Process Competition Charges; Payouts; Transactions; Payment Requests; Balance Transactions; Process Competition Charges.",
+      "routes": [
+        {
+          "name": "Balance transactions review route",
+          "steps": [
+            "Open the payment or account balance transactions page.",
+            "Filter by date, member/customer, status, or reference.",
+            "Open the transaction detail.",
+            "Do not refund, reverse, or adjust balances from the crawler.",
+            "Verify transaction status and audit details."
+          ],
+          "outcome": "Balance transaction details are reviewed read-only.",
+          "verification": [
+            "Check reference, date, amount, status, and customer before advising."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Start Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Status",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Reference",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Search",
+          "purpose": "filter/search"
+        },
+        {
+          "label": "View",
+          "purpose": "open/run"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Adjust balance transaction",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-book-tee-times-online:b7431b5bebed",
+      "sourceType": "workflow",
+      "title": "Book Tee Times Online workflow",
+      "area": "Online Booking",
+      "workflow": "Book Tee Times Online",
+      "workflowFamily": "Online tee booking",
+      "aliases": [
+        "Book Tee Times Online",
+        "Online Tee Bookings / Reservations"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Book Tee Times Online; Online Tee Bookings / Reservations; Online Tee Bookings / Reservations.",
+      "routes": [
+        {
+          "name": "Online booking availability route",
+          "steps": [
+            "Open the online tee booking page.",
+            "Choose the booking audience, date, course, and tee-time filters.",
+            "Review available tee times and prices.",
+            "Stop before confirming a real visitor or member booking unless the booking is authorised."
+          ],
+          "outcome": "The available online tee times are visible for the selected criteria.",
+          "verification": [
+            "Check audience, date, course, tee time, price, and booking conditions."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Course",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Players",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Holes",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Search",
+          "purpose": "filter/search"
+        },
+        {
+          "label": "Book",
+          "purpose": "open/run"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-booking-details:9401ada9b3ec",
+      "sourceType": "workflow",
+      "title": "Booking Details workflow",
+      "area": "Timesheet",
+      "workflow": "Booking Details",
+      "workflowFamily": "Booking detail management",
+      "aliases": [
+        "Booking Details for Thu [redacted-date], 07:00",
+        "Booking Details for Thu [redacted-date], 07:10",
+        "Booking Details for Thu [redacted-date], 07:20"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Booking Details for Thu [redacted-date], 07:00; Booking Details for Thu [redacted-date], 07:10; Booking Details for Thu [redacted-date], 07:20.",
+      "routes": [
+        {
+          "name": "Booking Details route",
+          "steps": [
+            "Open the tee time from the Timesheet.",
+            "Review the booking details, players, services, notes, payment status, and audit information.",
+            "Use Modify, Cut, Delete, or payment/service actions only for authorised changes.",
+            "Return to the Timesheet and verify the row after saving."
+          ],
+          "outcome": "The booking detail page shows the complete booking record.",
+          "verification": [
+            "Confirm the date, time, players, services, and payment state before and after any change."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Reservation Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Players",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Services",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Notes",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Payment Status",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Modify",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Cut",
+          "purpose": "move"
+        },
+        {
+          "label": "Delete",
+          "purpose": "delete"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Modify booking detail",
+          "riskTier": "safe-test-record-with-rollback",
+          "allowedAutomatically": true,
+          "rollbackPlan": "Use a temporary test booking and restore or delete it immediately after verification."
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-calendar:c74084b62b7f",
+      "sourceType": "workflow",
+      "title": "Calendar workflow",
+      "area": "Timesheet",
+      "workflow": "Calendar",
+      "workflowFamily": "Timesheet calendar navigation",
+      "aliases": [
+        "month view",
+        "calendar view",
+        "Calendar",
+        "June 2026",
+        "January 2026",
+        "February 2026",
+        "March 2026",
+        "April 2026",
+        "May 2026",
+        "July 2026",
+        "August 2026",
+        "September 2026",
+        "October 2026",
+        "November 2026",
+        "December 2026"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Calendar; June 2026; Calendar; January 2026; February 2026; March 2026; April 2026; May 2026.",
+      "routes": [
+        {
+          "name": "Calendar/month view route",
+          "steps": [
+            "Open Calendar or the Timesheet month view.",
+            "Select the month, year, course, and view controls.",
+            "Open a day from the month grid to work with its tee sheet.",
+            "Verify the selected date is shown before changing bookings."
+          ],
+          "outcome": "The user reaches the correct day or month view.",
+          "verification": [
+            "Check the month/year heading and the selected day before continuing."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Month",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Course",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "View",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Timesheet",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Summary",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Month",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Year",
+          "purpose": "open/run"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-casual-booking-rules:1154b96d4eec",
+      "sourceType": "workflow",
+      "title": "Casual Booking Rules workflow",
+      "area": "Tools",
+      "workflow": "Casual Booking Rules",
+      "workflowFamily": "Member casual booking rules",
+      "aliases": [
+        "Casual Booking Rules"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Casual Booking Rules.",
+      "routes": [
+        {
+          "name": "Member casual booking rules route",
+          "steps": [
+            "Open Tools > Member Casual Booking Rules.",
+            "Select the membership type, date range, time window, course, and online booking limits.",
+            "Review cancellation and advance-booking settings.",
+            "Save only authorised rule changes.",
+            "Test the member booking view for the affected audience."
+          ],
+          "outcome": "Member online casual booking rules control availability and restrictions.",
+          "verification": [
+            "Check membership type, date range, time window, and advance-booking limits."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Membership Type",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Advance Booking",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Update",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-catering-refreshments:ecc38fce780d",
+      "sourceType": "workflow",
+      "title": "Catering / Refreshments workflow",
+      "area": "Tools",
+      "workflow": "Catering / Refreshments",
+      "workflowFamily": "Catering and refreshments",
+      "aliases": [
+        "Catering / Refreshments"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Catering / Refreshments.",
+      "routes": [
+        {
+          "name": "Catering setup route",
+          "steps": [
+            "Open Tools > Catering / Refreshments.",
+            "Choose the year or item list.",
+            "Add or edit item name, availability, and price fields.",
+            "Save only authorised changes.",
+            "Verify the item appears in the list."
+          ],
+          "outcome": "Catering or refreshment items are available for booking workflows.",
+          "verification": [
+            "Check item name, price, year, and active status."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Price",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Status",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Edit",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-change-my-password:125236fe1b66",
+      "sourceType": "workflow",
+      "title": "Change My Password workflow",
+      "area": "Users",
+      "workflow": "Change My Password",
+      "workflowFamily": "Password management",
+      "aliases": [
+        "Change My Password"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Change My Password.",
+      "routes": [
+        {
+          "name": "Change password route",
+          "steps": [
+            "Open Change My Password.",
+            "Enter current password and new password fields.",
+            "Confirm the new password.",
+            "Save manually only for the signed-in authorised user.",
+            "Sign in again to verify the password works."
+          ],
+          "outcome": "The current user's password is changed.",
+          "verification": [
+            "Confirm the user identity and successful re-login."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Current Password",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "New Password",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Confirm Password",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Update",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Change password",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-club-messages:eacc6bb2eca6",
+      "sourceType": "workflow",
+      "title": "Club Messages workflow",
+      "area": "Club Messages",
+      "workflow": "Club Messages",
+      "workflowFamily": "Club app messages",
+      "aliases": [
+        "\"BRS Announcements & Systems Messages\" [level=4]",
+        "Email Messaging",
+        "Club Messaging",
+        "Send an Email",
+        "Enter Club Message",
+        "Club Message Detail",
+        "Admin Messages"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: \"BRS Announcements & Systems Messages\" [level=4]; Email Messaging; Club Messaging; Send an Email; Enter Club Message; Club Message Detail; Email Messaging; Admin Messages.",
+      "routes": [
+        {
+          "name": "Club message draft route",
+          "steps": [
+            "Open Club Messages.",
+            "Choose the audience or message detail.",
+            "Enter or review the message title and body.",
+            "Preview the message where the page provides a preview.",
+            "Send manually only after audience and content approval."
+          ],
+          "outcome": "The club message is drafted or reviewed.",
+          "verification": [
+            "Check audience, title, body, delivery channel, and recipient count before sending."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Audience",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Title",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Message",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Preview",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Send",
+          "purpose": "send"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Send club message",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-configure-timesheet:f608ad5a30fb",
+      "sourceType": "workflow",
+      "title": "Configure Timesheet workflow",
+      "area": "Tools",
+      "workflow": "Configure Timesheet",
+      "workflowFamily": "Configure Timesheet",
+      "aliases": [
+        "Configure Timesheet"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Configure Timesheet.",
+      "routes": [
+        {
+          "name": "Configure Timesheet draft route",
+          "steps": [
+            "Open Tools > Configure Timesheet.",
+            "Choose the operation, year, date range, tee-time range, interval, sunrise/sunset behaviour, and days of week.",
+            "Review the draft configuration before clicking Configure the Timesheet.",
+            "Check affected dates on the Timesheet after an authorised change."
+          ],
+          "outcome": "The selected tee-time pattern is ready to apply to the date range.",
+          "verification": [
+            "Confirm the year, date range, interval, and days before saving."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Operation",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Interval",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Days of Week",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Configure the Timesheet",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Change timesheet configuration",
+          "riskTier": "read-and-draft-only",
+          "allowedAutomatically": false,
+          "rollbackPlan": "Capture original date settings, apply only to a test range, restore, and verify."
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-copy-services-catering-or-green-fees:b0031c03212f",
+      "sourceType": "workflow",
+      "title": "Copy Services, Catering or Green Fees workflow",
+      "area": "Tools",
+      "workflow": "Copy Services, Catering or Green Fees",
+      "workflowFamily": "Copy setup year to year",
+      "aliases": [
+        "Copy Services, Catering or Green Fees"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Copy Services, Catering or Green Fees.",
+      "routes": [
+        {
+          "name": "Copy setup route",
+          "steps": [
+            "Open Tools > Copy Services, Catering or Green Fees.",
+            "Select the source year, target year, and setup type.",
+            "Preview the copy selection.",
+            "Run the copy only when the target year is authorised.",
+            "Check the copied records in the target year."
+          ],
+          "outcome": "Selected setup data is copied between years.",
+          "verification": [
+            "Confirm source year, target year, setup type, and target-year records."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Source Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Target Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Setup Type",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Copy",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Preview",
+          "purpose": "open/run"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-create-a-new-user:24e3f377df49",
+      "sourceType": "workflow",
+      "title": "Create a New User workflow",
+      "area": "Users",
+      "workflow": "Create a New User",
+      "workflowFamily": "User account management",
+      "aliases": [
+        "Create a New User / Add a Member"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Create a New User / Add a Member.",
+      "routes": [
+        {
+          "name": "Create user draft route",
+          "steps": [
+            "Open Users > Create a New User.",
+            "Enter username, name, email, role/group, status, and password fields required by the form.",
+            "Review permissions before saving.",
+            "Create the user manually only when authorised.",
+            "Verify the new user appears in Manage Users."
+          ],
+          "outcome": "A staff/admin user account is drafted or created by an authorised admin.",
+          "verification": [
+            "Check role/group and access level before creating the login."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Username",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Email",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Password",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "User Group",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Status",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Create",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Create user account",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-create-payment-request:6cef5ced0c81",
+      "sourceType": "workflow",
+      "title": "Create Payment Request workflow",
+      "area": "Payments",
+      "workflow": "Create Payment Request",
+      "workflowFamily": "Payment requests",
+      "aliases": [
+        "Create Payment Request"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Create Payment Request.",
+      "routes": [
+        {
+          "name": "Payment request draft route",
+          "steps": [
+            "Open Payment Requests.",
+            "Choose booking or general payment request type.",
+            "Enter recipient/customer, description, amount, due date, and message fields.",
+            "Preview the request.",
+            "Send manually only after checking amount and recipient."
+          ],
+          "outcome": "The payment request is drafted for manual approval.",
+          "verification": [
+            "Check recipient, amount, due date, description, and payment link status."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Recipient",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Amount",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Description",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Due Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Message",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Preview",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Send",
+          "purpose": "send"
+        },
+        {
+          "label": "Create",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Create or send payment request",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-day-ticket-rates-for-visitors:6e95bb669293",
+      "sourceType": "workflow",
+      "title": "Day Ticket Rates for Visitors workflow",
+      "area": "Visitor Booking",
+      "workflow": "Day Ticket Rates for Visitors",
+      "workflowFamily": "Day ticket rates",
+      "aliases": [
+        "Day Ticket Rates for Visitors"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Day Ticket Rates for Visitors.",
+      "routes": [
+        {
+          "name": "Day ticket rate route",
+          "steps": [
+            "Open Tools > Day Ticket Rates for Visitors.",
+            "Select year, date range, course, holes, and day-ticket category.",
+            "Enter the day-ticket rate values.",
+            "Save only authorised rate changes.",
+            "Check visitor online booking shows the expected day-ticket option."
+          ],
+          "outcome": "Visitor day-ticket rates are available for two-round same-day booking.",
+          "verification": [
+            "Check date range, category, holes, and rate values."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Category",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Rate",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-edit-contact:2b210dbdab62",
+      "sourceType": "workflow",
+      "title": "Edit Contact workflow",
+      "area": "Contacts",
+      "workflow": "Edit Contact",
+      "workflowFamily": "Contact record management",
+      "aliases": [
+        "View Contacts",
+        "\"View Contacts\" [level=1]",
+        "Add Contact",
+        "Edit Contact"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: View Contacts; \"View Contacts\" [level=1]; View Contacts; Add Contact; Edit Contact; View Contacts; Add Contact.",
+      "routes": [
+        {
+          "name": "Edit contact route",
+          "steps": [
+            "Open Contacts.",
+            "Search for the contact record.",
+            "Open Edit Contact.",
+            "Update contact fields only for an authorised record or temporary test contact.",
+            "Save and verify the contact list shows the updated value."
+          ],
+          "outcome": "The contact record is reviewed or updated.",
+          "verification": [
+            "Check contact identity, changed fields, and rollback for test contacts."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Email",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Phone",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Category",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Notes",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Search",
+          "purpose": "filter/search"
+        },
+        {
+          "label": "Edit",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Edit contact",
+          "riskTier": "safe-test-record-with-rollback",
+          "allowedAutomatically": true,
+          "rollbackPlan": "Use a temporary contact or restore the original values and verify the contact after saving."
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-golf-events:508a8a2b1b87",
+      "sourceType": "workflow",
+      "title": "Golf Events workflow",
+      "area": "Golf Events",
+      "workflow": "Golf Events",
+      "workflowFamily": "Golf Events",
+      "aliases": [
+        "Golf Events"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Golf Events; Golf Events; Golf Events; Golf Events; Golf Events; Golf Events; Golf Events.",
+      "routes": [
+        {
+          "name": "Golf Events setup route",
+          "steps": [
+            "Open Tools > Golf Events.",
+            "Create or edit the event for the selected year.",
+            "Set event name, organiser access, date/time allocation, reservation details, and tee-sheet population options.",
+            "Save only authorised event setup changes.",
+            "Verify the event organiser route or allocated tee-sheet area."
+          ],
+          "outcome": "A Golf Event controls a reserved part of the tee sheet for an event organiser.",
+          "verification": [
+            "Check event year, organiser details, tee-time allocation, and separation from Competitions."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Event Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Organiser",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Reservation",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Edit",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Create or update golf event",
+          "riskTier": "read-and-draft-only",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-green-fee-rates:2dce46ccf0ec",
+      "sourceType": "workflow",
+      "title": "Green Fee Rates workflow",
+      "area": "Tools",
+      "workflow": "Green Fee Rates",
+      "workflowFamily": "Green Fee Rates",
+      "aliases": [
+        "Green Fee Rates"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Green Fee Rates; Green Fee Rates; Green Fee Rates; Green Fee Rates; Green Fee Rates; Green Fee Rates; Green Fee Rates; Green Fee Rates.",
+      "routes": [
+        {
+          "name": "Green fee rate setup route",
+          "steps": [
+            "Open Tools > Green Fee Rates.",
+            "Filter by year or month.",
+            "Open Add, Copy, or Edit for the rate row.",
+            "Set category, sub-category, holes, date range, membership applicability, and rate fields.",
+            "Save only authorised rate changes and confirm the rate appears in the table."
+          ],
+          "outcome": "The green-fee rate table contains the configured rate row.",
+          "verification": [
+            "Check category, holes, date range, membership applicability, default/global flags, and rate values."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Month",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Category",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Sub Category",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Holes",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Rates",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Membership Types",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Filter",
+          "purpose": "filter/search"
+        },
+        {
+          "label": "Copy",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Edit",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-green-fee-rates-for-visitors-tour-operators-tee-time-agents:7d811fd6ceb2",
+      "sourceType": "workflow",
+      "title": "Green Fee Rates for Visitors / Tour Operators / Tee Time Agents workflow",
+      "area": "Visitor Booking",
+      "workflow": "Green Fee Rates for Visitors / Tour Operators / Tee Time Agents",
+      "workflowFamily": "Visitor and agent green fee rates",
+      "aliases": [
+        "Green Fee Rates for Visitors / Tour Operators / Tee Time Agents"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Green Fee Rates for Visitors / Tour Operators / Tee Time Agents.",
+      "routes": [
+        {
+          "name": "Visitor/agent rate setup route",
+          "steps": [
+            "Open Tools > Green Fee Rates for Visitors / Agents.",
+            "Choose the year, date range, rate group, course, holes, and booking channel.",
+            "Enter visitor, tour-operator, or tee-time-agent rate values.",
+            "Save only authorised rate changes.",
+            "Verify the rate in the visitor or agent rate list."
+          ],
+          "outcome": "Visitor, tour-operator, or agent online booking rates are ready for the selected dates.",
+          "verification": [
+            "Check channel, date range, holes, and price before publishing online."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Rate Group",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Course",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Holes",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Visitor Rate",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Agent Rate",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Update",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-membership-groups-for-email-and-text:1b[redacted-phone]",
+      "sourceType": "workflow",
+      "title": "Membership Groups for Email and Text workflow",
+      "area": "Tools",
+      "workflow": "Membership Groups for Email and Text",
+      "workflowFamily": "Messaging groups",
+      "aliases": [
+        "Membership Groups for Email and Text"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Membership Groups for Email and Text.",
+      "routes": [
+        {
+          "name": "Membership group setup route",
+          "steps": [
+            "Open Tools > Membership Groups for Messaging.",
+            "Create or edit the group name.",
+            "Assign members to the group.",
+            "Save only authorised group changes.",
+            "Verify the group appears as a selectable audience for email or text messaging."
+          ],
+          "outcome": "A membership group is available for targeted communication.",
+          "verification": [
+            "Check group name and member assignment count before using the group."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Group Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Members",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Edit",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-messages-on-the-timesheet:1d7f57457d0c",
+      "sourceType": "workflow",
+      "title": "Messages on the Timesheet workflow",
+      "area": "Tools",
+      "workflow": "Messages on the Timesheet",
+      "workflowFamily": "Timesheet messages",
+      "aliases": [
+        "Messages on the Timesheet",
+        "Email and Letter Templates",
+        "Legal Messages"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Messages on the Timesheet; Email and Letter Templates; Legal Messages; Email and Letter Templates; Legal Messages.",
+      "routes": [
+        {
+          "name": "Timesheet message setup route",
+          "steps": [
+            "Open Tools > Messages on the Timesheet.",
+            "Choose the year, date or date range, course, and audience/display location.",
+            "Enter the message text.",
+            "Save only authorised display messages.",
+            "Open the Timesheet date and verify the message is shown."
+          ],
+          "outcome": "The tee-sheet message is displayed for the selected dates.",
+          "verification": [
+            "Check date range, course, audience, and message text before saving."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Course",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Message",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Update",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-no-show-reasons:f4f517d7dea1",
+      "sourceType": "workflow",
+      "title": "No Show Reasons workflow",
+      "area": "Tools",
+      "workflow": "No Show Reasons",
+      "workflowFamily": "No Show Reasons",
+      "aliases": [
+        "No Show Reasons"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: No Show Reasons.",
+      "routes": [
+        {
+          "name": "No-show reason setup route",
+          "steps": [
+            "Open Tools > No Show Reasons.",
+            "Review existing reasons.",
+            "Enter the reason name for a new reason or open an existing reason to edit.",
+            "Save only authorised reason changes.",
+            "Check the reason is available when marking booking attendance."
+          ],
+          "outcome": "No-show reason options are available for booking follow-up.",
+          "verification": [
+            "Confirm the reason name and active status."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Reason",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Status",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Edit",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-open-competitions:1afc4316e0df",
+      "sourceType": "workflow",
+      "title": "Open Competitions workflow",
+      "area": "Competitions",
+      "workflow": "Open Competitions",
+      "workflowFamily": "Open competition setup",
+      "aliases": [
+        "Competitions",
+        "Open Competitions"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions; Open Competitions.",
+      "routes": [
+        {
+          "name": "Open competition setup route",
+          "steps": [
+            "Open Tools > Open Competitions for Visitors.",
+            "Create or edit the open competition.",
+            "Set competition date, times, course, name, booking format, playing format, holes, fees, mixed-team rules, and booking available date/time.",
+            "Save only authorised competition setup changes.",
+            "Check the open competition entry flow before publishing."
+          ],
+          "outcome": "The open competition is configured for visitor or mixed entry.",
+          "verification": [
+            "Check date, times, format, fees, availability date, and online entry visibility."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Competition Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Competition Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Booking Format",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Playing Format",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Member Green Fee",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Visitor Green Fee",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Booking Available",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Edit",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-purchase-sms-text-messaging-credit:55fa61f53136",
+      "sourceType": "workflow",
+      "title": "Purchase SMS Text Messaging Credit workflow",
+      "area": "Text Messaging",
+      "workflow": "Purchase SMS Text Messaging Credit",
+      "workflowFamily": "SMS credit purchase",
+      "aliases": [
+        "Purchase SMS Text Messaging Credit"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Purchase SMS Text Messaging Credit.",
+      "routes": [
+        {
+          "name": "SMS credit purchase route",
+          "steps": [
+            "Open Text Messaging > Purchase Credit.",
+            "Review current credit and package options.",
+            "Select a package only for an authorised purchase.",
+            "Stop before checkout/payment unless the purchase is explicitly approved.",
+            "Verify credit balance after a manual purchase."
+          ],
+          "outcome": "SMS credit package options are reviewed.",
+          "verification": [
+            "Check package, price, payment step, and resulting credit balance."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Credit Package",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Current Credit",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Price",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Purchase",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Checkout",
+          "purpose": "payment"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Purchase SMS credit",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-send-a-text:735abb053547",
+      "sourceType": "workflow",
+      "title": "Send a Text workflow",
+      "area": "Text Messaging",
+      "workflow": "Send a Text",
+      "workflowFamily": "Outbound SMS messaging",
+      "aliases": [
+        "Send a Text"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Send a Text.",
+      "routes": [
+        {
+          "name": "SMS draft route",
+          "steps": [
+            "Open Text Messaging.",
+            "Choose the recipient audience.",
+            "Enter the SMS message.",
+            "Check credit, sender setup, and recipient count.",
+            "Send manually only after approval."
+          ],
+          "outcome": "The SMS is drafted for the chosen audience.",
+          "verification": [
+            "Check audience, recipient count, message text, sender setup, and credit before sending."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Audience",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Message",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Recipients",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Preview",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Send",
+          "purpose": "send"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Send SMS",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-service-reminder-email:6efce11de3db",
+      "sourceType": "workflow",
+      "title": "Service Reminder Email workflow",
+      "area": "Messages",
+      "workflow": "Service Reminder Email",
+      "workflowFamily": "Service reminder email",
+      "aliases": [
+        "Service Reminder Email"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Service Reminder Email.",
+      "routes": [
+        {
+          "name": "Service reminder email route",
+          "steps": [
+            "Open the service reminder email page or template.",
+            "Select the service/date audience.",
+            "Review the subject, template, and recipients.",
+            "Preview before any authorised send.",
+            "Send manually only after checking recipients."
+          ],
+          "outcome": "The reminder email is prepared for the selected service audience.",
+          "verification": [
+            "Check service, date, recipient count, subject, and body."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Service",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Subject",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Message",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Preview",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Send",
+          "purpose": "send"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Send service reminder email",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-services:2993efb90854",
+      "sourceType": "workflow",
+      "title": "Services workflow",
+      "area": "Tools",
+      "workflow": "Services",
+      "workflowFamily": "Services",
+      "aliases": [
+        "Services"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Services.",
+      "routes": [
+        {
+          "name": "Service setup route",
+          "steps": [
+            "Open Tools > Services.",
+            "Choose the year or service list.",
+            "Add or edit service name, availability, capacity, and price fields.",
+            "Save only authorised changes.",
+            "Verify the service appears where bookings can request it."
+          ],
+          "outcome": "Services such as buggies, caddies, trolleys, or hire items are configured.",
+          "verification": [
+            "Check service name, capacity, price, year, and active status."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Service",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Capacity",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Price",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Status",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Edit",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-squeeze-tee-time:85e36a24d41f",
+      "sourceType": "workflow",
+      "title": "Squeeze Tee Time workflow",
+      "area": "Timesheet",
+      "workflow": "Squeeze Tee Time",
+      "workflowFamily": "Squeeze Tee Time",
+      "aliases": [
+        "Squeeze Tee Time"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Squeeze Tee Time.",
+      "routes": [
+        {
+          "name": "Squeeze Tee Time route",
+          "steps": [
+            "Open the Timesheet day view.",
+            "Open Squeeze Tee Time.",
+            "Enter the extra tee time details and reservation values.",
+            "Save only when the extra slot is authorised.",
+            "Check the day sheet for the inserted time."
+          ],
+          "outcome": "A single extra tee time is inserted on the selected day.",
+          "verification": [
+            "Verify the new time appears in the correct position on the day sheet."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Reservation Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Reservation Type",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Squeeze Tee Time",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Insert extra tee time",
+          "riskTier": "read-and-draft-only",
+          "allowedAutomatically": false,
+          "rollbackPlan": "Record the original tee-time pattern and restore the date if a test slot is inserted."
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-system-configuration:b5e0d22c3079",
+      "sourceType": "workflow",
+      "title": "System Configuration workflow",
+      "area": "Tools",
+      "workflow": "System Configuration",
+      "workflowFamily": "System Configuration",
+      "aliases": [
+        "System Configuration"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: System Configuration.",
+      "routes": [
+        {
+          "name": "System configuration review route",
+          "steps": [
+            "Open Tools > System Configuration.",
+            "Find the required club parameter or feature switch.",
+            "Review the existing value and any warning text.",
+            "Save only authorised setup changes after confirming the original value.",
+            "Reopen the setting to verify the saved value."
+          ],
+          "outcome": "The system setting is reviewed or changed by an authorised admin.",
+          "verification": [
+            "Record the original value and confirm the final value after saving."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Setting",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Value",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Enabled",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Update",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-system-tools:9cc59a04c249",
+      "sourceType": "workflow",
+      "title": "System Tools workflow",
+      "area": "Tools",
+      "workflow": "System Tools",
+      "workflowFamily": "System Tools",
+      "aliases": [
+        "BRS page",
+        "System Tools",
+        "Golf Plus",
+        "\"System Tools\" [level=1]",
+        "\"Flexible Membership\" [level=3]:",
+        "Memberships",
+        "Course Restriction",
+        "Reservation Types",
+        "Booking Statuses",
+        "Contact Categories",
+        "Upload Timesheet",
+        "Import/Update Members or Contacts - Step 1/4.",
+        "Membership Types",
+        "Club News",
+        "Brs Memberships",
+        "Setup",
+        "Club Systems Membership Data Preview",
+        "Club Systems Membership Category Mapping"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: BRS page; System Tools; Golf Plus; \"System Tools\" [level=1]; \"Flexible Membership\" [level=3]:; Memberships; System Tools; Course Restriction.",
+      "routes": [
+        {
+          "name": "System Tools navigation route",
+          "steps": [
+            "Open Tools.",
+            "Choose the setup area that matches the task, such as System Configuration, Configure Timesheet, Green Fee Rates, Reservation Types, Booking Statuses, Services, Messaging, Competitions, Golf Events, or BRS Payments.",
+            "Open the selected setup page.",
+            "Follow the specific workflow for that setup area."
+          ],
+          "outcome": "The user reaches the correct setup or administration area.",
+          "verification": [
+            "Confirm the page heading and selected setup area before making changes."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "System Configuration",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Configure Timesheet",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Green Fee Rates",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Reservation Types",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Booking Statuses",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Golf Events",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "BRS Payments",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Open setup area",
+          "purpose": "open/run"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-timesheet:57c639053e18",
+      "sourceType": "workflow",
+      "title": "Timesheet workflow",
+      "area": "Timesheet",
+      "workflow": "Timesheet",
+      "workflowFamily": "Timesheet booking management",
+      "aliases": [
+        "BRS Golf - Tee Booking System",
+        "Tee Booking System",
+        "daily tee sheet",
+        "bookings",
+        "\"0%\" [level=3]",
+        "Timesheet",
+        "\"Competitions for 2026\" [level=1]",
+        "\"Course Restriction\" [level=1]",
+        "Bookings",
+        "Print Daily Booking Sheet"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: BRS Golf - Tee Booking System; \"0%\" [level=3]; Timesheet; \"Competitions for 2026\" [level=1]; \"Course Restriction\" [level=1]; Bookings; Tee Booking System; BRS Golf - Tee Booking System.",
+      "routes": [
+        {
+          "name": "Daily tee sheet workflow",
+          "actor": "Admin or staff user",
+          "preconditions": [
+            "The user has access to the Timesheet."
+          ],
+          "steps": [
+            "Open Timesheet from the main navigation.",
+            "Select the date, course, and view.",
+            "Tick a tee-time checkbox before using Add, Modify, Delete, Cut, Paste, or Squeeze Tee Time.",
+            "Enter reservation name, reservation type, player, buggy, repeat, and green-fee values on the labelled tee-time row.",
+            "Save only authorised booking changes."
+          ],
+          "outcome": "The tee sheet displays the chosen date and the booking row reflects the saved change.",
+          "verification": [
+            "Refresh or reopen the tee time and confirm the row status, players, buggies, and payment indicators."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Course",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Reservation Name",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Reservation Type",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Player 1",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Buggies",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Green Fee",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Modify",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Delete",
+          "purpose": "delete"
+        },
+        {
+          "label": "Cut",
+          "purpose": "move"
+        },
+        {
+          "label": "Paste",
+          "purpose": "move"
+        },
+        {
+          "label": "Squeeze Tee Time",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Create, edit, move, or delete a tee-sheet booking",
+          "riskTier": "safe-test-record-with-rollback",
+          "allowedAutomatically": true,
+          "rollbackPlan": "Use only a temporary test booking, delete or move it back, then verify the tee time returns to its original state."
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-timesheet-templates:df783d99929e",
+      "sourceType": "workflow",
+      "title": "Timesheet Templates workflow",
+      "area": "Tools",
+      "workflow": "Timesheet Templates",
+      "workflowFamily": "Timesheet Templates",
+      "aliases": [
+        "Timesheet Templates"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Timesheet Templates.",
+      "routes": [
+        {
+          "name": "Timesheet template setup route",
+          "steps": [
+            "Open Tools > Timesheet Templates.",
+            "Select the year or template.",
+            "Edit template rows, times, titles, and availability settings.",
+            "Save only authorised template changes.",
+            "Check the affected date range on the Timesheet."
+          ],
+          "outcome": "The template controls recurring tee-sheet structure.",
+          "verification": [
+            "Confirm template year, date applicability, and tee-time pattern before saving."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Template",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Start Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Time",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Interval",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Add",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Update",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-title-for-each-day:39bc8e13fb55",
+      "sourceType": "workflow",
+      "title": "Title for Each Day workflow",
+      "area": "Tools",
+      "workflow": "Title for Each Day",
+      "workflowFamily": "Timesheet day titles",
+      "aliases": [
+        "Title for Each Day"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Title for Each Day; Title for Each Day; Title for Each Day; Title for Each Day; Title for Each Day.",
+      "routes": [
+        {
+          "name": "Day title setup route",
+          "steps": [
+            "Open Tools > Title for Each Day.",
+            "Select the year and date.",
+            "Enter the title text.",
+            "Save only authorised title changes.",
+            "Open the Timesheet date and confirm the title appears."
+          ],
+          "outcome": "The selected day displays the configured title.",
+          "verification": [
+            "Check the date and title text before saving."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Year",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Title",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Update",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-vat-reports:e02020a8a7ee",
+      "sourceType": "workflow",
+      "title": "VAT Reports workflow",
+      "area": "BRS Payments",
+      "workflow": "VAT Reports",
+      "workflowFamily": "VAT reports",
+      "aliases": [
+        "Reports",
+        "\"Reports\" [level=1]",
+        "\"Search Bookings\" [level=1]",
+        "\"FINANCIAL REPORTS\" [level=2]",
+        "Search Bookings",
+        "VAT Reports"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: Reports; \"Reports\" [level=1]; \"Search Bookings\" [level=1]; \"FINANCIAL REPORTS\" [level=2]; Reports; Search Bookings; VAT Reports.",
+      "routes": [
+        {
+          "name": "VAT report route",
+          "steps": [
+            "Open BRS Payments > VAT Reports.",
+            "Select the date range and report filters.",
+            "Run or export the VAT report.",
+            "Verify the report period and columns before sharing."
+          ],
+          "outcome": "The VAT report is generated or exported.",
+          "verification": [
+            "Check report period, totals, and export file."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Start Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "End Date",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Report Type",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Run",
+          "purpose": "open/run"
+        },
+        {
+          "label": "Export",
+          "purpose": "download/export"
+        },
+        {
+          "label": "Download",
+          "purpose": "download/export"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [],
+      "rollbackPolicy": "No write action is required for this completed workflow evidence.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    },
+    {
+      "id": "workflow:review-backlog-completion-view-update-user-details:a940eef2d8f1",
+      "sourceType": "workflow",
+      "title": "View / Update User Details workflow",
+      "area": "Users",
+      "workflow": "View / Update User Details",
+      "workflowFamily": "User account management",
+      "aliases": [
+        "View / Update User Details"
+      ],
+      "summary": "Completed workflow coverage for review backlog placeholders: View / Update User Details.",
+      "routes": [
+        {
+          "name": "View/update user route",
+          "steps": [
+            "Open Users.",
+            "Search for the user account.",
+            "Open View / Update User Details.",
+            "Review username, role/group, status, and contact fields.",
+            "Save manually only after permission approval."
+          ],
+          "outcome": "The user account details are reviewed or updated by an authorised admin.",
+          "verification": [
+            "Check user identity, role/group, status, and audit impact before saving."
+          ]
+        }
+      ],
+      "variants": [],
+      "controls": [
+        {
+          "label": "Username",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "User Group",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Status",
+          "type": "captured-control",
+          "options": []
+        },
+        {
+          "label": "Email",
+          "type": "captured-control",
+          "options": []
+        }
+      ],
+      "actions": [
+        {
+          "label": "Search",
+          "purpose": "filter/search"
+        },
+        {
+          "label": "Save",
+          "purpose": "create/update"
+        },
+        {
+          "label": "Update",
+          "purpose": "create/update"
+        }
+      ],
+      "tableHeaders": [],
+      "writeActions": [
+        {
+          "name": "Update user account",
+          "riskTier": "restricted",
+          "allowedAutomatically": false
+        }
+      ],
+      "rollbackPolicy": "Automated exploration must respect the declared write-risk tier and rollback policy; restricted final actions are manual-only.",
+      "explorationStatus": "completed-from-authenticated-demo-crawl-and-reviewed-backlog",
+      "confidence": "approved",
+      "containsClubSpecificData": false,
+      "tags": [
+        "review-backlog-completion",
+        "workflow-knowledge",
+        "authenticated-demo-evidence",
+        "crawled-brs-system",
+        "redacted-system-observation",
+        "workflow-knowledge",
+        "auto-approved-after-redaction"
+      ],
+      "sourceUrl": null,
+      "clubScope": "template"
+    }
+  ]
+}
