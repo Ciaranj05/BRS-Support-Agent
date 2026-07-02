@@ -626,6 +626,79 @@ test("employee accuracy scoretest regressions route to the specific workflow obj
   assert.match(tourOperatorReply, /Green Fee Rates for Visitors/i);
 });
 
+test("second-round accuracy regressions use locked verified routes", async () => {
+  const cases = [
+    [
+      "We are opening earlier on Saturdays next month and I think I need to make more tee slots. Where do I change the times/intervals without manually adding every slot?",
+      /Configure the Timesheet/i,
+      /First Tee Time Hour|Tee Time Interval|Saturday/i,
+      /View the Timesheet by Month|complete verified BRS workflow/i,
+    ],
+    [
+      "Where do I change the label that appears at the top of a particular day on the timesheet?",
+      /Title for Each Day/i,
+      /open Title for Each Day/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "I set up this year and now need to copy catering/services/green fees into next year. Where is that?",
+      /Copy Services, Catering, or Green Fees/i,
+      /Operation[\s\S]*Copy Services[\s\S]*Copy Catering[\s\S]*Copy Green Fees/i,
+      /Set Up Bookable Services/i,
+    ],
+    [
+      "Where do I set the privacy policy or member terms message that appears online?",
+      /Legal Messages/i,
+      /Privacy Policy[\s\S]*Member Terms and Conditions/i,
+      /complete verified BRS workflow|Members Booking App/i,
+    ],
+    [
+      "What is the difference between a golf event and a competition? I do not want to set up the wrong one.",
+      /Golf Events vs Competitions/i,
+      /event-style booking[\s\S]*entrants, draws/i,
+      /Create a Competition/i,
+    ],
+    [
+      "A member missed the comp sheet and asked if I can put them on the waiting list. What is the right workflow?",
+      /Competition Waiting List/i,
+      /"?Add"? member to waiting list/i,
+      /entrant.+booking.+management|complete verified BRS workflow/i,
+    ],
+    [
+      "We are setting up an open competition for visitors to book online. Which page and fields matter?",
+      /Open Competition for Visitors/i,
+      /Booking Available Date[\s\S]*Booking Available Time/i,
+      /System Configuration|Reservation Types|Booking Statuses/i,
+    ],
+    [
+      "A member says they paid a bill but I also see BRS Payments transactions. Where should I check first?",
+      /Member Bill Payment Against BRS Payments/i,
+      /member's Billing area[\s\S]*BRS Payments[\s\S]*Transactions/i,
+      /unpaid or outstanding membership balances|Overdue Bills/i,
+    ],
+    [
+      "What are services in BRS? Is that where buggies and hire clubs live?",
+      /Services in BRS are bookable extras/i,
+      /Tools > Services/i,
+      /System Configuration|Configure Timesheet/i,
+    ],
+    [
+      "What is the difference between Email Membership Groups and Text Message Membership Groups?",
+      /Email Membership Groups and Text Message Membership Groups/i,
+      /Email Messaging[\s\S]*Text Messaging/i,
+      /Club Messages/i,
+    ],
+  ];
+
+  for (const [question, expected, alsoExpected, forbidden] of cases) {
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
+    assert.equal(result.route, "locked-static-safety");
+    assert.match(result.reply, expected);
+    assert.match(result.reply, alsoExpected);
+    assert.doesNotMatch(result.reply, forbidden);
+  }
+});
+
 test("static workflow answers use customer-facing wording and demo labels", () => {
   const replies = [
     approvedStaticWorkflowReply("where do i change club email address"),
