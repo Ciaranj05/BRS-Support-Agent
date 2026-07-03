@@ -1,0 +1,126 @@
+{
+  "summary": {
+    "scoredAt": "2026-07-03T12:14:59.913Z",
+    "sourceCommit": "4071ff86a193f99b3b7761f1cf3aa672271e696c",
+    "responseSet": "four reported colleague failure probes after intent-frame guardrails",
+    "responseCount": 4,
+    "unweightedEndUserAccuracy": 88.5,
+    "weightedFunctionalAccuracy": 88.3,
+    "weightedResponseQuality": 90,
+    "passCount90": 3,
+    "httpFailures": [],
+    "rawBackendErrorCount": 0,
+    "unresolvedButControlled": [
+      "I004"
+    ]
+  },
+  "results": [
+    {
+      "id": "I001",
+      "area": "Tools / System Configuration",
+      "question": "how do i change the amount of buggies we have available",
+      "expected": "Route to buggy capacity/system configuration rather than service setup.",
+      "score": 94,
+      "functionalAccuracy": 95,
+      "responseQuality": 92,
+      "notes": "Correctly answers with System Configuration and buggy availability settings; actionable enough for staff.",
+      "status": 200,
+      "ok": true,
+      "ms": 15109,
+      "version": "knowledge-retrieval-v1",
+      "reply": "Check Buggy Booking Availability\n\n1. Use the main navigation menu to open \"Tools\".\n2. On the \"Tools\" page, open \"System Configuration\" in the Basic Set Up Requirements section.\n3. Use the Buggy Booking settings in \"System Configuration\".\n4. Check the number of buggies available, how long each buggy is needed before and after a round, whether visitors are allowed to book buggies online, and whether the club expects the buggy price to be added by staff after booking.\n5. Click Update on \"System Configuration\", then check the \"Timesheet\" to confirm buggy availability is appearing as expected.",
+      "escalationReady": false,
+      "options": []
+    },
+    {
+      "id": "I002",
+      "area": "Optional integrations / Club Systems",
+      "question": "how do i import a member from club systems",
+      "expected": "Do not substitute CSV upload; clarify/flag optional Club Systems integration limitation.",
+      "score": 90,
+      "functionalAccuracy": 90,
+      "responseQuality": 91,
+      "notes": "Correctly avoids the wrong CSV workflow and explains the optional integration/demo-system limitation with escalation.",
+      "status": 200,
+      "ok": true,
+      "ms": 136,
+      "version": "intent-frame-clarification-v1",
+      "reply": "Do you mean the Club Systems integration sync, or uploading a CSV into BRS? Club Systems is an optional third-party integration, and I cannot verify that sync workflow from the current demo system. If you mean the integration, this should be checked against the club's enabled modules or escalated to BRS Support.",
+      "escalationReady": true,
+      "options": [
+        {
+          "label": "Club Systems sync",
+          "value": "Clarification answer: This is about syncing members from the Club Systems integration"
+        },
+        {
+          "label": "CSV upload",
+          "value": "Clarification answer: This is about uploading a CSV of members into BRS"
+        },
+        {
+          "label": "Not sure",
+          "value": "Clarification answer: I am not sure which member import route this is"
+        }
+      ]
+    },
+    {
+      "id": "I003",
+      "area": "Green Fee Rates",
+      "question": "How do i setup online green fee rates",
+      "expected": "Clarify staff/manual rates versus visitor self-booking online rates.",
+      "score": 92,
+      "functionalAccuracy": 92,
+      "responseQuality": 93,
+      "notes": "Correctly distinguishes Tools > Green Fee Rates from visitor/Tee Time Agent rates and asks a useful brief clarification.",
+      "status": 200,
+      "ok": true,
+      "ms": 130,
+      "version": "intent-frame-clarification-v1",
+      "reply": "When you say online green fee rates, which route do you mean? Use Tools > Green Fee Rates for member rates and manual staff bookings. Use Tools > Green Fee Rates for Visitors / Tee Time Agents for rates visitors see when booking themselves online.",
+      "escalationReady": false,
+      "options": [
+        {
+          "label": "Visitor online rates",
+          "value": "Clarification answer: This is for rates visitors see when booking themselves online"
+        },
+        {
+          "label": "Staff/manual rates",
+          "value": "Clarification answer: This is for rates staff select when booking someone manually"
+        },
+        {
+          "label": "Not sure",
+          "value": "Clarification answer: I am not sure which green fee rate screen this is"
+        }
+      ]
+    },
+    {
+      "id": "I004",
+      "area": "Timesheet / Check-in",
+      "question": "how do i check in a player",
+      "expected": "Avoid backend error; provide controlled clarification/escalation because full workflow is not verified.",
+      "score": 78,
+      "functionalAccuracy": 76,
+      "responseQuality": 84,
+      "notes": "Major improvement from a 500 error, but still not a resolved workflow because the approved check-in evidence is missing.",
+      "status": 200,
+      "ok": true,
+      "ms": 142,
+      "version": "intent-frame-clarification-v1",
+      "reply": "I cannot verify a complete player check-in workflow from the approved guidance yet. Do you mean marking a booked player as arrived on the Timesheet, or changing which player is on a booking? If you need the exact checked-in workflow now, this should be escalated to BRS Support.",
+      "escalationReady": true,
+      "options": [
+        {
+          "label": "Mark as arrived",
+          "value": "Clarification answer: This is about marking a booked player as arrived"
+        },
+        {
+          "label": "Change player",
+          "value": "Clarification answer: This is about changing who is on the booking"
+        },
+        {
+          "label": "Escalate",
+          "value": "Clarification answer: This needs BRS Support to verify the checked-in workflow"
+        }
+      ]
+    }
+  ]
+}
