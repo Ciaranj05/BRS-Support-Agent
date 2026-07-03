@@ -1035,6 +1035,13 @@ test("release-readiness blocker questions route to verified final answers", asyn
       /Refund an Online Tee-Time Booking Payment/i,
     ],
     [
+      "Can we make twilight cheaper online without changing every single green fee manually?",
+      "visitor-time-band-pricing",
+      /Set Visitor Time-Band Green Fee Rates/i,
+      /visitor green-fee rate setup[\s\S]*time band[\s\S]*public visitor booking flow/i,
+      /Sorry - something went wrong|I could not verify/i,
+    ],
+    [
       "How do I send a payment link to a society organiser for the balance of their golf day?",
       "general-payment-request",
       /Create a General Payment Request/i,
