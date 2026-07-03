@@ -172,6 +172,10 @@ test("domain model resolves clarification selections instead of looping", () => 
   assert.match(reply.reply, /Club Systems Member Sync/i);
   assert.match(reply.reply, /not uploading a CSV/i);
   assert.doesNotMatch(reply.reply, /Do you mean/i);
+
+  const gated = applyAnswerQualityGate(reply, "Clarification answer: Club Systems member sync");
+  assert.equal(gated.version, "domain-model-routing-v1");
+  assert.doesNotMatch(gated.reply, /I do not have a complete verified BRS workflow/i);
 });
 
 test("green fee domain model distinguishes rate channels and handles unsure follow-up", () => {
