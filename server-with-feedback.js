@@ -19,6 +19,7 @@ import { runQaAnalysis } from "./lib/qaAnalysis.js";
 import { approvedStaticWorkflowReply, isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
 import { verifiedStaticReplyMatch } from "./lib/verifiedAnswerRegistry.js";
 import { controlledBackendErrorPayload, evaluateStaticAnswerAgainstIntent, preRouteClarificationPayload } from "./lib/intentFrame.js";
+import { domainSpecificPreRoutePayload } from "./lib/brsDomainModel.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
@@ -428,6 +429,16 @@ async function enhancedChatHandler(req, res, next) {
     const contextualMessage = contextualiseShortClarificationFollowUp(message, history);
     if (contextualMessage !== message) debug.stages.push({ name: "contextual-short-follow-up", matched: true });
     const routingMessage = contextualMessage;
+
+    const domainPayload = domainSpecificPreRoutePayload(routingMessage, history);
+    debug.stages.push({
+      name: "domain-model-routing",
+      matched: Boolean(domainPayload),
+      clarificationId: domainPayload?.clarificationId || null,
+      contractObject: domainPayload?.intentContract?.object || null,
+      contractAction: domainPayload?.intentContract?.action || null,
+    });
+    if (domainPayload) return res.json(await prepareChatPayload({ client, payload: domainPayload, message: originalMessage, debug, debugEnabled, req }));
 
     const refundFlowPayload = handleRefundClarificationFlow(routingMessage, history, { includeInitialPrompt: false });
     debug.stages.push({ name: "refund-clarification-flow", matched: Boolean(refundFlowPayload) });

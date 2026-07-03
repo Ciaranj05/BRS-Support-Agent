@@ -463,11 +463,29 @@ function isFreeTextOption(label, value) {
   return text.includes("type details") || text.includes("not sure") || text.includes("type more details");
 }
 
-function startFreeTextClarification(label) {
+function lastAssistantConversationText() {
+  return [...conversationHistory].reverse().find((item) => item && item.role === "assistant" && item.content)?.content || "";
+}
+
+function freeTextClarificationHint(label = "", value = "") {
+  const lower = `${String(label || "")} ${String(value || "")} ${lastAssistantConversationText()}`.toLowerCase();
+  if (lower.includes("green fee")) {
+    return "No problem. Tell me who will see or select the rate: staff booking manually on the Timesheet, members/member guests booking online, or visitors/tour operators/tee time agents booking online.";
+  }
+  if (lower.includes("club systems")) {
+    return "No problem. Tell me whether the club is trying to sync members from Club Systems, upload a spreadsheet/CSV, or check whether the Club Systems module is enabled.";
+  }
+  if (lower.includes("check-in") || lower.includes("check in") || lower.includes("arrived")) {
+    return "No problem. Tell me whether you are marking the player as arrived, changing the player on the booking, or trying to enable the check-in buttons.";
+  }
+  return "";
+}
+
+function startFreeTextClarification(label, value = "") {
   disableRows();
   pendingFreeTextClarification = true;
   addMessage(label, "user");
-  addMessage("No problem. Type what the customer is trying to do. Helpful details: is it for a member, a staff/admin user, a booking, a payment, or a membership/billing task?", "bot", []);
+  addMessage(freeTextClarificationHint(label, value) || "No problem. Type what the customer is trying to do. Helpful details: is it for a member, a staff/admin user, a booking, a payment, or a membership/billing task?", "bot", []);
   const input = document.getElementById("input");
   input.disabled = false;
   input.focus();
@@ -509,7 +527,7 @@ function addOptionButtons(div, options) {
     b.className = "option-btn";
     b.type = "button";
     b.textContent = label;
-    b.onclick = () => isFreeTextOption(label, value) ? startFreeTextClarification(label) : send(value, label);
+    b.onclick = () => isFreeTextOption(label, value) ? startFreeTextClarification(label, value) : send(value, label);
     optionRow.appendChild(b);
   }
   div.appendChild(optionRow);

@@ -13,6 +13,7 @@ import { approvedRefundReply, approvedOfflineRefundReply } from "../server.js";
 import { applyAnswerQualityGate } from "../lib/answerQuality.js";
 import { verifiedStaticReplyMatch } from "../lib/verifiedAnswerRegistry.js";
 import { buildIntentFrame, controlledBackendErrorPayload, evaluateStaticAnswerAgainstIntent, preRouteClarificationPayload } from "../lib/intentFrame.js";
+import { applyDomainAnswerContract, domainSpecificPreRoutePayload, resolveDomainClarificationPayload } from "../lib/brsDomainModel.js";
 
 test("classifies operational BRS questions as workflow questions", () => {
   assert.equal(isBRSWorkflowQuestion("how do I add a buggy to a booking"), true);
@@ -96,7 +97,7 @@ test("production chat route returns specific object-first answers before model f
 
 test("intent frame blocks adjacent workflow answers before they reach customers", () => {
   const buggyReply = approvedStaticWorkflowReply("how do i change the amount of buggies we have available");
-  assert.match(buggyReply, /Check Buggy Booking Availability/i);
+  assert.match(buggyReply, /Change Buggy Booking Availability/i);
   assert.doesNotMatch(buggyReply, /Set Up Bookable Services/i);
 
   const buggyFrame = buildIntentFrame("how do i change the amount of buggies we have available");
@@ -123,9 +124,10 @@ test("intent frame blocks adjacent workflow answers before they reach customers"
   assert.equal(greenFeePayload.escalationReady, false);
   assert.equal(approvedStaticWorkflowReply("How do i setup online green fee rates"), null);
 
-  const checkInPayload = preRouteClarificationPayload("how do i check in a player");
-  assert.match(checkInPayload.reply, /cannot verify a complete player check-in workflow/i);
-  assert.equal(checkInPayload.escalationReady, true);
+  const checkInPayload = domainSpecificPreRoutePayload("how do i check in a player");
+  assert.match(checkInPayload.reply, /Check In a Player/i);
+  assert.match(checkInPayload.reply, /Display Arrived \/ Check-In buttons/i);
+  assert.equal(checkInPayload.escalationReady, false);
 });
 
 test("backend failures return controlled escalation payloads with review notes", () => {
@@ -139,12 +141,95 @@ test("backend failures return controlled escalation payloads with review notes",
   assert.match(payload.reviewNote.errorMessage, /database timeout/i);
 });
 
+test("domain model requires specific fields for operational answers", () => {
+  const buggy = domainSpecificPreRoutePayload("how do I change the amount of buggies we have available?");
+  assert.match(buggy.reply, /Number of buggies available/i);
+  assert.match(buggy.reply, /Click "?Update"?/i);
+  assert.match(buggy.reply, /different from Tools > Services/i);
+
+  const replacement = applyDomainAnswerContract(
+    { reply: "Check Buggy Booking Availability\n\n1. Open Tools.\n2. Check buggy settings.", version: "knowledge-retrieval-v1" },
+    "how do i change the amount of buggies we have available"
+  );
+  assert.equal(replacement.domainContract.blocked, true);
+  assert.match(replacement.reply, /Number of buggies available/i);
+});
+
+test("domain model resolves clarification selections instead of looping", () => {
+  const history = [
+    {
+      role: "assistant",
+      content: "Do you mean syncing members from the Club Systems integration, or uploading a CSV file into BRS?",
+      version: "domain-model-routing-v1",
+      clarificationId: "club-systems-member-import",
+      options: [
+        { label: "Club Systems sync", value: "Clarification answer: Club Systems member sync", clarificationId: "club-systems-member-import" },
+        { label: "CSV upload", value: "Clarification answer: CSV member upload", clarificationId: "club-systems-member-import" },
+      ],
+    },
+  ];
+  const reply = resolveDomainClarificationPayload("Club Systems sync", history);
+  assert.match(reply.reply, /Club Systems Member Sync/i);
+  assert.match(reply.reply, /not uploading a CSV/i);
+  assert.doesNotMatch(reply.reply, /Do you mean/i);
+});
+
+test("green fee domain model distinguishes rate channels and handles unsure follow-up", () => {
+  const ambiguous = domainSpecificPreRoutePayload("how do i setup online green fee rates?");
+  assert.equal(ambiguous.clarificationId, "green-fee-rate-channel");
+  assert.match(ambiguous.reply, /Tools > Green Fee Rates for staff-selected manual Timesheet rates/i);
+  assert.match(ambiguous.reply, /Green Fee Rates for Visitors \/ Tour Operators \/ Tee Time Agents/i);
+
+  const visitor = resolveDomainClarificationPayload("Visitor and tee time agent online green fee rates", [
+    { role: "assistant", content: ambiguous.reply, clarificationId: ambiguous.clarificationId, options: ambiguous.options },
+  ]);
+  assert.match(visitor.reply, /Set Visitor \/ Agent Online Green Fee Rates/i);
+  assert.match(visitor.reply, /Channel/i);
+  assert.doesNotMatch(visitor.reply, /staff-selected manual Timesheet rates[\s\S]*member\/member-guest online rates[\s\S]*Choose the closest/i);
+
+  const memberGuest = domainSpecificPreRoutePayload("How do I charge member guests online?");
+  assert.match(memberGuest.reply, /Green Fee Rates v2/i);
+  assert.match(memberGuest.reply, /member guests booking online/i);
+
+  const unsure = resolveDomainClarificationPayload("I'm not sure / type details", [
+    { role: "assistant", content: ambiguous.reply, clarificationId: ambiguous.clarificationId, options: ambiguous.options },
+  ]);
+  assert.match(unsure.reply, /staff booking manually on the Timesheet, members\/member guests booking online, or visitors/i);
+  assert.doesNotMatch(unsure.reply, /member, a staff\/admin user, a booking, a payment/i);
+});
+
+test("check-in questions answer from captured System Configuration and Timesheet evidence", () => {
+  const reply = domainSpecificPreRoutePayload("how do i check in a player?");
+  assert.match(reply.reply, /Check In a Player/i);
+  assert.match(reply.reply, /Arrived"? \/ "?Check-In"? button beside that player/i);
+  assert.match(reply.reply, /Display Arrived \/ Check-In buttons/i);
+  assert.match(reply.reply, /Tools > System Configuration/i);
+  assert.equal(reply.escalationReady, false);
+});
+
+test("production route applies domain model before static and legacy routing", () => {
+  const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
+
+  assert.match(serverSource, /domainSpecificPreRoutePayload/);
+  assert.match(serverSource, /domain-model-routing/);
+  assert.ok(
+    serverSource.search(/const domainPayload = domainSpecificPreRoutePayload/) <
+    serverSource.search(/const refundFlowPayload = handleRefundClarificationFlow/)
+  );
+  assert.ok(
+    serverSource.search(/const domainPayload = domainSpecificPreRoutePayload/) <
+    serverSource.search(/let approvedStaticReply = approvedStaticWorkflowReply/)
+  );
+});
+
 test("browser only renders server-provided clarification options", () => {
   const appSource = fs.readFileSync(new URL("../public/app.js", import.meta.url), "utf8");
 
   assert.match(appSource, /function getBotOptions\(text, opts = \[\]\)/);
   assert.match(appSource, /return provided;/);
   assert.doesNotMatch(appSource, /return provided\.length \? provided : inferClarificationOptions\(text\)/);
+  assert.match(appSource, /function freeTextClarificationHint/);
+  assert.match(appSource, /members\/member guests booking online/);
 });
 
 test("move booking wording uses protected approved workflow", async () => {
@@ -398,9 +483,9 @@ test("approved direct routes cover non-billing BRS areas before workflow gap", a
   assert.match(bookingRulesReply, /Check Booking Rules/i);
   assert.match(bookingRulesReply, /Member Casual Booking Rules/i);
   assert.match(advanceBookingReply, /Check Booking Rules/i);
-  assert.match(buggyVisitorReply, /Check Buggy Booking Availability/i);
+  assert.match(buggyVisitorReply, /Change Buggy Booking Availability/i);
   assert.match(buggyVisitorReply, /System Configuration/i);
-  assert.match(buggyCountReply, /Check Buggy Booking Availability/i);
+  assert.match(buggyCountReply, /Change Buggy Booking Availability/i);
   assert.match(greenFeeReply, /Set Up Green Fee Rates/i);
   assert.match(emailTemplateReply, /Set Up Email and Letter Templates/i);
   assert.match(teeSheetReply, /Configure the Timesheet/i);
