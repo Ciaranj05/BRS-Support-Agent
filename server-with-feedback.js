@@ -58,6 +58,19 @@ function hasKnownRefundObject(lower = "") {
     "teesheet",
     "visitor booking",
     "green fee",
+    "visitor green fee",
+    "4ball",
+    "fourball",
+    "4-ball",
+    "four-ball",
+    "3ball",
+    "threeball",
+    "3-ball",
+    "three-ball",
+    "one player",
+    "player only",
+    "paid online",
+    "paying online",
     "member",
     "membership",
     "subscription",
@@ -91,6 +104,52 @@ function isRefundRecordsLookup(lower = "") {
 
 function isBroadRefundRequest(lower = "") {
   return lower.includes("refund") && !isRefundRecordsLookup(lower) && !hasKnownRefundObject(lower);
+}
+
+function recentHistoryText(history = [], limit = 6) {
+  return [...history].slice(-limit).map((item) => item?.content || "").join(" ").toLowerCase();
+}
+
+function isLiveActionConfirmationFollowUp(message = "", history = []) {
+  const lower = normaliseMessage(message);
+  if (!hasAny(lower, ["go ahead", "do it", "yes please", "yes do", "book it", "make it", "send it"])) return false;
+  const recent = recentHistoryText(history);
+  const previousLiveAction = hasAny(recent, [
+    "book me",
+    "make me a booking",
+    "create a booking",
+    "tee time",
+    "tee slot",
+    "cancel my",
+    "move my",
+    "send everyone",
+    "send all members",
+    "show me all",
+    "unpaid members",
+    "balances",
+  ]);
+  const previousPrompt = hasAny(recent, ["can you", "could you", "will you", "if you give me", "customer name"]);
+  return previousLiveAction && previousPrompt;
+}
+
+function liveActionConfirmationPayload() {
+  return {
+    reply: [
+      "Chatbot Guidance for Live BRS Actions",
+      "",
+      "I cannot create, change, cancel, send, or expose live BRS records from the chat.",
+      "",
+      "1. Staff must make the live change directly in BRS after checking the correct club, person, date, time, audience, payment status, and authorisation.",
+      "2. For a tee-time booking, open the Timesheet or Search, find the correct booking or available slot, and complete the booking in BRS.",
+      "3. For messages, payments, member balances, or personal data, use the relevant BRS screen and verify the audience or record before taking action.",
+      "",
+      "I can explain the workflow, but I must not perform the live action from chat.",
+    ].join("\n"),
+    escalationReady: false,
+    topic: "safety",
+    options: [],
+    version: "live-action-follow-up-guardrail-v1",
+  };
 }
 
 const brsPaymentOptions = [
@@ -429,6 +488,10 @@ async function enhancedChatHandler(req, res, next) {
     const contextualMessage = contextualiseShortClarificationFollowUp(message, history);
     if (contextualMessage !== message) debug.stages.push({ name: "contextual-short-follow-up", matched: true });
     const routingMessage = contextualMessage;
+
+    const liveActionFollowUpPayload = isLiveActionConfirmationFollowUp(originalMessage, history) ? liveActionConfirmationPayload() : null;
+    debug.stages.push({ name: "live-action-confirmation-follow-up", matched: Boolean(liveActionFollowUpPayload) });
+    if (liveActionFollowUpPayload) return res.json(await prepareChatPayload({ client, payload: liveActionFollowUpPayload, message: originalMessage, debug, debugEnabled, req }));
 
     const domainPayload = domainSpecificPreRoutePayload(routingMessage, history);
     debug.stages.push({

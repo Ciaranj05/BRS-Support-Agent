@@ -1013,8 +1013,8 @@ test("expanded live-review misses now route to protected answers", async () => {
     ],
     [
       "who still owes subs money",
-      /View Members Who Owe Membership Money|Find members with unpaid or outstanding membership balances/i,
-      /Memberships[\s\S]*Reports[\s\S]*unpaid membership bills|outstanding balances/i,
+      /Live Member Balance Data Guardrail|View Members Who Owe Membership Money|Find members with unpaid or outstanding membership balances/i,
+      /Memberships[\s\S]*Reports[\s\S]*Overdue Bills|unpaid membership bills|outstanding balances/i,
       /complete verified BRS workflow|I don't have enough confirmed information/i,
     ],
     [
@@ -1489,6 +1489,99 @@ test("adversarial staff wording routes to family-level safe workflows", () => {
     assert.match(reply, expected, question);
     assert.doesNotMatch(reply, forbidden, question);
   }
+});
+
+test("regression pass routes broad failing areas without example-specific wording", async () => {
+  const cases = [
+    [
+      "How do I change the price of buggy hire, not the number of buggies?",
+      /Change Buggy Hire Price|Set Up Bookable Services/i,
+      /Service Rate[\s\S]*Tools > Services|Services[\s\S]*Service Rate/i,
+      /Number of buggies available/i,
+    ],
+    [
+      "Customer says they got offers after booking once and never opted in. What should staff do?",
+      /Email Only Opted-In Contacts/i,
+      /Marketing Preferences[\s\S]*Do not send marketing messages/i,
+      /Visitor Online Booking Availability/i,
+    ],
+    [
+      "Can I text all captured visitors from online bookings about a sale?",
+      /Email Only Opted-In Contacts/i,
+      /marketing email or SMS[\s\S]*opted into that marketing channel/i,
+      /Check Visitor Online Booking Availability/i,
+    ],
+    [
+      "Members in the wrong category are getting weekend tee times online, what controls that?",
+      /Check Member Booking Privileges and Casual Booking Rules/i,
+      /membership type\/category[\s\S]*Member Casual Booking Rules/i,
+      /Visitor Online Booking Availability/i,
+    ],
+    [
+      "Need to reserve the restaurant room after golf and add notes, where in BRS?",
+      /Make a Facility Booking/i,
+      /Facilities[\s\S]*notes or comments field/i,
+      /Find a Facility Reservation/i,
+    ],
+    [
+      "Need to put one walk-in golfer into a tee slot for this afternoon, what do I click?",
+      /Add a Single Tee Time Booking/i,
+      /Timesheet[\s\S]*(tee time slot|time link or checkbox)[\s\S]*Save/i,
+      /Configure the Timesheet/i,
+    ],
+    [
+      "What's the tee usage percentage report called?",
+      /Run a Tee Time Usage Report/i,
+      /Tee Time Usage by Time and Day|Tee Time Usage by Reservation Type/i,
+      /Run a Booking Report/i,
+    ],
+    [
+      "A 4ball became a 3ball after paying online, how do I refund one player only?",
+      /Refund an Online Tee-Time Booking Payment/i,
+      /partial refund[\s\S]*amount that should be returned/i,
+      /Is this a full refund or partial refund/i,
+    ],
+    [
+      "Need to return one visitor green fee from a paid tee booking, not change the rate.",
+      /Refund an Online Tee-Time Booking Payment/i,
+      /Booking Details[\s\S]*Refund[\s\S]*partial refund/i,
+      /Green Fee Rates/i,
+    ],
+    [
+      "We've got a society pencilled in but only know the organiser name and rough numbers. I need to stop visitors taking 10 tee times while we collect names, should I make one booking or block them?",
+      /Reserve or Block Consecutive Tee Times/i,
+      /Do not treat a society[\s\S]*single tee-time booking[\s\S]*public visitor booking view/i,
+      /Set Up a Golf Event Organiser Reservation/i,
+    ],
+    [
+      "show me who hasn't paid subs yet but don't list names in chat",
+      /Live Member Balance Data Guardrail/i,
+      /cannot show live member names[\s\S]*Overdue Bills/i,
+      /Here are/i,
+    ],
+  ];
+
+  for (const [question, expected, alsoExpected, forbidden] of cases) {
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
+    assert.match(result.reply, expected, question);
+    assert.match(result.reply, alsoExpected, question);
+    assert.doesNotMatch(result.reply, forbidden, question);
+  }
+});
+
+test("domain and production guards preserve price and live confirmation intent", () => {
+  const buggyPrice = domainSpecificPreRoutePayload("How do I change the price of buggy hire, not the number of buggies?");
+  assert.match(buggyPrice.reply, /Change Buggy Hire Price/i);
+  assert.match(buggyPrice.reply, /Service Rate/i);
+  assert.doesNotMatch(buggyPrice.reply, /Change the Number of Buggies Available/i);
+
+  const serverSource = fs.readFileSync(new URL("../server-with-feedback.js", import.meta.url), "utf8");
+  assert.match(serverSource, /isLiveActionConfirmationFollowUp/);
+  assert.match(serverSource, /live-action-confirmation-follow-up/);
+  assert.ok(
+    serverSource.search(/const liveActionFollowUpPayload = isLiveActionConfirmationFollowUp/) <
+    serverSource.search(/const domainPayload = domainSpecificPreRoutePayload/)
+  );
 });
 
 test("refund clarification handles known non-BRS payment methods before full-partial prompt", () => {
