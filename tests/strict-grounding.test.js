@@ -202,6 +202,31 @@ test("green fee domain model distinguishes rate channels and handles unsure foll
   assert.doesNotMatch(unsure.reply, /member, a staff\/admin user, a booking, a payment/i);
 });
 
+test("green fee domain model does not steal payment, visitor pricing, or policy comparison intents", () => {
+  assert.equal(
+    domainSpecificPreRoutePayload("Visitor paid online, rang to reduce from 4 players to 3, and now wants one green fee back. Can I do a partial refund and what should I check?"),
+    null
+  );
+  assert.equal(
+    domainSpecificPreRoutePayload("Can we make twilight cheaper online without changing every single green fee manually?"),
+    null
+  );
+  assert.equal(
+    domainSpecificPreRoutePayload("Why is our member guest rate higher than Royal Troon's?"),
+    null
+  );
+
+  const twilightReply = approvedStaticWorkflowReply("Can we make twilight cheaper online without changing every single green fee manually?");
+  assert.match(twilightReply, /Set Visitor Time-Band Green Fee Rates/i);
+  assert.match(twilightReply, /rather than changing each tee time manually/i);
+
+  const guestRateReply = approvedStaticWorkflowReply("Why is our member guest rate higher than Royal Troon's?");
+  assert.match(guestRateReply, /Explain a Member Guest Rate Difference/i);
+  assert.match(guestRateReply, /Do not invent Royal Troon's pricing/i);
+  assert.match(guestRateReply, /open "Tools", then open "Green Fee Rates"/i);
+  assert.ok(verifiedStaticReplyMatch("Why is our member guest rate higher than Royal Troon's?", guestRateReply));
+});
+
 test("check-in questions answer from captured System Configuration and Timesheet evidence", () => {
   const reply = domainSpecificPreRoutePayload("how do i check in a player?");
   assert.match(reply.reply, /Check In a Player/i);
