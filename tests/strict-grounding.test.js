@@ -1042,6 +1042,13 @@ test("release-readiness blocker questions route to verified final answers", asyn
       /Sorry - something went wrong|I could not verify/i,
     ],
     [
+      "A 5-day member can book Saturday times in the app. Where should I check?",
+      "member-booking-privilege-rules",
+      /Check Member Booking Privileges and Casual Booking Rules/i,
+      /membership type\/category[\s\S]*Member Casual Booking Rules[\s\S]*Saturday/i,
+      /I could not verify|Visitor Online Booking Availability/i,
+    ],
+    [
       "How do I send a payment link to a society organiser for the balance of their golf day?",
       "general-payment-request",
       /Create a General Payment Request/i,
@@ -1068,6 +1075,13 @@ test("release-readiness blocker questions route to verified final answers", asyn
       /Check Whether Membership Bills Are Published/i,
       /draft\/unpublished[\s\S]*published for online\/member-app visibility[\s\S]*Printing a bill is not the same/i,
       /Refund a Payment on a Membership Bill/i,
+    ],
+    [
+      "We've billed 1,000 members but a few say they can't see the invoice in the app. Is there a way to check whether the bills were published rather than just printed?",
+      "membership-bill-publish-visibility",
+      /Check Whether Membership Bills Are Published/i,
+      /draft\/unpublished[\s\S]*published for online\/member-app visibility[\s\S]*Printing a bill is not the same/i,
+      /Find members with unpaid or outstanding membership balances/i,
     ],
     [
       "Can you move the 9:20 Smith booking to 10:10 for me?",
@@ -1145,6 +1159,13 @@ test("release-readiness blocker questions route to verified final answers", asyn
       /Run a No Show Report/i,
       /Reports[\s\S]*no-show or booking-attendance report[\s\S]*date range/i,
       /Set Up No Show Reasons/i,
+    ],
+    [
+      "Boss wants no-shows by member, not just cancellations. Where am I looking?",
+      "no-show-report",
+      /Run a No Show Report/i,
+      /No Show reporting route[\s\S]*not just cancellations|no-show or booking-attendance report/i,
+      /I could not verify/i,
     ],
     [
       "Corporate outing, no scoring or draw, just reserved tee times for an organiser. Is that a competition?",
