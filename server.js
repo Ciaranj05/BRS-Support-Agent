@@ -10,6 +10,7 @@ import { hasUnsupportedGeneratedWorkflowShape } from "./lib/groundingGuards.js";
 import { appendRelatedGuides, relatedGuidesForQuestion } from "./lib/relatedGuides.js";
 import { hasMembershipOwnedObject } from "./lib/objectFirstRouting.js";
 import { approvedSuperuserEscalationReply, isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
+import { controlledBackendErrorPayload } from "./lib/intentFrame.js";
 
 dotenv.config();
 
@@ -1224,7 +1225,7 @@ app.post("/api/chat", async (req, res) => {
   } catch (error) {
     console.error("FULL ERROR:", error);
     saveSessionState(sessionId, state);
-    res.status(500).json({ reply: "Sorry - something went wrong. Please try again.", escalationReady: false, options: [], version: APP_VERSION });
+    res.json(controlledBackendErrorPayload(displayMessage || message, error, { route: "legacy-chat-handler" }));
   }
 });
 

@@ -12,6 +12,7 @@ import { relatedGuidesForQuestion, titleFromHelpCenterUrl } from "../lib/related
 import { approvedRefundReply, approvedOfflineRefundReply } from "../server.js";
 import { applyAnswerQualityGate } from "../lib/answerQuality.js";
 import { verifiedStaticReplyMatch } from "../lib/verifiedAnswerRegistry.js";
+import { buildIntentFrame, controlledBackendErrorPayload, evaluateStaticAnswerAgainstIntent, preRouteClarificationPayload } from "../lib/intentFrame.js";
 
 test("classifies operational BRS questions as workflow questions", () => {
   assert.equal(isBRSWorkflowQuestion("how do I add a buggy to a booking"), true);
@@ -91,6 +92,51 @@ test("production chat route returns specific object-first answers before model f
     serverSource.search(/const initialRefundFlowPayload = handleRefundClarificationFlow\(routingMessage, history\)/)
   );
   assert.match(serverSource, /includeInitialPrompt: false/);
+});
+
+test("intent frame blocks adjacent workflow answers before they reach customers", () => {
+  const buggyReply = approvedStaticWorkflowReply("how do i change the amount of buggies we have available");
+  assert.match(buggyReply, /Check Buggy Booking Availability/i);
+  assert.doesNotMatch(buggyReply, /Set Up Bookable Services/i);
+
+  const buggyFrame = buildIntentFrame("how do i change the amount of buggies we have available");
+  assert.equal(buggyFrame.object, "buggy");
+  assert.equal(buggyFrame.action, "change-capacity");
+  assert.equal(evaluateStaticAnswerAgainstIntent(
+    "how do i change the amount of buggies we have available",
+    "Set Up Bookable Services\n\n1. Go to Tools > Services."
+  ).allowed, false);
+
+  const clubSystemsPayload = preRouteClarificationPayload("how do i import a member from club systems");
+  assert.match(clubSystemsPayload.reply, /Club Systems integration sync/i);
+  assert.match(clubSystemsPayload.reply, /optional third-party integration/i);
+  assert.equal(clubSystemsPayload.escalationReady, true);
+  assert.equal(approvedStaticWorkflowReply("how do i import a member from club systems"), null);
+  assert.equal(evaluateStaticAnswerAgainstIntent(
+    "how do i import a member from club systems",
+    "Upload Members or Contacts\n\n1. Go to Tools."
+  ).allowed, false);
+
+  const greenFeePayload = preRouteClarificationPayload("How do i setup online green fee rates");
+  assert.match(greenFeePayload.reply, /Tools > Green Fee Rates\b/);
+  assert.match(greenFeePayload.reply, /Green Fee Rates for Visitors \/ Tee Time Agents/i);
+  assert.equal(greenFeePayload.escalationReady, false);
+  assert.equal(approvedStaticWorkflowReply("How do i setup online green fee rates"), null);
+
+  const checkInPayload = preRouteClarificationPayload("how do i check in a player");
+  assert.match(checkInPayload.reply, /cannot verify a complete player check-in workflow/i);
+  assert.equal(checkInPayload.escalationReady, true);
+});
+
+test("backend failures return controlled escalation payloads with review notes", () => {
+  const payload = controlledBackendErrorPayload("how do i check in a player", new Error("database timeout"), { route: "test-route" });
+
+  assert.equal(payload.version, "controlled-backend-error-v1");
+  assert.equal(payload.escalationReady, true);
+  assert.match(payload.reply, /logged this for review/i);
+  assert.doesNotMatch(payload.reply, /Sorry - something went wrong/i);
+  assert.equal(payload.reviewNote.route, "test-route");
+  assert.match(payload.reviewNote.errorMessage, /database timeout/i);
 });
 
 test("browser only renders server-provided clarification options", () => {

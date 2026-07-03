@@ -18,6 +18,7 @@ import { routeActionRequest } from "./lib/actionRouter.js";
 import { runQaAnalysis } from "./lib/qaAnalysis.js";
 import { approvedStaticWorkflowReply, isSuperuserCreateRequest } from "./lib/staticWorkflowAnswers.js";
 import { verifiedStaticReplyMatch } from "./lib/verifiedAnswerRegistry.js";
+import { controlledBackendErrorPayload, evaluateStaticAnswerAgainstIntent, preRouteClarificationPayload } from "./lib/intentFrame.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
@@ -439,17 +440,33 @@ async function enhancedChatHandler(req, res, next) {
       if (actionPayload) return res.json(await prepareChatPayload({ client, payload: actionPayload, message: originalMessage, debug, debugEnabled, req }));
     }
 
-    const approvedStaticReply = approvedStaticWorkflowReply(routingMessage);
-    const verifiedStaticMatch = verifiedStaticReplyMatch(routingMessage, approvedStaticReply);
+    const intentClarificationPayload = preRouteClarificationPayload(routingMessage);
+    debug.stages.push({
+      name: "intent-frame-precheck",
+      matched: Boolean(intentClarificationPayload),
+      intentFrame: intentClarificationPayload?.intentFrame || null,
+    });
+    if (intentClarificationPayload) {
+      return res.json(await prepareChatPayload({ client, payload: intentClarificationPayload, message: originalMessage, debug, debugEnabled, req }));
+    }
+
+    let approvedStaticReply = approvedStaticWorkflowReply(routingMessage);
+    const staticIntentEvaluation = evaluateStaticAnswerAgainstIntent(routingMessage, approvedStaticReply);
+    if (!staticIntentEvaluation.allowed) approvedStaticReply = "";
+    const verifiedStaticMatch = staticIntentEvaluation.allowed ? verifiedStaticReplyMatch(routingMessage, approvedStaticReply) : null;
     debug.stages.push({
       name: "approved-static-precheck",
       matched: Boolean(approvedStaticReply),
       directReturn: Boolean(verifiedStaticMatch),
       verifiedRule: verifiedStaticMatch?.id || null,
+      intentFrame: staticIntentEvaluation.frame || null,
+      rejectedReason: staticIntentEvaluation.allowed ? null : staticIntentEvaluation.reason,
       reason: verifiedStaticMatch
         ? "verified static answer has priority before object-first clarification"
         : approvedStaticReply
           ? "static snippets are now evidence for the knowledge synthesis path"
+          : !staticIntentEvaluation.allowed
+            ? "static answer rejected by intent frame"
           : null,
     });
 
@@ -512,13 +529,10 @@ async function enhancedChatHandler(req, res, next) {
       return res.status(error.status || 403).json(withDebug({ ok: false, status: "forbidden", error: error.message }, debug, debugEnabled));
     }
 
-    console.error("Enhanced chat routing failed, falling back to base chatbot:", error);
+    console.error("Enhanced chat routing failed:", error);
     debug.stages.push({ name: "enhanced-routing-error", matched: false, error: error.message || "Unknown error" });
-    if (debugEnabled) {
-      req.body = { ...req.body, message, chatDebug: debug };
-    }
-    wrapJsonForChat({ client, res, message: originalMessage, debug, debugEnabled, req });
-    return baseHandler(req, res, next);
+    const payload = controlledBackendErrorPayload(originalMessage, error, { route: "enhanced-chat-routing" });
+    return res.json(await prepareChatPayload({ client, payload, message: originalMessage, debug, debugEnabled, req }));
   }
 }
 
