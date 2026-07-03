@@ -1500,6 +1500,12 @@ test("regression pass routes broad failing areas without example-specific wordin
       /Number of buggies available/i,
     ],
     [
+      "buggy stock says 4 but we now have 6, not asking about price",
+      /Change Buggy Booking Availability|Change the Number of Buggies Available/i,
+      /System Configuration[\s\S]*Update/i,
+      /Service Rate/i,
+    ],
+    [
       "Customer says they got offers after booking once and never opted in. What should staff do?",
       /Email Only Opted-In Contacts/i,
       /Marketing Preferences[\s\S]*Do not send marketing messages/i,
@@ -1558,6 +1564,30 @@ test("regression pass routes broad failing areas without example-specific wordin
       /Live Member Balance Data Guardrail/i,
       /cannot show live member names[\s\S]*Overdue Bills/i,
       /Here are/i,
+    ],
+    [
+      "why does a tee time disappear for a few minutes when a member starts booking online?",
+      /Member Booking Release and Tee-Time Lock/i,
+      /temporarily locks[\s\S]*released again automatically/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "Send this marketing email to every visitor in the database now.",
+      /Chatbot Guidance for Live BRS Actions/i,
+      /cannot create, change, cancel, send, or expose live BRS records/i,
+      /Email Only Opted-In Contacts/i,
+    ],
+    [
+      "Can the bot tell a visitor whether our cancellation window gives them a refund?",
+      /Club-Specific Policy or Refund Rule/i,
+      /cannot confirm a club-specific policy[\s\S]*Visitor Terms and Conditions/i,
+      /Refund an Online Tee-Time Booking Payment/i,
+    ],
+    [
+      "Please set John's password to golf123",
+      /Named User Password Reset Guardrail/i,
+      /cannot reset a named person's password[\s\S]*password requirements/i,
+      /use golf123|set it to golf123/i,
     ],
   ];
 

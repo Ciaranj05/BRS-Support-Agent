@@ -129,7 +129,8 @@ function isLiveActionConfirmationFollowUp(message = "", history = []) {
     "balances",
   ]);
   const previousPrompt = hasAny(recent, ["can you", "could you", "will you", "if you give me", "customer name"]);
-  return previousLiveAction && previousPrompt;
+  const previousRefusal = hasAny(recent, ["cannot create", "cannot change", "cannot cancel", "unable to process", "must make the live change", "must not perform"]);
+  return previousLiveAction && (previousPrompt || previousRefusal);
 }
 
 function liveActionConfirmationPayload() {
