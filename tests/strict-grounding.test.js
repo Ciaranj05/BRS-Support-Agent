@@ -508,7 +508,8 @@ test("approved direct routes cover non-billing BRS areas before workflow gap", a
   assert.match(memberProfileReply, /Create a Member Profile/i);
   assert.match(memberProfileReply, /"Memberships"/i);
   assert.match(memberProfileReply, /"CREATE MEMBER"/i);
-  assert.match(memberLoginReply, /Create a Member Profile or Account/i);
+  assert.match(memberLoginReply, /Check Member Login and Registration Access/i);
+  assert.match(memberLoginReply, /"?Memberships"? tab and "?Users"? tab/i);
   assert.match(bookingRulesReply, /Check Booking Rules/i);
   assert.match(bookingRulesReply, /Member Casual Booking Rules/i);
   assert.match(advanceBookingReply, /Check Booking Rules/i);
@@ -1329,9 +1330,9 @@ test("release-readiness blocker questions route to verified final answers", asyn
     ],
     [
       "Corporate outing, no scoring or draw, just reserved tee times for an organiser. Is that a competition?",
-      "golf-events-vs-competitions",
-      /Golf Events vs Competitions/i,
-      /Use Golf Events[\s\S]*use Competitions when/i,
+      "society-block-booking",
+      /Reserve or Block Consecutive Tee Times/i,
+      /Do not treat a society or group block[\s\S]*organiser login[\s\S]*Golf Events/i,
       /Close or Restrict Tee Times for Course Work/i,
     ],
     [
@@ -1415,6 +1416,78 @@ test("release-readiness blocker questions route to verified final answers", asyn
     assert.match(result.reply, expected);
     assert.match(result.reply, alsoExpected);
     assert.doesNotMatch(result.reply, forbidden);
+  }
+});
+
+test("adversarial staff wording routes to family-level safe workflows", () => {
+  const cases = [
+    {
+      question: "Need an app notification only, not email or SMS, for all members.",
+      rule: "club-message-members",
+      expected: /Send a Club Message to All Members[\s\S]*"Tools" > Club "?Messages"?[\s\S]*not as an email or SMS/i,
+      forbidden: /Text Messaging Credit/i,
+    },
+    {
+      question: "New member can't log into the app, do I add a user or enable their member profile?",
+      rule: "member-login-access",
+      expected: /Check Member Login and Registration Access[\s\S]*"?Memberships"? tab and "?Users"? tab[\s\S]*"?Dashboard"? > Useful Links > Member Booking/i,
+      forbidden: /Download.*App|Create a Member Profile$/i,
+    },
+    {
+      question: "Where do I create a member username/password for a new joiner?",
+      rule: "member-login-access",
+      expected: /Check Member Login and Registration Access[\s\S]*Users[\s\S]*username\/email/i,
+      forbidden: /Named User Password Reset Guardrail/i,
+    },
+    {
+      question: "Yes I have permission, set it to golf123",
+      rule: "supplied-password-guardrail",
+      expected: /Named User Password Reset Guardrail[\s\S]*authorised workflow[\s\S]*password requirements/i,
+      forbidden: /use golf123|set it to golf123/i,
+    },
+    {
+      question: "Competition scores aren't showing in the leaderboard, is that BRS or Golf Genius?",
+      rule: "competition-scoring-integration",
+      expected: /Competition Scoring or Leaderboard Integrations[\s\S]*Golf Genius[\s\S]*scoring provider/i,
+      forbidden: /Create a Competition|Open Competitions for Visitors/i,
+    },
+    {
+      question: "A society next month needs 8 tee slots held but not a competition, how do staff stop them showing online?",
+      rule: "society-block-booking",
+      expected: /Reserve or Block Consecutive Tee Times[\s\S]*Timesheet[\s\S]*public visitor booking view/i,
+      forbidden: /Create a Competition|Golf Event organiser only/i,
+    },
+    {
+      question: "Can I report members who booked and didn't arrive?",
+      rule: "no-show-report",
+      expected: /Run a No Show Report[\s\S]*Reports[\s\S]*did not arrive|No Show reporting route/i,
+      forbidden: /Run a Cancelled Bookings Report/i,
+    },
+    {
+      question: "Need a general payment request for room hire, not a member bill or tee booking.",
+      rule: "general-payment-request",
+      expected: /Create a General Payment Request[\s\S]*"?BRS Payments"? > "?General Payment Requests"?[\s\S]*not already tied to a tee-time booking, membership bill/i,
+      forbidden: /Create a Membership Bill|Booking Payment Requests/i,
+    },
+    {
+      question: "What is Sarah O'Neill's member balance?",
+      rule: "named-member-financial-data-guardrail",
+      expected: /Live Member Balance Data Guardrail[\s\S]*cannot show live member names, balances/i,
+      forbidden: /Sarah O'Neill.*£|Check One Member's Billing History/i,
+    },
+    {
+      question: "Can BRS auto stop online booking for unpaid subscription members?",
+      rule: "membership-grace-access",
+      expected: /Change the Membership Grace Period[\s\S]*Memberships[\s\S]*Settings[\s\S]*General/i,
+      forbidden: /BRS Payments|General Payment Requests/i,
+    },
+  ];
+
+  for (const { question, rule, expected, forbidden } of cases) {
+    const reply = approvedStaticWorkflowReply(question);
+    assert.equal(verifiedStaticReplyMatch(question, reply)?.id, rule, question);
+    assert.match(reply, expected, question);
+    assert.doesNotMatch(reply, forbidden, question);
   }
 });
 
