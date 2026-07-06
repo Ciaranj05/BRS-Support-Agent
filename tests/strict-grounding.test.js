@@ -2020,6 +2020,135 @@ test("expanded payments routing covers refunds requests reports privacy and poli
   }
 });
 
+test("expanded contacts routing covers records messaging reports privacy and booking boundaries", async () => {
+  const cases = [
+    [
+      "Can you add this visitor contact now: John Smith, john@example.com?",
+      "contact-live-record-guardrail",
+      /Chatbot Guidance for Live BRS Contact Records/i,
+      /cannot create, change, delete, send, export, look up, or expose live BRS contact records/i,
+      /john@example\.com|I added/i,
+    ],
+    [
+      "Delete the hotel contact from BRS for me.",
+      "contact-live-record-guardrail",
+      /Chatbot Guidance for Live BRS Contact Records/i,
+      /Staff must use the relevant BRS screen directly/i,
+      /I deleted|Call us on UK/i,
+    ],
+    [
+      "Find a society contact by email address.",
+      "contact-find",
+      /Find a Contact Record/i,
+      /Contacts[\s\S]*"?Search"? or filter by the contact name, company\/group name, contact category, email/i,
+      /Add a New Contact|Run a Contact Report/i,
+    ],
+    [
+      "Society organiser changed mobile number, where update it?",
+      "contact-edit",
+      /Change a Contact's Details/i,
+      /Contacts[\s\S]*Edit the relevant field[\s\S]*mobile/i,
+      /Set Up Contact Categories/i,
+    ],
+    [
+      "Bulk delete old society contacts, is that safe?",
+      "contact-delete",
+      /Delete or Remove a Contact Record/i,
+      /large clean-up[\s\S]*contact BRS Support[\s\S]*verify/i,
+      /delete all now|I deleted/i,
+    ],
+    [
+      "contct categori typo, where configure?",
+      "contact-categories",
+      /Set Up Contact Categories/i,
+      /Tools[\s\S]*Contact Categories[\s\S]*contact record/i,
+      /Which setup area is closest/i,
+    ],
+    [
+      "Find all tour operator contacts.",
+      "contact-filter",
+      /Filter Contacts by Category/i,
+      /Contacts[\s\S]*Filter by the contact category[\s\S]*Tour Operator/i,
+      /Green Fee Rates/i,
+    ],
+    [
+      "Download a spreadsheet of society contact emails.",
+      "contact-report-export",
+      /Run a Contact Report/i,
+      /Reports[\s\S]*contact-related export[\s\S]*export\/download/i,
+      /Email Contacts\n|Here are the emails/i,
+    ],
+    [
+      "Can we email visitors who booked once with an offer?",
+      "marketing-consent-filtering",
+      /Email Only Opted-In Contacts/i,
+      /Marketing Preferences[\s\S]*Do not send marketing messages/i,
+      /Add a Tee-Time Booking/i,
+    ],
+    [
+      "Tour operator never gets BRS emails, they checked junk.",
+      "message-delivery-troubleshooting",
+      /Check Why a Recipient Is Not Receiving BRS Emails/i,
+      /Unsuppress[\s\S]*Email Messaging[\s\S]*contact BRS Support/i,
+      /Green Fee Rates|escalate to BRS Support/i,
+    ],
+    [
+      "Golfer rang about tee time, not sure if they are just a contact.",
+      "contact-booking-boundary",
+      /Choose Search Bookings or Contacts for Visitor Details/i,
+      /Search Bookings[\s\S]*Contacts[\s\S]*Booking Details/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "Hotel partner sends guests, should I make company record?",
+      "add-contact-company-record",
+      /Add a New Contact/i,
+      /Company \/ Group Name[\s\S]*Contact Category[\s\S]*Marketing Preferences/i,
+      /Add a Tee-Time Booking/i,
+    ],
+    [
+      "Two contact records for same visitor, can BRS merge them?",
+      "contact-duplicate",
+      /Handle Duplicate Contact Records/i,
+      /Compare the duplicate records[\s\S]*Do not assume duplicate contacts can be merged automatically/i,
+      /What is the customer trying to do/i,
+    ],
+    [
+      "Can you tell me what email you hold for me?",
+      "contact-live-record-guardrail",
+      /Chatbot Guidance for Live BRS Contact Records/i,
+      /verify the person's identity[\s\S]*privacy\/GDPR process/i,
+      /email is|complete verified BRS workflow/i,
+    ],
+    [
+      "contact",
+      "contact-clarification",
+      /Clarify the Contact Task/i,
+      /add a new contact[\s\S]*find a contact record[\s\S]*check a booking linked to a visitor/i,
+      /Here are|I sent/i,
+    ],
+    [
+      "Customer says their contact details are wrong and also their tee booking confirmation went to old email.",
+      "contact-booking-boundary",
+      /Choose Search Bookings or Contacts for Visitor Details/i,
+      /booking confirmation[\s\S]*old email[\s\S]*saved contact\/member record/i,
+      /do not have a complete verified/i,
+    ],
+  ];
+
+  for (const [question, expectedRule, expected, alsoExpected, forbidden] of cases) {
+    const staticReply = approvedStaticWorkflowReply(question);
+    assert.equal(verifiedStaticReplyMatch(question, staticReply)?.id, expectedRule, question);
+
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
+    assert.equal(result.route, "locked-static-safety", question);
+    assert.equal(result.answerComposition.mode, "locked-static", question);
+    assert.match(result.reply, expected, question);
+    assert.match(result.reply, alsoExpected, question);
+    assert.doesNotMatch(result.reply, forbidden, question);
+  }
+});
+
 test("adversarial staff wording routes to family-level safe workflows", () => {
   const cases = [
     {
