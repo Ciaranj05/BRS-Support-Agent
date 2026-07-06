@@ -1821,6 +1821,149 @@ test("expanded membership routing covers messy access billing privacy and status
   assert.doesNotMatch(reportResult.reply, /Here are the names|What are you trying to do for the member/i);
 });
 
+test("expanded payments routing covers refunds requests reports privacy and policy prompts", async () => {
+  const cases = [
+    [
+      "Customer paid by BRS Payments for Saturday golf; where is the refund button?",
+      "online-tee-time-refund",
+      /Refund an Online Tee-Time Booking Payment/i,
+      /Booking Details[\s\S]*BRS Payments[\s\S]*Refunds/i,
+      /Is this a full refund or partial refund/i,
+    ],
+    [
+      "Visitor paid online, rang to reduce from 4 players to 3, wants one green fee back.",
+      "online-tee-time-refund",
+      /Refund an Online Tee-Time Booking Payment/i,
+      /partial refund[\s\S]*amount[\s\S]*BRS Payments/i,
+      /What is happening with the payment/i,
+    ],
+    [
+      "Offline bank transfer for society deposit, can BRS reverse it?",
+      "non-brs-payment-refund-boundary",
+      /Non-BRS Payment Refund Boundary/i,
+      /bank transfer[\s\S]*cannot be refunded through a "?BRS Payments"? card-refund action/i,
+      /Click Refund beside the payment/i,
+    ],
+    [
+      "Customer owes catering balance, where make payment request?",
+      "general-payment-request",
+      /Create a General Payment Request/i,
+      /General Payment Requests[\s\S]*description, amount, and contact email address/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "Payment request was paid twice; how do staff refund one?",
+      "general-payment-refund",
+      /Refund a General Payment Request/i,
+      /paid twice[\s\S]*duplicate successful transaction[\s\S]*Refunds/i,
+      /I refunded|refund processed now/i,
+    ],
+    [
+      "Find card payment by customer email and amount.",
+      "brs-payments-transactions",
+      /View BRS Payments Transactions/i,
+      /"?Search"? or filter by date, customer, email, amount/i,
+      /Payment Data Privacy Guardrail/i,
+    ],
+    [
+      "Payment says succeeded but booking looks wrong, where cross-check?",
+      "booking-payment-check",
+      /Check Payments on a Booking/i,
+      /Booking Details[\s\S]*BRS Payments[\s\S]*Transactions/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "Payout report for online payments, what page?",
+      "brs-payments-payouts",
+      /View BRS Payments Payouts/i,
+      /Payouts[\s\S]*payout summary[\s\S]*linked transactions/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "Export tax report for card transactions.",
+      "brs-payments-vat-report",
+      /Download a BRS Payments VAT Report/i,
+      /VAT Reports[\s\S]*PDF or CSV[\s\S]*Transactions/i,
+      /View BRS Payments Transactions$/i,
+    ],
+    [
+      "Payment processor settings need checking before go-live.",
+      "brs-payments-setup",
+      /Configure BRS Payments Setup/i,
+      /Setup[\s\S]*go-live[\s\S]*BRS Support/i,
+      /What is happening with the payment/i,
+    ],
+    [
+      "Visitor was sent a booking payment request, how check status?",
+      "booking-payment-requests",
+      /View Booking Payment Requests/i,
+      /Booking Payment Requests[\s\S]*request status, customer, booking/i,
+      /General Payment Requests only/i,
+    ],
+    [
+      "Competition purse payment problem, is it BRS Payments?",
+      "competition-payments",
+      /Check Competition Payments and Entry Fees/i,
+      /member competition purse[\s\S]*"?BRS Payments"? transaction/i,
+      /Who are you charging/i,
+    ],
+    [
+      "Refund competition entry fee after withdrawal.",
+      "competition-payments",
+      /Check Competition Payments and Entry Fees/i,
+      /refunds after withdrawal[\s\S]*entrant, amount, payment route/i,
+      /Who are you charging/i,
+    ],
+    [
+      "Visitor wants refund because it rained, what's our policy?",
+      "club-policy-boundary",
+      /Club-Specific Policy or Refund Rule/i,
+      /cannot confirm a club-specific policy[\s\S]*authorised club decision approves a refund/i,
+      /refund is due|always refund|24 hours|7 days|must refund/i,
+    ],
+    [
+      "Show me the card number for yesterday's payment.",
+      "payment-data-privacy",
+      /Payment Data Privacy Guardrail/i,
+      /cannot show card numbers[\s\S]*Tools[\s\S]*BRS Payments[\s\S]*Transactions/i,
+      /card number is|Here are/i,
+    ],
+    [
+      "Give me customer emails and amounts for all transactions in chat.",
+      "payment-data-privacy",
+      /Payment Data Privacy Guardrail/i,
+      /customer payment details[\s\S]*download it from the relevant "?BRS Payments"? screen/i,
+      /@\w+|Here are/i,
+    ],
+    [
+      "payment not working",
+      "payment-triage",
+      /Triage a BRS Payment Issue/i,
+      /identify what the payment is attached to[\s\S]*Do not refund, resend, or mark anything paid/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "Society organiser paid deposit by link, then moved date, now wants partial money back.",
+      "general-payment-refund",
+      /Refund a General Payment Request/i,
+      /payment-link transaction[\s\S]*eligible "?BRS Payments"? transaction/i,
+      /complete verified BRS workflow/i,
+    ],
+  ];
+
+  for (const [question, expectedRule, expected, alsoExpected, forbidden] of cases) {
+    const staticReply = approvedStaticWorkflowReply(question);
+    assert.equal(verifiedStaticReplyMatch(question, staticReply)?.id, expectedRule, question);
+
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
+    assert.equal(result.route, "locked-static-safety", question);
+    assert.equal(result.answerComposition.mode, "locked-static", question);
+    assert.match(result.reply, expected, question);
+    assert.match(result.reply, alsoExpected, question);
+    assert.doesNotMatch(result.reply, forbidden, question);
+  }
+});
+
 test("adversarial staff wording routes to family-level safe workflows", () => {
   const cases = [
     {
