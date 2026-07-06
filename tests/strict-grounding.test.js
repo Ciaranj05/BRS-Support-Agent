@@ -434,6 +434,7 @@ test("expanded timesheet weak cases route to verified workflow families", () => 
   assert.match(deletedInfo, /Find Details for a Deleted or Cancelled Booking/i);
   assert.match(deletedInfo, /Cancelled Bookings report/i);
   assert.ok(verifiedStaticReplyMatch("Where find deleted booking info for reference?", deletedInfo));
+  assert.match(domainSpecificPreRoutePayload("Where find deleted booking info for reference?").reply, /Find Details for a Deleted or Cancelled Booking/i);
 
   const messy = approvedStaticWorkflowReply("Ok so a lad rang while we were busy, he says his mate paid online, but I only see two names and no buggy, where do I start?");
   assert.match(messy, /Triage a Messy Tee-Time Booking Issue/i);
