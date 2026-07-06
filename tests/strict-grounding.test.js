@@ -1873,6 +1873,27 @@ test("expanded payments routing covers refunds requests reports privacy and poli
       /complete verified BRS workflow/i,
     ],
     [
+      "Does removing a player return card money?",
+      "online-tee-time-refund",
+      /Refund an Online Tee-Time Booking Payment/i,
+      /does not automatically return card money[\s\S]*payment status/i,
+      /What do you need to do with the booking/i,
+    ],
+    [
+      "Accountant wants online payment transaction list for last month.",
+      "brs-payments-transactions",
+      /View BRS Payments Transactions/i,
+      /export or CSV[\s\S]*authorised accounts user/i,
+      /Payment Data Privacy Guardrail|Here are the transactions/i,
+    ],
+    [
+      "Need refund history for a customer.",
+      "brs-payments-refunds",
+      /View BRS Payments Refunds/i,
+      /"?Search"? or filter for the refund record by customer/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
       "Payout report for online payments, what page?",
       "brs-payments-payouts",
       /View BRS Payments Payouts/i,
@@ -1940,6 +1961,13 @@ test("expanded payments routing covers refunds requests reports privacy and poli
       "payment-triage",
       /Triage a BRS Payment Issue/i,
       /identify what the payment is attached to[\s\S]*Do not refund, resend, or mark anything paid/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "customer says they paid",
+      "payment-triage",
+      /Triage a BRS Payment Issue/i,
+      /If the user says they paid[\s\S]*transaction status/i,
       /complete verified BRS workflow/i,
     ],
     [
