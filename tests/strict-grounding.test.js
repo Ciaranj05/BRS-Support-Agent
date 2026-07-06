@@ -215,6 +215,10 @@ test("green fee domain model does not steal payment, visitor pricing, or policy 
     domainSpecificPreRoutePayload("Why is our member guest rate higher than Royal Troon's?"),
     null
   );
+  assert.equal(
+    domainSpecificPreRoutePayload("How do I stop visitors taking ten slots reserved for a corporate group?"),
+    null
+  );
 
   const twilightReply = approvedStaticWorkflowReply("Can we make twilight cheaper online without changing every single green fee manually?");
   assert.match(twilightReply, /Set Visitor Time-Band Green Fee Rates/i);
