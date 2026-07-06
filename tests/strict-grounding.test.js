@@ -2021,6 +2021,13 @@ test("expanded payments routing covers refunds requests reports privacy and poli
 });
 
 test("expanded contacts routing covers records messaging reports privacy and booking boundaries", async () => {
+  assert.equal(domainSpecificPreRoutePayload("Tour operator never gets BRS emails, they checked junk."), null);
+  assert.equal(domainSpecificPreRoutePayload("Tour operator contact needs company/group name."), null);
+  assert.match(
+    domainSpecificPreRoutePayload("Tour operator online booking rates need updating.")?.reply || "",
+    /Set Visitor \/ Agent Online Green Fee Rates/i,
+  );
+
   const cases = [
     [
       "Can you add this visitor contact now: John Smith, john@example.com?",
