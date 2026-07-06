@@ -1915,6 +1915,13 @@ test("expanded payments routing covers refunds requests reports privacy and poli
       /What is happening with the payment/i,
     ],
     [
+      "Wrong payment method label in reports, where edit?",
+      "payment-methods",
+      /Set Up Payment Methods/i,
+      /Payment Methods[\s\S]*wrong label in reports[\s\S]*"?Add"? or "?Save"?/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
       "Visitor was sent a booking payment request, how check status?",
       "booking-payment-requests",
       /View Booking Payment Requests/i,
