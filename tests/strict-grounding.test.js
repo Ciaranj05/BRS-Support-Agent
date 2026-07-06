@@ -1908,6 +1908,13 @@ test("expanded payments routing covers refunds requests reports privacy and poli
       /complete verified BRS workflow/i,
     ],
     [
+      "Where see when BRS Payments paid us out?",
+      "brs-payments-payouts",
+      /View BRS Payments Payouts/i,
+      /Payouts[\s\S]*payout date range[\s\S]*bank deposit amount/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
       "Export tax report for card transactions.",
       "brs-payments-vat-report",
       /Download a BRS Payments VAT Report/i,
@@ -1926,6 +1933,13 @@ test("expanded payments routing covers refunds requests reports privacy and poli
       "payment-methods",
       /Set Up Payment Methods/i,
       /Payment Methods[\s\S]*wrong label in reports[\s\S]*"?Add"? or "?Save"?/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "Payment Method Name field, what page is that?",
+      "payment-methods",
+      /Set Up Payment Methods/i,
+      /Tools[\s\S]*Payment Methods[\s\S]*Payment Method Name/i,
       /complete verified BRS workflow/i,
     ],
     [
