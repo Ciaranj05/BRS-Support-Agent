@@ -1859,6 +1859,13 @@ test("expanded payments routing covers refunds requests reports privacy and poli
       /I refunded|refund processed now/i,
     ],
     [
+      "Member paid annual subs, is that a tee booking payment?",
+      "payment-area-distinction",
+      /Distinguish Member Billing from Tee Booking Payments/i,
+      /annual subs payment[\s\S]*tee-time or visitor booking payment/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
       "Find card payment by customer email and amount.",
       "brs-payments-transactions",
       /View BRS Payments Transactions/i,
