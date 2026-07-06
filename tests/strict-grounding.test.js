@@ -2079,6 +2079,13 @@ test("expanded contacts routing covers records messaging reports privacy and boo
       /do not have a complete verified/i,
     ],
     [
+      "add contct for tour opperator poor spelling",
+      "add-contact",
+      /Add a New Contact/i,
+      /Contacts[\s\S]*Contact Category[\s\S]*Tour Operator/i,
+      /do not have a complete verified/i,
+    ],
+    [
       "Find all tour operator contacts.",
       "contact-filter",
       /Filter Contacts by Category/i,
