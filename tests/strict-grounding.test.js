@@ -1653,6 +1653,13 @@ test("expanded membership routing covers messy access billing privacy and status
       /Create a Member Profile|Create a New User/i,
     ],
     [
+      "5-day member upgraded to 7-day, what should staff check?",
+      "membership-category-change",
+      /Change a Member's Membership Category/i,
+      /Membership Type[\s\S]*upgrade or downgrade[\s\S]*booking access, fees, subscriptions/i,
+      /I do not have a complete verified BRS workflow/i,
+    ],
+    [
       "Member registration email not working, what controls access?",
       "member-login-access",
       /Check Member Login and Registration Access/i,
