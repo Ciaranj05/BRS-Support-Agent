@@ -346,12 +346,23 @@ test("timesheet routing handles wrong-course moves, visitor block visibility, an
   assert.match(visitorBlock, /visitor-facing availability/i);
   assert.ok(verifiedStaticReplyMatch("Visitors can still book a time I thought I blocked, what should I verify?", visitorBlock));
 
+  const maintenance = approvedStaticWorkflowReply("Course maintenance needs the front nine closed from 8 to 10, what’s the BRS way?");
+  assert.match(maintenance, /Close or Restrict Tee Times for Course Work/i);
+  assert.match(maintenance, /Course Restrictions/i);
+  assert.match(maintenance, /date\/time range/i);
+  assert.ok(verifiedStaticReplyMatch("Course maintenance needs the front nine closed from 8 to 10, what’s the BRS way?", maintenance));
+
   const notes = approvedStaticWorkflowReply("I need to add notes to a tee booking so the pro shop sees them.");
   assert.match(notes, /Add Notes to a Tee-Time Booking/i);
   assert.match(notes, /Timesheet/i);
   assert.match(notes, /Booking Details/i);
   assert.match(notes, /Save|Update/i);
   assert.ok(verifiedStaticReplyMatch("I need to add notes to a tee booking so the pro shop sees them.", notes));
+
+  const publicCancel = approvedStaticWorkflowReply("I’m a golfer, I need to cancel my online booking, can you do it?");
+  assert.match(publicCancel, /Visitor Booking Cancellation Guidance/i);
+  assert.match(publicCancel, /cannot cancel a golfer's live booking from chat/i);
+  assert.ok(verifiedStaticReplyMatch("I’m a golfer, I need to cancel my online booking, can you do it?", publicCancel));
 });
 
 test("production route applies domain model before static and legacy routing", () => {
@@ -383,6 +394,7 @@ test("move booking wording uses protected approved workflow", async () => {
   const reply = await answerFromKnowledge("how do I move a buggy booking?");
 
   assert.equal(isMoveBookingQuestion("move a paid visitor booking"), true);
+  assert.equal(isMoveBookingQuestion("I need to move a paid 4-ball from Saturday to next Friday, what’s the safe way?"), true);
   assert.match(reply, /Click Cut from inside the Booking Details page/);
   assert.match(reply, /Click Paste/);
   assert.doesNotMatch(reply, /drag|right-click|move button/i);
