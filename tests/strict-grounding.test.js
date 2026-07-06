@@ -1646,6 +1646,13 @@ test("expanded membership routing covers messy access billing privacy and status
       /Create a Member Profile$/i,
     ],
     [
+      "Member registration email not working, what controls access?",
+      "member-login-access",
+      /Check Member Login and Registration Access/i,
+      /registration[\s\S]*username\/email[\s\S]*Forgot password/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
       "Angry member forgot password; can staff fix their BRS member login?",
       "member-login-access",
       /Check Member Login and Registration Access/i,
@@ -1679,6 +1686,27 @@ test("expanded membership routing covers messy access billing privacy and status
       /Create a Filtered Member Data Export/i,
       /do not paste member names or email addresses into the chat[\s\S]*Download CSV Members/i,
       /Here are|Email Members in a Membership Type/i,
+    ],
+    [
+      "Give me names and emails of outstanding balances.",
+      "member-balance-live-data-guardrail",
+      /Live Member Balance Data Guardrail/i,
+      /cannot show live member names, balances, or unpaid lists[\s\S]*Overdue Bills/i,
+      /Here are|@\w+/i,
+    ],
+    [
+      "Where download member data without exposing it here?",
+      "member-data-export",
+      /Create a Filtered Member Data Export/i,
+      /privacy[\s\S]*download the result as a CSV/i,
+      /complete verified BRS workflow/i,
+    ],
+    [
+      "Add seniors to a group for email and text.",
+      "member-groups-for-messaging",
+      /Set Up Member Groups for Messaging/i,
+      /Member Groups for Messaging[\s\S]*Email Messaging[\s\S]*Text Messaging[\s\S]*Club "?Messages"?/i,
+      /Which admin area is closest/i,
     ],
     [
       "Grace period for subscription overdue, where configured?",
