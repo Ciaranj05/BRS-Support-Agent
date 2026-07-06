@@ -2163,6 +2163,13 @@ test("expanded contacts routing covers records messaging reports privacy and boo
       /Add a Tee-Time Booking/i,
     ],
     [
+      "Society organiser has a company and person, where put both?",
+      "add-contact-company-record",
+      /Add a New Contact/i,
+      /Company \/ Group Name[\s\S]*person's Title[\s\S]*Email/i,
+      /do not have a complete verified/i,
+    ],
+    [
       "Corporate contact not a golfer, what category?",
       "add-contact-company-record",
       /Add a New Contact/i,
