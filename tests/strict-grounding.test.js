@@ -1629,6 +1629,100 @@ test("release-readiness blocker questions route to verified final answers", asyn
   }
 });
 
+test("expanded membership routing covers messy access billing privacy and status prompts", async () => {
+  const cases = [
+    [
+      "add membr profile poor spelling pls",
+      "member-profile-create",
+      /Create a Member Profile/i,
+      /Memberships[\s\S]*Members[\s\S]*CREATE MEMBER/i,
+      /Add a Tee-Time Booking|Create a New User/i,
+    ],
+    [
+      "Member says app disabled after joining today.",
+      "member-login-access",
+      /Check Member Login and Registration Access/i,
+      /Memberships[\s\S]*Users[\s\S]*enabled\/disabled status/i,
+      /Create a Member Profile$/i,
+    ],
+    [
+      "Angry member forgot password; can staff fix their BRS member login?",
+      "member-login-access",
+      /Check Member Login and Registration Access/i,
+      /username\/email[\s\S]*password[\s\S]*Member Casual Booking Rules/i,
+      /Named User Password Reset Guardrail|share current password/i,
+    ],
+    [
+      "Need bill a member for annual subs, what fields?",
+      "membership-bill-create",
+      /Create a Membership Bill/i,
+      /Billing\/Payments[\s\S]*Billing Reference[\s\S]*Payment Schemes/i,
+      /What are you trying to do for the member/i,
+    ],
+    [
+      "Member says direct debit came out, where reconcile bill payment?",
+      "member-bill-brs-payments-reconciliation",
+      /Check or Record a Membership Bill Payment/i,
+      /Direct Debit[\s\S]*payment scheme[\s\S]*bill as paid/i,
+      /tee time booking payment only/i,
+    ],
+    [
+      "Reverse a payment on a membership bill, not a tee booking.",
+      "membership-bill-refund",
+      /Refund a Payment on a Membership Bill/i,
+      /BRS Payments[\s\S]*cash, PDQ, cheque/i,
+      /Check Payment for a Member App Booking|Tee-Time Booking/i,
+    ],
+    [
+      "Give me all junior member emails in chat.",
+      "member-data-export",
+      /Create a Filtered Member Data Export/i,
+      /do not paste member names or email addresses into the chat[\s\S]*Download CSV Members/i,
+      /Here are|Email Members in a Membership Type/i,
+    ],
+    [
+      "Grace period for subscription overdue, where configured?",
+      "membership-grace-access",
+      /Change the Membership Grace Period/i,
+      /Memberships[\s\S]*Settings[\s\S]*General/i,
+      /Find members with unpaid or outstanding membership balances/i,
+    ],
+    [
+      "Payment scheme vs one-off bill, what's the difference?",
+      "membership-payment-scheme-definition",
+      /Payment Schemes in BRS allow membership bills/i,
+      /instalments rather than a single lump sum/i,
+      /What are you trying to do for the member/i,
+    ],
+    [
+      "Change member status to lapsed, what should be checked?",
+      "membership-status-change",
+      /Change a Member's Membership Status/i,
+      /Membership Status[\s\S]*billing[\s\S]*linked "?Users"? login account/i,
+      /I deleted|remove completely without review/i,
+    ],
+  ];
+
+  for (const [question, expectedRule, expected, alsoExpected, forbidden] of cases) {
+    const staticReply = approvedStaticWorkflowReply(question);
+    assert.equal(verifiedStaticReplyMatch(question, staticReply)?.id, expectedRule, question);
+
+    const result = await answerFromKnowledgeDetailed(question, { allowDynamic: false });
+    assert.equal(result.route, "locked-static-safety", question);
+    assert.match(result.reply, expected, question);
+    assert.match(result.reply, alsoExpected, question);
+    assert.doesNotMatch(result.reply, forbidden, question);
+  }
+
+  assert.equal(isMemberBalanceReportQuestion("Grace period for subscription overdue, where configured?"), false);
+
+  const reportResult = await answerFromKnowledgeDetailed("Committee wants total unpaid renewal money, not names in chat.", { allowDynamic: false });
+  assert.equal(reportResult.route, "locked-member-balance-report");
+  assert.match(reportResult.reply, /Find members with unpaid or outstanding membership balances/i);
+  assert.match(reportResult.reply, /Overdue Bills[\s\S]*Download CSV Overdue bills Report/i);
+  assert.doesNotMatch(reportResult.reply, /Here are the names|What are you trying to do for the member/i);
+});
+
 test("adversarial staff wording routes to family-level safe workflows", () => {
   const cases = [
     {
