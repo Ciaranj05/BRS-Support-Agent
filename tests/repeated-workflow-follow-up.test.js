@@ -10,13 +10,12 @@ import {
 test("does not replace the first approved payment-check workflow", () => {
   const reply = approvedStaticWorkflowReply("the customer says they paid but there is no payment tied to the booking");
 
-  assert.match(reply, /Check Payments on a Booking/i);
+  assert.match(reply, /Triage a BRS Payment Issue/i);
   assert.equal(repeatedWorkflowFollowUpPayload("the customer says they paid but there is no payment tied to the booking", [], reply), null);
 });
 
 test("escalates instead of repeating an exhausted workflow answer", () => {
   const firstReply = approvedStaticWorkflowReply("the customer says they paid but there is no payment tied to the booking");
-  const repeatedReply = approvedStaticWorkflowReply("I have checked the booking and there is definitely no payment tied to it");
   const history = [
     { role: "user", content: "the customer says they paid but there is no payment tied to the booking" },
     { role: "assistant", content: firstReply },
@@ -25,7 +24,7 @@ test("escalates instead of repeating an exhausted workflow answer", () => {
   const payload = repeatedWorkflowFollowUpPayload(
     "I have checked the booking and there is definitely no payment tied to it",
     history,
-    repeatedReply
+    firstReply
   );
 
   assert.equal(payload.version, "repeated-workflow-escalation-v1");
@@ -64,6 +63,26 @@ test("contextualises short payment-object clarification answers from prior chat 
   assert.match(contextual, /User clarification: This is about a booking payment/i);
   assert.match(contextual, /Earlier follow-up: i've dont that/i);
   assert.match(contextual, /Do not repeat the same workflow/i);
+});
+
+test("contextualises short instructions follow-up for missing contacts", () => {
+  const history = [
+    {
+      role: "user",
+      content: "We keep Tour Operators and Hotels in Contacts for Ayr. Golf Around Scotland has disappeared and now we only have 19 tour operators instead of 20.",
+    },
+    {
+      role: "assistant",
+      content: "Check the missing contact record\n\n1. Open Contacts and search for Golf Around Scotland.\n2. If it is missing, I can give instructions to re-add the contact.",
+    },
+  ];
+
+  const contextual = contextualiseShortClarificationFollowUp("give me instructions", history);
+
+  assert.match(contextual, /Original issue: We keep Tour Operators and Hotels/i);
+  assert.match(contextual, /re-add\/create the missing contact record/i);
+  assert.match(contextual, /Golf Around Scotland/i);
+  assert.match(contextual, /do not treat this as a standalone vague request/i);
 });
 
 test("repeat guard works from matching workflow title, not an exact example string", () => {

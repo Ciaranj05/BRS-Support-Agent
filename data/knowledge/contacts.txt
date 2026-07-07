@@ -61,6 +61,17 @@ Clubs may have their own contact categories. Ask the user what category they nee
 
 Use Contacts > Add New when a user wants to create a non-member contact record.
 
+On Add Contact, observed/approved fields include:
+
+- General Information, including Company / Group Name for organisations such as tour operators, hotels, societies, and companies.
+- Contact Category, such as Visitor, Society, Tour Operator, Hotel, Company, Other, or a club custom category.
+- Contact fields for title, first name, last name, email, telephone, and mobile where supplied.
+- Address Information for address, town/city, county/state, country, and postcode/zip.
+- Club Details for club name, handicap, and CDH where those golf details are relevant.
+- Marketing Preferences where the contact has given permission.
+
+When a club says a contact has disappeared and asks for instructions, first carry forward the missing contact context. If they want to recreate it, use Contacts > Add New, set the company/group name and category, save, then return to View All/search/category filters to confirm the expected count. If the old record later reappears, check which record has booking or revenue history before deleting, merging, or replacing anything.
+
 Use Contacts search/filter controls when the user wants to find an existing non-member contact. Search can be paired with categories to narrow results.
 
 For a person who should be able to log in as a member, use Users or Memberships rather than Contacts.

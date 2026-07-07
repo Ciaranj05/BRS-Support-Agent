@@ -151,6 +151,14 @@ Distinguish:
 
 Never invent rate values. Rates are club-specific.
 
+Write-capable demo crawl evidence for Tools > Green Fee Rates:
+
+- The page can be year/month scoped, for example "Green Fee Rates for 2026".
+- Controls and table columns include Select a Year, Add Green Fees, Filter Category, Category, Sub Category, Holes, Start Date, End Date, Rates, Mem Types, Default, Global, and Actions.
+- Observed categories include Competition, Complimentary, Corporate, Guest, Hotel, Member, Member Guest, Other, Resident, Society, Tour Operator, Visitor, and Voucher.
+- Hole-specific rows can exist, including separate 9-hole and 18-hole member/flex rows. When a course changes between 18 holes and 9 holes, check that the relevant rate route has a matching Holes value for the affected category/sub-category and date range.
+- Green Fee Rates help launchers include creating online green fee rates, editing online green fee rates, holiday overrides, and copying green fee rates between years.
+
 ## Reservation Types
 
 Reservation Types configure labels and colours/classification used on the timesheet and in reports.
@@ -288,6 +296,14 @@ Club-specific legal text must not be stored in reusable knowledge.
 
 Course Restriction specifically restricts course bookings to limited group sizes at specified dates and times. Fields include start/end date, start/end time, player types, max group size, and message. Player type options include members and visitors, members only, or visitors only.
 
+Write-capable demo crawl evidence for Course Restriction:
+
+- The page includes "Show expired Course Restrictions" for checking old restrictions.
+- Write controls include Add.
+- Fields and verification labels include Start Date, End Date, Start Time, End Time, Player Types, Max Group Size, Message, and Actions.
+- Player Types options include Members & Visitors, Members, and Visitors.
+- Use this page when availability is hidden/blocked by player type, group size, or date/time rather than by price or a membership type rule.
+
 ## Member casual booking rules
 
 Member Casual Booking Rules control when members can view and book casual golf online.
@@ -303,6 +319,13 @@ Use when:
 Check member status, membership type, and online booking settings alongside these rules.
 
 The live rule page distinguishes View rules from Book rules. It explains that only tee times covered by configured rules are made available to members; all other times cannot be booked or viewed. Rule fields include course, start/end date, start/end time, rule type, days advance booking, guest booking allowed from, casual guests not allowed, number of players, players per tee time, guests, number of guests, days of week, and applies-to membership-type controls.
+
+Write-capable demo crawl evidence for Member Casual Booking Rules:
+
+- The rule table includes Key, Type, Start, End, Time, Advance, weekdays, Mem Types, and Actions.
+- The edit/add form uses fields for course, Start Day/Month/Year, End Day/Month/Year, Start Hour/Minute, End Hour/Minute, booking type, days advance, Guest Booking Start Hour/Minute, weekday checkboxes, bookable player counts, player counts, and membership type selection.
+- Membership type scope options include All Membership Types, Selected Membership Types ONLY, and All Membership Types EXCEPT those selected.
+- Check both View and Book rules for the same course/date/time. A member may be unable to book because the Book rule is missing or scoped away even when a View rule exists.
 
 ## Competitions
 
@@ -342,6 +365,12 @@ Online visitor/agent/tour-operator green fee setup supports filtering by channel
 Day Ticket Rates are for visitors playing two rounds on the same day through the club website. The live page notes they are not supported for tour operators or third-party tee time agents. Fields include course 1, course 2, start/end date, green fee rate, type, days advance booking, and days of week.
 
 Open Competitions for Visitors are configured from Tools > Open Competitions for Visitors. Fields include course, competition date, start/end time, competition name/reservation name, booking/playing format, competition type, member green fee, visitor green fee, mixed member/visitor teams, booking available date, and booking available time.
+
+Visitor online booking evidence:
+
+- The visitor-facing booking menu includes member online booking, visitor online booking, open days/competitions, and golf event booking routes.
+- Visitor availability grids can show key values such as Tee Free, Booked, Member, Visitor, Guest/Member, Competition, Open Competition, Society, Corporate, Reserved, Reserved For Members, Reserved For Visitors, Closed, Special Offer, Course Maintenance, and Online.
+- For GolfNow or Hot Deals display problems, check BRS visitor availability and BRS visitor/agent inventory first, then escalate if the external channel still shows the wrong hole count or availability after BRS settings look correct.
 
 ## Golf Events
 

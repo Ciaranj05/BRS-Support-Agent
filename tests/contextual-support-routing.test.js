@@ -28,13 +28,13 @@ const CUSTOMER_CASES = [
     id: "prorata-membership-bill",
     message: "I need to create a bill for a new member who's joining 3 months into a 2 year red tee deal so it will be a prorata bill. First year runs from 1/7/2026 until 31/3/27, 9 months at \u00a330 a month. Can you advise how to raise this bill please.",
     facts: ["3 months", "2 year", "1/7/2026", "9 months", "\u00a330"],
-    checks: [/Memberships/i, /Billing\/Payments/i, /CREATE BILLS/i, /Billing Reference/i, /Who To Bill/i, /ADD ITEM/i, /PREVIEW/i, /\u00a3270/i],
+    checks: [/Memberships/i, /member profile/i, /Billing Reference|description/i, /Due Date/i, /bill\/period dates|bill period/i, /ADD ITEM/i, /PREVIEW/i, /\u00a3270/i],
   },
   {
     id: "course-9-hole-golfnow-availability",
     message: "Our Parkland Course is dropping to a 9 hole golf course tomorrow and our 5 Day Members cannot book. Golf Now is also showing hot deals as 18 holes for visitors when these should not show. Please can you look into this for us?",
     facts: ["Parkland Course", "9 hole", "5 Day Members", "18 holes"],
-    checks: [/course\/hole setup/i, /GolfNow/i, /member booking rules/i, /visitor/i],
+    checks: [/course\/hole setup/i, /Member Casual Booking Rules/i, /Course Restriction/i, /Green Fee Rates/i, /Holes/i, /GolfNow/i, /visitor/i],
   },
   {
     id: "flexible-member-not-filtered",
@@ -76,7 +76,7 @@ const CUSTOMER_CASES = [
     id: "adjacent-golfnow-feed-variant",
     message: "Visitors can still see 18 hole availability on GolfNow for Valley even though Valley is 9 holes only from Monday. Members are also blocked online. What should we check first?",
     facts: ["18 hole", "GolfNow", "Valley", "9 holes", "Monday"],
-    checks: [/course\/hole setup/i, /GolfNow/i, /visitor/i],
+    checks: [/course\/hole setup/i, /Member Casual Booking Rules/i, /Course Restriction/i, /Green Fee Rates/i, /GolfNow/i, /visitor/i],
   },
   {
     id: "adjacent-reconciliation-variant",
@@ -156,7 +156,7 @@ test("final contextual answer contract blocks wrong workflow titles and keeps us
     assert.equal(gated.version, "contextual-support-fallback-v1", item.id);
     assert.equal(gated.contextualAnswerContract.blocked, true, item.id);
     assertNoWrongStaticTitle(gated.reply);
-    assert.match(gated.reply, /Confidence: (medium|low|high)/, item.id);
+    assert.doesNotMatch(gated.reply, /Confidence: (medium|low|high)/, item.id);
     for (const pattern of item.checks) assert.match(gated.reply, pattern, item.id);
     for (const fact of item.facts.slice(0, 2)) assert.match(gated.reply, new RegExp(fact.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), item.id);
   }
@@ -171,13 +171,25 @@ test("knowledge fallback never returns static workflow for contextual cases when
       assert.equal(result.route, "contextual-evidence-fallback", item.id);
       assert.equal(result.contextProfile.requiresContextualSynthesis, true, item.id);
       assertNoWrongStaticTitle(result.reply);
-      assert.match(result.reply, /Confidence: (medium|low|high)/, item.id);
+      assert.doesNotMatch(result.reply, /Confidence: (medium|low|high)/, item.id);
       assert.equal(contextualAnswerIssue(item.message, result.reply), null, item.id);
       for (const pattern of item.checks) assert.match(result.reply, pattern, item.id);
     }
   } finally {
     if (originalKey) process.env.OPENAI_API_KEY = originalKey;
   }
+});
+
+test("answer contract rejects weak flexible-member replies that ignore linked user mapping", () => {
+  const message = "We have a flexible member Alban Sayers member number 5480. He appears in BRS users but its not filtered across to Flexible memberships - can you take a look please.";
+  const weakReply = `How to Check Why a Member Isn't Showing Under Flexible Memberships
+
+1. Open Memberships.
+2. Click Members.
+3. Search for Alban Sayers or member number 5480.
+4. Check Membership Type and set it to a flexible category.`;
+
+  assert.equal(contextualAnswerIssue(message, weakReply), "missing-flexible-member-specifics");
 });
 
 test("production route cannot bypass contextual synthesis before static or object-first returns", () => {
