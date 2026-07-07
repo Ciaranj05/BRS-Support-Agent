@@ -214,6 +214,10 @@ test("expanded green fee routing covers rate channels day tickets typos and poli
   assert.match(staffRate.reply, /Tools > Green Fee Rates/i);
   assert.match(staffRate.reply, /Add Green Fees/i);
 
+  const deskRate = domainSpecificPreRoutePayload("Where edit rate the desk selects when making a reservation?");
+  assert.match(deskRate.reply, /Set Staff-Selected Green Fee Rates/i);
+  assert.match(deskRate.reply, /Timesheet/i);
+
   const memberRate = domainSpecificPreRoutePayload("Members booking themselves online are getting wrong green fee.");
   assert.match(memberRate.reply, /Set Member Online Green Fee Rates/i);
   assert.match(memberRate.reply, /member\/member-guest online booking route/i);
@@ -252,6 +256,12 @@ test("expanded green fee routing covers rate channels day tickets typos and poli
   assert.match(policy, /Club-Specific Policy or Refund Rule/i);
   assert.match(policy, /do not invent/i);
   assert.ok(verifiedStaticReplyMatch("Manager asks what green fee we should charge compared with nearby clubs.", policy));
+
+  const paidRate = domainSpecificPreRoutePayload("Angry caller says paid green fee is wrong but pro says it is a rate table issue, what should staff check first?");
+  assert.match(paidRate.reply, /Check a Paid Green Fee Against the Rate Setup/i);
+  assert.match(paidRate.reply, /Booking Details/i);
+  assert.match(paidRate.reply, /Green Fee Rates for Visitors \/ Tour Operators \/ Tee Time Agents/i);
+  assert.match(paidRate.reply, /changing a future rate table does not automatically refund/i);
 
   const agentTypo = domainSpecificPreRoutePayload("tee time agnt rate no show pls quick");
   assert.match(agentTypo.reply, /Set Visitor \/ Agent Online Green Fee Rates/i);
