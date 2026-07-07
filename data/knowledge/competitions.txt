@@ -1,0 +1,98 @@
+BRS KNOWLEDGE FILE: COMPETITIONS
+
+Use this file for member competitions, open competitions, competition purse, competition wallet, entry fees, competition charging, cancelled/duplicate competitions, withdrawn entries, and competition payment reconciliation.
+
+Source basis:
+- Approved BRS demo-system crawl: System Configuration > Competition Purse Module, Process Competition Charges, and Reports competition-purse options.
+- Approved Reports knowledge: Competition Purse Balance, Competition Purse Transactions, Competition Purse Summary, and online merchant/payment report options.
+- Product support clarification: member competitions commonly use competition purse/wallet charging; open competitions commonly use online/card payments or payment links.
+
+Support style:
+- Do not assert the live cause of a competition payment or entry problem without checking the club's records.
+- Treat competition workflows as evidence for the specific question, not as a generic competition setup answer.
+- Separate member competition purse/wallet charging from open competition online/card payments.
+
+## Member competition purse and wallet
+
+Competition purse/wallet charging is relevant when the question mentions:
+
+- Competition Purse.
+- Competition Wallet.
+- Member competition entry fee.
+- Insufficient funds.
+- Member purse balance.
+- Purse top-up.
+- Competition charge processing.
+
+System Configuration contains a Competition Purse Module. Observed settings include:
+
+- Minimum member competition purse balance.
+- Competition purse balance at which a reminder email will be sent.
+- Enable online competition purse topup via debit/credit card.
+- Enable different male/female entry fees in the same comp.
+
+If a member has more visible purse balance than the entry fee but still sees insufficient funds, check whether entering the competition would take the member below the Minimum member competition purse balance. Also check pending or already processed competition purse charges.
+
+## Cancelled or duplicate competition entry issues
+
+When the club has cancelled one competition and created another with the same or similar name:
+
+1. Confirm which competition record members are actually entering.
+2. Check whether the visible competition name includes "(Cancelled)".
+3. Check the active competition's member entry fee and charge method.
+4. Check the affected member's entry status.
+5. Check the member's competition purse balance and Competition Purse Transactions.
+6. Check the System Configuration Competition Purse Module minimum balance setting.
+
+Do not assume the visible balance alone means the member can enter. Pending charges and the configured minimum balance can affect whether the entry is allowed.
+
+## Process Competition Charges
+
+The Process Competition Charges page is used after a competition is over and has been closed.
+
+Observed guidance says this tool processes competition charges only for competitions set up to use Competition Purse or Competition Wallet.
+
+Observed table/field labels include:
+
+- Select a Year.
+- ID.
+- Course.
+- CompetitionName.
+- CompetitionDate.
+- MemberEntryFee.
+- MaleMemberEntryFee.
+- FemaleMemberEntryFee.
+- GuestEntryFee.
+- Charge Method.
+- Who is Charged?
+- Refund Criteria.
+- Status.
+- Action.
+
+Use this route for charge processing or reviewing charge setup, not for a generic open competition payment report.
+
+## Open competition and tournament payment reconciliation
+
+For open competitions or tournaments taking online/card payments, the tee sheet or start sheet alone may not prove all paid entries because withdrawn players can be missing from the sheet.
+
+Use payment/report evidence together:
+
+1. Use the competition entry list to review entered, withdrawn, or cancelled players where the competition page exposes those statuses.
+2. Use Tools > BRS Payments > Transactions for the payment-level card transaction list.
+3. Use Reports > Revenue From Online Merchant Payments for online merchant payment totals.
+4. Use Reports > Payments by Payment Date when reconciling by payment date.
+5. Use Reports > Payments by Transaction Date/Time & User when reconciling by transaction time or staff/user.
+6. For member competitions using purse/wallet, use Competition Purse Transactions and Competition Purse Summary instead of open/card payment reports.
+
+Compare the exported payment total against the competition entries and withdrawal/refund policy. Escalate when the entry list and transaction/export totals still do not reconcile.
+
+## Competition reports
+
+The Reports area includes competition-purse options:
+
+- Competition Purse Balance.
+- Competition Purse Transactions.
+- Competition Purse Summary.
+
+Use these for member competition purse/wallet questions. Use BRS Payments and merchant payment reports for online/card payment questions.
+

@@ -106,6 +106,8 @@ Use booking reports when the user needs:
 
 If the request is about one booking, use Timesheet/Booking Details instead.
 
+If a user asks how many guests a member booked over a specified period, there may not be one exact "member guest count" report. Start with the main Reports date controls, then use Booking Details or Full Booking Details for the booking/player rows. Compare with Booking / Payment Status when payment/completion status matters. Use user/member or member playing-statistic reports only when the question is about member playing history rather than booking/payment rows.
+
 ## Revenue and green fee reports
 
 Use revenue reports for:

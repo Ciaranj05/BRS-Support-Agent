@@ -1,0 +1,101 @@
+BRS KNOWLEDGE FILE: PAYMENTS
+
+Use this file for BRS Payments, booking payment status, transactions, payouts, refunds, payment requests, merchant payment reports, and card-payment reconciliation.
+
+Source basis:
+- Approved BRS demo-system crawl: BRS Payments, Transactions, Payouts, and Reports payment options.
+- Approved Reports knowledge: payment/date/report categories.
+- Existing support guidance for separating booking payments from membership bill payments.
+
+Support style:
+- Do not say a customer's payment succeeded, failed, paid out, or was refunded unless live payment evidence proves it.
+- Do not process or advise processing refunds until the booking/payment record and transaction status have been checked.
+- Keep booking/card payments separate from membership bill payments unless the user explicitly says the payment is for a membership bill.
+
+## Main purpose
+
+BRS Payments is used when staff need to check card transactions, refunds, payment requests, payouts, VAT/payment exports, or online merchant payment reconciliation.
+
+Use payment evidence when the user mentions:
+
+- Card payment.
+- Debit card.
+- Transaction.
+- Refund.
+- Payout.
+- Payout schedule.
+- Payment request.
+- Payment successful or unsuccessful.
+- Balance outstanding after a customer says they paid.
+- Online payment reconciliation.
+
+## Booking payment discrepancy
+
+When a booking shows an outstanding balance but the customer says payment was taken:
+
+1. Find the booking by booking reference, name, date, time, or Timesheet row.
+2. Open Booking Details.
+3. Check the Payments section in Booking Details for balance, payment status, method, amount, and refund status.
+4. Open Tools > BRS Payments > Transactions.
+5. Search/filter Transactions by booking reference, name, date, amount, or payment status.
+6. Confirm whether the card transaction succeeded, failed, was refunded, or is absent.
+7. If the transaction succeeded but the booking still shows outstanding, escalate with the booking reference, transaction status, amount, date/time, and screenshots.
+
+Do not treat the Timesheet balance alone as proof that a card payment failed. Use Booking Details and Transactions together.
+
+## Payout checks
+
+Use Payouts when the club asks why money has not appeared in the payout schedule or bank payout.
+
+Observed Payouts fields/columns include:
+
+- Start Date.
+- End Date.
+- Amount.
+- Transfer Date.
+- Status.
+
+Suggested checks:
+
+1. Open Tools > BRS Payments > Payouts.
+2. Set Start Date and End Date to cover the expected payout window.
+3. Compare Amount, Transfer Date, and Status with the successful Transactions for the booking/event.
+4. If a successful transaction is missing from the expected payout, escalate with the booking/event reference, transaction details, payout date range, amount, and payout status.
+
+## Transaction checks
+
+Use Transactions when the club needs the payment-level record.
+
+Transactions is the best place to confirm:
+
+- Whether a card payment exists.
+- Whether it succeeded or failed.
+- Whether a refund exists.
+- Which booking/event/reference the payment belongs to.
+- Whether the payment can be compared against payout records.
+
+## Payment and revenue reports
+
+The main Reports area includes payment-related report options that can support reconciliation:
+
+- Revenue From Online Merchant Payments.
+- Payments by Payment Date.
+- Payments by Transaction Date/Time & User.
+- Booking / Payment Status.
+- Booking Transactions by Date Booked.
+- Booking Transactions by Date Playing.
+
+Use Reports when the club needs totals, date ranges, exports, or printed output. Use Tools > BRS Payments when the club needs the payment processor transaction or payout record.
+
+## Refunds
+
+Before advising a refund:
+
+1. Confirm the booking or bill object.
+2. Confirm the original payment status and method.
+3. Confirm the amount and whether a previous refund already exists.
+4. Use BRS Payments refund records for BRS/card payments.
+5. Escalate if the payment status is unclear or the refund would affect a disputed payment.
+
+Membership bill refunds should use Memberships billing/payment evidence first. Booking refunds should use Booking Details and BRS Payments evidence.
+

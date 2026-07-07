@@ -215,6 +215,8 @@ Flexible/flexi membership setup spans Membership Types, Settings, Accounts, and 
 
 Flexible/flexi membership is not handled from booking payments.
 
+If a person appears in Users but is not appearing in Memberships or the flexible-membership view, check the linked relationship before telling the staff member to open a missing Memberships profile. Users and Memberships records are linked, but a visible user account does not by itself prove the Memberships member profile/filter is present. Check the Users record, linked member profile, Membership Type, Flex flag on the Membership Type, Memberships dashboard FLEX MEMBERS view, and Club Systems member/category mapping or preview/sync evidence before creating a duplicate profile.
+
 ## Wallet/account balances
 
 Flexible Membership wallets can be edited using top-ups and clawbacks.
