@@ -2,6 +2,7 @@ import { rewriteAddsUnsupportedDetails } from "../../lib/rewriteSafety.js";
 import { recordQaInteraction } from "../../lib/qaInteractionStore.js";
 import { applyAnswerQualityGate } from "../../lib/answerQuality.js";
 import { applyDomainAnswerContract } from "../../lib/brsDomainModel.js";
+import { applyContextualAnswerContract } from "../../lib/questionContextProfile.js";
 
 export function getSessionId(req) {
   return (req.headers["x-session-id"] || req.body?.sessionId || req.query?.sessionId || "default-session").toString();
@@ -137,7 +138,15 @@ export async function prepareChatPayload({ client, payload, message, debug, debu
     if (gatedPayload?.qualityGate?.blocked) debug?.stages?.push?.({ name: "answer-quality-gate", matched: true, reason: gatedPayload.qualityGate.reason, originalVersion: gatedPayload.qualityGate.originalVersion });
     const domainGatedPayload = applyDomainAnswerContract(gatedPayload, message, getConversationHistory(req || {}));
     if (domainGatedPayload?.domainContract?.blocked) debug?.stages?.push?.({ name: "domain-answer-contract", matched: true, reason: domainGatedPayload.domainContract.reason, originalVersion: domainGatedPayload.domainContract.originalVersion });
-    nextPayload = domainGatedPayload;
+    const contextGatedPayload = applyContextualAnswerContract(domainGatedPayload, message);
+    if (contextGatedPayload?.contextualAnswerContract?.blocked) debug?.stages?.push?.({
+      name: "contextual-answer-contract",
+      matched: true,
+      reason: contextGatedPayload.contextualAnswerContract.reason,
+      originalVersion: contextGatedPayload.contextualAnswerContract.originalVersion,
+      originalTitle: contextGatedPayload.contextualAnswerContract.originalTitle,
+    });
+    nextPayload = contextGatedPayload;
   }
   if (nextPayload && req) {
     nextPayload.conversationHistory = buildResponseHistory(req, message, nextPayload);

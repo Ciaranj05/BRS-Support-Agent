@@ -20,6 +20,7 @@ import { approvedStaticWorkflowReply, isSuperuserCreateRequest } from "./lib/sta
 import { verifiedStaticReplyMatch } from "./lib/verifiedAnswerRegistry.js";
 import { controlledBackendErrorPayload, evaluateStaticAnswerAgainstIntent, preRouteClarificationPayload } from "./lib/intentFrame.js";
 import { domainSpecificPreRoutePayload } from "./lib/brsDomainModel.js";
+import { buildQuestionContextProfile, routingCandidateEvidence } from "./lib/questionContextProfile.js";
 import { assertBotAccess, resolveAuthContext } from "./lib/security/authContext.js";
 import { expandAffirmationMessage, getConversationHistory, getSessionId, prepareChatPayload, wantsChatDebug, withDebug, wrapJsonForChat } from "./services/chat/chatPayloadService.js";
 import { recordResolvedInteractionWithLearning, recordSurveyScoreWithLearning } from "./services/feedback/feedbackSubmissionService.js";
@@ -299,8 +300,13 @@ Rules:
   }
 }
 
-async function respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel = "knowledge", allowDynamicKnowledge = true, queueKnowledgeGaps = true }) {
-  const knowledgeResult = await answerFromKnowledgeDetailed(message, { allowDynamic: allowDynamicKnowledge });
+async function respondFromKnowledge({ req, res, message, originalMessage, debug, debugEnabled, routeLabel = "knowledge", allowDynamicKnowledge = true, queueKnowledgeGaps = true, contextProfile = null, routingEvidence = [] }) {
+  const knowledgeResult = await answerFromKnowledgeDetailed(message, {
+    allowDynamic: allowDynamicKnowledge,
+    contextProfile,
+    routingEvidence,
+    forceContextualSynthesis: Boolean(contextProfile?.requiresContextualSynthesis),
+  });
   const reply = knowledgeResult?.reply || null;
   debug.stages.push({
     name: routeLabel,
@@ -308,6 +314,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     directIntent: isMemberBalanceLookup(message),
     route: knowledgeResult?.route || null,
     answerComposition: knowledgeResult?.answerComposition || null,
+    contextProfile: knowledgeResult?.contextProfile || contextProfile || null,
   });
 
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
@@ -489,28 +496,47 @@ async function enhancedChatHandler(req, res, next) {
     const contextualMessage = contextualiseShortClarificationFollowUp(message, history);
     if (contextualMessage !== message) debug.stages.push({ name: "contextual-short-follow-up", matched: true });
     const routingMessage = contextualMessage;
+    const contextProfile = buildQuestionContextProfile(routingMessage);
+    const forceContextualSynthesis = Boolean(contextProfile.requiresContextualSynthesis);
+    const routingEvidence = [];
+    debug.stages.push({
+      name: "question-context-profile",
+      matched: forceContextualSynthesis,
+      profile: {
+        requiresContextualSynthesis: contextProfile.requiresContextualSynthesis,
+        allowDirectWorkflowAnswer: contextProfile.allowDirectWorkflowAnswer,
+        confidence: contextProfile.confidence,
+        areas: contextProfile.areas,
+        problemSignals: contextProfile.problemSignals,
+        facts: contextProfile.facts,
+      },
+    });
 
     const liveActionFollowUpPayload = isLiveActionConfirmationFollowUp(originalMessage, history) ? liveActionConfirmationPayload() : null;
     debug.stages.push({ name: "live-action-confirmation-follow-up", matched: Boolean(liveActionFollowUpPayload) });
     if (liveActionFollowUpPayload) return res.json(await prepareChatPayload({ client, payload: liveActionFollowUpPayload, message: originalMessage, debug, debugEnabled, req }));
 
     const domainPayload = domainSpecificPreRoutePayload(routingMessage, history);
+    if (domainPayload) routingEvidence.push(routingCandidateEvidence("domain-model-routing", domainPayload));
     debug.stages.push({
       name: "domain-model-routing",
       matched: Boolean(domainPayload),
+      directReturnBlocked: Boolean(domainPayload && forceContextualSynthesis),
       clarificationId: domainPayload?.clarificationId || null,
       contractObject: domainPayload?.intentContract?.object || null,
       contractAction: domainPayload?.intentContract?.action || null,
     });
-    if (domainPayload) return res.json(await prepareChatPayload({ client, payload: domainPayload, message: originalMessage, debug, debugEnabled, req }));
+    if (domainPayload && !forceContextualSynthesis) return res.json(await prepareChatPayload({ client, payload: domainPayload, message: originalMessage, debug, debugEnabled, req }));
 
     const earlyStaticReply = approvedStaticWorkflowReply(routingMessage);
+    if (earlyStaticReply) routingEvidence.push(routingCandidateEvidence("approved-static-workflow", earlyStaticReply));
     const earlyStaticEvaluation = evaluateStaticAnswerAgainstIntent(routingMessage, earlyStaticReply);
-    const earlyVerifiedStaticMatch = earlyStaticEvaluation.allowed ? verifiedStaticReplyMatch(routingMessage, earlyStaticReply) : null;
+    const earlyVerifiedStaticMatch = earlyStaticEvaluation.allowed && !forceContextualSynthesis ? verifiedStaticReplyMatch(routingMessage, earlyStaticReply) : null;
     debug.stages.push({
       name: "early-verified-static-precheck",
       matched: Boolean(earlyVerifiedStaticMatch),
       verifiedRule: earlyVerifiedStaticMatch?.id || null,
+      directReturnBlocked: Boolean(forceContextualSynthesis && earlyStaticReply),
       rejectedReason: earlyStaticEvaluation.allowed ? null : earlyStaticEvaluation.reason,
     });
     if (earlyVerifiedStaticMatch) {
@@ -524,6 +550,8 @@ async function enhancedChatHandler(req, res, next) {
         routeLabel: "early-verified-static-precheck",
         allowDynamicKnowledge: false,
         queueKnowledgeGaps: false,
+        contextProfile,
+        routingEvidence,
       });
       if (handled) return;
     }
@@ -540,24 +568,27 @@ async function enhancedChatHandler(req, res, next) {
     }
 
     const intentClarificationPayload = preRouteClarificationPayload(routingMessage);
+    if (intentClarificationPayload) routingEvidence.push(routingCandidateEvidence("intent-frame-precheck", intentClarificationPayload));
     debug.stages.push({
       name: "intent-frame-precheck",
       matched: Boolean(intentClarificationPayload),
+      directReturnBlocked: Boolean(intentClarificationPayload && forceContextualSynthesis),
       intentFrame: intentClarificationPayload?.intentFrame || null,
     });
-    if (intentClarificationPayload) {
+    if (intentClarificationPayload && !forceContextualSynthesis) {
       return res.json(await prepareChatPayload({ client, payload: intentClarificationPayload, message: originalMessage, debug, debugEnabled, req }));
     }
 
     let approvedStaticReply = approvedStaticWorkflowReply(routingMessage);
     const staticIntentEvaluation = evaluateStaticAnswerAgainstIntent(routingMessage, approvedStaticReply);
     if (!staticIntentEvaluation.allowed) approvedStaticReply = "";
-    const verifiedStaticMatch = staticIntentEvaluation.allowed ? verifiedStaticReplyMatch(routingMessage, approvedStaticReply) : null;
+    const verifiedStaticMatch = staticIntentEvaluation.allowed && !forceContextualSynthesis ? verifiedStaticReplyMatch(routingMessage, approvedStaticReply) : null;
     debug.stages.push({
       name: "approved-static-precheck",
       matched: Boolean(approvedStaticReply),
       directReturn: Boolean(verifiedStaticMatch),
       verifiedRule: verifiedStaticMatch?.id || null,
+      directReturnBlocked: Boolean(forceContextualSynthesis && approvedStaticReply),
       intentFrame: staticIntentEvaluation.frame || null,
       rejectedReason: staticIntentEvaluation.allowed ? null : staticIntentEvaluation.reason,
       reason: verifiedStaticMatch
@@ -580,20 +611,29 @@ async function enhancedChatHandler(req, res, next) {
         routeLabel: "verified-static-precheck",
         allowDynamicKnowledge: false,
         queueKnowledgeGaps: false,
+        contextProfile,
+        routingEvidence,
       });
       if (handled) return;
     }
 
     if (isMemberBalanceLookup(routingMessage)) {
       debug.stages.push({ name: "direct-member-balance-intent", matched: true });
-      const handled = await respondFromKnowledge({ req, res, message: routingMessage, originalMessage, debug, debugEnabled, routeLabel: "knowledge-answer-direct" });
+      const handled = await respondFromKnowledge({ req, res, message: routingMessage, originalMessage, debug, debugEnabled, routeLabel: "knowledge-answer-direct", contextProfile, routingEvidence });
       if (handled) return;
     }
 
     const objectFirstReply = answerFromObjectFirstRouting(routingMessage);
-    debug.stages.push({ name: "object-first-routing", matched: Boolean(objectFirstReply), version: objectFirstReply?.version || null, topic: objectFirstReply?.topic || null });
-    if (objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
-    if (objectFirstReply?.routeStrength === "specific") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
+    if (objectFirstReply) routingEvidence.push(routingCandidateEvidence("object-first-routing", objectFirstReply));
+    debug.stages.push({
+      name: "object-first-routing",
+      matched: Boolean(objectFirstReply),
+      version: objectFirstReply?.version || null,
+      topic: objectFirstReply?.topic || null,
+      directReturnBlocked: Boolean(objectFirstReply && forceContextualSynthesis),
+    });
+    if (!forceContextualSynthesis && objectFirstReply?.routeStrength === "guardrail") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
+    if (!forceContextualSynthesis && objectFirstReply?.routeStrength === "specific") return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
     const initialRefundFlowPayload = handleRefundClarificationFlow(routingMessage, history);
     debug.stages.push({ name: "initial-refund-clarification-flow", matched: Boolean(initialRefundFlowPayload) });
@@ -610,10 +650,12 @@ async function enhancedChatHandler(req, res, next) {
       debugEnabled,
       allowDynamicKnowledge: !preferStatefulClarification,
       queueKnowledgeGaps: !preferStatefulClarification,
+      contextProfile,
+      routingEvidence,
     });
     if (handled) return;
 
-    if (objectFirstReply) return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
+    if (objectFirstReply && !forceContextualSynthesis) return res.json(await prepareChatPayload({ client, payload: objectFirstReply, message: originalMessage, debug, debugEnabled, req }));
 
     debug.stages.push({ name: "legacy-server", matched: true });
     req.body = { ...req.body, message: routingMessage };
