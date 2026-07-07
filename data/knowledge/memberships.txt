@@ -12,6 +12,12 @@ Support style:
 - For member bill/payment/refund questions, use the member profile or Memberships billing route first, not generic BRS Payments.
 - Do not repeat member names, balances, bill amounts, wallet balances, or subscription details from live data.
 
+Priority answer cues:
+- For one new member who needs a prorated bill, prefer Memberships > Members > open/create that member > member billing/bills area. Tell the user what to enter: billing reference/description, due date, bill period/start/end dates, subscription or ADD ITEM, quantity 1, prorated amount, payment scheme only if instalments are wanted, then Preview/confirm/publish checks.
+- Use Memberships > Billing/Payments > CREATE BILLS for batch bills or when the club deliberately wants the bill wizard. In the wizard, use Billing Reference, Due Date, Set Bill Filters, cycle/period dates, Who To Bill, subscriptions/custom bill items, Payment Schemes, Preview, Review/Confirm, and Publish Bill.
+- If a person appears in Users/BRS users but not Memberships or Flex/Flexible Members, do not tell the user to open a missing member profile. First check the user account's linked member profile, Membership Type, Flex flag on the membership type, dashboard FLEX MEMBERS view, and import/category mapping before creating a duplicate.
+- Flexible membership setup spans Membership Types, Members, Accounts/wallets, and Settings. Use Accounts for wallet/account setup, not booking payments.
+
 ## Main purpose
 
 Memberships is the area for managing member records and membership-related financial/access workflows. It covers member profiles, membership types, subscriptions, bills, billing/payment views, wallets or account balances, and membership reports.

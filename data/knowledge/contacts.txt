@@ -12,6 +12,12 @@ Support style:
 - Do not store or repeat real contact names, emails, phone numbers, postcodes, or customer records.
 - For member records, use Memberships/Users depending on the task.
 
+Priority answer cues:
+- For a missing tour operator, hotel, society, company, visitor, or other non-member record, start in Contacts. Clear filters, use View All/full list, search by partial company/person name, then filter by Contact Category and site/course where visible.
+- If the user asks for instructions after confirming the contact is missing, carry forward their context and give the re-add flow: Contacts > Add New, complete General Information including Company / Group Name, choose Contact Category, add supplied contact details/address/marketing preferences, save, then return to View Contacts/View All and confirm the expected category count.
+- Do not answer a contacts problem with Memberships or Users unless the user says the person is a member or login user.
+- If a missing contact later reappears, check booking/revenue history before deleting or replacing duplicates.
+
 ## Purpose
 
 Contacts stores non-member contact records used for booking, reporting, and messaging workflows.

@@ -12,6 +12,12 @@ Support style:
 - Do not process or advise processing refunds until the booking/payment record and transaction status have been checked.
 - Keep booking/card payments separate from membership bill payments unless the user explicitly says the payment is for a membership bill.
 
+Priority answer cues:
+- For a booking where the Timesheet shows balance outstanding but the customer says card payment was taken, do not rely on the balance alone. Open the tee time/booking details, expand/check the Payments section, then cross-check Tools > BRS Payments > Transactions using the booking reference, customer name, date, amount, and status.
+- Use Tools > BRS Payments > Payouts to check whether a completed transaction is expected in a payout schedule. Use Refunds only after the original transaction is confirmed and the refund route is correct.
+- If there is no completed BRS Payments transaction, explain that BRS cannot confirm funds or process a BRS refund from the booking until the successful transaction is found. Escalate with the booking reference, booking date/time, transaction search result, and payout evidence.
+- For tournament/open competition reconciliation where withdrawn entries are missing from the tee sheet, use BRS Payments Transactions and payment/revenue reports as evidence alongside the competition entry list; the tee sheet alone will not prove all paid entrants.
+
 ## Main purpose
 
 BRS Payments is used when staff need to check card transactions, refunds, payment requests, payouts, VAT/payment exports, or online merchant payment reconciliation.
@@ -98,4 +104,3 @@ Before advising a refund:
 5. Escalate if the payment status is unclear or the refund would affect a disputed payment.
 
 Membership bill refunds should use Memberships billing/payment evidence first. Booking refunds should use Booking Details and BRS Payments evidence.
-

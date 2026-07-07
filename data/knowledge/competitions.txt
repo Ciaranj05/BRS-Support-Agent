@@ -12,6 +12,12 @@ Support style:
 - Treat competition workflows as evidence for the specific question, not as a generic competition setup answer.
 - Separate member competition purse/wallet charging from open competition online/card payments.
 
+Priority answer cues:
+- If members have more visible purse balance than the entry fee but see insufficient funds, check active versus cancelled/duplicate competition, entry fee, charge method, member entry status, pending/processed purse charges, Competition Purse Transactions, and System Configuration > Competition Purse Module > Minimum member competition purse balance.
+- Explain the minimum-balance rule conditionally: if the entry fee would take the member below the configured minimum competition purse balance, entry can be blocked even when the visible purse is higher than the fee.
+- Member competitions commonly use Competition Purse/Wallet. Open competitions/tournaments commonly use online/card payments or payment links, so use BRS Payments/revenue reports for open competition reconciliation unless the user says it is a member purse competition.
+- Process Competition Charges is for competitions set up to use Competition Purse or Competition Wallet and should be used after the competition is over/closed.
+
 ## Member competition purse and wallet
 
 Competition purse/wallet charging is relevant when the question mentions:
@@ -95,4 +101,3 @@ The Reports area includes competition-purse options:
 - Competition Purse Summary.
 
 Use these for member competition purse/wallet questions. Use BRS Payments and merchant payment reports for online/card payment questions.
-

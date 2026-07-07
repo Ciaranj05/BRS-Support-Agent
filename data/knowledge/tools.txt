@@ -13,6 +13,13 @@ Support style:
 - Warn users that Tools access is permission-controlled.
 - Do not hard-code club-specific values such as rates, intervals, course names, custom terms, or enabled feature states.
 
+Priority answer cues:
+- For a member/visitor availability problem after a course changes between 18 holes and 9 holes, split the checks across course/hole setup, Tools > Member Casual Booking Rules, Tools > Green Fee Rates, Tools > Course Restriction, and visitor/agent/GolfNow inventory. Do not answer with competition purse or billing workflows.
+- Member Casual Booking Rules controls when members can view/book online. Check Course, Start Date, End Date, Start Time, End Time, Type (View or Book), Days Advance Booking, weekdays, player limits, guests allowed, and whether the rule applies to all membership types, selected types only, or all except selected.
+- Green Fee Rates controls category/sub-category/hole/date/rate/member-type applicability. Check that the relevant member or visitor route has a 9-hole row for the affected date range, not only an 18-hole row.
+- Course Restriction can hide/block availability by date/time, player type, max group size, and message. Check active and expired restrictions before changing rates.
+- For GolfNow or Hot Deals showing the wrong hole count or no availability, first confirm BRS visitor availability and visitor/agent rate/inventory setup for the same date/time; escalate if BRS is correct but the external channel still displays incorrectly.
+
 ## Tools index
 
 The Tools page is the setup and administration index. It groups setup functions into basic and additional requirements.

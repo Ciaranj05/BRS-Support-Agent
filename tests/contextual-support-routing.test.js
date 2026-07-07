@@ -4,6 +4,7 @@ import test from "node:test";
 import { approvedStaticWorkflowReply } from "../lib/staticWorkflowAnswers.js";
 import { answerFromObjectFirstRouting } from "../lib/objectFirstRouting.js";
 import { answerFromKnowledgeDetailed } from "../lib/knowledgeAnswer.js";
+import { contextualiseShortClarificationFollowUp } from "../lib/repeatedWorkflowFollowUp.js";
 import {
   applyContextualAnswerContract,
   buildQuestionContextProfile,
@@ -205,12 +206,76 @@ test("GolfNow reporting requests are not treated as availability faults", () => 
   const gated = applyContextualAnswerContract({ reply: "Check member and visitor availability\n\n1. Open Tools > Course Restriction.", version: "bad-route" }, message);
 
   assert.equal(profile.requiresContextualSynthesis, true);
+  assert.deepEqual(profile.areas, ["reports"]);
   assert.equal(gated.version, "contextual-support-fallback-v1");
   assert.match(gated.reply, /^Choose the closest BRS report/i);
   assert.match(gated.reply, /Reports/i);
   assert.match(gated.reply, /Type of Report/i);
   assert.doesNotMatch(gated.reply, /Course Restriction/i);
   assert.doesNotMatch(gated.reply, /Green Fee Rates/i);
+});
+
+test("live club disclaimer appears only for actual live-action requests", async () => {
+  const originalKey = process.env.OPENAI_API_KEY;
+  delete process.env.OPENAI_API_KEY;
+  try {
+    const reportMessage = "Could you tell me if it is possible to run a report showing how many guests a member has booked in over a specified period of time?";
+    const reportResult = await answerFromKnowledgeDetailed(reportMessage, { forceContextualSynthesis: true });
+    assert.doesNotMatch(reportResult.reply, /I cannot inspect or change the club's live BRS records/i);
+    assert.equal(contextualAnswerIssue(reportMessage, reportResult.reply), null);
+
+    const liveMessage = "Our Parkland Course is dropping to 9 holes and 5 Day Members cannot book. Please can you look into this for us?";
+    const liveResult = await answerFromKnowledgeDetailed(liveMessage, { forceContextualSynthesis: true });
+    assert.match(liveResult.reply, /I cannot inspect or change the club's live BRS records/i);
+    assert.equal(contextualAnswerIssue(liveMessage, liveResult.reply), null);
+  } finally {
+    if (originalKey) process.env.OPENAI_API_KEY = originalKey;
+  }
+});
+
+test("contextualised short follow-ups retrieve the original business object", async () => {
+  const originalKey = process.env.OPENAI_API_KEY;
+  delete process.env.OPENAI_API_KEY;
+  try {
+    const history = [
+      {
+        role: "user",
+        content: "We keep Tour Operators and Hotels in Contacts for Ayr. Golf Around Scotland has disappeared and now we only have 19 tour operators instead of 20.",
+      },
+      {
+        role: "assistant",
+        content: "Check the missing contact record\n\n1. Open Contacts and search for Golf Around Scotland.\n2. If it is missing, I can give instructions to re-add the contact.",
+      },
+    ];
+    const contextual = contextualiseShortClarificationFollowUp("give me instructions", history);
+    const result = await answerFromKnowledgeDetailed(contextual, { forceContextualSynthesis: true });
+
+    assert.match(result.reply, /^Re-add the missing contact/i);
+    assert.match(result.reply, /Contacts/i);
+    assert.match(result.reply, /Add New/i);
+    assert.match(result.reply, /Company \/ Group Name/i);
+    assert.match(result.reply, /Contact Category/i);
+  } finally {
+    if (originalKey) process.env.OPENAI_API_KEY = originalKey;
+  }
+});
+
+test("developer trace exposes routing evidence without customer text", async () => {
+  const originalKey = process.env.OPENAI_API_KEY;
+  delete process.env.OPENAI_API_KEY;
+  try {
+    const message = "Golf Around Scotland has disappeared from Ayr Contacts and we only have 19 tour operators instead of 20.";
+    const result = await answerFromKnowledgeDetailed(message, { forceContextualSynthesis: true });
+
+    assert.equal(result.developerTrace.version, "developer-answer-trace-v1");
+    assert.equal(result.developerTrace.contextProfile.requiresContextualSynthesis, true);
+    assert.ok(result.developerTrace.contextProfile.factCount >= 1);
+    assert.ok(result.developerTrace.selectedEvidenceTitles.length > 0);
+    assert.doesNotMatch(JSON.stringify(result.developerTrace), /Golf Around Scotland/i);
+    assert.doesNotMatch(JSON.stringify(result.developerTrace), /Ayr/i);
+  } finally {
+    if (originalKey) process.env.OPENAI_API_KEY = originalKey;
+  }
 });
 
 test("production route cannot bypass contextual synthesis before static or object-first returns", () => {

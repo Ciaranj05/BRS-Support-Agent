@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T09:55:53.828Z",
+  "generatedAt": "2026-07-07T16:34:25.206Z",
   "entries": [
     {
       "id": "system:multi-course-admin-navigation:f55bd86fe30e",
@@ -46884,6 +46884,106 @@
           ]
         }
       ],
+      "tableHeaders": [],
+      "reviewReason": null,
+      "reviewPayloadWithheld": false
+    },
+    {
+      "id": "manual-brs-availability-green-fees-and-golfnow-case-evidence",
+      "sourceType": "manual",
+      "title": "BRS Availability Green Fees And GolfNow Case Evidence",
+      "area": null,
+      "navigationPath": null,
+      "sourceUrl": null,
+      "confidence": "approved",
+      "lastObservedAt": null,
+      "tags": [
+        "manual-support-guidance"
+      ],
+      "content": "# BRS Availability Green Fees And GolfNow Case Evidence\n\nUse this approved support evidence when a customer asks about members unable to book, visitor availability, 9-hole versus 18-hole setup, course restrictions, green fee rates, GolfNow display, Hot Deals, or external-channel availability.\n\n## Member and visitor availability after a hole-count/course change\n\nDo not answer a 9-hole/18-hole availability issue with competition purse, billing, or generic green-fee setup alone. Split the checks across the booking rule and inventory areas:\n\n1. Confirm the affected course/date is set up as the correct hole product for the date being tested.\n2. Open Tools -> Member Casual Booking Rules for member online booking access.\n3. Check Course, Start Date, End Date, Start Time, End Time, Type (View or Book), Days Advance Booking, weekdays, player limits, guests allowed, and membership type applicability.\n4. Open Tools -> Green Fee Rates for staff/manual rates and member/guest applicability.\n5. Check Category, Sub Category, Holes, Start Date, End Date, Rates, Mem Types, Default, and Global.\n6. Confirm there is a 9-hole row for the relevant member or visitor route when the course/date should be 9 holes.\n7. Open Tools -> Course Restriction.\n8. Check active and expired restrictions for date/time, player types, max group size, and message.\n9. Check visitor online booking/public availability for the same date and tee time.\n10. Check visitor/agent/GolfNow or Hot Deals inventory separately because the external channel can display differently from member booking rules.\n\nUse one affected membership type, one visitor channel, one date, and one tee time as the test case before making wider changes. If BRS availability and rates look correct but GolfNow still shows the wrong hole count or no availability, escalate with screenshots of BRS visitor availability and the GolfNow display.\n",
+      "workflow": null,
+      "workflowFamily": null,
+      "aliases": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "controls": [],
+      "actions": [],
+      "routes": [],
+      "tableHeaders": [],
+      "reviewReason": null,
+      "reviewPayloadWithheld": false
+    },
+    {
+      "id": "manual-brs-contacts-and-reporting-case-evidence",
+      "sourceType": "manual",
+      "title": "BRS Contacts And Reporting Case Evidence",
+      "area": null,
+      "navigationPath": null,
+      "sourceUrl": null,
+      "confidence": "approved",
+      "lastObservedAt": null,
+      "tags": [
+        "manual-support-guidance"
+      ],
+      "content": "# BRS Contacts And Reporting Case Evidence\n\nUse this approved support evidence when a customer asks about missing contacts, tour operators, hotels, contact categories, contact exports, guest-count reports, or broad reporting help.\n\n## Missing contact, tour operator, hotel, company, society, or visitor\n\nContacts stores non-member records. Do not route a missing tour operator, hotel, company, society, or visitor contact to Memberships unless the user says the person is a member.\n\nDiagnostic checks:\n\n1. Open Contacts.\n2. Use View All or the full contacts list.\n3. Clear category, site, status, or search filters that could hide the record.\n4. Search by partial company/person name.\n5. Filter by Contact Category such as Tour Operator, Hotel, Society, Company, Visitor, Other, or a club custom category.\n6. Compare the expected and current count for the affected category/site if the club provides counts.\n\nIf the user asks how to re-add the missing contact:\n\n1. Open Contacts.\n2. Choose Add New.\n3. In General Information, enter the Company / Group Name for an organisation or the person details for an individual.\n4. Choose the Contact Category.\n5. Add supplied email, telephone, mobile, address, town/city, county/state, country, and postcode/zip fields where relevant.\n6. Set marketing preferences only according to the contact's permissions.\n7. Save.\n8. Return to View Contacts or View All.\n9. Search/filter the same category/site and confirm the expected count.\n\nIf the old record later reappears, check booking or revenue history before deleting or replacing duplicates.\n\n## Guest-count report for a member\n\nIf a user asks how many guests a member has booked over a specified period, there may not be one exact guest-count report. Give the closest reporting route:\n\n1. Open Reports.\n2. Use Booking Details or Full Booking Details.\n3. Set Start Date, End Date, and Course where relevant.\n4. Filter/search for the member where the report supports it.\n5. Export or download CSV if available.\n6. Count guest/player rows for that member in the exported report.\n\nUse Booking / Payment Status when payment or completion status matters. Use user/member or playing-statistic reports only when the question is about member playing history rather than guests booked by that member.\n\n## Broad reporting help\n\nFor \"can you help me use reports better\", start with Reports, Type of Report, Start Date, End Date, Course, Submit, Print, and export/download where available. Then ask what outcome they want: bookings, payments, memberships, contacts, revenue, utilisation, users, or playing statistics.\n",
+      "workflow": null,
+      "workflowFamily": null,
+      "aliases": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "controls": [],
+      "actions": [],
+      "routes": [],
+      "tableHeaders": [],
+      "reviewReason": null,
+      "reviewPayloadWithheld": false
+    },
+    {
+      "id": "manual-brs-memberships-billing-and-flex-case-evidence",
+      "sourceType": "manual",
+      "title": "BRS Memberships Billing And Flex Case Evidence",
+      "area": null,
+      "navigationPath": null,
+      "sourceUrl": null,
+      "confidence": "approved",
+      "lastObservedAt": null,
+      "tags": [
+        "manual-support-guidance"
+      ],
+      "content": "# BRS Memberships Billing And Flex Case Evidence\n\nUse this approved support evidence when a customer asks about member billing, prorated bills, one-member bills, subscriptions, payment schemes, flexible memberships, linked users, or member wallets.\n\n## Single-member prorated membership bill\n\nWhen the question is about one new or existing member, prefer the individual member route over the batch bill wizard:\n\n1. Open Memberships.\n2. Open Members.\n3. Create or find the member profile.\n4. Set or confirm the Membership Type and membership dates.\n5. Open that member's billing/bills area.\n6. Create or add the bill or charge for that member.\n7. Use a clear Billing Reference or description.\n8. Set the Due Date.\n9. Set the bill period/start/end dates to the prorated period, not the full annual cycle, when the bill is not for the full cycle.\n10. Add the relevant subscription if it exists, or use ADD ITEM for a one-off prorated membership charge.\n11. Use quantity 1 and the calculated prorated amount.\n12. Leave Payment Schemes blank unless the club wants instalments or scheduled payments.\n13. Preview before confirming or publishing.\n14. Check member, reference/description, due date, period dates, line item, amount, payment scheme, publish status, and total.\n\nFor batch billing, use Memberships -> Billing/Payments -> CREATE BILLS. The bill wizard uses Billing Reference, Due Date, Set Bill Filters, cycle/period information, Who To Bill, subscriptions/custom bill items, Payment Schemes, Preview, Review/Confirm, and Publish Bill.\n\n## Flexible member not appearing\n\nIf a person appears in Users or BRS users but not Memberships, Flex Members, or Flexible Memberships, do not assume the Memberships profile is visible. Users and Memberships records are linked, but a visible user account does not prove that the Memberships profile/filter is present.\n\nCheck:\n\n- The Users record and whether it is linked to a Memberships member profile.\n- The linked member profile, if it exists.\n- The Membership Type on the member profile.\n- The Flex flag on the Membership Type.\n- Memberships dashboard FLEX MEMBERS or Members/Flex view.\n- Club Systems mapping, member category mapping, import, preview, or sync evidence before creating a duplicate profile.\n\nUse Memberships -> Membership Types to create or edit a flexible membership type. Use Members for one member. Use Accounts for wallet/account setup. Use the member profile or flexible dashboard for one member's balance, top-up, or clawback.\n",
+      "workflow": null,
+      "workflowFamily": null,
+      "aliases": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "controls": [],
+      "actions": [],
+      "routes": [],
+      "tableHeaders": [],
+      "reviewReason": null,
+      "reviewPayloadWithheld": false
+    },
+    {
+      "id": "manual-brs-payments-and-competition-reconciliation-case-evidence",
+      "sourceType": "manual",
+      "title": "BRS Payments And Competition Reconciliation Case Evidence",
+      "area": null,
+      "navigationPath": null,
+      "sourceUrl": null,
+      "confidence": "approved",
+      "lastObservedAt": null,
+      "tags": [
+        "manual-support-guidance"
+      ],
+      "content": "# BRS Payments And Competition Reconciliation Case Evidence\n\nUse this approved support evidence when a customer asks about booking payment status, outstanding booking balances, payouts, refunds, open competition/tournament reconciliation, debit card entries, competition purse, or insufficient funds.\n\n## Booking says outstanding but customer says card payment was taken\n\nDo not rely on the Timesheet balance alone. Check the booking and the payment records together:\n\n1. Open the Timesheet for the booking date/course.\n2. Open the tee time or booking details for the booking reference.\n3. Check the booking Payments section for balance, amount, method, payment status, and refund status.\n4. Open Tools -> BRS Payments -> Transactions.\n5. Search/filter by booking reference, date, customer name, and amount where available.\n6. Check whether the transaction is completed, failed, pending, refunded, or missing.\n7. Open Tools -> BRS Payments -> Payouts to check whether a completed transaction appears in a payout schedule.\n8. Use Tools -> BRS Payments -> Refunds only after the original transaction and refund route are confirmed.\n\nIf no completed BRS Payments transaction is found, explain that BRS cannot confirm funds or process a BRS refund from that booking until the successful transaction is found. Escalate with booking reference, booking date/time, customer/payment details, transaction search result, and payout evidence.\n\n## Member competition purse insufficient funds\n\nFor member competition purse or wallet issues, check the competition record and system purse settings before changing charges:\n\n1. Confirm the active competition record is the one members are entering, especially when a cancelled or duplicate competition has the same name.\n2. Check the entry fee.\n3. Check the charge method: Competition Purse or Competition Wallet.\n4. Check member entry status.\n5. Check Competition Purse Transactions or member competition purse history for pending or already processed charges.\n6. Open System Configuration and check the Competition Purse Module.\n7. Check Minimum member competition purse balance.\n\nIf the entry fee would take the member below the configured minimum purse balance, BRS can block entry even when the visible purse balance is above the entry fee. Phrase this as a check, not a confirmed cause, unless the club's live records prove it.\n\nProcess Competition Charges is for competitions set up to use Competition Purse or Competition Wallet and should be used after the competition is over or closed.\n\n## Open competition or tournament payment reconciliation\n\nOpen competitions and tournaments often use online/card payments or payment links rather than member competition purse. The tee sheet or start sheet alone may exclude withdrawn players, so it cannot prove all paid entrants.\n\nUse these evidence sources together:\n\n1. Competition entry list, including entered, withdrawn, cancelled, or removed entries where the competition page exposes those statuses.\n2. Tools -> BRS Payments -> Transactions filtered by payment date, playing/competition date, reference, customer, amount, or description.\n3. Reports such as Revenue From Online Merchant Payments.\n4. Payment date or transaction date reports where available.\n5. Refunds report or BRS Payments -> Refunds when reconciling no-refund or partial-refund cases.\n\nCompare exported payment totals with the entry and withdrawal lists. Escalate when transaction exports and competition entries still do not reconcile.\n",
+      "workflow": null,
+      "workflowFamily": null,
+      "aliases": [],
+      "variants": [],
+      "relatedWorkflows": [],
+      "controls": [],
+      "actions": [],
+      "routes": [],
       "tableHeaders": [],
       "reviewReason": null,
       "reviewPayloadWithheld": false

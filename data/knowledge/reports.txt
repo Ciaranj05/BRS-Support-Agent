@@ -12,6 +12,12 @@ Support style:
 - Do not quote report output, customer records, figures, rates, or revenue values.
 - If a report is permission-gated, check user group and revenue-report access.
 
+Priority answer cues:
+- For "how many guests has a member booked over a date range", explain that there may not be one exact guest-count button. Start with Reports > Booking Details or Full Booking Details, set Start Date/End Date/Course, filter/search for the member where possible, export/download CSV if available, then count guest/player rows. Use Booking / Payment Status only if payment/completion status matters.
+- For open competition or tournament payment reconciliation, combine the competition entry/withdrawal list with payment reports such as Revenue From Online Merchant Payments or payment-date/transaction-date reports, plus Tools > BRS Payments > Transactions. The tee sheet can exclude withdrawn players.
+- For contacts, tour operators, and hotels, use contact detail/email reports or revenue by customer contact/tour operator/hotel where available; use Contacts for maintaining the record.
+- For broad "can you help with reports" questions, answer with the main reporting route and then ask what outcome they want, rather than switching to an unrelated workflow.
+
 ## Purpose
 
 Reports provide date-filtered operational, revenue, transaction, booking, user, contact, and playing-statistic outputs.

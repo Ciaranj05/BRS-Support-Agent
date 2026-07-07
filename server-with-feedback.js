@@ -315,6 +315,7 @@ async function respondFromKnowledge({ req, res, message, originalMessage, debug,
     route: knowledgeResult?.route || null,
     answerComposition: knowledgeResult?.answerComposition || null,
     contextProfile: knowledgeResult?.contextProfile || contextProfile || null,
+    developerTrace: debugEnabled ? knowledgeResult?.developerTrace || null : null,
   });
 
   const isWorkflowQuestion = isBRSWorkflowQuestion(message);
