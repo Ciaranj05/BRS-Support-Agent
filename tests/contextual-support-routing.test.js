@@ -91,6 +91,12 @@ const CUSTOMER_CASES = [
     checks: [/Booking Details/i, /Payments/i, /BRS Payments/i, /Transactions/i, /Payouts/i, /Transfer Date/i, /Status/i],
   },
   {
+    id: "golfnow-brs-reporting-functions",
+    message: "Hope you are keeping well. Please see the below email to your service desk. If available I would like to get some time with you to see if I can utilise the reporting functions better within Golfnow/BRS, is this something you can help with?",
+    facts: [],
+    checks: [/Reports/i, /Type of Report/i, /booking reports/i, /payment reports/i, /contact reports/i, /Memberships reports/i],
+  },
+  {
     id: "messages-not-received",
     message: "Several members say they did not receive a club message email we sent yesterday. We need to know what to check before sending it again.",
     facts: [],
@@ -124,6 +130,7 @@ const FORBIDDEN_CONTEXTUAL_WORDING = [
   /Hi We/i,
   /Dear BRS/i,
   /Kind regards/i,
+  /Escalate before changing payments, refunds, permissions, deleted records, or live availability/i,
 ];
 
 function assertNoWrongStaticTitle(reply = "") {
@@ -190,6 +197,20 @@ test("answer contract rejects weak flexible-member replies that ignore linked us
 4. Check Membership Type and set it to a flexible category.`;
 
   assert.equal(contextualAnswerIssue(message, weakReply), "missing-flexible-member-specifics");
+});
+
+test("GolfNow reporting requests are not treated as availability faults", () => {
+  const message = "Hope you are keeping well. I would like to get some time with you to see if I can utilise the reporting functions better within Golfnow/BRS, is this something you can help with?";
+  const profile = buildQuestionContextProfile(message);
+  const gated = applyContextualAnswerContract({ reply: "Check member and visitor availability\n\n1. Open Tools > Course Restriction.", version: "bad-route" }, message);
+
+  assert.equal(profile.requiresContextualSynthesis, true);
+  assert.equal(gated.version, "contextual-support-fallback-v1");
+  assert.match(gated.reply, /^Choose the closest BRS report/i);
+  assert.match(gated.reply, /Reports/i);
+  assert.match(gated.reply, /Type of Report/i);
+  assert.doesNotMatch(gated.reply, /Course Restriction/i);
+  assert.doesNotMatch(gated.reply, /Green Fee Rates/i);
 });
 
 test("production route cannot bypass contextual synthesis before static or object-first returns", () => {
