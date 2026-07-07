@@ -2867,6 +2867,60 @@ test("golf events and competitions remain separate answer areas", () => {
   assert.doesNotMatch(genericOrganiserBooking || "", /Open Golf Events/i);
 });
 
+test("expanded competitions routing covers live actions entries fees scoring and event boundaries", async () => {
+  const liveReply = await answerFromKnowledge("Can you enter John Smith into the captain's prize now?", { allowDynamic: false });
+  const memberOnlineReply = await answerFromKnowledge("How do I let members book into a competition online?", { allowDynamic: false });
+  const entryReply = await answerFromKnowledge("Remove a player from the comp entry sheet and check the charge.", { allowDynamic: false });
+  const typoEntryReply = await answerFromKnowledge("draw shet for compettion where??", { allowDynamic: false });
+  const typoChargeReply = await answerFromKnowledge("membr comp chargs wrong not bill", { allowDynamic: false });
+  const visitorFeeReply = await answerFromKnowledge("Visitor open comp entry fee is wrong.", { allowDynamic: false });
+  const mixedChargeReply = approvedStaticWorkflowReply("Members pay from purse but visitors pay online for the same open competition.");
+  const scoringReply = await answerFromKnowledge("Club Systems/Golf Genius competition result sync issue.", { allowDynamic: false });
+  const termsReply = await answerFromKnowledge("All Ireland open comp search terms, is that a reports search setting?", { allowDynamic: false });
+  const reportsReply = await answerFromKnowledge("Need publish competition result report to website.", { allowDynamic: false });
+  const eventBoundaryReply = await answerFromKnowledge("Corporate outing, no scoring or draw, just reserved tee times for an organiser. Is that a competition?", { allowDynamic: false });
+
+  assert.match(liveReply, /cannot create, change, cancel, send, or expose live BRS records/i);
+  assert.match(liveReply, /Staff must make live changes directly in BRS/i);
+
+  assert.match(memberOnlineReply, /Members Competition/i);
+  assert.match(memberOnlineReply, /member availability/i);
+  assert.doesNotMatch(memberOnlineReply, /Add a Tee-Time Booking from the Timesheet/i);
+
+  assert.match(entryReply, /Change or Cancel a Competition Entry/i);
+  assert.match(entryReply, /entry sheet or entrant list/i);
+  assert.match(entryReply, /charge, competition purse/i);
+
+  assert.match(typoEntryReply, /Competition Entry Sheet or Draw/i);
+  assert.match(typoEntryReply, /draw|start-sheet/i);
+
+  assert.match(typoChargeReply, /Member Competition Charges/i);
+  assert.match(typoChargeReply, /competition purse/i);
+  assert.doesNotMatch(typoChargeReply, /What are you trying to do for the member/i);
+
+  assert.match(visitorFeeReply, /Visitor Charges for an Open Competition/i);
+  assert.match(visitorFeeReply, /visitor entry fee/i);
+  assert.equal(domainSpecificPreRoutePayload("Visitor open comp entry fee is wrong."), null);
+
+  assert.match(mixedChargeReply, /member competition purse charges/i);
+  assert.match(mixedChargeReply, /visitor green fees/i);
+
+  assert.match(scoringReply, /Competition Scoring or Leaderboard Integrations/i);
+  assert.match(scoringReply, /Golf Genius/i);
+  assert.equal(domainSpecificPreRoutePayload("Club Systems/Golf Genius competition result sync issue."), null);
+
+  assert.match(termsReply, /Open Competition Terms/i);
+  assert.match(termsReply, /Legal Messages/i);
+  assert.doesNotMatch(termsReply, /BRS Reports/i);
+
+  assert.match(reportsReply, /Update Club Website Competition Reports/i);
+  assert.match(reportsReply, /competition reports/i);
+
+  assert.match(eventBoundaryReply, /Golf Events vs Competitions/i);
+  assert.match(eventBoundaryReply, /reserved tee times/i);
+  assert.match(eventBoundaryReply, /Competitions only when/i);
+});
+
 test("candidate help guides must match the question object, not just the action", () => {
   assert.equal(
     candidateGuideMatchesQuestion("how do I add a member in the system", {
