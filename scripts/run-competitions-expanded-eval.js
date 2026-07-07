@@ -204,7 +204,7 @@ function buildCases() {
       "visotr comp chargs are wrong poor english",
     ],
     required: [/open competition|Open Competitions for Visitors/i, /visitor|visitors/i, /fee|charge|price|green fee/i, /entry flow|check|confirm/i],
-    forbidden: [/member purse only|membership bill|Contacts/i],
+    forbidden: [/member purse only|membership bill refund only|Open Memberships|Contacts/i],
   });
 
   addProfile(cases, {

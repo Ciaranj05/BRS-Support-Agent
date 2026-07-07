@@ -504,6 +504,30 @@ async function enhancedChatHandler(req, res, next) {
     });
     if (domainPayload) return res.json(await prepareChatPayload({ client, payload: domainPayload, message: originalMessage, debug, debugEnabled, req }));
 
+    const earlyStaticReply = approvedStaticWorkflowReply(routingMessage);
+    const earlyStaticEvaluation = evaluateStaticAnswerAgainstIntent(routingMessage, earlyStaticReply);
+    const earlyVerifiedStaticMatch = earlyStaticEvaluation.allowed ? verifiedStaticReplyMatch(routingMessage, earlyStaticReply) : null;
+    debug.stages.push({
+      name: "early-verified-static-precheck",
+      matched: Boolean(earlyVerifiedStaticMatch),
+      verifiedRule: earlyVerifiedStaticMatch?.id || null,
+      rejectedReason: earlyStaticEvaluation.allowed ? null : earlyStaticEvaluation.reason,
+    });
+    if (earlyVerifiedStaticMatch) {
+      const handled = await respondFromKnowledge({
+        req,
+        res,
+        message: routingMessage,
+        originalMessage,
+        debug,
+        debugEnabled,
+        routeLabel: "early-verified-static-precheck",
+        allowDynamicKnowledge: false,
+        queueKnowledgeGaps: false,
+      });
+      if (handled) return;
+    }
+
     const refundFlowPayload = handleRefundClarificationFlow(routingMessage, history, { includeInitialPrompt: false });
     debug.stages.push({ name: "refund-clarification-flow", matched: Boolean(refundFlowPayload) });
     if (refundFlowPayload) return res.json(await prepareChatPayload({ client, payload: refundFlowPayload, message: originalMessage, debug, debugEnabled, req }));
