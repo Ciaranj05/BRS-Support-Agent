@@ -1,8 +1,8 @@
 name: Daily Q&A analysis
 
 on:
-  schedule:
-    - cron: "59 * * * *"
+  # Paused to prevent automatic Q&A report commits from triggering production deployments.
+  # Re-enable by restoring the schedule trigger.
   workflow_dispatch:
 
 permissions:
