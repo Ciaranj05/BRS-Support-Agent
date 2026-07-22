@@ -214,6 +214,20 @@ test("expanded green fee routing covers rate channels day tickets typos and poli
   assert.match(staffRate.reply, /Tools > Green Fee Rates/i);
   assert.match(staffRate.reply, /Add Green Fees/i);
 
+  const offlineRate = domainSpecificPreRoutePayload("How do I add an offline rate?");
+  assert.match(offlineRate.reply, /Set Staff-Selected Green Fee Rates/i);
+  assert.match(offlineRate.reply, /Tools > Green Fee Rates/i);
+  assert.match(offlineRate.reply, /offline\/manual staff bookings/i);
+  assert.match(offlineRate.reply, /telephone, email, office, pro-shop, and Timesheet dropdown rates/i);
+  assert.doesNotMatch(offlineRate.reply, /Set Visitor \/ Agent Online Green Fee Rates/i);
+  assert.doesNotMatch(offlineRate.reply, /Green Fee Rates for Visitors \/ Tour Operators \/ Tee Time Agents/i);
+
+  const offlineGreenFee = approvedStaticWorkflowReply("How do I add an offline green fee rate?");
+  assert.match(offlineGreenFee, /Set Staff-Selected Green Fee Rates/i);
+  assert.match(offlineGreenFee, /Category[\s\S]*Sub Category[\s\S]*Start Date[\s\S]*End Date/i);
+  assert.match(offlineGreenFee, /X or leave the day blank/i);
+  assert.doesNotMatch(offlineGreenFee, /Set Visitor \/ Agent Online Green Fee Rates/i);
+
   const deskRate = domainSpecificPreRoutePayload("Where edit rate the desk selects when making a reservation?");
   assert.match(deskRate.reply, /Set Staff-Selected Green Fee Rates/i);
   assert.match(deskRate.reply, /Timesheet/i);
